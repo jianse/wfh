@@ -1,0 +1,7 @@
+/target
+.idea
+.vscode
+*.sqlite
+*.http
+flamegraph.svg
+config.toml
