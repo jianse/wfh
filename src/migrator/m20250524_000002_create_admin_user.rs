@@ -2,6 +2,8 @@ use rand::{Rng, distr::Alphanumeric, rng};
 use sea_orm_migration::prelude::*;
 use tracing::info;
 
+use crate::settings;
+
 use super::m20250524_000001_create_user_table::User;
 
 pub struct Migration;
@@ -21,7 +23,7 @@ impl MigrationTrait for Migration {
             .map(char::from)
             .collect();
 
-        let encrypted = bcrypt::hash(&rand_string, 10).unwrap();
+        let encrypted = settings::get().auth.pwd_hasher.hash(&rand_string).unwrap();
 
         let insert = Query::insert()
             .into_table(User::Table)

@@ -31,7 +31,10 @@ pub(super) async fn user_login(
         .one(&state.conn)
         .await?
         .ok_or(BizError::NoSuchUser)?;
-    let valid = bcrypt::verify(user.password, &db_user.password)?;
+    let valid = settings::get()
+        .auth
+        .pwd_hasher
+        .verify(user.password, &db_user.password)?;
 
     if valid {
         // sign jwt token
@@ -40,9 +43,9 @@ pub(super) async fn user_login(
             &Claims {
                 sub: format!("{}", db_user.id),
                 exp: (chrono::Local::now().timestamp() as u64
-                    + settings::get().auth.jwt_valid_time_secs) as usize,
+                    + settings::get().auth.jwt.valid_time_secs) as usize,
             },
-            &EncodingKey::from_secret(settings::get().auth.jwt_secret_key.as_ref()),
+            &EncodingKey::from_secret(settings::get().auth.jwt.secret_key.as_ref()),
         )?;
         Ok((StatusCode::OK, Json(json!({"token": token}))).into_response())
     } else {

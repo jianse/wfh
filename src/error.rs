@@ -4,6 +4,8 @@ use sea_orm::DbErr;
 use serde_json::json;
 use thiserror::Error;
 
+use crate::settings::PwdHasherError;
+
 #[derive(Error, Debug)]
 pub enum Error {
     #[error(transparent)]
@@ -26,7 +28,7 @@ pub enum BizError {
     NoSuchUser,
 
     #[error(transparent)]
-    Crypto(#[from] bcrypt::BcryptError),
+    PwdHasher(#[from] PwdHasherError),
 
     #[error(transparent)]
     CreateToken(#[from] jsonwebtoken::errors::Error),
@@ -48,9 +50,9 @@ impl IntoResponse for BizError {
                 Json(json!({"msg":&self.to_string()})),
             )
                 .into_response(),
-            BizError::Crypto(bcrypt_error) => (
+            BizError::PwdHasher(pwd_hasher_error) => (
                 StatusCode::INTERNAL_SERVER_ERROR,
-                Json(json!({"msg":bcrypt_error.to_string()})),
+                Json(json!({"msg":pwd_hasher_error.to_string()})),
             )
                 .into_response(),
             BizError::CreateToken(error) => (

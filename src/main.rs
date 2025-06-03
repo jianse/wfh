@@ -49,6 +49,7 @@ async fn shutdown_signal(mut rx: Receiver<()>) {
 async fn main() -> Result<()> {
     init_logger(0);
     let settings = settings::get();
+    dbg!(settings);
     let mut opt = ConnectOptions::new(&settings.db.database_url);
     opt.sqlx_logging_level(log::LevelFilter::Debug);
 
