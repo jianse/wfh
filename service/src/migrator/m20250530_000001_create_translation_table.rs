@@ -11,7 +11,6 @@ impl MigrationName for Migration {
 #[async_trait::async_trait]
 impl MigrationTrait for Migration {
     async fn up(&self, manager: &SchemaManager) -> Result<(), DbErr> {
-        // todo!()/*  */
         manager
             .create_table(
                 Table::create()
@@ -23,7 +22,7 @@ impl MigrationTrait for Migration {
                             .primary_key(),
                     )
                     .col(
-                        ColumnDef::new(Translation::Translation)
+                        ColumnDef::new(Translation::Content)
                             .text()
                             .not_null()
                             .unique_key(),
@@ -44,5 +43,5 @@ impl MigrationTrait for Migration {
 pub enum Translation {
     Table,
     UniqueName,
-    Translation,
+    Content,
 }

@@ -1,22 +1,16 @@
 use axum::{
     Json, Router,
     extract::{Query, State},
-    http::StatusCode,
-    response::{IntoResponse, Response},
     routing::{get, post},
 };
 use log::info;
 use sea_orm::{ActiveModelTrait, ActiveValue::Set, EntityTrait, TransactionTrait};
-// use sea_orm_migration::schema::json;
 use serde::Deserialize;
-use serde_json::json;
-
-use crate::{
-    entities::{prelude::*, translation},
-    error::BizResult,
-};
 
 use crate::AppState;
+use crate::api::{BizResponse, BizResult};
+use crate::entities::translation::Model;
+use crate::entities::{prelude::*, translation};
 
 pub(crate) fn translations_routes() -> Router<AppState> {
     Router::new()
@@ -25,7 +19,6 @@ pub(crate) fn translations_routes() -> Router<AppState> {
             post(add_or_update_translation).delete(delete_translation),
         )
         .route("/all", get(all_translations))
-    // .route("/{*unique_name}", )
 }
 
 #[derive(Debug, Deserialize)]
@@ -37,7 +30,7 @@ struct TranslateItem {
 async fn add_or_update_translation(
     State(state): State<AppState>,
     Json(trans): Json<TranslateItem>,
-) -> BizResult<Response> {
+) -> BizResult<BizResponse> {
     let txn = state.conn.begin().await?;
 
     let t_db = Translation::find_by_id(&trans.unique_name)
@@ -56,12 +49,12 @@ async fn add_or_update_translation(
         am.insert(&txn).await?;
     }
     txn.commit().await?;
-    Ok(StatusCode::OK.into_response())
+    Ok(BizResponse::ok())
 }
 
-async fn all_translations(State(state): State<AppState>) -> BizResult<Response> {
+async fn all_translations(State(state): State<AppState>) -> BizResult<BizResponse<Vec<Model>>> {
     let data = Translation::find().all(&state.conn).await?;
-    Ok(Json(json!({"data":data})).into_response())
+    Ok(BizResponse::ok_with(data))
 }
 
 #[derive(Deserialize)]
@@ -73,10 +66,10 @@ async fn delete_translation(
     State(state): State<AppState>,
     // Path(unique_name): Path<String>,
     Query(DeleteQuery { unique_name }): Query<DeleteQuery>,
-) -> BizResult<impl IntoResponse> {
+) -> BizResult<BizResponse> {
     info!("deleting {}", unique_name);
     let _res = Translation::delete_by_id(unique_name)
         .exec(&state.conn)
         .await?;
-    Ok(())
+    Ok(BizResponse::ok())
 }

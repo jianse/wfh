@@ -1,24 +1,23 @@
 use rust_embed::Embed;
 
 #[derive(Embed)]
-#[folder = "ui/dist"]
+#[folder = "../ui/dist"]
 struct Asset;
 
-static INDEX_HTML: &str = "index.html";
 static DATETIME_FORMAT: &str = "%a, %d %b %G %H:%M:%S GMT";
 
 pub(crate) use impl2::spa_handler;
 
 #[allow(unused)]
 mod impl1 {
+    use crate::INDEX_HTML;
+    use crate::embed::Asset;
     use axum::{
         http::{StatusCode, Uri, header},
         response::{Html, IntoResponse, Response},
     };
     use mime_guess::mime;
     use tracing::info;
-
-    use crate::embed::{Asset, INDEX_HTML};
 
     pub(crate) async fn spa_handler(uri: Uri) -> impl IntoResponse {
         let path = uri.path().trim_start_matches('/');
@@ -77,6 +76,8 @@ mod impl1 {
 }
 
 mod impl2 {
+    use super::{Asset, DATETIME_FORMAT};
+    use crate::INDEX_HTML;
     use axum::{
         http::{StatusCode, Uri, header},
         response::{IntoResponse, Response},
@@ -84,10 +85,6 @@ mod impl2 {
     use hex::ToHex;
     use rust_embed::EmbeddedFile;
     use tracing::debug;
-
-    use crate::embed::{Asset, INDEX_HTML};
-
-    use super::DATETIME_FORMAT;
 
     struct StaticFile(EmbeddedFile);
 
@@ -123,7 +120,6 @@ mod impl2 {
     }
 
     pub(crate) async fn spa_handler(uri: Uri) -> impl IntoResponse {
-        // todo!()
         let path = uri.path().trim_start_matches('/');
         debug!("reading: {path}");
         if path.is_empty() || path == INDEX_HTML {
@@ -149,7 +145,8 @@ mod impl2 {
 mod test {
     // use crate::{Asset, INDEX_HTML};
 
-    use crate::embed::{Asset, INDEX_HTML};
+    use crate::INDEX_HTML;
+    use crate::embed::Asset;
 
     #[test]
     fn test_last_mod_time() {

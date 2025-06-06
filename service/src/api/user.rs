@@ -1,5 +1,5 @@
 use axum::{
-    Json, Router,
+    Extension, Json, Router,
     extract::{Path, State},
     http::StatusCode,
     routing::get,
@@ -9,10 +9,13 @@ use serde::Serialize;
 
 use crate::{AppState, entities};
 
+use crate::api::{BizError, BizResponse, BizResult, CurrentUser};
 use entities::prelude::*;
 
 pub(crate) fn user_routes() -> Router<AppState> {
-    Router::new().route("/{id}", get(get_user_by_id))
+    Router::new()
+        .route("/current", get(get_current_user))
+        .route("/{id}", get(get_user_by_id))
 }
 
 #[derive(Serialize)]
@@ -41,4 +44,16 @@ async fn get_user_by_id(
     } else {
         Err(StatusCode::NOT_FOUND)
     }
+}
+
+#[axum::debug_handler]
+async fn get_current_user(
+    state: State<AppState>,
+    Extension(cur_user): Extension<CurrentUser>,
+) -> BizResult<BizResponse<UserResp>> {
+    let u = User::find_by_id(cur_user.id)
+        .one(&state.conn)
+        .await?
+        .ok_or(BizError::NoSuchUserId(cur_user.id))?;
+    Ok(BizResponse::ok_with(u.into()))
 }

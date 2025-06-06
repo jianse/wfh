@@ -1,3 +1,4 @@
+use std::path::PathBuf;
 use std::sync::OnceLock;
 
 use argon2::password_hash::SaltString;
@@ -12,21 +13,38 @@ use tracing::info;
 
 #[derive(Deserialize, Serialize, Debug, Default, Clone)]
 #[serde(default)]
-pub(crate) struct Settings {
+pub struct Settings {
     /// server settings
-    pub(crate) server: ServerSettings,
+    pub server: ServerSettings,
 
     /// database settings
-    pub(crate) db: DatabaseSettings,
+    pub db: DatabaseSettings,
 
     /// auth settings
-    pub(crate) auth: AuthenticateSettings,
+    pub auth: AuthenticateSettings,
+
+    pub ui: UiSettings,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default, Clone)]
+#[serde(tag = "source")]
+pub enum UiSettings {
+    /// embed in binary
+    #[serde(alias = "embed")]
+    Embed,
+    /// local dir
+    #[serde(alias = "local")]
+    Local { path: PathBuf },
+    /// no ui just api
+    #[default]
+    #[serde(alias = "none")]
+    None,
 }
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
-pub(crate) struct ServerSettings {
-    pub(crate) addr: String,
-    pub(crate) port: u16,
+pub struct ServerSettings {
+    pub addr: String,
+    pub port: u16,
 }
 
 impl Default for ServerSettings {
@@ -39,8 +57,8 @@ impl Default for ServerSettings {
 }
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
-pub(crate) struct DatabaseSettings {
-    pub(crate) database_url: String,
+pub struct DatabaseSettings {
+    pub database_url: String,
 }
 
 impl Default for DatabaseSettings {
@@ -53,15 +71,16 @@ impl Default for DatabaseSettings {
 
 /// configuration for jwt
 #[derive(Deserialize, Serialize, Debug, Clone, Default)]
-pub(crate) struct AuthenticateSettings {
-    pub(crate) jwt: JwtSettings,
-    pub(crate) pwd_hasher: PwdHasher,
+pub struct AuthenticateSettings {
+    pub jwt: JwtSettings,
+    pub pwd_hasher: PwdHasher,
 }
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
-pub(crate) struct JwtSettings {
-    pub(crate) secret_key: String,
-    pub(crate) valid_time_secs: u64,
+pub struct JwtSettings {
+    pub secret_key: String,
+    pub valid_time_secs: u64,
+    pub issuer: String,
 }
 
 impl Default for JwtSettings {
@@ -73,6 +92,7 @@ impl Default for JwtSettings {
             .collect();
 
         Self {
+            issuer: "wf_api".to_owned(),
             secret_key: rand_string,
             valid_time_secs: 8 * 60 * 60,
         }
@@ -97,18 +117,24 @@ fn init_settings() -> Result<Settings, ConfigError> {
     }
 
     result.auth.pwd_hasher.try_init().unwrap();
+    // #[cfg(not(feature = "embed"))]
+    // if matches!(result.ui, UiSettings::Embed) {
+    //     warn!(
+    //         "this build is build without the `ui` feature enabled. \"embed\" is just the same as \"none\""
+    //     );
+    // }
     Ok(result)
 }
 
 static SETTINGS: OnceLock<Settings> = OnceLock::new();
 
-pub(crate) fn get() -> &'static Settings {
+pub fn get() -> &'static Settings {
     SETTINGS.get_or_init(|| init_settings().unwrap())
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 #[serde(tag = "name", content = "options")]
-pub(crate) enum PwdHasher {
+pub enum PwdHasher {
     #[serde(alias = "bcrypt")]
     Bcrypt(Option<BcryptOptions>),
 
@@ -117,7 +143,7 @@ pub(crate) enum PwdHasher {
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Copy)]
-pub(crate) struct BcryptOptions {
+pub struct BcryptOptions {
     cost: u32,
 }
 impl Default for BcryptOptions {
@@ -127,7 +153,7 @@ impl Default for BcryptOptions {
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default, Copy)]
-pub(crate) struct Argon2Options {
+pub struct Argon2Options {
     algorithm: Argon2Algorithm,
     version: Argon2Version,
     params: Argon2Params,
@@ -140,7 +166,7 @@ impl Default for PwdHasher {
 }
 
 #[derive(Deserialize, Serialize, Default, Debug, Clone, Copy)]
-pub(crate) enum Argon2Algorithm {
+pub enum Argon2Algorithm {
     Argon2d,
     Argon2i,
     #[default]
@@ -158,7 +184,7 @@ impl From<Argon2Algorithm> for argon2::Algorithm {
 }
 
 #[derive(Deserialize, Serialize, Default, Debug, Clone, Copy)]
-pub(crate) enum Argon2Version {
+pub enum Argon2Version {
     V0x10,
     #[default]
     V0x13,
@@ -174,7 +200,7 @@ impl From<Argon2Version> for argon2::Version {
 }
 
 #[derive(Deserialize, Serialize, Debug, Clone, Copy)]
-pub(crate) struct Argon2Params {
+pub struct Argon2Params {
     m_cost: u32,
     t_cost: u32,
     p_cost: u32,
@@ -201,21 +227,27 @@ impl Default for Argon2Params {
     }
 }
 
-// pub(crate) struct PwdHasher {}
+// pub struct PwdHasher {}
 #[derive(Debug, Error)]
-pub(crate) enum PwdHasherError {
-    #[error(transparent)]
-    BcryptHash(#[from] bcrypt::BcryptError),
-
+pub enum PwdHasherError {
     #[error("parse argon2 params error. {0}")]
-    ParseArgon2Params(#[from] argon2::Error),
+    ParseArgon2Params(argon2::Error),
+
+    #[error(transparent)]
+    BcryptHash(bcrypt::BcryptError),
 
     #[error("password hash error, {0}")]
-    PasswordHash(#[from] argon2::password_hash::Error),
+    Argon2Hash(argon2::password_hash::Error),
+
+    #[error(transparent)]
+    BcryptVerify(bcrypt::BcryptError),
+
+    #[error(transparent)]
+    Argon2Verify(argon2::password_hash::Error),
 }
 
 impl PwdHasher {
-    pub(crate) fn try_init(&self) -> Result<(), PwdHasherError> {
+    pub fn try_init(&self) -> Result<(), PwdHasherError> {
         match self {
             PwdHasher::Bcrypt(..) => Ok(()),
             PwdHasher::Argon2(opt) => {
@@ -227,11 +259,11 @@ impl PwdHasher {
         }
     }
 
-    pub(crate) fn hash<P: AsRef<[u8]>>(&self, password: P) -> Result<String, PwdHasherError> {
+    pub fn hash<P: AsRef<[u8]>>(&self, password: P) -> Result<String, PwdHasherError> {
         match self {
             PwdHasher::Bcrypt(opt) => {
                 let opt = opt.unwrap_or(BcryptOptions::default());
-                Ok(bcrypt::hash(password, opt.cost)?)
+                Ok(bcrypt::hash(password, opt.cost).map_err(PwdHasherError::BcryptHash)?)
             }
             PwdHasher::Argon2(opt) => {
                 let hasher = if let Some(opt) = opt {
@@ -244,20 +276,21 @@ impl PwdHasher {
                     Argon2::default()
                 };
                 let salt = SaltString::generate(&mut OsRng);
-                Ok(hasher.hash_password(password.as_ref(), &salt)?.to_string())
+                Ok(hasher
+                    .hash_password(password.as_ref(), &salt)
+                    .map_err(PwdHasherError::Argon2Hash)?
+                    .to_string())
             }
         }
     }
 
-    pub(crate) fn verify<P: AsRef<[u8]>>(
-        &self,
-        password: P,
-        hash: &str,
-    ) -> Result<bool, PwdHasherError> {
+    pub fn verify<P: AsRef<[u8]>>(&self, password: P, hash: &str) -> Result<bool, PwdHasherError> {
         match self {
-            PwdHasher::Bcrypt { .. } => Ok(bcrypt::verify(password, hash)?),
+            PwdHasher::Bcrypt { .. } => {
+                Ok(bcrypt::verify(password, hash).map_err(PwdHasherError::BcryptVerify)?)
+            }
             PwdHasher::Argon2(..) => {
-                let parsed_hash = PasswordHash::new(hash)?;
+                let parsed_hash = PasswordHash::new(hash).map_err(PwdHasherError::Argon2Verify)?;
                 Ok(Argon2::default()
                     .verify_password(password.as_ref(), &parsed_hash)
                     .is_ok())

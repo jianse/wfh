@@ -2,8 +2,6 @@ use rand::{Rng, distr::Alphanumeric, rng};
 use sea_orm_migration::prelude::*;
 use tracing::info;
 
-use crate::settings;
-
 use super::m20250524_000001_create_user_table::User;
 
 pub struct Migration;
