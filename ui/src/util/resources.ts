@@ -8,13 +8,6 @@ import {
   type StoreName,
 } from './localDB'
 
-enum categoryEnum {
-  Warframes = 'Warframes',
-  Relics = 'Relics',
-}
-
-
-
 /**
  * load index for all resources
  * @returns resource index
@@ -25,7 +18,7 @@ export async function load_index() {
   return index
 }
 
-async function load_resource(key: string): Promise<Array<Object>> {
+async function load_resource(key: string): Promise<Array<object>> {
   const resp = await fetch(`/data2/${key}`)
   const root = await resp.json()
   const category = get_category(key)
@@ -36,7 +29,7 @@ async function load_resource(key: string): Promise<Array<Object>> {
   }
 }
 
-const debug_sleep = true
+const debug_sleep = false
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 let inprogress = false
 
@@ -59,11 +52,15 @@ export async function check_update_available(force: boolean = false) {
       console.log('update found!')
       // do update
       const upd_list = to_be_update_items(local_index, index)
-      for (const item of upd_list) {
-        const store = useSyncStore()
-        const category = get_category(item)
-        if (RESOURCES_INCLUDED.includes(category as StoreName)) {
-          console.log('interested category found!', category)
+
+      const jobs = upd_list
+        .map((i) => ({ url: i, category: get_category(i) as StoreName }))
+        .filter(({ category }) => RESOURCES_INCLUDED.includes(category))
+        .map(async (i) => {
+          const item = i.url
+          const category = i.category
+
+          const store = useSyncStore()
           store.setInprogress(category)
           if (debug_sleep) {
             await sleep(1000)
@@ -74,10 +71,7 @@ export async function check_update_available(force: boolean = false) {
           }
           store.setCategoryTotal(category, arr.length)
           for (const it of arr) {
-            const ret = await put(category as StoreName, it)
-            // if (debug_sleep) {
-            //   await sleep(10)
-            // }
+            const _ret = await put(category as StoreName, it)
             store.increaseCategoryCompleted(category)
           }
           set_last_update_time(category, new Date(), arr.length)
@@ -86,8 +80,9 @@ export async function check_update_available(force: boolean = false) {
           if (debug_sleep) {
             await sleep(1000)
           }
-        }
-      }
+        })
+
+      await Promise.all(jobs)
       await save_index(index)
       console.log('updating done!')
     } else {

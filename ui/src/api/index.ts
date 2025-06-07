@@ -5,7 +5,9 @@ import { useToast } from 'primevue'
 const instance = axios.create({
   baseURL: import.meta.env.VITE_BASEURL,
 })
-const error_handler = function (err: any) {
+
+// TODO: add more detailed type of err
+const error_handler = function (err: object) {
   const toast = useToast()
   toast.add({
     severity: 'error',

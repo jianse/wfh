@@ -58,12 +58,6 @@ async function fetch_index() {
   return decompressed
 }
 
-function sha256_hash(message) {
-  const hash = createHash('sha256')
-  hash.update(message)
-  return hash.digest('base64')
-}
-
 function md5_hash(message) {
   const hash = createHash('md5')
   hash.update(message)
@@ -86,12 +80,6 @@ async function get_or(cache, key, cb) {
 const index = await fetch_index()
 // console.log(index)
 
-const hash = sha256_hash(index)
-// console.log(hash)
-
-const md5 = md5_hash(index)
-// console.log(md5)
-
 const endpoints = index.split(/\r?\n/g)
 console.log(endpoints)
 
@@ -113,7 +101,7 @@ for (const it of endpoints) {
     )
     const relics_text = JSON.stringify({ ExportRelics: relicsData })
     const relics_md5 = md5_hash(relics_text)
-    const relics_name = `ExportRelics_zh.json!00_${relics_md5.replace(/\=/g, '')}`
+    const relics_name = `ExportRelics_zh.json!00_${relics_md5.replace(/=/g, '')}`
     fs.writeFileSync(`${output_dir}/${relics_name}`, relics_text)
     new_endpoints.push(relics_name)
 
@@ -126,7 +114,7 @@ for (const it of endpoints) {
 
     const arcane_text = JSON.stringify({ ExportArcane: arcaneData })
     const arcane_md5 = md5_hash(arcane_text)
-    const arcane_name = `ExportArcane_zh.json!00_${arcane_md5.replace(/\=/g, '')}`
+    const arcane_name = `ExportArcane_zh.json!00_${arcane_md5.replace(/=/g, '')}`
     fs.writeFileSync(`${output_dir}/${arcane_name}`, arcane_text)
     new_endpoints.push(arcane_name)
   } else {

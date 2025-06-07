@@ -70,7 +70,7 @@ export async function current_index() {
   return index?.content ?? undefined
 }
 
-export async function put(storeName: StoreName, params: Object) {
+export async function put(storeName: StoreName, params: object) {
   return await db[storeName].put(params)
 }
 

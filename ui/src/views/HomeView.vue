@@ -2,7 +2,6 @@
 import uiIcons from '@/assets/icons/ui/index.ts'
 import { useSyncStore, type SyncItem } from '@/stores/sync'
 import { check_update_available } from '@/util/resources'
-import { storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
 
 interface SyncState {
@@ -22,14 +21,14 @@ const items: SyncState[] = [
   { label: '清单', icon: uiIcons.manifest, category: 'Manifest' },
 ]
 
-const { state } = storeToRefs(useSyncStore())
+const store = useSyncStore()
 
 const itemsComputed = computed<SyncState[]>(() => {
   return items.map((it) => {
     if (it.category) {
-      const si = state.value[it.category]
+      const si = store.state[it.category]
       // it.state = si
-      return {...it,state:si}
+      return { ...it, state: si }
     } else {
       return it
     }
