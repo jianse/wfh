@@ -28,10 +28,12 @@ async function fetchResources() {
   const data = await res.json()
   console.log(data)
 
-  items.value = data.ExportUpgrades.filter((it:Item)=>it.name.includes("执刑官")).map((it: Item) => {
-    const url = imageUrl(it.uniqueName)
-    return { ...it, imgUrl: url }
-  })
+  items.value = data.ExportUpgrades.filter((it: Item) => it.name.includes('执刑官')).map(
+    (it: Item) => {
+      const url = imageUrl(it.uniqueName)
+      return { ...it, imgUrl: url }
+    },
+  )
   console.log(items.value)
 
   // items.value =

@@ -29,4 +29,5 @@ coverage
 
 *.tsbuildinfo
 public/data
+public/data2
 cache

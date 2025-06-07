@@ -6,21 +6,22 @@ type Item = {
   name: string
   textureLocation?: string
   imgUrl?: string
-  relicRewards: [{
-    rewardName: string
-    rarity: string
-    itemCount: number
-    // rewardType: string
-    // rewardValue: number
-    item: {
-      name: string
-      primeSellingPrice?: number
-    }
-  }],
+  relicRewards: [
+    {
+      rewardName: string
+      rarity: string
+      itemCount: number
+      // rewardType: string
+      // rewardValue: number
+      item: {
+        name: string
+        primeSellingPrice?: number
+      }
+    },
+  ]
   tier: string
   vaultStatus?: string
 }
-
 
 const items = ref<Item[]>([])
 
@@ -82,7 +83,7 @@ const relics = computed<Item[]>(() => {
     // console.log(vaultStatus)
     return {
       ...it,
-      vaultStatus
+      vaultStatus,
     }
   })
 
@@ -91,18 +92,14 @@ const relics = computed<Item[]>(() => {
     const vsnb = vaultStatus2Num(b.vaultStatus)
     // if (vsna !== vsnb){}
     return vsnb - vsna
-
   })
 
   if (tier.value) {
     return itemsCopy.filter((relic) => relic.tier == tier.value)
-  }
-  else {
+  } else {
     return itemsCopy
   }
-}
-
-)
+})
 
 const relicsVaultStatus = ref(new Map())
 
@@ -127,7 +124,7 @@ fetchResources()
 </script>
 
 <template>
-  <div style="padding: 0 8px;height: 100%;">
+  <div style="padding: 0 8px; height: 100%">
     <Tabs v-model:value="tier">
       <TabList>
         <Tab value="">全部</Tab>
@@ -138,27 +135,45 @@ fetchResources()
         <Tab value="T5">安魂</Tab>
       </TabList>
     </Tabs>
-    <div style="display: flex; flex-wrap: wrap; gap: 8px;overflow: scroll ;padding: 8px;height: calc(100% - 50px);">
+    <div
+      style="
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        overflow: scroll;
+        padding: 8px;
+        height: calc(100% - 50px);
+      "
+    >
       <div class="card" v-for="item in relics" :key="item.uniqueName">
         <!-- <pre v-if="idx === 0">{{ JSON.stringify(item, undefined, 2) }}</pre> -->
         <h3>{{ item.name }} {{ suffix(item.uniqueName) }}</h3>
         <!-- <p>{{ item.uniqueName.substring(item.uniqueName.lastIndexOf('/') + 1) }}</p> -->
         <!-- <div class="img-bg"> -->
-        <img :src="item.imgUrl" style="background-color: #eee;" />
-        <p class="vault-status" v-if="item.vaultStatus == 'InVault'"><i class="pi pi-ban" style="color:#e31"></i>入库</p>
-        <p class="vault-status" v-if="item.vaultStatus == 'OutVault'"><i class="pi pi-check"
-            style="color: green;"></i>出库</p>
-        <p class="vault-status" v-if="item.vaultStatus == 'Reborn'"><i class="pi pi-refresh" style="color: #13e;"></i>重生
+        <img :src="item.imgUrl" style="background-color: #eee" />
+        <p class="vault-status" v-if="item.vaultStatus == 'InVault'">
+          <i class="pi pi-ban" style="color: #e31"></i>入库
+        </p>
+        <p class="vault-status" v-if="item.vaultStatus == 'OutVault'">
+          <i class="pi pi-check" style="color: green"></i>出库
+        </p>
+        <p class="vault-status" v-if="item.vaultStatus == 'Reborn'">
+          <i class="pi pi-refresh" style="color: #13e"></i>重生
         </p>
         <!-- </div> -->
         <div class="relic-rewards">
-
-          <p v-for="reward in item.relicRewards" :key="reward.rewardName"
-            style="overflow: hidden; white-space: nowrap;">
-            <img :src="rarityIcon(reward.rarity)" :alt="reward.rarity"
-              style="height: 20px;vertical-align:text-bottom ;" />{{
-                reward.item.name }}<span v-if="reward.itemCount > 1">*{{ reward.itemCount }}</span><span
-              style="font-weight: bold;"> {{ reward.item.primeSellingPrice }}</span>
+          <p
+            v-for="reward in item.relicRewards"
+            :key="reward.rewardName"
+            style="overflow: hidden; white-space: nowrap"
+          >
+            <img
+              class="inline"
+              :src="rarityIcon(reward.rarity)"
+              :alt="reward.rarity"
+              style="height: 20px; vertical-align: text-bottom"
+            />{{ reward.item.name }}<span v-if="reward.itemCount > 1">*{{ reward.itemCount }}</span
+            ><span style="font-weight: bold"> {{ reward.item.primeSellingPrice }}</span>
           </p>
         </div>
       </div>

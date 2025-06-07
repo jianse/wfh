@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref} from "vue"
+import { ref } from 'vue'
 
 type ManifestItem = {
   uniqueName: string
@@ -11,9 +11,8 @@ const items = ref<ManifestItem[]>()
 async function fetchManifest() {
   const res = await fetch('/data/Manifest.json')
   const data = await res.json()
-  items.value =  data.Manifest
+  items.value = data.Manifest
 }
-
 </script>
 
 <template>

@@ -20,7 +20,6 @@ async function fetchResources() {
   items.value = data.ExportArcane
 }
 
-
 fetchResources()
 import ArcaneCommon from '@/assets/arcane/ArcaneCommon.png'
 import ArcaneRare from '@/assets/arcane/ArcaneRare.png'
@@ -39,13 +38,9 @@ function rarityBg(rarity: string | undefined): string {
       return ArcaneCommon
   }
 }
-
-
 </script>
 
 <template>
-
-
   <!-- <Tabs value="0">
     <TabList>
       <Tab value="0">Header I</Tab>
@@ -53,13 +48,16 @@ function rarityBg(rarity: string | undefined): string {
         <Tab value="2">Header III</Tab>
     </TabList>
   </Tabs> -->
-  <div style="display: flex; flex-wrap: wrap; gap: 8px;padding: 8px; overflow: scroll;">
+  <div style="display: flex; flex-wrap: wrap; gap: 8px; padding: 8px; overflow: scroll">
     <div class="card" v-for="item in items" :key="item.uniqueName">
       <h3>{{ item.name }}</h3>
       <h5>唯一名称：{{ item.uniqueName }}</h5>
-      <div style="position: relative;">
-        <img :src="rarityBg(item.rarity)" style="background-color: #eee;" />
-        <img :src="item.imgUrl" style="position: absolute;left: 0; top:0;transform: scale(0.68) translate(0,-26px);" />
+      <div style="position: relative">
+        <img :src="rarityBg(item.rarity)" style="background-color: #eee" />
+        <img
+          :src="item.imgUrl"
+          style="position: absolute; left: 0; top: 0; transform: scale(0.68) translate(0, -26px)"
+        />
       </div>
     </div>
   </div>

@@ -23,7 +23,6 @@ type CommonItem = {
   imgUrl?: string
 }
 
-
 type RecipeItem = {
   uniqueName: string
   name: string
@@ -33,7 +32,6 @@ type RecipeItem = {
   ingredients: Ingredient[]
 }
 
-
 const items = ref<RecipeItem[]>([])
 
 async function fetchResources() {
@@ -41,7 +39,6 @@ async function fetchResources() {
   const data = await res.json()
   console.log(data)
   items.value = data.ExportRecipes
-
 }
 fetchResources()
 const itemWidth = 500
@@ -53,36 +50,46 @@ const itemsComputed = computed(() => {
   console.log('chunkedItems', chunkedItems)
   return chunkedItems
 })
-
 </script>
 
 <template>
-  <VirtualScroller ref="scroller" :items="itemsComputed" :item-size="300"
-    style="width: 100%; height: calc( 100vh - 58px)">
+  <VirtualScroller
+    ref="scroller"
+    :items="itemsComputed"
+    :item-size="300"
+    style="width: 100%; height: calc(100vh - 58px)"
+  >
     <template v-slot:item="{ item }">
       <!-- <div>{{ line.length }}</div> -->
-      <div style="display: flex; flex-direction: row;">
-
-
+      <div style="display: flex; flex-direction: row">
         <template v-for="innerItem in item" :key="innerItem.uniqueName">
           <div class="card-cnt">
             <div class="card">
               <h3>{{ innerItem.resultItem.name }}</h3>
               <div class="description">
                 <p>{{ innerItem.resultItem.description }}</p>
-
               </div>
               <div class="card-content">
                 <div>
-                  <Image :src="innerItem.resultItem.imgUrl" height="195" preview style="background-color: #eee;" />
+                  <Image
+                    :src="innerItem.resultItem.imgUrl"
+                    preview
+                    style="background-color: #eee; height: 195px"
+                  />
                 </div>
                 <div class="recipe-ingredients">
-                  <div v-for="ingredient in innerItem.ingredients" :key="ingredient.ItemType"
-                    style="display: flex;gap:4px; height: 46px;">
-                    <img :src="ingredient.item.imgUrl" style="height: 45px;background-color: #eee;" />
+                  <div
+                    v-for="ingredient in innerItem.ingredients"
+                    :key="ingredient.ItemType"
+                    style="display: flex; gap: 4px; height: 46px"
+                  >
+                    <img
+                      :src="ingredient.item.imgUrl"
+                      style="height: 45px; background-color: #eee"
+                    />
                     <div>
                       <span>{{ ingredient.item.name }}</span>
-                      <p style="font-weight: bold;"> {{ ingredient.ItemCount }}</p>
+                      <p style="font-weight: bold">{{ ingredient.ItemCount }}</p>
                     </div>
                   </div>
                 </div>
@@ -93,14 +100,13 @@ const itemsComputed = computed(() => {
       </div>
     </template>
   </VirtualScroller>
-
 </template>
 
 <style scoped>
 .card-cnt {
   width: 500px;
   height: 312px;
-  padding: 8px  ;
+  padding: 8px;
 }
 
 .card {
@@ -158,11 +164,8 @@ pre {
 .recipe-ingredients {
   display: flex;
   flex-direction: column;
-  gap : 4px;
+  gap: 4px;
   /* padding-top: 10px;
   padding-bottom: 10px; */
 }
-
-
-
 </style>

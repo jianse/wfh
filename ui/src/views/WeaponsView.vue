@@ -13,13 +13,17 @@ type ManifestItem = {
   textureLocation: string
 }
 
-async function fetchManifest(): Promise<ManifestItem[]> {
+const mfItems = ref<ManifestItem[]>([])
+
+async function fetchManifest() {
   const res = await fetch('/data/Manifest.json')
   const data = await res.json()
-  return data.Manifest
+  mfItems.value = data.Manifest
 }
 
-const mfItems = await fetchManifest()
+fetchManifest()
+
+// const mfItems = await fetchManifest()
 
 const items = ref<Item[]>([])
 
@@ -38,7 +42,7 @@ async function fetchResources() {
 function imageUrl(uniqueName: string): string {
   // console.log(uniqueName);
 
-  const textureLocation = mfItems.find((it) => it.uniqueName === uniqueName)?.textureLocation
+  const textureLocation = mfItems.value.find((it) => it.uniqueName === uniqueName)?.textureLocation
 
   return textureLocation ? `https://content.warframe.com/PublicExport${textureLocation}` : ''
 }

@@ -73,10 +73,10 @@ async function fetchEndpoints(locale) {
     const raw = await res.bytes()
 
     // Check if the hash is the same as the one in the cache
-    const hmac = createHash('sha256')
+    const hash = createHash('sha256')
 
-    hmac.update(raw)
-    const digest = hmac.digest('hex')
+    hash.update(raw)
+    const digest = hash.digest('hex')
 
     let oldHash = endpointCache.get(origin)
     if (oldHash === digest) {
@@ -98,7 +98,7 @@ async function checkOriginServerAvailability() {
   originServerAvailable = true
   try {
     // If this call is successful, it means that the origin server is available.
-    const r = await fetchEndpoints(false, 'zh')
+    const _r = await fetchEndpoints(false, 'zh')
   } catch (err) {
     console.error(err)
     // Origin server not available, fall back to content server
@@ -261,7 +261,7 @@ function findItemByUniqueName(uniqueName, options = { warn: true }) {
 
 function fillRecipe(recipe) {
   recipe.resultItem = findItemByUniqueName(recipe.resultType)
-  const mfi = data.get('Manifest').Manifest.find((item) => item.uniqueName === recipe.resultType)
+  // const mfi = data.get('Manifest').Manifest.find((item) => item.uniqueName === recipe.resultType)
 
   for (const ingredient of recipe.ingredients) {
     ingredient.item = findItemByUniqueName(ingredient.ItemType)
