@@ -29,14 +29,20 @@ interface Index {
   content: string
   valid: boolean
 }
-interface Warframes {
+export interface Warframes {
+  uniqueName: string
+  name: string
+}
+export interface Relics {
   uniqueName: string
 }
-interface Relics {
+export interface Commons {
   uniqueName: string
 }
-interface Commons {
+
+export interface Manifest {
   uniqueName: string
+  textureLocation: string
 }
 
 const DB_NAME = 'wf-data'
@@ -50,13 +56,13 @@ export const db = new Dexie(DB_NAME) as Dexie & {
   Arcane: EntityTable<Commons, 'uniqueName'>
   Recipes: EntityTable<Commons, 'uniqueName'>
   Relics: EntityTable<Relics, 'uniqueName'>
-  Manifest: EntityTable<Commons, 'uniqueName'>
+  Manifest: EntityTable<Manifest, 'uniqueName'>
 }
 
 db.version(1).stores({
   index: 'id, content, valid',
   last_update: 'category',
-  Warframes: 'uniqueName',
+  Warframes: 'uniqueName, name',
   Weapons: 'uniqueName',
   Upgrades: 'uniqueName',
   Arcane: 'uniqueName',
@@ -71,6 +77,7 @@ export async function current_index() {
 }
 
 export async function put(storeName: StoreName, params: object) {
+  // @ts-expect-error TODO: params type should be more specific
   return await db[storeName].put(params)
 }
 

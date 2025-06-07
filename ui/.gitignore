@@ -31,3 +31,6 @@ coverage
 public/data
 public/data2
 cache
+
+# rollup-plugin-visualizer
+stats.html

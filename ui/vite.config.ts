@@ -7,6 +7,7 @@ import Components from 'unplugin-vue-components/vite'
 import { PrimeVueResolver } from '@primevue/auto-import-resolver'
 // import UnoCSS from 'unocss/vite'
 import tailwindcss from '@tailwindcss/vite'
+import { visualizer } from "rollup-plugin-visualizer";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -23,8 +24,8 @@ export default defineConfig({
         })
       ]
     }),
-    tailwindcss()
-
+    tailwindcss(),
+visualizer()
   ],
   resolve: {
     alias: {

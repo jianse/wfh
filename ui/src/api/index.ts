@@ -7,7 +7,7 @@ const instance = axios.create({
 })
 
 // TODO: add more detailed type of err
-const error_handler = function (err: object) {
+const error_handler = function (err: unknown) {
   const toast = useToast()
   toast.add({
     severity: 'error',

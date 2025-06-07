@@ -1,60 +1,34 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { useResourcesStore } from '@/stores/resources'
+import { imageUrl } from '@/util/common'
+import { computed } from 'vue'
 
 type Item = {
   uniqueName: string
-  name: string
-  textureLocation?: string
-  imgUrl?: string
+  name?: string
 }
 
-type ManifestItem = {
-  uniqueName: string
-  textureLocation: string
-}
+const resStore = useResourcesStore()
 
-async function fetchManifest(): Promise<ManifestItem[]> {
-  const res = await fetch('/data/Manifest.json')
-  const data = await res.json()
-  return data.Manifest
-}
-
-const mfItems = await fetchManifest()
-
-const items = ref<Item[]>([])
-
-async function fetchResources() {
-  const res = await fetch('/data/Warframes.json')
-  const data = await res.json()
-  console.log(data)
-
-  items.value = data.ExportWarframes.map((it: Item) => {
-    const url = imageUrl(it.uniqueName)
+const items = computed(() => {
+  return resStore.warframes.map((it: Item) => {
+    const url = imageUrl(it.uniqueName, resStore.manifest)
     return { ...it, imgUrl: url }
   })
-  // items.value =
-}
+})
 
-function imageUrl(uniqueName: string): string {
-  // console.log(uniqueName);
-
-  const textureLocation = mfItems.find((it) => it.uniqueName === uniqueName)?.textureLocation
-
-  return textureLocation ? `https://content.warframe.com/PublicExport${textureLocation}` : ''
-}
-
-fetchResources()
 </script>
 
 <template>
   <header class="sticky-header">
     <input />
     <!-- <button> </button> -->
-    <button @click="fetchResources">刷新</button>
+    <pv-button  size="small" label="刷新"></pv-button>
   </header>
   <div style="display: flex; flex-wrap: wrap; gap: 8px">
     <div class="card" v-for="item in items" :key="item.uniqueName">
       <h5>{{ item.name }}</h5>
+      <p>{{ item.uniqueName }}</p>
       <div class="img-bg">
         <img :src="item.imgUrl" />
       </div>
@@ -65,7 +39,7 @@ fetchResources()
 <style scoped>
 .card {
   width: 500px;
-  height: 200px;
+  /* height: 200px; */
   flex: initial;
   border: 1px solid #ccc;
   border-radius: 4px;
