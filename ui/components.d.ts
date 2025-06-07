@@ -22,6 +22,8 @@ declare module 'vue' {
     PvAvatar: typeof import('primevue/avatar')['default']
     PvButton: typeof import('primevue/button')['default']
     PvCard: typeof import('primevue/card')['default']
+    PvColumn: typeof import('primevue/column')['default']
+    PvDataTable: typeof import('primevue/datatable')['default']
     PvInputText: typeof import('primevue/inputtext')['default']
     PvMenu: typeof import('primevue/menu')['default']
     PvMenubar: typeof import('primevue/menubar')['default']

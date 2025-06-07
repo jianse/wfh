@@ -57,29 +57,7 @@ export async function check_update_available(force: boolean = false) {
         .map((i) => ({ url: i, category: get_category(i) as StoreName }))
         .filter(({ category }) => RESOURCES_INCLUDED.includes(category))
         .map(async (i) => {
-          const item = i.url
-          const category = i.category
-
-          const store = useSyncStore()
-          store.setInprogress(category)
-          if (debug_sleep) {
-            await sleep(1000)
-          }
-          const arr = await load_resource(item)
-          if (debug_sleep) {
-            await sleep(1000)
-          }
-          store.setCategoryTotal(category, arr.length)
-          for (const it of arr) {
-            const _ret = await put(category as StoreName, it)
-            store.increaseCategoryCompleted(category)
-          }
-          set_last_update_time(category, new Date(), arr.length)
-
-          store.markCategoryDone(category)
-          if (debug_sleep) {
-            await sleep(1000)
-          }
+          sync_one(i.url, i.category)
         })
 
       await Promise.all(jobs)
@@ -92,7 +70,50 @@ export async function check_update_available(force: boolean = false) {
     inprogress = false
   }
 }
-// interface Category extends StoreName
+
+async function sync_one(item: string, category: StoreName) {
+  const store = useSyncStore()
+  store.setInprogress(category)
+  if (debug_sleep) {
+    await sleep(1000)
+  }
+  const arr = await load_resource(item)
+  if (debug_sleep) {
+    await sleep(1000)
+  }
+  store.setCategoryTotal(category, arr.length)
+  for (const it of arr) {
+    const _ret = await put(category as StoreName, it)
+    store.increaseCategoryCompleted(category)
+  }
+  set_last_update_time(category, new Date(), arr.length)
+
+  store.markCategoryDone(category)
+  if (debug_sleep) {
+    await sleep(1000)
+  }
+}
+
+export async function update_one(category: string) {
+  if (!RESOURCES_INCLUDED.includes(category as StoreName)) {
+    return
+  }
+  const index = await current_index()
+  if (index) {
+    try {
+      inprogress = true
+      const url = index.split(/\r?\n/g).find((i) => i.includes(category))
+      if (!url) {
+        return
+      }
+      await sync_one(url, category as StoreName)
+    } finally {
+      inprogress = false
+    }
+  } else {
+    check_update_available()
+  }
+}
 
 function get_category(name: string): string {
   return name.replace('Export', '').replace(/(_[a-z]{2})?\.json.*/, '')
