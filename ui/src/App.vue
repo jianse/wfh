@@ -69,9 +69,12 @@ const menuItems = [
 function toggleMenu(event: MouseEvent) {
   menu.value.toggle(event)
 }
+
+// function
 </script>
 
 <template>
+  <pv-toast />
   <div class="bg-slate-50 dark:bg-slate-800">
     <pv-menubar :model="navItems">
       <template #item="{ item, props, hasSubmenu }">
@@ -88,14 +91,17 @@ function toggleMenu(event: MouseEvent) {
         </a>
       </template>
       <template #end>
-        <div v-if="isLogin" class="flex items-center gap-2" @click="toggleMenu">
-          <pv-avatar icon="pi pi-user" shape="circle" />
-          <span>{{ user?.username }}</span>
-          <pv-menu ref="menu" :model="menuItems" :popup="true"></pv-menu>
-        </div>
-        <div v-else class="flex items-center gap-2" @click="toLogin">
-          <pv-button icon="pi pi-user" rounded></pv-button>
-          <span>登录</span>
+        <div class="flex items-center gap-2">
+          <global-search />
+          <div v-if="isLogin" class="flex items-center gap-2" @click="toggleMenu">
+            <pv-avatar icon="pi pi-user" shape="circle" />
+            <span>{{ user?.username }}</span>
+            <pv-menu ref="menu" :model="menuItems" :popup="true"></pv-menu>
+          </div>
+          <div v-else class="flex items-center gap-2" @click="toLogin">
+            <pv-button icon="pi pi-user" rounded></pv-button>
+            <span>登录</span>
+          </div>
         </div>
       </template>
     </pv-menubar>

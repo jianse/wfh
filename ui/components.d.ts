@@ -8,6 +8,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    GlobalSearch: typeof import('./src/components/GlobalSearch.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
@@ -19,11 +20,13 @@ declare module 'vue' {
     PvCard: typeof import('primevue/card')['default']
     PvColumn: typeof import('primevue/column')['default']
     PvDataTable: typeof import('primevue/datatable')['default']
+    PvDialog: typeof import('primevue/dialog')['default']
     PvInputText: typeof import('primevue/inputtext')['default']
     PvMenu: typeof import('primevue/menu')['default']
     PvMenubar: typeof import('primevue/menubar')['default']
     PvMessage: typeof import('primevue/message')['default']
     PvPassword: typeof import('primevue/password')['default']
+    PvSpeedDial: typeof import('primevue/speeddial')['default']
     PvToast: typeof import('primevue/toast')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
