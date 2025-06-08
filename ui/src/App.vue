@@ -2,43 +2,44 @@
 import type { MenuItem } from 'primevue/menuitem'
 import { useRouter } from 'vue-router'
 import { useUserStore } from './stores/user'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useTokenStore } from './stores/token'
 import { storeToRefs } from 'pinia'
+import { get_current_user } from './api/user'
 
 const navItems: MenuItem[] = [
   {
     label: '战甲',
     route: { name: 'warframes' },
   },
-  {
-    label: '资源',
-    route: { name: 'resources' },
-  },
-  {
-    label: '配方',
-    route: { name: 'recipes' },
-  },
-  {
-    label: '振幅晶体',
-    route: { name: 'mods' },
-  },
-  {
-    label: '武器',
-    route: { name: 'weapons' },
-  },
-  {
-    label: '遗物',
-    route: { name: 'relics' },
-  },
-  {
-    label: '清单',
-    route: { name: 'manifest' },
-  },
-  {
-    label: '赋能',
-    route: { name: 'arcane' },
-  },
+  // {
+  //   label: '资源',
+  //   route: { name: 'resources' },
+  // },
+  // {
+  //   label: '配方',
+  //   route: { name: 'recipes' },
+  // },
+  // {
+  //   label: '振幅晶体',
+  //   route: { name: 'mods' },
+  // },
+  // {
+  //   label: '武器',
+  //   route: { name: 'weapons' },
+  // },
+  // {
+  //   label: '遗物',
+  //   route: { name: 'relics' },
+  // },
+  // {
+  //   label: '清单',
+  //   route: { name: 'manifest' },
+  // },
+  // {
+  //   label: '赋能',
+  //   route: { name: 'arcane' },
+  // },
   {
     label: '关于',
     route: { name: 'about' },
@@ -70,11 +71,20 @@ function toggleMenu(event: MouseEvent) {
   menu.value.toggle(event)
 }
 
-// function
+const tokenStore = useTokenStore()
+const userStore = useUserStore()
+
+onMounted(async () => {
+  if (tokenStore.token) {
+    const { data: cur_user } = await get_current_user()
+    userStore.setUser(cur_user)
+  }
+})
 </script>
 
 <template>
   <pv-toast />
+  <pv-dynamic-dialog />
   <div class="bg-slate-50 dark:bg-slate-800">
     <pv-menubar :model="navItems">
       <template #item="{ item, props, hasSubmenu }">

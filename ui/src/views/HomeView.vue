@@ -124,8 +124,7 @@ function humanFormat(time: Date) {
             icon="pi pi-refresh"
             @click="syncAll()"
             label="全部同步"
-            ></pv-button
-          >
+          ></pv-button>
           <pv-button
             :loading="loading"
             class="w-full"
@@ -134,8 +133,7 @@ function humanFormat(time: Date) {
             severity="warn"
             @click="syncAll(true)"
             label="强制同步"
-            ></pv-button
-          >
+          ></pv-button>
         </div>
       </template>
     </pv-card>

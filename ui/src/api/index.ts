@@ -1,27 +1,47 @@
 import { useTokenStore } from '@/stores/token'
+import { useCommonDialog, useCommonToast } from '@/util/common'
 import axios from 'axios'
-import { useToast } from 'primevue'
+import { defineAsyncComponent } from 'vue'
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_BASEURL,
 })
 
-// TODO: add more detailed type of err
-const error_handler = function (err: unknown) {
-  const toast = useToast()
-  toast.add({
-    severity: 'error',
-    summary: '请求异常',
-    detail: err,
-    life: 3000,
-  })
-  console.log('axios got error', err)
+interface Err {
+  status: number
 }
+
+// TODO: add more detailed type of err
+function error_handler(err: Err) {
+  console.log('axios got error', err)
+  // unauthorized
+  if (err.status === 401) {
+    const dialog = useCommonDialog()
+    const comp = defineAsyncComponent(() => import('@/components/LoginOrOfflineDialog.vue'))
+    dialog.open(comp, {
+      props: {
+        header: '提示',
+        modal: true,
+        dismissableMask: true,
+      },
+    })
+  } else {
+    const toast = useCommonToast()
+    toast.add({
+      severity: 'error',
+      summary: '请求异常',
+      detail: err,
+      life: 3000,
+    })
+  }
+}
+
 instance.interceptors.request.use((config) => {
   const { token } = useTokenStore()
   config.headers.Authorization = token
   return config
 })
+
 instance.interceptors.response.use(undefined, error_handler)
 
 export default instance
