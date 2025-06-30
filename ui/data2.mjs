@@ -61,15 +61,16 @@ async function fetch_index() {
 function md5_hash(message) {
   const hash = createHash('md5')
   hash.update(message)
-  return hash.digest('base64')
+  return hash.digest('base64url')
 }
 
 async function get_or(cache, key, cb) {
   const value = cache.get(key)
   if (value === undefined) {
-    console.log(`cache miss for: ${key} . callback`)
+    console.log(`cache miss for: ${key} . using callback to fetch`)
     const value = await cb(key)
     cache.set(key, value)
+    save_endpoint_cache(cache)
     return value
   } else {
     console.log(`cache hit for: ${key}`)
@@ -92,7 +93,8 @@ for (const it of endpoints) {
     return await resp.text()
   })
   if (it.startsWith('ExportRelicArcane')) {
-    //split relic and arcane
+    // split relics and arcane
+    // relics
     const json = JSON.parse(cont)
     const relicsData = json.ExportRelicArcane.filter(
       (item) =>
@@ -114,6 +116,7 @@ for (const it of endpoints) {
 
     const arcane_text = JSON.stringify({ ExportArcane: arcaneData })
     const arcane_md5 = md5_hash(arcane_text)
+    console.log(arcane_md5)
     const arcane_name = `ExportArcane_zh.json!00_${arcane_md5.replace(/=/g, '')}`
     fs.writeFileSync(`${output_dir}/${arcane_name}`, arcane_text)
     new_endpoints.push(arcane_name)

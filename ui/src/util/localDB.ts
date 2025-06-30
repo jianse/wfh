@@ -81,6 +81,11 @@ export async function put(storeName: StoreName, params: object) {
   return await db[storeName].put(params)
 }
 
+export async function bulkPut(storeName: StoreName, params: object[]) {
+  // @ts-expect-error TODO: params type should be more specific
+  return await db[storeName].bulkPut(params)
+}
+
 export async function save_index(index: string) {
   return await db.index.put({ id: 0, content: index, valid: true })
 }

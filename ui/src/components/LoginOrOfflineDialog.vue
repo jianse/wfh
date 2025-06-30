@@ -34,5 +34,4 @@ function goLogin() {
   dialogRef?.value.close()
   router.push({ name: 'login' })
 }
-
 </script>

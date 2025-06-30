@@ -34,6 +34,7 @@ function error_handler(err: Err) {
       life: 3000,
     })
   }
+  return Promise.reject(err)
 }
 
 instance.interceptors.request.use((config) => {

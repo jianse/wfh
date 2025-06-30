@@ -81,11 +81,17 @@ export const useSyncStore = defineStore('sync', () => {
     triggerRef(state)
   }
 
+  function increaseCategoryCompletedBy(category: string, amount: number) {
+    state.value[category].completed += amount
+    triggerRef(state)
+  }
+
   return {
     state,
     setCategoryState,
     setInprogress,
     increaseCategoryCompleted,
+    increaseCategoryCompletedBy,
     markCategoryDone,
     setCategoryTotal,
   }

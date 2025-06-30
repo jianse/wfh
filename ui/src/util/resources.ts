@@ -2,11 +2,13 @@ import { useSyncStore } from '@/stores/sync'
 import {
   current_index,
   put,
+  bulkPut,
   RESOURCES_INCLUDED,
   save_index,
   set_last_update_time,
   type StoreName,
 } from './localDB'
+import { chunk } from 'lodash'
 
 /**
  * load index for all resources
@@ -29,8 +31,15 @@ async function load_resource(key: string): Promise<Array<object>> {
   }
 }
 
-const debug_sleep = false
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+const debug = false
+const debug_sleep = (ms: number) =>
+  new Promise((resolve) => {
+    if (debug) {
+      setTimeout(resolve, ms)
+    } else {
+      resolve(undefined)
+    }
+  })
 let inprogress = false
 
 export async function check_update_available(force: boolean = false) {
@@ -56,9 +65,7 @@ export async function check_update_available(force: boolean = false) {
       const jobs = upd_list
         .map((i) => ({ url: i, category: get_category(i) as StoreName }))
         .filter(({ category }) => RESOURCES_INCLUDED.includes(category))
-        .map(async (i) => {
-          sync_one(i.url, i.category)
-        })
+        .map((i) => sync_one(i.url, i.category))
 
       await Promise.all(jobs)
       await save_index(index)
@@ -71,27 +78,35 @@ export async function check_update_available(force: boolean = false) {
   }
 }
 
+const bulk = true
+const chunk_size = 1000
+
+// sync one of the resource type
 async function sync_one(item: string, category: StoreName) {
   const store = useSyncStore()
   store.setInprogress(category)
-  if (debug_sleep) {
-    await sleep(1000)
-  }
+
+  await debug_sleep(1000)
+
   const arr = await load_resource(item)
-  if (debug_sleep) {
-    await sleep(1000)
-  }
+  await debug_sleep(1000)
   store.setCategoryTotal(category, arr.length)
-  for (const it of arr) {
-    const _ret = await put(category as StoreName, it)
-    store.increaseCategoryCompleted(category)
+  if (bulk) {
+    for (const shard of chunk(arr, chunk_size)) {
+      const _ret = await bulkPut(category as StoreName, shard)
+      store.increaseCategoryCompletedBy(category, shard.length)
+    }
+  } else {
+    for (const it of arr) {
+      const _ret = await put(category as StoreName, it)
+      store.increaseCategoryCompleted(category)
+    }
   }
+
   set_last_update_time(category, new Date(), arr.length)
 
   store.markCategoryDone(category)
-  if (debug_sleep) {
-    await sleep(1000)
-  }
+  await debug_sleep(1000)
 }
 
 export async function update_one(category: string) {

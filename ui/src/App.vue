@@ -9,6 +9,11 @@ import { get_current_user } from './api/user'
 
 const navItems: MenuItem[] = [
   {
+    label: '主页',
+    route: { name: 'home' },
+    icon: 'pi pi-home',
+  },
+  {
     label: '战甲',
     route: { name: 'warframes' },
   },
@@ -90,7 +95,7 @@ onMounted(async () => {
       <template #item="{ item, props, hasSubmenu }">
         <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
           <a v-ripple :href="href" v-bind="props.action" @click="navigate">
-            <!-- <span :class="item.icon" /> -->
+            <span v-if="item.icon" :class="item.icon" />
             <span>{{ item.label }}</span>
           </a>
         </router-link>
