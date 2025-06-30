@@ -22,6 +22,7 @@ pub(crate) fn user_routes() -> Router<AppState> {
 struct UserResp {
     id: i64,
     username: String,
+    role: String,
 }
 
 impl From<entities::user::Model> for UserResp {
@@ -29,6 +30,7 @@ impl From<entities::user::Model> for UserResp {
         Self {
             id: value.id.into(),
             username: value.username,
+            role: value.role,
         }
     }
 }

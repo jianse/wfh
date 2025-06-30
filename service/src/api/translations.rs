@@ -1,6 +1,7 @@
 use axum::{
     Json, Router,
     extract::{Query, State},
+    middleware::from_fn_with_state,
     routing::{get, post},
 };
 use log::info;
@@ -12,22 +13,24 @@ use crate::api::{BizResponse, BizResult};
 use crate::entities::translation::Model;
 use crate::entities::{prelude::*, translation};
 
-pub(crate) fn translations_routes() -> Router<AppState> {
+pub(crate) fn translations_routes(state: AppState) -> Router<AppState> {
     Router::new()
         .route(
             "/",
             post(add_or_update_translation).delete(delete_translation),
         )
+        .route_layer(from_fn_with_state(state, super::require_admin_role))
         .route("/all", get(all_translations))
 }
 
 #[derive(Debug, Deserialize)]
 struct TranslateItem {
     unique_name: String,
-    translation: String,
+    content: String,
 }
 
 async fn add_or_update_translation(
+    // Extension(cur_user):Extension<CurrentUser>,
     State(state): State<AppState>,
     Json(trans): Json<TranslateItem>,
 ) -> BizResult<BizResponse> {
@@ -39,12 +42,12 @@ async fn add_or_update_translation(
 
     if let Some(t_db) = t_db {
         let mut am: translation::ActiveModel = t_db.into();
-        am.translation = Set(trans.translation);
+        am.content = Set(trans.content);
         am.update(&txn).await?;
     } else {
         let am = translation::ActiveModel {
             unique_name: Set(trans.unique_name),
-            translation: Set(trans.translation),
+            content: Set(trans.content),
         };
         am.insert(&txn).await?;
     }
@@ -67,7 +70,7 @@ async fn delete_translation(
     // Path(unique_name): Path<String>,
     Query(DeleteQuery { unique_name }): Query<DeleteQuery>,
 ) -> BizResult<BizResponse> {
-    info!("deleting {}", unique_name);
+    info!("deleting {unique_name}");
     let _res = Translation::delete_by_id(unique_name)
         .exec(&state.conn)
         .await?;

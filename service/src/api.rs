@@ -1,7 +1,8 @@
-use crate::AppState;
-use axum::Json;
+use crate::{AppState, entities};
+use axum::extract::State;
 use axum::middleware::{Next, from_fn};
 use axum::response::IntoResponse;
+use axum::{Extension, Json};
 use axum::{
     Router,
     extract::Request,
@@ -12,11 +13,11 @@ use axum::{
 use jsonwebtoken::{Algorithm, DecodingKey, Validation, decode};
 use once_cell::sync::Lazy;
 use regex::RegexSet;
-use sea_orm::DbErr;
+use sea_orm::{DbErr, EntityTrait};
 use serde::Serialize;
 use serde_json::json;
 use thiserror::Error;
-use tracing::info;
+use tracing::{debug, info};
 
 mod token;
 mod translations;
@@ -25,10 +26,10 @@ mod user;
 use settings::PwdHasherError;
 use token::create_token;
 
-pub(crate) fn api_routes() -> Router<AppState> {
+pub(crate) fn api_routes(state: AppState) -> Router<AppState> {
     Router::new()
         .nest("/user", user::user_routes())
-        .nest("/translations", translations::translations_routes())
+        .nest("/translations", translations::translations_routes(state))
         .layer(from_fn(auth_layer))
         .route("/token", post(create_token))
         .fallback(async || StatusCode::NOT_FOUND)
@@ -190,6 +191,9 @@ pub enum BizError {
 
     #[error("username or password error.")]
     InvalidPassword,
+
+    #[error("permission deny")]
+    Permission,
 }
 
 impl IntoResponse for BizError {
@@ -207,3 +211,20 @@ impl IntoResponse for BizError {
 }
 
 pub type BizResult<T> = Result<T, BizError>;
+
+async fn require_admin_role(
+    Extension(cur_user): Extension<CurrentUser>,
+    State(state): State<AppState>,
+    req: Request,
+    next: Next,
+) -> BizResult<Response> {
+    debug!("role layer");
+    let u = entities::user::Entity::find_by_id(cur_user.id)
+        .one(&state.conn)
+        .await?;
+    let user = u.ok_or(BizError::NoSuchUserId(cur_user.id))?;
+    if user.role != "admin" {
+        return Err(BizError::Permission);
+    }
+    Ok(next.run(req).await)
+}

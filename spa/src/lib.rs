@@ -1,7 +1,6 @@
 use axum::Router;
 use axum::http::StatusCode;
 use axum::response::IntoResponse;
-use settings;
 use settings::UiSettings;
 use tower_http::services::{ServeDir, ServeFile};
 

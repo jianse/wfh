@@ -9,7 +9,7 @@ use rand::distr::Alphanumeric;
 use rand::{Rng, rng};
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
-use tracing::info;
+use tracing::{error, info};
 
 #[derive(Deserialize, Serialize, Debug, Default, Clone)]
 #[serde(default)]
@@ -23,6 +23,7 @@ pub struct Settings {
     /// auth settings
     pub auth: AuthenticateSettings,
 
+    /// ui settings
     pub ui: UiSettings,
 }
 
@@ -43,15 +44,38 @@ pub enum UiSettings {
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct ServerSettings {
-    pub addr: String,
+    /// server host default is `localhost`
+    pub host: String,
+    /// server port default is `80`
     pub port: u16,
+    /// settings about tls default is `None`
+    /// witch mean do not use tls
+    pub tls: Option<TlsSettings>,
+}
+#[derive(Deserialize, Serialize, Debug, Clone)]
+pub struct TlsSettings {
+    #[serde(default = "default_tls_port")]
+    pub port: u16,
+    pub cert: PathBuf,
+    pub key: PathBuf,
+    #[serde(default = "default_redirect_to_https")]
+    pub redirect_to_https: bool,
+}
+
+fn default_tls_port() -> u16 {
+    443
+}
+
+fn default_redirect_to_https() -> bool {
+    false
 }
 
 impl Default for ServerSettings {
     fn default() -> Self {
         Self {
-            addr: "localhost".to_owned(),
-            port: 3000,
+            host: "localhost".to_owned(),
+            port: 80,
+            tls: None,
         }
     }
 }
@@ -144,7 +168,7 @@ pub enum PwdHasher {
 
 #[derive(Debug, Serialize, Deserialize, Clone, Copy)]
 pub struct BcryptOptions {
-    cost: u32,
+    pub cost: u32,
 }
 impl Default for BcryptOptions {
     fn default() -> Self {
@@ -244,6 +268,9 @@ pub enum PwdHasherError {
 
     #[error(transparent)]
     Argon2Verify(argon2::password_hash::Error),
+
+    #[error("unknown hash format")]
+    UnknownHashFormat,
 }
 
 impl PwdHasher {
@@ -285,15 +312,20 @@ impl PwdHasher {
     }
 
     pub fn verify<P: AsRef<[u8]>>(&self, password: P, hash: &str) -> Result<bool, PwdHasherError> {
-        match self {
-            PwdHasher::Bcrypt { .. } => {
+        // hash.starts_with("pat")
+        match hash {
+            hash if hash.starts_with("$2b") => {
                 Ok(bcrypt::verify(password, hash).map_err(PwdHasherError::BcryptVerify)?)
             }
-            PwdHasher::Argon2(..) => {
+            hash if hash.starts_with("$argon2") => {
                 let parsed_hash = PasswordHash::new(hash).map_err(PwdHasherError::Argon2Verify)?;
                 Ok(Argon2::default()
                     .verify_password(password.as_ref(), &parsed_hash)
                     .is_ok())
+            }
+            hash => {
+                error!("unknown pwd hash format! \"{hash}\"");
+                Err(PwdHasherError::UnknownHashFormat)
             }
         }
     }

@@ -3,19 +3,28 @@ mod api;
 mod entities;
 pub mod error;
 mod migrator;
+pub mod tls;
 
+use crate::tls::TlsListener;
+use axum::response::Redirect;
+use axum::serve::Listener;
 use axum::{Router, http::StatusCode, routing::post};
 use error::Result;
+use http::Uri;
+use http::uri::{Authority, Scheme};
 use migrator::Migrator;
 use sea_orm::{ConnectOptions, Database, DatabaseConnection};
 use sea_orm_migration::MigratorTrait;
-use tokio::{
-    signal,
-    sync::mpsc::{self, Receiver},
-};
+use settings::TlsSettings;
+use std::sync::Arc;
+use tokio::net::TcpListener;
+use tokio::signal;
+use tokio::sync::broadcast::{self, Receiver, Sender};
+use tokio_rustls::TlsAcceptor;
+use tracing::info;
 
 #[derive(Clone)]
-struct AppState {
+struct AppStateRaw {
     conn: DatabaseConnection,
 }
 
@@ -44,6 +53,8 @@ async fn shutdown_signal(mut rx: Receiver<()>) {
     }
 }
 
+pub(crate) type AppState = Arc<AppStateRaw>;
+
 pub async fn serve() -> Result<()> {
     init_logger(0);
     let settings = settings::get();
@@ -55,34 +66,131 @@ pub async fn serve() -> Result<()> {
 
     Migrator::up(&conn, None).await?;
 
-    let state = AppState { conn };
+    let state = Arc::new(AppStateRaw { conn });
+    let (tx, rx) = broadcast::channel::<()>(10);
+    let rx2 = tx.subscribe();
 
-    let (tx, rx) = mpsc::channel::<()>(1);
+    tokio::spawn(start_ctl_endpoint(tx.clone(), rx2));
 
-    let app = spa::spa(
-        Router::new()
-            .route(
-                "/shutdown",
-                post(|| async move {
-                    let _ = tx.send(()).await;
-                    (StatusCode::OK, "shuting down")
-                }),
-            )
-            .nest("/api", api::api_routes())
-            .with_state(state),
-    );
+    match &settings.server.tls {
+        None => {
+            let listener =
+                TcpListener::bind((settings.server.host.to_owned(), settings.server.port)).await?;
+            info!("HTTP server listening on {}", listener.local_addr()?);
+            // let rx3
+            serve_app(listener, state.clone(), rx).await
+        }
 
-    let listener =
-        tokio::net::TcpListener::bind((settings.server.addr.to_owned(), settings.server.port))
-            .await?;
-    tracing::info!("listening on {}", listener.local_addr()?);
+        Some(tls_opt) => {
+            // setup http server
+            let listener =
+                TcpListener::bind((settings.server.host.to_owned(), settings.server.port)).await?;
+            info!("HTTP server listening on {}", listener.local_addr()?);
+
+            // setup https server
+            let rustls_config = tls::rustls_server_config(&tls_opt.key, &tls_opt.cert);
+            let tls_acceptor = TlsAcceptor::from(rustls_config);
+            let bind = (settings.server.host.to_owned(), tls_opt.port);
+            let tcp_listener = TcpListener::bind(bind).await.unwrap();
+            info!("HTTPS server listening on {}.", tcp_listener.local_addr()?);
+            let tls_listener = TlsListener::new(tls_acceptor, tcp_listener);
+
+            let rx3 = tx.subscribe();
+            // await on both
+            tokio::try_join!(
+                serve_app_or_redirect(tls_opt, listener, state.clone(), rx3),
+                serve_app(tls_listener, state.clone(), rx),
+            )?;
+            Ok(())
+        }
+    }
+}
+
+async fn start_ctl_endpoint(tx: Sender<()>, rx: Receiver<()>) -> Result<()> {
+    let listener = TcpListener::bind(("localhost", 54321)).await?;
+    let app = control_router(tx);
     axum::serve(listener, app)
         .with_graceful_shutdown(shutdown_signal(rx))
         .await?;
     Ok(())
 }
 
-fn init_logger(level: u8) {
+async fn serve_app_or_redirect<L>(
+    opt: &TlsSettings,
+    listener: L,
+    state: Arc<AppStateRaw>,
+    rx: Receiver<()>,
+) -> Result<()>
+where
+    L: Listener,
+    L::Addr: std::fmt::Display + std::fmt::Debug,
+{
+    let app = if opt.redirect_to_https {
+        info!("redirect http to https is enabled");
+        let host = settings::get().server.host.to_owned();
+        redirect_to_https_router(host, opt.port)
+    } else {
+        app_router(state)
+    };
+
+    // let listener =
+    //     TcpListener::bind((settings.server.host.to_owned(), settings.server.port)).await?;
+    // info!("HTTP server listening on {}", listener.local_addr()?);
+    axum::serve(listener, app)
+        .with_graceful_shutdown(shutdown_signal(rx))
+        .await?;
+    Ok(())
+}
+
+fn app_router(state: AppState) -> Router {
+    spa::spa(
+        Router::new()
+            .nest("/api", api::api_routes(state.clone()))
+            .with_state(state),
+    )
+}
+
+#[allow(unused)]
+fn control_router(tx: Sender<()>) -> Router {
+    Router::new().route(
+        "/shutdown",
+        post(|| async move {
+            let _ = tx.send(()).unwrap();
+            (StatusCode::OK, "shuting down")
+        }),
+    )
+}
+
+fn redirect_to_https_router(host: String, port: u16) -> Router {
+    let a = Authority::from_maybe_shared(format!("{host}:{port}")).unwrap();
+    Router::new().fallback(async move |uri: Uri| {
+        let mut parts = uri.into_parts();
+        parts.scheme = Some(Scheme::HTTPS);
+        parts.authority = Some(a);
+        let r_url = Uri::from_parts(parts).unwrap();
+        Redirect::temporary(r_url.to_string().as_str())
+    })
+}
+
+async fn serve_app<L>(listener: L, state: AppState, rx: Receiver<()>) -> Result<()>
+where
+    L: Listener,
+    L::Addr: std::fmt::Display + std::fmt::Debug,
+{
+    // let (tx, rx) = mpsc::channel::<()>(1);
+
+    let app = app_router(state);
+
+    // let listener =
+    //     TcpListener::bind((settings.server.host.to_owned(), settings.server.port)).await?;
+    // info!("HTTP server listening on {}", listener.local_addr()?);
+    axum::serve(listener, app)
+        .with_graceful_shutdown(shutdown_signal(rx))
+        .await?;
+    Ok(())
+}
+
+pub fn init_logger(level: u8) {
     let f = match level {
         0 => "info".into(),
         1 => "debug".into(),
@@ -101,52 +209,4 @@ fn init_logger(level: u8) {
         .with(filter)
         .with(fmt)
         .try_init();
-}
-
-#[cfg(test)]
-mod test {
-    use argon2::{
-        Argon2, PasswordHash, PasswordHasher, PasswordVerifier,
-        password_hash::{SaltString, rand_core::OsRng},
-    };
-    // use rand::rngs::OsRng;
-
-    #[test]
-    fn test_bcrypt_time() {
-        let now = std::time::Instant::now();
-        let r = bcrypt::verify(
-            &"UJU2g1sqL7QcflwEGE",
-            &"$2b$10$LKo4l6G9yhXa6/kINbN9zO6JTaMDFs8dKe632w6xZN2WqmMrR.DoK",
-        );
-        let _ = dbg!(r);
-        println!("{}", now.elapsed().as_millis())
-    }
-
-    #[test]
-    fn test_argon2_hash() -> eyre::Result<()> {
-        let password = b"UJU2g1sqL7QcflwEGE"; // Bad password; don't actually use!
-        let salt = SaltString::generate(&mut OsRng);
-
-        // Argon2 with default params (Argon2id v19)
-        let argon2 = Argon2::default();
-
-        // Hash password to PHC string ($argon2id$v=19$...)
-        let password_hash = argon2.hash_password(password, &salt)?.to_string();
-        println!("{}", password_hash);
-
-        let now = std::time::Instant::now();
-        // Verify password against PHC string.
-        //
-        // NOTE: hash params from `parsed_hash` are used instead of what is configured in the
-        // `Argon2` instance.
-        let parsed_hash = PasswordHash::new(&password_hash)?;
-        assert!(
-            Argon2::default()
-                .verify_password(password, &parsed_hash)
-                .is_ok()
-        );
-        println!("{}", now.elapsed().as_millis());
-
-        Ok(())
-    }
 }
