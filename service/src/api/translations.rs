@@ -5,13 +5,13 @@ use axum::{
     routing::{get, post},
 };
 use log::info;
-use sea_orm::{ActiveModelTrait, ActiveValue::Set, EntityTrait, TransactionTrait};
+use sea_orm::{ActiveModelTrait, ActiveValue::Set, EntityTrait, IntoActiveModel, TransactionTrait};
 use serde::Deserialize;
 
-use crate::AppState;
 use crate::api::{BizResponse, BizResult};
+use crate::entities::prelude::*;
 use crate::entities::translation::Model;
-use crate::entities::{prelude::*, translation};
+use crate::{AppState, entities};
 
 pub(crate) fn translations_routes(state: AppState) -> Router<AppState> {
     Router::new()
@@ -23,32 +23,23 @@ pub(crate) fn translations_routes(state: AppState) -> Router<AppState> {
         .route("/all", get(all_translations))
 }
 
-#[derive(Debug, Deserialize)]
-struct TranslateItem {
-    unique_name: String,
-    content: String,
-}
-
 async fn add_or_update_translation(
     // Extension(cur_user):Extension<CurrentUser>,
     State(state): State<AppState>,
-    Json(trans): Json<TranslateItem>,
+    Json(trans): Json<entities::translation::Model>,
 ) -> BizResult<BizResponse> {
     let txn = state.conn.begin().await?;
 
-    let t_db = Translation::find_by_id(&trans.unique_name)
+    let t_db = Translation::find_by_id((trans.unique_name.to_owned(), trans.prop.to_owned()))
         .one(&txn)
         .await?;
 
     if let Some(t_db) = t_db {
-        let mut am: translation::ActiveModel = t_db.into();
+        let mut am = t_db.into_active_model();
         am.content = Set(trans.content);
         am.update(&txn).await?;
     } else {
-        let am = translation::ActiveModel {
-            unique_name: Set(trans.unique_name),
-            content: Set(trans.content),
-        };
+        let am = trans.into_active_model();
         am.insert(&txn).await?;
     }
     txn.commit().await?;
@@ -63,15 +54,16 @@ async fn all_translations(State(state): State<AppState>) -> BizResult<BizRespons
 #[derive(Deserialize)]
 struct DeleteQuery {
     unique_name: String,
+    prop: String,
 }
 
 async fn delete_translation(
     State(state): State<AppState>,
     // Path(unique_name): Path<String>,
-    Query(DeleteQuery { unique_name }): Query<DeleteQuery>,
+    Query(DeleteQuery { unique_name, prop }): Query<DeleteQuery>,
 ) -> BizResult<BizResponse> {
     info!("deleting {unique_name}");
-    let _res = Translation::delete_by_id(unique_name)
+    let _res = Translation::delete_by_id((unique_name, prop))
         .exec(&state.conn)
         .await?;
     Ok(BizResponse::ok())

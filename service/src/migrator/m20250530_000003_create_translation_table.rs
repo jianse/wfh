@@ -16,16 +16,19 @@ impl MigrationTrait for Migration {
                 Table::create()
                     .table(Translation::Table)
                     .col(
-                        ColumnDef::new(Translation::UniqueName)
-                            .text()
-                            .not_null()
-                            .primary_key(),
+                        ColumnDef::new(Translation::UniqueName).text().not_null(), // .primary_key(),
                     )
                     .col(
-                        ColumnDef::new(Translation::Content)
-                            .text()
-                            .not_null()
-                            .unique_key(),
+                        ColumnDef::new(Translation::Prop)
+                            .char()
+                            .char_len(32)
+                            .not_null(), // .primary_key(),
+                    )
+                    .col(ColumnDef::new(Translation::Content).text().not_null())
+                    .primary_key(
+                        sea_query::Index::create()
+                            .col(Translation::UniqueName)
+                            .col(Translation::Prop),
                     )
                     .to_owned(),
             )
@@ -43,5 +46,6 @@ impl MigrationTrait for Migration {
 pub enum Translation {
     Table,
     UniqueName,
+    Prop,
     Content,
 }
