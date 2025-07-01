@@ -32,6 +32,7 @@ interface Index {
 export interface Warframes {
   uniqueName: string
   name: string
+  description: string
 }
 export interface Relics {
   uniqueName: string

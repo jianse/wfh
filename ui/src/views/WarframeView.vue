@@ -1,24 +1,33 @@
 <script setup lang="ts">
 import { useResourcesStore } from '@/stores/resources'
 import { imageUrl } from '@/util/common'
-// import toast from 'primevue/toast'
 import { computed, ref } from 'vue'
 import { useToast } from 'primevue/usetoast'
-type Item = {
+import { useUserStore } from '@/stores/user'
+import { storeToRefs } from 'pinia'
+import { cloneDeep } from 'lodash'
+import { save_translation } from '@/api/translations'
+import { useTransStore } from '@/stores/translations'
+
+
+type WarframeItem = {
   uniqueName: string
-  name?: string
+  name: string
+  description: string
 }
 
 const resStore = useResourcesStore()
 
 const items = computed(() => {
-  return resStore.warframes.map((it: Item) => {
+  return resStore.warframes.map((it: WarframeItem) => {
     const url = imageUrl(it.uniqueName, resStore.manifest)
     return { ...it, imgUrl: url }
   })
 })
 
 const toast = useToast()
+
+const { isAdmin } = storeToRefs(useUserStore())
 
 const actions = ref([
   {
@@ -54,54 +63,89 @@ const actions = ref([
     },
   },
 ])
+
+const editDialogVisible = ref(false)
+const dialogData = ref<WarframeItem>({
+  uniqueName: '',
+  name: '',
+  description: '',
+})
+
+const nameTrans = ref('')
+const descriptionTrans = ref('')
+
+function openEditDialog(item: WarframeItem) {
+  dialogData.value = cloneDeep(item)
+  nameTrans.value = wf_t(item.uniqueName, 'name') || ''
+  descriptionTrans.value = wf_t(item.uniqueName, 'description') || ''
+  editDialogVisible.value = true
+}
+
+const { wf_t, write_back_trans } = useTransStore()
+
+async function saveTrans(unique_name: string, prop: string, content: string) {
+  const it = {
+    unique_name,
+    prop,
+    content
+  }
+  await save_translation(it)
+  write_back_trans(it)
+}
 </script>
 
 <template>
-  <div class="flex gap-2 flex-wrap">
-    <div class="card" v-for="item in items" :key="item.uniqueName">
-      <h5>{{ item.name }}</h5>
-      <p>{{ item.uniqueName }}</p>
-      <div class="img-bg">
-        <img :src="item.imgUrl" />
-      </div>
-    </div>
-    <PvSpeedDial
-      pt:pcButton:root:class="size-15"
-      :model="actions"
-      :radius="120"
-      type="quarter-circle"
-      direction="up-left"
-      :style="{ position: 'absolute', right: '30px', bottom: '30px' }"
-    />
+  <div class="flex gap-2 flex-wrap p-2">
+    <pv-card v-for="item in items" :key="item.uniqueName" class="w-72">
+      <template #header>
+        <div class="relative">
+          <pv-image :alt="wf_t(item.uniqueName, 'name') || item.name" :src="item.imgUrl" imageClass="w-72" />
+          <pv-button v-if="isAdmin" class="absolute top-2 right-2" size="small" rounded variant="outlined"
+            icon="pi pi-pencil" @click="openEditDialog(item)"></pv-button>
+        </div>
+      </template>
+      <template #title>{{ wf_t(item.uniqueName, 'name') || item.name }}</template>
+      <template #content>
+        <div class="max-h-24 overflow-auto">
+          {{ wf_t(item.uniqueName,'description')|| item.description }}
+        </div>
+      </template>
+    </pv-card>
+
+    <PvSpeedDial pt:pcButton:root:class="size-15" :model="actions" :radius="120" type="quarter-circle"
+      direction="up-left" :style="{ position: 'absolute', right: '30px', bottom: '30px' }" />
   </div>
+  <pv-dialog v-model:visible="editDialogVisible" modal :header="`修改[${dialogData.name}]`" class="min-w-lg w-lg">
+    <div v-show="false" class="overflow-auto h-120 bg-stone-100 p-3 mb-3">
+      <code>
+      <pre class="font-[comic_mono]">{{ JSON.stringify(dialogData, null, 2) }}</pre>
+    </code>
+    </div>
+
+    <pv-fieldset legend="名称">
+      <div class="mb-2">原文: {{ dialogData.name }}</div>
+      <div class="mb-2">
+        <label>译文: </label><pv-input-text type="text" size="small" v-model="nameTrans"></pv-input-text>
+      </div>
+      <div class="flex flex-row gap-2">
+        <pv-button label="保存" size="small" @click="saveTrans(dialogData.uniqueName, 'name', nameTrans)"></pv-button>
+        <pv-button label="清除" size="small"></pv-button>
+      </div>
+    </pv-fieldset>
+
+    <pv-fieldset legend="描述">
+      <div class="mb-2">原文: {{ dialogData.description }}</div>
+      <div class="mb-2">
+        <label>译文: </label><pv-textarea rows="3" size="small" v-model="descriptionTrans"></pv-textarea>
+      </div>
+      <div class="flex flex-row gap-2">
+        <pv-button label="保存" size="small" @click="saveTrans(dialogData.uniqueName, 'description', descriptionTrans)"></pv-button>
+        <pv-button label="清除" size="small"></pv-button>
+      </div>
+    </pv-fieldset>
+
+    <div class="flex justify-end gap-2 mt-2">
+      <pv-button type="button" label="关闭" @click="editDialogVisible = false"></pv-button>
+    </div>
+  </pv-dialog>
 </template>
-
-<style scoped>
-.card {
-  width: 500px;
-  /* height: 200px; */
-  flex: initial;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 8px;
-}
-
-.img-bg {
-  background-color: #aaa;
-}
-
-.sticky-header {
-  position: sticky;
-  /* top: 0; */
-  height: 5rem;
-  background-color: #fff;
-  border-bottom: 1px solid #333;
-}
-
-.card img {
-  object-fit: contain;
-  height: 150px;
-  /* height: fit-content; */
-  /* height: min-content; */
-}
-</style>

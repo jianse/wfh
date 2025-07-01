@@ -1,10 +1,8 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
+import { type CurrentUser } from '@/api/user'
 
-interface UserInfo {
-  id: number
-  username: string
-}
+type UserInfo = CurrentUser
 
 export const useUserStore = defineStore('user', () => {
   const user = ref<UserInfo | undefined>(undefined)
@@ -18,5 +16,6 @@ export const useUserStore = defineStore('user', () => {
   function clearUser() {
     user.value = undefined
   }
-  return { user, isLogin, setUser, clearUser }
+  const isAdmin = computed(() => user.value?.role === 'admin')
+  return { user, isLogin, isAdmin, setUser, clearUser }
 })

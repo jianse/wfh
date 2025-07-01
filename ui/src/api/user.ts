@@ -1,7 +1,8 @@
 import http, { type BizResp } from './index.ts'
-interface CurrentUser {
+export interface CurrentUser {
   id: number
   username: string
+  role: 'normal' | 'admin'
 }
 
 export async function get_current_user() {
