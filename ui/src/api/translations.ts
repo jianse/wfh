@@ -1,9 +1,14 @@
 import http, { type BizResp } from './index.ts'
 
 export interface TranslationTerm {
-  unique_name: string,
+  unique_name: string
   prop: string
   content: string
+}
+
+export interface TranslationId {
+  unique_name: string
+  prop: string
 }
 
 export async function get_all_translations(): Promise<BizResp<TranslationTerm[]>> {
@@ -11,11 +16,16 @@ export async function get_all_translations(): Promise<BizResp<TranslationTerm[]>
   return data
 }
 
-
 export async function save_translation(translation: TranslationTerm) {
   await http.post('/translations', translation, {
     headers: {
-      'Content-Type': 'application/json'
-    }
+      'Content-Type': 'application/json',
+    },
+  })
+}
+
+export async function delete_translation(translation_id: TranslationId) {
+  await http.delete('/translations', {
+    params: translation_id,
   })
 }
