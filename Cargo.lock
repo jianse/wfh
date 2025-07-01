@@ -3008,6 +3008,7 @@ dependencies = [
  "thiserror",
  "tokio",
  "tokio-rustls",
+ "tower-http",
  "tracing",
  "tracing-subscriber",
 ]

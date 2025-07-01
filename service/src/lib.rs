@@ -21,7 +21,9 @@ use tokio::net::TcpListener;
 use tokio::signal;
 use tokio::sync::broadcast::{self, Receiver, Sender};
 use tokio_rustls::TlsAcceptor;
+use tower_http::trace::TraceLayer;
 use tracing::info;
+use tracing::level_filters::LevelFilter;
 
 #[derive(Clone)]
 struct AppStateRaw {
@@ -56,8 +58,8 @@ async fn shutdown_signal(mut rx: Receiver<()>) {
 pub(crate) type AppState = Arc<AppStateRaw>;
 
 pub async fn serve() -> Result<()> {
-    init_logger(0);
     let settings = settings::get();
+    init_logger();
     dbg!(settings);
     let mut opt = ConnectOptions::new(&settings.db.database_url);
     opt.sqlx_logging_level(log::LevelFilter::Debug);
@@ -148,6 +150,7 @@ fn app_router(state: AppState) -> Router {
             .nest("/api", api::api_routes(state.clone()))
             .with_state(state),
     )
+    .layer(TraceLayer::new_for_http())
 }
 
 #[allow(unused)]
@@ -190,12 +193,29 @@ where
     Ok(())
 }
 
-pub fn init_logger(level: u8) {
-    let f = match level {
-        0 => "info".into(),
-        1 => "debug".into(),
-        _ => "trace".into(),
-    };
+pub fn init_logger() {
+    let dirs = settings::get()
+        .log
+        .level
+        .iter()
+        .map(|(k, v)| {
+            if k == "root" {
+                v.to_string()
+            } else {
+                let mut s = String::from(k);
+                s.push('=');
+                s.push_str(&v.to_string());
+                k.to_owned()
+            }
+        })
+        .fold("".to_owned(), |mut acc, x| {
+            acc.push(',');
+            acc.push_str(&x);
+            acc
+        });
+    let filter = EnvFilter::builder()
+        .with_default_directive(LevelFilter::INFO.into())
+        .parse_lossy(dirs);
     use tracing_subscriber::{EnvFilter, fmt::time::LocalTime};
     use tracing_subscriber::{fmt, layer::SubscriberExt, util::SubscriberInitExt};
 
@@ -204,7 +224,7 @@ pub fn init_logger(level: u8) {
         // .with_file(true)
         .with_line_number(true)
         .with_timer(LocalTime::rfc_3339());
-    let filter = EnvFilter::try_from_default_env().unwrap_or(f);
+    // let filter = EnvFilter::try_from_default_env().unwrap_or(f);
     let _ = tracing_subscriber::registry()
         .with(filter)
         .with(fmt)

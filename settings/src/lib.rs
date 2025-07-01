@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+use std::fmt::Display;
 use std::path::PathBuf;
 use std::sync::OnceLock;
 
@@ -25,6 +27,40 @@ pub struct Settings {
 
     /// ui settings
     pub ui: UiSettings,
+
+    /// log settings
+    pub log: LogSettings,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default, Clone)]
+pub struct LogSettings {
+    pub level: HashMap<String, LogLevel>,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default, Clone)]
+pub enum LogLevel {
+    #[serde(alias = "trace")]
+    Trace,
+    #[serde(alias = "debug")]
+    Debug,
+    #[default]
+    #[serde(alias = "info")]
+    Info,
+    #[serde(alias = "warn")]
+    Warn,
+    #[serde(alias = "error")]
+    Error,
+}
+impl Display for LogLevel {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            LogLevel::Trace => f.write_str("trace"),
+            LogLevel::Debug => f.write_str("debug"),
+            LogLevel::Info => f.write_str("info"),
+            LogLevel::Warn => f.write_str("warn"),
+            LogLevel::Error => f.write_str("error"),
+        }
+    }
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, Clone)]
@@ -131,7 +167,7 @@ fn init_settings() -> Result<Settings, ConfigError> {
         .add_source(cd)
         .add_source(config::File::with_name("config.toml").required(false))
         .build()?;
-    let result = l_settings.try_deserialize::<Settings>()?;
+    let mut result = l_settings.try_deserialize::<Settings>()?;
 
     if result.auth.jwt.secret_key == defaults.auth.jwt.secret_key {
         info!(
@@ -141,12 +177,13 @@ fn init_settings() -> Result<Settings, ConfigError> {
     }
 
     result.auth.pwd_hasher.try_init().unwrap();
-    // #[cfg(not(feature = "embed"))]
-    // if matches!(result.ui, UiSettings::Embed) {
-    //     warn!(
-    //         "this build is build without the `ui` feature enabled. \"embed\" is just the same as \"none\""
-    //     );
-    // }
+
+    result
+        .log
+        .level
+        .entry("root".to_owned())
+        .or_insert(LogLevel::Info);
+
     Ok(result)
 }
 

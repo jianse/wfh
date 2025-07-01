@@ -10,7 +10,7 @@ use tokio_rustls::rustls::crypto::ring::default_provider;
 #[tokio::test]
 async fn serve() -> Result<()> {
     let p = default_provider().install_default();
-    init_logger(1);
+    init_logger();
     let app = Router::new().fallback(async || "hello world!");
     let addr = "0.0.0.0:8080".parse()?;
     let config = RustlsConfig::from_pem_file(
