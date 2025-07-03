@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { useObservable } from '@vueuse/rxjs'
 import { liveQuery } from 'dexie'
-import { db, type Commons, type Manifest, type Warframes } from '@/util/localDB'
+import { db, type Manifest, type Warframes } from '@/util/localDB'
 import type { Observable } from 'rxjs'
 
 export const useResourcesStore = defineStore('resources', () => {

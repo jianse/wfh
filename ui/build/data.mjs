@@ -2,8 +2,8 @@ import fs from 'node:fs'
 import lzma from 'lzma'
 import { createHash } from 'node:crypto'
 
-const output_dir = './public/data2'
-const cache_dir = './cache'
+const output_dir = 'public/data'
+const cache_dir = 'cache'
 // Check if the output directory exists, if not create it
 if (!fs.existsSync(output_dir)) {
   fs.mkdirSync(output_dir, { recursive: true })
@@ -86,6 +86,26 @@ console.log(endpoints)
 
 let new_endpoints = []
 
+/**
+ * decode origin base64 hash then encode it into base64url
+ */
+function rehash(hash) {
+  return Buffer.from(hash, 'base64').toString('base64url')
+}
+
+/**
+ *
+ * @param {string} name
+ */
+function rename_item(name) {
+  const n = name.replace(/\.json(.*)/, '.json')
+  const hash = name.replace(/(.*json!00_)/, '')
+  const new_hash = rehash(hash)
+  // console.log('rename', n, hash, new_hash)
+
+  return `${n}!00_${new_hash}`
+}
+
 for (const it of endpoints) {
   const url = `https://content.warframe.com/PublicExport/Manifest/${it}`
   const cont = await get_or(cache, url, async () => {
@@ -116,14 +136,15 @@ for (const it of endpoints) {
 
     const arcane_text = JSON.stringify({ ExportArcane: arcaneData })
     const arcane_md5 = md5_hash(arcane_text)
-    console.log(arcane_md5)
+    // console.log(arcane_md5)
     const arcane_name = `ExportArcane_zh.json!00_${arcane_md5.replace(/=/g, '')}`
     fs.writeFileSync(`${output_dir}/${arcane_name}`, arcane_text)
     new_endpoints.push(arcane_name)
   } else {
     // save others
-    fs.writeFileSync(`${output_dir}/${it}`, cont)
-    new_endpoints.push(it)
+    const new_name = rename_item(it)
+    fs.writeFileSync(`${output_dir}/${new_name}`, cont)
+    new_endpoints.push(new_name)
   }
 }
 

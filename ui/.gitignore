@@ -34,3 +34,4 @@ cache
 
 # rollup-plugin-visualizer
 stats.html
+/build/oss-config.mjs

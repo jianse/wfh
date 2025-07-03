@@ -15,13 +15,13 @@ import { chunk } from 'lodash'
  * @returns resource index
  */
 export async function load_index() {
-  const resp = await fetch('/data2/index.txt')
+  const resp = await fetch('/data/index.txt')
   const index = await resp.text()
   return index
 }
 
 async function load_resource(key: string): Promise<Array<object>> {
-  const resp = await fetch(`/data2/${key}`)
+  const resp = await fetch(`/data/${key}`)
   const root = await resp.json()
   const category = get_category(key)
   if (category == 'Manifest') {
