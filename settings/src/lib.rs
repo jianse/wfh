@@ -30,6 +30,16 @@ pub struct Settings {
 
     /// log settings
     pub log: LogSettings,
+
+    /// cors settings
+    pub cors: Option<CorsSettings>,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default, Clone)]
+pub struct CorsSettings{
+    pub allow_origin: Vec<String>,
+
+    // pub 
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, Clone)]

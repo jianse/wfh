@@ -10,8 +10,8 @@ use axum::response::Redirect;
 use axum::serve::Listener;
 use axum::{Router, http::StatusCode, routing::post};
 use error::Result;
-use http::Uri;
 use http::uri::{Authority, Scheme};
+use http::{HeaderValue, Uri};
 use migrator::Migrator;
 use sea_orm::{ConnectOptions, Database, DatabaseConnection};
 use sea_orm_migration::MigratorTrait;
@@ -21,6 +21,7 @@ use tokio::net::TcpListener;
 use tokio::signal;
 use tokio::sync::broadcast::{self, Receiver, Sender};
 use tokio_rustls::TlsAcceptor;
+use tower_http::cors::CorsLayer;
 use tower_http::trace::TraceLayer;
 use tracing::info;
 use tracing::level_filters::LevelFilter;
@@ -145,12 +146,24 @@ where
 }
 
 fn app_router(state: AppState) -> Router {
-    spa::spa(
+    let app = spa::spa(
         Router::new()
             .nest("/api", api::api_routes(state.clone()))
             .with_state(state),
     )
-    .layer(TraceLayer::new_for_http())
+    .layer(TraceLayer::new_for_http());
+
+    if let Some(cors) = settings::get().cors.clone() {
+        let origins = cors
+            .allow_origin
+            .iter()
+            .map(|s| s.parse::<HeaderValue>().unwrap())
+            .collect::<Vec<HeaderValue>>();
+
+        app.layer(CorsLayer::new().allow_origin(origins))
+    } else {
+        app
+    }
 }
 
 #[allow(unused)]

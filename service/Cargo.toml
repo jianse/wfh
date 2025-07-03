@@ -28,7 +28,7 @@ tokio-rustls = { version = "0.26.2", default-features = false, features = ["ring
 settings = { path = "../settings" }
 spa = { path = "../spa" }
 axum-server = "0.7.2"
-tower-http = { version = "0.6.6", features = ["trace"] }
+tower-http = { version = "0.6.6", features = ["trace", "cors"] }
 
 [dev-dependencies]
 axum-server = { version = "0.7.2", features = ["tls-rustls"] }
