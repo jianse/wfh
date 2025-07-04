@@ -10,6 +10,7 @@ use config::{Config, ConfigError};
 use rand::distr::Alphanumeric;
 use rand::{Rng, rng};
 use serde::{Deserialize, Serialize};
+use serde_with::serde_as;
 use thiserror::Error;
 use tracing::{error, info};
 
@@ -36,10 +37,46 @@ pub struct Settings {
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, Clone)]
-pub struct CorsSettings{
-    pub allow_origin: Vec<String>,
+pub struct CorsSettings {
+    pub allow_origin: Option<AllowOrigin>,
 
-    // pub 
+    // #[serde_as(as = "Option<Vec<serde_with::DisplayFromStr>>")]
+    pub allow_methods: Option<AllowMethods>,
+
+    pub allow_headers: Option<AllowHeaders>,
+
+    pub allow_credentials: Option<bool>,
+}
+
+#[serde_as]
+#[derive(Deserialize, Serialize, Debug, Clone)]
+#[serde(untagged)]
+pub enum AllowHeaders {
+    #[serde(rename = "*")]
+    Any,
+    Exact(#[serde_as(as = "serde_with::DisplayFromStr")] http::HeaderName),
+    List(#[serde_as(as = "Vec<serde_with::DisplayFromStr>")] Vec<http::HeaderName>),
+}
+
+// use serde_with::DeserializeFromStr
+
+#[derive(Deserialize, Serialize, Debug, Clone)]
+#[serde(untagged)]
+pub enum AllowOrigin {
+    #[serde(rename = "*")]
+    Any,
+    Exact(String),
+    List(Vec<String>),
+}
+
+#[serde_as]
+#[derive(Deserialize, Serialize, Debug, Clone)]
+#[serde(untagged)]
+pub enum AllowMethods {
+    #[serde(rename = "*")]
+    Any,
+    Exact(#[serde_as(as = "serde_with::DisplayFromStr")] http::Method),
+    List(#[serde_as(as = "Vec<serde_with::DisplayFromStr>")] Vec<http::Method>),
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, Clone)]

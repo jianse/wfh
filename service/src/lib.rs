@@ -21,7 +21,7 @@ use tokio::net::TcpListener;
 use tokio::signal;
 use tokio::sync::broadcast::{self, Receiver, Sender};
 use tokio_rustls::TlsAcceptor;
-use tower_http::cors::CorsLayer;
+use tower_http::cors::{Any, CorsLayer};
 use tower_http::trace::TraceLayer;
 use tracing::info;
 use tracing::level_filters::LevelFilter;
@@ -136,9 +136,6 @@ where
         app_router(state)
     };
 
-    // let listener =
-    //     TcpListener::bind((settings.server.host.to_owned(), settings.server.port)).await?;
-    // info!("HTTP server listening on {}", listener.local_addr()?);
     axum::serve(listener, app)
         .with_graceful_shutdown(shutdown_signal(rx))
         .await?;
@@ -146,24 +143,58 @@ where
 }
 
 fn app_router(state: AppState) -> Router {
-    let app = spa::spa(
+    let mut app = spa::spa(
         Router::new()
             .nest("/api", api::api_routes(state.clone()))
             .with_state(state),
-    )
-    .layer(TraceLayer::new_for_http());
+    );
 
     if let Some(cors) = settings::get().cors.clone() {
-        let origins = cors
-            .allow_origin
-            .iter()
-            .map(|s| s.parse::<HeaderValue>().unwrap())
-            .collect::<Vec<HeaderValue>>();
+        let mut cors_layer = CorsLayer::new();
+        if let Some(origins) = cors.allow_origin {
+            cors_layer = match origins {
+                settings::AllowOrigin::Any => cors_layer.allow_origin(Any),
+                settings::AllowOrigin::Exact(origin) => {
+                    cors_layer.allow_origin(origin.parse::<HeaderValue>().unwrap())
+                }
+                settings::AllowOrigin::List(origins) => {
+                    let origins = origins
+                        .iter()
+                        .map(|s| s.parse::<HeaderValue>().unwrap())
+                        .collect::<Vec<HeaderValue>>();
+                    cors_layer.allow_origin(origins)
+                }
+            };
+        };
 
-        app.layer(CorsLayer::new().allow_origin(origins))
-    } else {
-        app
-    }
+        if let Some(a) = cors.allow_credentials {
+            cors_layer = cors_layer.allow_credentials(a)
+        };
+
+        if let Some(headers) = cors.allow_headers {
+            cors_layer = match headers {
+                settings::AllowHeaders::Any => cors_layer.allow_headers(Any),
+                settings::AllowHeaders::Exact(header_name) => {
+                    cors_layer.allow_headers([header_name])
+                }
+                settings::AllowHeaders::List(header_names) => {
+                    cors_layer.allow_headers(header_names)
+                }
+            }
+        };
+
+        if let Some(methods) = cors.allow_methods {
+            cors_layer = match methods {
+                settings::AllowMethods::Any => cors_layer.allow_methods(Any),
+                settings::AllowMethods::Exact(method) => cors_layer.allow_methods(method),
+                settings::AllowMethods::List(methods) => cors_layer.allow_methods(methods),
+            }
+        };
+
+        app = app.layer(cors_layer);
+    };
+
+    app.layer(TraceLayer::new_for_http())
 }
 
 #[allow(unused)]
@@ -193,13 +224,8 @@ where
     L: Listener,
     L::Addr: std::fmt::Display + std::fmt::Debug,
 {
-    // let (tx, rx) = mpsc::channel::<()>(1);
-
     let app = app_router(state);
 
-    // let listener =
-    //     TcpListener::bind((settings.server.host.to_owned(), settings.server.port)).await?;
-    // info!("HTTP server listening on {}", listener.local_addr()?);
     axum::serve(listener, app)
         .with_graceful_shutdown(shutdown_signal(rx))
         .await?;
