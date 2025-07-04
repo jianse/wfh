@@ -29,6 +29,7 @@ settings = { path = "../settings" }
 spa = { path = "../spa" }
 axum-server = "0.7.2"
 tower-http = { version = "0.6.6", features = ["trace", "cors"] }
+tracing-appender = "0.2.3"
 
 [dev-dependencies]
 axum-server = { version = "0.7.2", features = ["tls-rustls"] }

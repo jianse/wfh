@@ -1,3 +1,5 @@
+mod defaults;
+
 use std::collections::HashMap;
 use std::fmt::Display;
 use std::path::PathBuf;
@@ -40,7 +42,6 @@ pub struct Settings {
 pub struct CorsSettings {
     pub allow_origin: Option<AllowOrigin>,
 
-    // #[serde_as(as = "Option<Vec<serde_with::DisplayFromStr>>")]
     pub allow_methods: Option<AllowMethods>,
 
     pub allow_headers: Option<AllowHeaders>,
@@ -57,8 +58,6 @@ pub enum AllowHeaders {
     Exact(#[serde_as(as = "serde_with::DisplayFromStr")] http::HeaderName),
     List(#[serde_as(as = "Vec<serde_with::DisplayFromStr>")] Vec<http::HeaderName>),
 }
-
-// use serde_with::DeserializeFromStr
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 #[serde(untagged)]
@@ -82,6 +81,38 @@ pub enum AllowMethods {
 #[derive(Deserialize, Serialize, Debug, Default, Clone)]
 pub struct LogSettings {
     pub level: HashMap<String, LogLevel>,
+
+    pub file: Option<LogFileSettings>,
+}
+#[derive(Deserialize, Serialize, Debug, Default, Clone)]
+pub struct LogFileSettings {
+    #[serde(default = "default_log_file_root")]
+    pub root: PathBuf,
+
+    pub prefix: String,
+
+    #[serde(default = "defaults::bool::_true")]
+    pub non_blocking: bool,
+
+    #[serde(default = "Default::default")]
+    pub rotate: LogRotate,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default, Clone)]
+pub enum LogRotate {
+    #[serde(alias = "never")]
+    Never,
+
+    #[default]
+    #[serde(alias = "daily")]
+    Daily,
+
+    #[serde(alias = "hourly")]
+    Hourly,
+}
+
+fn default_log_file_root() -> PathBuf {
+    ".".into()
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, Clone)]
@@ -141,16 +172,12 @@ pub struct TlsSettings {
     pub port: u16,
     pub cert: PathBuf,
     pub key: PathBuf,
-    #[serde(default = "default_redirect_to_https")]
+    #[serde(default = "defaults::bool::_false")]
     pub redirect_to_https: bool,
 }
 
 fn default_tls_port() -> u16 {
     443
-}
-
-fn default_redirect_to_https() -> bool {
-    false
 }
 
 impl Default for ServerSettings {
