@@ -7,23 +7,44 @@ import { storeToRefs } from 'pinia'
 import { cloneDeep } from 'lodash'
 import { delete_translation, save_translation } from '@/api/translations'
 import { useTransStore } from '@/stores/translations'
-import { useOManifest, useOWarframes } from '@/util/localDB'
+import { useOManifest, useOWarframes, type Warframes } from '@/util/localDB'
 
-type WarframeItem = {
-  uniqueName: string
-  name: string
-  description: string
+interface WarframeItemWithTrans extends Warframes {
+  name_t?: string
+  description_t?: string
+  image_url: string
 }
 
 // const resStore = useResourcesStore()
 const warframes = useOWarframes()
 const manifest = useOManifest()
 
-const items = computed(() => {
-  return warframes.value.map((it: WarframeItem) => {
-    const url = imageUrl(it.uniqueName, manifest.value)
-    return { ...it, imgUrl: url }
-  })
+const items = computed<WarframeItemWithTrans[]>(() => {
+  return warframes.value
+    .map((it) => {
+      const image_url = imageUrl(it.uniqueName, manifest.value)
+      const name_t = wf_t(it.uniqueName, 'name')
+      const description_t = wf_t(it.uniqueName, 'description')
+      return { ...it, image_url, name_t, description_t }
+    })
+    .filter((it: WarframeItemWithTrans) => {
+      if (ignoreCase.value) {
+        const kwLower = kwFilter.value.toLowerCase()
+        return (
+          it.name.toLowerCase().includes(kwLower) ||
+          it.description.toLowerCase().includes(kwLower) ||
+          it.name_t?.toLowerCase().includes(kwLower) ||
+          it.description_t?.toLowerCase().includes(kwLower)
+        )
+      } else {
+        return (
+          it.name.includes(kwFilter.value) ||
+          it.description.includes(kwFilter.value) ||
+          it.name_t?.includes(kwFilter.value) ||
+          it.description_t?.includes(kwFilter.value)
+        )
+      }
+    })
 })
 
 const toast = useToast()
@@ -66,19 +87,20 @@ const actions = ref([
 ])
 
 const editDialogVisible = ref(false)
-const dialogData = ref<WarframeItem>({
-  uniqueName: '',
+const dialogData = ref<Warframes>({
   name: '',
   description: '',
+  uniqueName: '',
+  productCategory: 'SpaceSuits'
 })
 
 const nameTrans = ref('')
 const descriptionTrans = ref('')
 
-function openEditDialog(item: WarframeItem) {
+function openEditDialog(item: WarframeItemWithTrans) {
   dialogData.value = cloneDeep(item)
-  nameTrans.value = wf_t(item.uniqueName, 'name') || ''
-  descriptionTrans.value = wf_t(item.uniqueName, 'description') || ''
+  nameTrans.value = item.name_t || ''
+  descriptionTrans.value = item.description_t || ''
   editDialogVisible.value = true
 }
 
@@ -148,17 +170,32 @@ async function clearTrans(unique_name: string, prop: string) {
     }
   }
 }
+
+const kwFilter = ref('')
+const ignoreCase = ref(true)
 </script>
 
 <template>
+  <div class="c-toolbar w-full sticky top-0 z-10 mt-2 px-2">
+    <div class="bg-stone-200 py-1 px-2 rounded-md flex flex-row gap-3">
+      <div>搜索：<pv-input-text size="small" v-model="kwFilter"></pv-input-text></div>
+      <div class="flex items-center gap-2">
+        <pv-checkbox v-model="ignoreCase" inputId="ignoreCase" binary />
+        <label for="ignoreCase"> 忽略大小写 </label>
+      </div>
+      <div>筛选：<pv-select size="small" /></div>
+    </div>
+  </div>
+
   <div class="flex gap-2 flex-wrap p-2">
     <pv-card v-for="item in items" :key="item.uniqueName" class="w-72">
       <template #header>
         <div class="relative">
           <pv-image
-            :alt="wf_t(item.uniqueName, 'name') || item.name"
-            :src="item.imgUrl"
+            :alt="item.name_t || item.name"
+            :src="item.image_url"
             imageClass="w-72 h-72"
+            loading="lazy"
           />
           <pv-button
             v-if="isAdmin"
@@ -171,10 +208,10 @@ async function clearTrans(unique_name: string, prop: string) {
           ></pv-button>
         </div>
       </template>
-      <template #title>{{ wf_t(item.uniqueName, 'name') || item.name }}</template>
+      <template #title>{{ item.name_t || item.name }}</template>
       <template #content>
         <div class="max-h-24 overflow-auto">
-          {{ wf_t(item.uniqueName, 'description') || item.description }}
+          {{ item.description_t || item.description }}
         </div>
       </template>
     </pv-card>
@@ -183,6 +220,9 @@ async function clearTrans(unique_name: string, prop: string) {
       pt:pcButton:root:class="size-15"
       :model="actions"
       :radius="120"
+      :actionButtonProps="{
+        rounded: true,
+      }"
       type="quarter-circle"
       direction="up-left"
       :style="{ position: 'absolute', right: '30px', bottom: '30px' }"

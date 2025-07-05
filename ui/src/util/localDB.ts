@@ -38,6 +38,7 @@ export interface Warframes {
   uniqueName: string
   name: string
   description: string
+  productCategory: 'SpaceSuits' | 'Suits' | 'MechSuits'
 }
 
 export interface RelicReward {
