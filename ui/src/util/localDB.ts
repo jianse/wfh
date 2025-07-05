@@ -1,4 +1,7 @@
-import Dexie, { type EntityTable } from 'dexie'
+import { useObservable } from '@vueuse/rxjs'
+import Dexie, { liveQuery, type EntityTable } from 'dexie'
+import type { Observable } from 'rxjs'
+import type { StringFormatParams } from 'zod/v4/core'
 
 export type StoreName =
   | 'Warframes'
@@ -8,6 +11,7 @@ export type StoreName =
   | 'Recipes'
   | 'Relics'
   | 'Manifest'
+  | 'Resources'
 export const RESOURCES_INCLUDED: StoreName[] = [
   'Warframes',
   'Weapons',
@@ -16,6 +20,7 @@ export const RESOURCES_INCLUDED: StoreName[] = [
   'Recipes',
   'Relics',
   'Manifest',
+  'Resources',
 ]
 
 interface LastUpdate {
@@ -34,9 +39,32 @@ export interface Warframes {
   name: string
   description: string
 }
+
+export interface RelicReward {
+  // relic reward uniqueName
+  rewardName: string
+  rarity: 'UNCOMMON' | 'COMMON' | 'RARE'
+  tier: number
+  itemCount: number
+}
 export interface Relics {
   uniqueName: string
+  name: string
+  codexSecret: boolean
+  description: string
+  relicRewards: RelicReward[]
 }
+
+export interface Resources {
+  uniqueName: string
+  name: string
+  description: string
+  codexSecret: boolean
+  parentName: string
+  excludeFromCodex: boolean
+  primeSellingPrice?: number
+}
+
 export interface Commons {
   uniqueName: string
 }
@@ -58,6 +86,7 @@ export const db = new Dexie(DB_NAME) as Dexie & {
   Recipes: EntityTable<Commons, 'uniqueName'>
   Relics: EntityTable<Relics, 'uniqueName'>
   Manifest: EntityTable<Manifest, 'uniqueName'>
+  Resources: EntityTable<Resources, 'uniqueName'>
 }
 
 db.version(1).stores({
@@ -70,6 +99,7 @@ db.version(1).stores({
   Recipes: 'uniqueName',
   Relics: 'uniqueName',
   Manifest: 'uniqueName',
+  Resources: 'uniqueName',
 })
 
 export async function current_index() {
@@ -106,3 +136,14 @@ export async function set_last_update_time(
 export async function count_in_db(category: StoreName) {
   return await db[category].count()
 }
+
+export const useOManifest = () =>
+  useObservable(liveQuery(() => db.Manifest.toArray()) as unknown as Observable<Manifest[]>, {
+    initialValue: [],
+  })
+
+export const useOWarframes = () =>
+  useObservable(
+    liveQuery(() => db.Warframes.orderBy('name').toArray()) as unknown as Observable<Warframes[]>,
+    { initialValue: [] },
+  )

@@ -83,6 +83,7 @@ const chunk_size = 1000
 
 // sync one of the resource type
 async function sync_one(item: string, category: StoreName) {
+  console.info('syncing category: ', category)
   const store = useSyncStore()
   store.setInprogress(category)
 

@@ -33,10 +33,10 @@ const navItems: MenuItem[] = [
   //   label: '武器',
   //   route: { name: 'weapons' },
   // },
-  // {
-  //   label: '遗物',
-  //   route: { name: 'relics' },
-  // },
+  {
+    label: '遗物',
+    route: { name: 'relics' },
+  },
   // {
   //   label: '清单',
   //   route: { name: 'manifest' },

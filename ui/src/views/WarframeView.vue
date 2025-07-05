@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useResourcesStore } from '@/stores/resources'
 import { imageUrl } from '@/util/common'
 import { computed, ref } from 'vue'
 import { useToast } from 'primevue/usetoast'
@@ -8,6 +7,7 @@ import { storeToRefs } from 'pinia'
 import { cloneDeep } from 'lodash'
 import { delete_translation, save_translation } from '@/api/translations'
 import { useTransStore } from '@/stores/translations'
+import { useOManifest, useOWarframes } from '@/util/localDB'
 
 type WarframeItem = {
   uniqueName: string
@@ -15,11 +15,13 @@ type WarframeItem = {
   description: string
 }
 
-const resStore = useResourcesStore()
+// const resStore = useResourcesStore()
+const warframes = useOWarframes()
+const manifest = useOManifest()
 
 const items = computed(() => {
-  return resStore.warframes.map((it: WarframeItem) => {
-    const url = imageUrl(it.uniqueName, resStore.manifest)
+  return warframes.value.map((it: WarframeItem) => {
+    const url = imageUrl(it.uniqueName, manifest.value)
     return { ...it, imgUrl: url }
   })
 })
@@ -156,7 +158,7 @@ async function clearTrans(unique_name: string, prop: string) {
           <pv-image
             :alt="wf_t(item.uniqueName, 'name') || item.name"
             :src="item.imgUrl"
-            imageClass="w-72"
+            imageClass="w-72 h-72"
           />
           <pv-button
             v-if="isAdmin"

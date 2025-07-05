@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "run-s data org-build",
+    "build": "run-s data \"org-build {@}\" --",
     "org-build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",
@@ -16,7 +16,7 @@
     "format": "prettier --write src/ build/",
     "data": "node build/data.mjs",
     "upload-only":"node build/oss.mjs",
-    "upload": "run-s build upload-only"
+    "upload": "run-s \"build --mode oss\" upload-only "
   },
   "dependencies": {
     "@primeuix/themes": "^1.2.0",

@@ -6,3 +6,4 @@
 flamegraph.svg
 config.toml
 *.sqlite-journal
+logs
