@@ -1,7 +1,6 @@
 import { useObservable } from '@vueuse/rxjs'
 import Dexie, { liveQuery, type EntityTable } from 'dexie'
 import type { Observable } from 'rxjs'
-import type { StringFormatParams } from 'zod/v4/core'
 
 export type StoreName =
   | 'Warframes'
@@ -39,6 +38,7 @@ export interface Warframes {
   name: string
   description: string
   productCategory: 'SpaceSuits' | 'Suits' | 'MechSuits'
+  textureLocation: string
 }
 
 export interface RelicReward {
@@ -47,13 +47,18 @@ export interface RelicReward {
   rarity: 'UNCOMMON' | 'COMMON' | 'RARE'
   tier: number
   itemCount: number
+  name?: string
+  primeSellingPrice?: number
+  textureLocation?: string
 }
-export interface Relics {
+export interface Relic {
   uniqueName: string
   name: string
   codexSecret: boolean
   description: string
   relicRewards: RelicReward[]
+  tier: string
+  textureLocation: string
 }
 
 export interface Resources {
@@ -85,7 +90,7 @@ export const db = new Dexie(DB_NAME) as Dexie & {
   Upgrades: EntityTable<Commons, 'uniqueName'>
   Arcane: EntityTable<Commons, 'uniqueName'>
   Recipes: EntityTable<Commons, 'uniqueName'>
-  Relics: EntityTable<Relics, 'uniqueName'>
+  Relics: EntityTable<Relic, 'uniqueName'>
   Manifest: EntityTable<Manifest, 'uniqueName'>
   Resources: EntityTable<Resources, 'uniqueName'>
 }
@@ -116,6 +121,10 @@ export async function put(storeName: StoreName, params: object) {
 export async function bulkPut(storeName: StoreName, params: object[]) {
   // @ts-expect-error TODO: params type should be more specific
   return await db[storeName].bulkPut(params)
+}
+
+export async function clear(storeName: StoreName) {
+  return await db[storeName].clear()
 }
 
 export async function save_index(index: string) {

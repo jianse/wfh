@@ -7,6 +7,7 @@ import {
   save_index,
   set_last_update_time,
   type StoreName,
+  clear,
 } from './localDB'
 import { chunk } from 'lodash'
 
@@ -90,6 +91,7 @@ async function sync_one(item: string, category: StoreName) {
   await debug_sleep(1000)
 
   const arr = await load_resource(item)
+  await clear(category)
   await debug_sleep(1000)
   store.setCategoryTotal(category, arr.length)
   if (bulk) {

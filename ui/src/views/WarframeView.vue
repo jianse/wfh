@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { imageUrl } from '@/util/common'
 import { computed, ref } from 'vue'
 import { useToast } from 'primevue/usetoast'
 import { useUserStore } from '@/stores/user'
@@ -7,44 +6,43 @@ import { storeToRefs } from 'pinia'
 import { cloneDeep } from 'lodash'
 import { delete_translation, save_translation } from '@/api/translations'
 import { useTransStore } from '@/stores/translations'
-import { useOManifest, useOWarframes, type Warframes } from '@/util/localDB'
+import { useOWarframes, type Warframes } from '@/util/localDB'
 
 interface WarframeItemWithTrans extends Warframes {
   name_t?: string
   description_t?: string
-  image_url: string
+  // image_url: string
 }
 
-// const resStore = useResourcesStore()
 const warframes = useOWarframes()
-const manifest = useOManifest()
+
+const translatedItems = computed<WarframeItemWithTrans[]>(() => {
+  return warframes.value.map((it) => {
+    const name_t = wf_t(it.uniqueName, 'name')
+    const description_t = wf_t(it.uniqueName, 'description')
+    return { ...it, name_t, description_t }
+  })
+})
 
 const items = computed<WarframeItemWithTrans[]>(() => {
-  return warframes.value
-    .map((it) => {
-      const image_url = imageUrl(it.uniqueName, manifest.value)
-      const name_t = wf_t(it.uniqueName, 'name')
-      const description_t = wf_t(it.uniqueName, 'description')
-      return { ...it, image_url, name_t, description_t }
-    })
-    .filter((it: WarframeItemWithTrans) => {
-      if (ignoreCase.value) {
-        const kwLower = kwFilter.value.toLowerCase()
-        return (
-          it.name.toLowerCase().includes(kwLower) ||
-          it.description.toLowerCase().includes(kwLower) ||
-          it.name_t?.toLowerCase().includes(kwLower) ||
-          it.description_t?.toLowerCase().includes(kwLower)
-        )
-      } else {
-        return (
-          it.name.includes(kwFilter.value) ||
-          it.description.includes(kwFilter.value) ||
-          it.name_t?.includes(kwFilter.value) ||
-          it.description_t?.includes(kwFilter.value)
-        )
-      }
-    })
+  return translatedItems.value.filter((it) => {
+    if (ignoreCase.value) {
+      const kwLower = kwFilter.value.toLowerCase()
+      return (
+        it.name.toLowerCase().includes(kwLower) ||
+        it.description.toLowerCase().includes(kwLower) ||
+        it.name_t?.toLowerCase().includes(kwLower) ||
+        it.description_t?.toLowerCase().includes(kwLower)
+      )
+    } else {
+      return (
+        it.name.includes(kwFilter.value) ||
+        it.description.includes(kwFilter.value) ||
+        it.name_t?.includes(kwFilter.value) ||
+        it.description_t?.includes(kwFilter.value)
+      )
+    }
+  })
 })
 
 const toast = useToast()
@@ -91,7 +89,8 @@ const dialogData = ref<Warframes>({
   name: '',
   description: '',
   uniqueName: '',
-  productCategory: 'SpaceSuits'
+  productCategory: 'SpaceSuits',
+  textureLocation: '',
 })
 
 const nameTrans = ref('')
@@ -193,7 +192,7 @@ const ignoreCase = ref(true)
         <div class="relative">
           <pv-image
             :alt="item.name_t || item.name"
-            :src="item.image_url"
+            :src="'https://content.warframe.com/PublicExport' + item.textureLocation"
             imageClass="w-72 h-72"
             loading="lazy"
           />

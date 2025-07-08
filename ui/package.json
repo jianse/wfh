@@ -14,12 +14,12 @@
     "lint:eslint": "eslint . --fix",
     "lint": "run-s lint:*",
     "format": "prettier --write src/ build/",
-    "data": "node build/data.mjs",
-    "upload-only":"node build/oss.mjs",
+    "data": "tsgo -t esnext -m esnext build/data.ts && node build/data.js",
+    "upload-only": "node build/oss.mjs",
     "upload": "run-s \"build --mode oss\" upload-only "
   },
   "dependencies": {
-    "@primeuix/themes": "^1.2.0",
+    "@primeuix/themes": "^1.2.1",
     "@primevue/forms": "^4.3.6",
     "@tailwindcss/vite": "^4.1.11",
     "@vueuse/core": "^13.5.0",
@@ -38,13 +38,14 @@
     "tailwindcss-primeui": "^0.6.1",
     "vue": "^3.5.17",
     "vue-router": "^4.5.1",
-    "zod": "^3.25.71"
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@primevue/auto-import-resolver": "^4.3.6",
     "@tsconfig/node22": "^22.0.2",
     "@types/lodash": "^4.17.20",
     "@types/node": "^22.16.0",
+    "@typescript/native-preview": "7.0.0-dev.20250705.1",
     "@vitejs/plugin-vue": "^5.2.4",
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^14.6.0",
@@ -61,9 +62,9 @@
     "prettier": "^3.6.2",
     "rollup-plugin-visualizer": "^6.0.3",
     "typescript": "~5.7.3",
-    "unocss": "^66.3.2",
+    "unocss": "^66.3.3",
     "unplugin-vue-components": "^28.8.0",
-    "vite": "npm:rolldown-vite@^7.0.4",
+    "vite": "npm:rolldown-vite@^7.0.6",
     "vite-plugin-vue-devtools": "^7.7.7",
     "vue-tsc": "^2.2.12"
   }

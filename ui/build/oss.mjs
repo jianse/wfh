@@ -48,13 +48,17 @@ async function onFile(path) {
     console.log('visit path :', path)
     const [rx, tx] = duplexPair() // const dest = new FastDupStream()
     doGzip(path, rx)
-    const opts = {}
+    const opts = {
+      headers: {},
+    }
     if (!path.endsWith('index.txt')) {
       opts.mime = 'application/json'
+    } else {
+      opts.mime = 'text/plain'
+      opts.headers['Cache-Control'] = 'no-cache'
     }
-    opts.headers = {
-      'Content-Encoding': 'gzip',
-    }
+    opts.headers['Content-Encoding'] = 'gzip'
+
     const r = await store.putStream(ossKey, tx, opts)
     console.log(r.name, r.res.statusMessage)
   } else {

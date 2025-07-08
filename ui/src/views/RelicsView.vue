@@ -3,20 +3,16 @@ import { computed, ref } from 'vue'
 import RarityIconCommon from '@/assets/icons/RarityIconCommon.png'
 import RarityIconUncommon from '@/assets/icons/RarityIconUncommon.png'
 import RarityIconRare from '@/assets/icons/RarityIconRare.png'
-import { db, type Manifest, type RelicReward, type Relics, type Resources } from '@/util/localDB'
-import { imageUrl } from '@/util/common'
+import { db, type RelicReward, type Relic } from '@/util/localDB'
 import { useObservable } from '@vueuse/rxjs'
 import { liveQuery } from 'dexie'
 import type { Observable } from 'rxjs'
 
 interface RelicRewardEx extends RelicReward {
-  item: {
-    name: string
-    primeSellingPrice?: number
-  }
+  name_t?: string
 }
 
-interface RelicEx extends Relics {
+interface RelicEx extends Relic {
   image_url?: string
   relicRewards: RelicRewardEx[]
   tier: string
@@ -33,63 +29,16 @@ const items = computed(() => {
 })
 
 const relics = useObservable(
-  liveQuery(async () => await db.Relics.toArray()) as unknown as Observable<Relics[]>,
+  liveQuery(async () => await db.Relics.toArray()) as unknown as Observable<Relic[]>,
   { initialValue: [] },
 )
-const manifest = useObservable(
-  liveQuery(async () => await db.Manifest.toArray()) as unknown as Observable<Manifest[]>,
-  { initialValue: [] },
-)
-const resources = useObservable(
-  liveQuery(async () => await db.Resources.toArray()) as unknown as Observable<Resources[]>,
-  { initialValue: [] },
-)
-
-const resMap = computed(() => {
-  const res = new Map<string, Resources>()
-  resources.value.forEach((it) => {
-    res.set(it.uniqueName, it)
-  })
-  return res
-})
 
 const data = computed((): RelicEx[] => {
-  // console.profile('p computed data')
-  console.log('calc')
-  const start = new Date()
-  const res = relics.value.map((it: Relics) => {
-    const image_url = imageUrl(it.uniqueName, manifest.value)
-
-    const rewards = it.relicRewards
-
-    const relicRewards = rewards
-      .sort((it1, it2) => {
-        const r1 = rarity2Num(it1.rarity)
-        const r2 = rarity2Num(it2.rarity)
-        if (r1 === r2) {
-          return 0
-        } else {
-          return r2 - r1 > 0 ? 1 : -1
-        }
-      })
-      .map((it) => {
-        const un = it.rewardName.replace('/StoreItems', '')
-        const default_item = {
-          name: it.rewardName,
-          primeSellingPrice: 0,
-        }
-        // console.log(un)
-        const item = resMap.value.get(un) || default_item
-        return { ...it, item }
-      })
-
-    const tier = it.uniqueName.replace('/Lotus/Types/Game/Projections/', '').substring(0, 2)
-
+  const res = relics.value.map((it: Relic) => {
     const vault_status = 'InVault'
 
-    return { ...it, image_url, relicRewards, tier, vault_status }
+    return { ...it, vault_status }
   })
-  console.log('calc time e', new Date().getTime() - start.getTime())
   return res
 })
 
@@ -121,74 +70,18 @@ function rarityIcon(rarity: string): string {
   return ''
 }
 
-function rarity2Num(rarity: string): number {
-  switch (rarity) {
-    case 'COMMON':
-      return 0
-    case 'UNCOMMON':
-      return 1
-    case 'RARE':
-      return 2
-  }
-  return 0
-}
-
 const tier = ref('')
-function vaultStatus2Num(vaultStatus: string): number {
-  switch (vaultStatus) {
-    case 'InVault':
-      return 0
-    case 'Reborn':
-      return 1
-    case 'OutVault':
-      return 2
-  }
-  return 0
-}
-// const relics = computed<Item[]>(() => {
-//   const itemsCopy = items.value.map((it) => {
-//     const vaultStatus = getVaultStatus(it.name)
-//     // console.log(vaultStatus)
-//     return {
-//       ...it,
-//       vaultStatus,
-//     }
-//   })
-
-//   itemsCopy.sort((a, b) => {
-//     const vsna = vaultStatus2Num(a.vaultStatus)
-//     const vsnb = vaultStatus2Num(b.vaultStatus)
-//     // if (vsna !== vsnb){}
-//     return vsnb - vsna
-//   })
-
-//   if (tier.value) {
-//     return itemsCopy.filter((relic) => relic.tier == tier.value)
-//   } else {
-//     return itemsCopy
+// function vaultStatus2Num(vaultStatus: string): number {
+//   switch (vaultStatus) {
+//     case 'InVault':
+//       return 0
+//     case 'Reborn':
+//       return 1
+//     case 'OutVault':
+//       return 2
 //   }
-// })
-
-const relicsVaultStatus = ref(new Map())
-
-async function fetchRelicStatus() {
-  const res = await fetch('/data/Relics-status.json')
-  const data = await res.json()
-  // const map = new Map()
-  for (const it of data.ExportRelicStatus) {
-    relicsVaultStatus.value.set(it.name, it.status)
-  }
-  // relicsVaultStatus.value = map
-  console.log('status ok')
-}
-
-// fetchRelicStatus()
-
-function getVaultStatus(name: string): string {
-  return relicsVaultStatus.value.get(name)
-}
-
-// fetchResources()
+//   return 0
+// }
 </script>
 
 <template>
@@ -218,7 +111,10 @@ function getVaultStatus(name: string): string {
         <h3>{{ item.name }} {{ suffix(item.uniqueName) }}</h3>
         <!-- <p>{{ item.uniqueName.substring(item.uniqueName.lastIndexOf('/') + 1) }}</p> -->
         <!-- <div class="img-bg"> -->
-        <img :src="item.image_url" style="background-color: #eee" />
+        <img
+          :src="'https://content.warframe.com/PublicExport' + item.textureLocation"
+          style="background-color: #eee"
+        />
         <p class="vault-status" v-if="item.vault_status == 'InVault'">
           <i class="pi pi-ban" style="color: #e31"></i>入库
         </p>
@@ -240,8 +136,8 @@ function getVaultStatus(name: string): string {
               :src="rarityIcon(reward.rarity)"
               :alt="reward.rarity"
               style="height: 20px; vertical-align: text-bottom"
-            />{{ reward.item.name }}<span v-if="reward.itemCount > 1">*{{ reward.itemCount }}</span
-            ><span style="font-weight: bold"> {{ reward.item.primeSellingPrice }}</span>
+            />{{ reward.name }}<span v-if="reward.itemCount > 1">*{{ reward.itemCount }}</span
+            ><span style="font-weight: bold"> {{ reward.primeSellingPrice }}</span>
           </p>
         </div>
       </div>
