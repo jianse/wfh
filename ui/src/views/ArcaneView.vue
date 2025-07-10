@@ -1,30 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+const items = useOArcane()
 
-type Item = {
-  uniqueName: string
-  name: string
-  textureLocation?: string
-  imgUrl: string
-  rarity?: string
-  codexSecret: boolean
-}
-
-const items = ref<Item[]>([])
-
-async function fetchResources() {
-  const res = await fetch('/data/Arcane-filled.json')
-  const data = await res.json()
-  console.log(data)
-
-  items.value = data.ExportArcane
-}
-
-fetchResources()
 import ArcaneCommon from '@/assets/arcane/ArcaneCommon.png'
 import ArcaneRare from '@/assets/arcane/ArcaneRare.png'
 import ArcaneUncommon from '@/assets/arcane/ArcaneUncommon.png'
 import ArcaneLegendary from '@/assets/arcane/ArcaneLegendary.png'
+import { useOArcane } from '@/util/localDB'
 
 function rarityBg(rarity: string | undefined): string {
   switch (rarity) {
@@ -49,17 +30,23 @@ function rarityBg(rarity: string | undefined): string {
     </TabList>
   </Tabs> -->
   <div style="display: flex; flex-wrap: wrap; gap: 8px; padding: 8px; overflow: scroll">
-    <div class="card" v-for="item in items" :key="item.uniqueName">
-      <h3>{{ item.name }}</h3>
-      <h5>唯一名称：{{ item.uniqueName }}</h5>
-      <div style="position: relative">
-        <img :src="rarityBg(item.rarity)" style="background-color: #eee" />
-        <img
-          :src="item.imgUrl"
-          style="position: absolute; left: 0; top: 0; transform: scale(0.68) translate(0, -26px)"
-        />
-      </div>
-    </div>
+    <pv-card class="w-72" v-for="item in items" :key="item.uniqueName">
+      <template #header>
+        <div class="relative w-72">
+          <pv-image loading="lazy" :src="rarityBg(item.rarity)" />
+          <img
+            loading="lazy"
+            :src="'https://content.warframe.com/PublicExport' + item.textureLocation"
+            style="position: absolute; left: 0; top: 0; transform: scale(0.68) translate(0, -17.5%)"
+          />
+        </div>
+        <!-- <pv-image :src="'https://content.warframe.com/PublicExport' + item.textureLocation" /> -->
+      </template>
+      <template #title>{{ item.name }}</template>
+      <template #content>
+        <h5>唯一名称：{{ item.uniqueName }}</h5>
+      </template>
+    </pv-card>
   </div>
 </template>
 

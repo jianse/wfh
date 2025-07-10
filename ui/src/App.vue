@@ -41,10 +41,10 @@ const navItems: MenuItem[] = [
   //   label: '清单',
   //   route: { name: 'manifest' },
   // },
-  // {
-  //   label: '赋能',
-  //   route: { name: 'arcane' },
-  // },
+  {
+    label: '赋能',
+    route: { name: 'arcane' },
+  },
   {
     label: '关于',
     route: { name: 'about' },

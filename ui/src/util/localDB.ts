@@ -80,6 +80,14 @@ export interface Manifest {
   textureLocation: string
 }
 
+export interface Arcane {
+  uniqueName: string
+  name: string
+  description: string
+  rarity: string
+  textureLocation: string
+}
+
 const DB_NAME = 'wf-data'
 
 export const db = new Dexie(DB_NAME) as Dexie & {
@@ -88,7 +96,7 @@ export const db = new Dexie(DB_NAME) as Dexie & {
   Warframes: EntityTable<Warframes, 'uniqueName'>
   Weapons: EntityTable<Commons, 'uniqueName'>
   Upgrades: EntityTable<Commons, 'uniqueName'>
-  Arcane: EntityTable<Commons, 'uniqueName'>
+  Arcane: EntityTable<Arcane, 'uniqueName'>
   Recipes: EntityTable<Commons, 'uniqueName'>
   Relics: EntityTable<Relic, 'uniqueName'>
   Manifest: EntityTable<Manifest, 'uniqueName'>
@@ -157,3 +165,8 @@ export const useOWarframes = () =>
     liveQuery(() => db.Warframes.orderBy('name').toArray()) as unknown as Observable<Warframes[]>,
     { initialValue: [] },
   )
+
+export const useOArcane = () =>
+  useObservable(liveQuery(() => db.Arcane.toArray()) as unknown as Observable<Arcane[]>, {
+    initialValue: [],
+  })
