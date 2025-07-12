@@ -34,7 +34,7 @@ visualizer()
   },
   server: {
     proxy: {
-      '/api': 'http://localhost:3000'
+      '/api': 'https://api.ntboy.top'
     }
   },
   // experimental: {

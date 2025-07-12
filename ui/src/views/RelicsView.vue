@@ -7,9 +7,16 @@ import { db, type RelicReward, type Relic } from '@/util/localDB'
 import { useObservable } from '@vueuse/rxjs'
 import { liveQuery } from 'dexie'
 import type { Observable } from 'rxjs'
+import { useUserStore } from '@/stores/user'
+import { cloneDeep } from 'lodash'
+import { storeToRefs } from 'pinia'
+import { delete_translation, save_translation } from '@/api/translations'
+import { useToast } from 'primevue'
+import { useTransStore } from '@/stores/translations'
 
 interface RelicRewardEx extends RelicReward {
   name_t?: string
+  loading?: boolean
 }
 
 interface RelicEx extends Relic {
@@ -19,6 +26,7 @@ interface RelicEx extends Relic {
   vault_status: string
 }
 // const resStore = useResourcesStore()
+const { wf_t, write_back_trans, remove_trans } = useTransStore()
 
 const items = computed(() => {
   if (tier.value) {
@@ -35,9 +43,14 @@ const relics = useObservable(
 
 const data = computed((): RelicEx[] => {
   const res = relics.value.map((it: Relic) => {
+    const relicRewards: RelicRewardEx[] = it.relicRewards.map((reward) => {
+      const name_t = wf_t(reward.uniqueName, 'name') || ''
+      return { ...reward, name_t }
+    })
+
     const vault_status = 'InVault'
 
-    return { ...it, vault_status }
+    return { ...it, relicRewards, vault_status }
   })
   return res
 })
@@ -82,6 +95,74 @@ const tier = ref('')
 //   }
 //   return 0
 // }
+const { isAdmin } = storeToRefs(useUserStore())
+
+const dialogData = ref<RelicEx>({
+  uniqueName: '',
+  name: '',
+  relicRewards: [],
+  tier: '',
+  vault_status: '',
+  codexSecret: false,
+  description: '',
+  textureLocation: '',
+})
+const editDialogVisible = ref(false)
+
+function openEditDialog(item: RelicEx) {
+  const item_ = cloneDeep(item)
+  item_.relicRewards = item_.relicRewards.map((it) => {
+    return {
+      ...it,
+      loading: false,
+    }
+  })
+
+  dialogData.value = item_
+  // nameTrans.value = item.name_t || ''
+  // descriptionTrans.value = item.description_t || ''
+  editDialogVisible.value = true
+}
+const toast = useToast()
+
+async function saveTrans(reward: RelicRewardEx) {
+  if (!reward.name_t) {
+    return
+  }
+  // start loading
+  reward.loading = true
+  try {
+    const it = {
+      unique_name: reward.uniqueName,
+      prop: 'name',
+      content: reward.name_t,
+    }
+    await save_translation(it)
+    write_back_trans(it)
+    toast.add({ severity: 'success', summary: '操作成功', detail: '添加译文成功！', life: 3000 })
+  } finally {
+    // stop loading
+    reward.loading = false
+  }
+}
+
+async function clearTrans(reward: RelicRewardEx) {
+  // start loading
+  reward.loading = true
+  try {
+    const it = {
+      unique_name: reward.uniqueName,
+      prop: 'name',
+    }
+    await delete_translation(it)
+    remove_trans(it)
+    toast.add({ severity: 'success', summary: '操作成功', detail: '清空译文成功！', life: 3000 })
+    reward.name_t = ''
+  } finally {
+    // stop loading
+    reward.loading = false
+  }
+}
 </script>
 
 <template>
@@ -96,65 +177,98 @@ const tier = ref('')
         <pv-tab value="T5">安魂</pv-tab>
       </pv-tab-list>
     </pv-tabs>
-    <div
-      style="
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        overflow: scroll;
-        padding: 8px;
-        height: calc(100% - 50px);
-      "
-    >
-      <div class="card" v-for="item in items" :key="item.uniqueName">
-        <!-- <pre v-if="idx === 0">{{ JSON.stringify(item, undefined, 2) }}</pre> -->
-        <h3>{{ item.name }} {{ suffix(item.uniqueName) }}</h3>
-        <!-- <p>{{ item.uniqueName.substring(item.uniqueName.lastIndexOf('/') + 1) }}</p> -->
-        <!-- <div class="img-bg"> -->
-        <img
-          :src="'https://content.warframe.com/PublicExport' + item.textureLocation"
-          style="background-color: #eee"
-        />
-        <p class="vault-status" v-if="item.vault_status == 'InVault'">
-          <i class="pi pi-ban" style="color: #e31"></i>入库
-        </p>
-        <p class="vault-status" v-if="item.vault_status == 'OutVault'">
-          <i class="pi pi-check" style="color: green"></i>出库
-        </p>
-        <p class="vault-status" v-if="item.vault_status == 'Reborn'">
-          <i class="pi pi-refresh" style="color: #13e"></i>重生
-        </p>
-        <!-- </div> -->
-        <div class="relic-rewards">
-          <p
-            v-for="reward in item.relicRewards"
-            :key="reward.rewardName"
-            style="overflow: hidden; white-space: nowrap"
-          >
+    <div class="flex gap-2 overflow-y-scroll flex-wrap p-2">
+      <pv-card class="w-72" v-for="item in items" :key="item.uniqueName">
+        <template #header>
+          <div class="relative">
             <img
-              class="inline"
-              :src="rarityIcon(reward.rarity)"
-              :alt="reward.rarity"
-              style="height: 20px; vertical-align: text-bottom"
-            />{{ reward.name }}<span v-if="reward.itemCount > 1">*{{ reward.itemCount }}</span
-            ><span style="font-weight: bold"> {{ reward.primeSellingPrice }}</span>
-          </p>
-        </div>
-      </div>
+              loading="lazy"
+              :src="'https://content.warframe.com/PublicExport' + item.textureLocation"
+            />
+            <pv-button
+              v-if="isAdmin"
+              class="absolute top-2 right-2"
+              size="small"
+              rounded
+              variant="outlined"
+              icon="pi pi-pencil"
+              @click="openEditDialog(item)"
+            ></pv-button>
+          </div>
+        </template>
+        <template #title> {{ item.name }} {{ suffix(item.uniqueName) }} </template>
+        <template #content>
+          <div class="relic-rewards">
+            <div
+              v-for="reward in item.relicRewards"
+              :key="reward.rewardName"
+              class="flex flex-row place-content-between"
+            >
+              <div class="overflow-hidden text-nowrap">
+                <img
+                  class="inline"
+                  :src="rarityIcon(reward.rarity)"
+                  :alt="reward.rarity"
+                  style="height: 20px; vertical-align: text-bottom"
+                /><span v-if="reward.itemCount > 1">{{ reward.itemCount }} &times; </span
+                >{{ reward.name_t || reward.name }}
+              </div>
+              <span style="font-weight: bold"> {{ reward.primeSellingPrice }}</span>
+            </div>
+          </div>
+        </template>
+      </pv-card>
     </div>
   </div>
+  <pv-dialog
+    :header="`修改[${dialogData.name}]`"
+    v-model:visible="editDialogVisible"
+    modal
+    dismissable-mask
+    class="min-w-lg w-lg"
+  >
+    <div v-show="false" class="overflow-auto h-120 bg-stone-100 p-3 mb-3">
+      <code>
+        <pre class="font-[comic_mono]">{{ JSON.stringify(dialogData, null, 2) }}</pre>
+      </code>
+    </div>
+    <div class="mb-3" v-for="reward in dialogData.relicRewards" :key="reward.rewardName">
+      <div class="mb-2">原文：{{ reward.name }}</div>
+      <div class="mb-2">
+        <label
+          >译文：
+          <pv-input-text
+            label="名称"
+            placeholder="请输入名称"
+            size="small"
+            v-model="reward.name_t"
+          ></pv-input-text
+        ></label>
+      </div>
+      <div class="flex flex-row gap-2">
+        <pv-button
+          label="保存"
+          size="small"
+          icon="pi pi-save"
+          :loading="reward.loading"
+          @click="saveTrans(reward)"
+        ></pv-button>
+        <pv-button
+          label="清除"
+          size="small"
+          icon="pi pi-trash"
+          severity="warn"
+          @click="clearTrans(reward)"
+        ></pv-button>
+      </div>
+    </div>
+    <div class="flex justify-end gap-2 mt-2">
+      <pv-button type="button" label="关闭" @click="editDialogVisible = false"></pv-button>
+    </div>
+  </pv-dialog>
 </template>
 
 <style scoped>
-.card {
-  width: 240px;
-  height: 400px;
-  flex: initial;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 8px;
-}
-
 .vault-status {
   font-weight: bold;
   font-size: 1rem;
@@ -177,9 +291,5 @@ const tier = ref('')
   height: 150px;
   /* height: fit-content; */
   /* height: min-content; */
-}
-
-.card h3 {
-  font-weight: bold;
 }
 </style>

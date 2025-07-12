@@ -50,6 +50,7 @@ export interface RelicReward {
   name?: string
   primeSellingPrice?: number
   textureLocation?: string
+  uniqueName: string
 }
 export interface Relic {
   uniqueName: string
