@@ -3,16 +3,14 @@ import { computed, ref } from 'vue'
 import RarityIconCommon from '@/assets/icons/RarityIconCommon.png'
 import RarityIconUncommon from '@/assets/icons/RarityIconUncommon.png'
 import RarityIconRare from '@/assets/icons/RarityIconRare.png'
-import { db, type RelicReward, type Relic } from '@/util/localDB'
-import { useObservable } from '@vueuse/rxjs'
-import { liveQuery } from 'dexie'
-import type { Observable } from 'rxjs'
+import { type RelicReward, type Relic, useORelics } from '@/util/localDB'
 import { useUserStore } from '@/stores/user'
-import { cloneDeep } from 'lodash'
+import { chunk, cloneDeep } from 'lodash'
 import { storeToRefs } from 'pinia'
 import { delete_translation, save_translation } from '@/api/translations'
 import { useToast } from 'primevue'
 import { useTransStore } from '@/stores/translations'
+import { useElementSize } from '@vueuse/core'
 
 interface RelicRewardEx extends RelicReward {
   name_t?: string
@@ -28,20 +26,43 @@ interface RelicEx extends Relic {
 // const resStore = useResourcesStore()
 const { wf_t, write_back_trans, remove_trans } = useTransStore()
 
-const items = computed(() => {
+const tabedItems = computed(() => {
   if (tier.value) {
-    return data.value.filter((it) => it.tier === tier.value)
+    return translatedItems.value.filter((it) => it.tier === tier.value)
   } else {
-    return data.value
+    return translatedItems.value
   }
 })
 
-const relics = useObservable(
-  liveQuery(async () => await db.Relics.toArray()) as unknown as Observable<Relic[]>,
-  { initialValue: [] },
-)
+const items = computed(() => {
+  if (kwFilter.value) {
+    return tabedItems.value.filter((it) => {
+      if (ignoreCase.value) {
+        const kwLower = kwFilter.value.toLowerCase()
+        return (
+          it.name.toLowerCase().includes(kwLower) ||
+          it.relicRewards.find(
+            (r) =>
+              r.name?.toLowerCase().includes(kwLower) || r.name_t?.toLowerCase().includes(kwLower),
+          ) !== undefined
+        )
+      } else {
+        return (
+          it.name.includes(kwFilter.value) ||
+          it.relicRewards.find(
+            (r) => r.name?.includes(kwFilter.value) || r.name_t?.includes(kwFilter.value),
+          ) !== undefined
+        )
+      }
+    })
+  } else {
+    return tabedItems.value
+  }
+})
 
-const data = computed((): RelicEx[] => {
+const relics = useORelics()
+
+const translatedItems = computed((): RelicEx[] => {
   const res = relics.value.map((it: Relic) => {
     const relicRewards: RelicRewardEx[] = it.relicRewards.map((reward) => {
       const name_t = wf_t(reward.uniqueName, 'name') || ''
@@ -106,6 +127,8 @@ const dialogData = ref<RelicEx>({
   codexSecret: false,
   description: '',
   textureLocation: '',
+  prefixChar: '',
+  serial: 0,
 })
 const editDialogVisible = ref(false)
 
@@ -119,8 +142,6 @@ function openEditDialog(item: RelicEx) {
   })
 
   dialogData.value = item_
-  // nameTrans.value = item.name_t || ''
-  // descriptionTrans.value = item.description_t || ''
   editDialogVisible.value = true
 }
 const toast = useToast()
@@ -163,25 +184,112 @@ async function clearTrans(reward: RelicRewardEx) {
     reward.loading = false
   }
 }
+
+const scroller = ref()
+const { width } = useElementSize(scroller)
+const itemWidth = 296
+const itemHeight = 512
+
+const itemsComputed = computed(() => {
+  const lineCount = Math.max(1, Math.floor(width.value / itemWidth))
+  console.log('lineCount', lineCount)
+  const chunkedItems = chunk(items.value, lineCount)
+  console.log('chunkedItems', chunkedItems)
+  return chunkedItems
+})
+
+const kwFilter = ref('')
+const ignoreCase = ref(true)
 </script>
 
 <template>
   <div class="h-full flex flex-col">
-    <pv-tabs v-model:value="tier">
-      <pv-tab-list>
-        <pv-tab value="">全部</pv-tab>
-        <pv-tab value="T1">古纪</pv-tab>
-        <pv-tab value="T2">前纪</pv-tab>
-        <pv-tab value="T3">中纪</pv-tab>
-        <pv-tab value="T4">后纪</pv-tab>
-        <pv-tab value="T5">安魂</pv-tab>
-      </pv-tab-list>
-    </pv-tabs>
-    <div class="flex gap-2 overflow-y-scroll flex-wrap p-2">
+    <div
+      class="c-toolbar w-full sticky top-0 z-10 flex flex-row place-content-between mb-2"
+      style="background-color: var(--color-background)"
+    >
+      <pv-tabs v-model:value="tier">
+        <pv-tab-list>
+          <pv-tab value="">全部</pv-tab>
+          <pv-tab value="T1">古纪</pv-tab>
+          <pv-tab value="T2">前纪</pv-tab>
+          <pv-tab value="T3">中纪</pv-tab>
+          <pv-tab value="T4">后纪</pv-tab>
+          <pv-tab value="T5">安魂</pv-tab>
+        </pv-tab-list>
+      </pv-tabs>
+      <div class="flex flex-col place-content-around">
+        <div class="py-1 px-2 flex flex-row gap-3 place-content-around">
+          <label>搜索：<pv-input-text size="small" v-model="kwFilter"></pv-input-text></label>
+
+          <div class="flex items-center gap-2">
+            <pv-checkbox v-model="ignoreCase" inputId="ignoreCase" binary />
+            <label for="ignoreCase"> 忽略大小写 </label>
+          </div>
+          <label>筛选：<pv-select size="small" /></label>
+        </div>
+      </div>
+    </div>
+
+    <pv-virtual-scroller
+      class="mx-2"
+      ref="scroller"
+      :items="itemsComputed"
+      :item-size="itemHeight"
+      auto-size
+    >
+      <template v-slot:item="{ item: row }">
+        <div class="flex flex-row gap-2 pb-2">
+          <pv-card class="w-72" v-for="item in row" :key="item.uniqueName">
+            <template #header>
+              <div class="relative">
+                <img
+                  class="w-72 h-72"
+                  loading="lazy"
+                  :src="'https://content.warframe.com/PublicExport' + item.textureLocation"
+                />
+                <pv-button
+                  v-if="isAdmin"
+                  class="absolute top-2 right-2"
+                  size="small"
+                  rounded
+                  variant="outlined"
+                  icon="pi pi-pencil"
+                  @click="openEditDialog(item)"
+                ></pv-button>
+              </div>
+            </template>
+            <template #title> {{ item.name }} {{ suffix(item.uniqueName) }} </template>
+            <template #content>
+              <div class="relic-rewards">
+                <div
+                  v-for="reward in item.relicRewards"
+                  :key="reward.rewardName"
+                  class="flex flex-row place-content-between"
+                >
+                  <div class="overflow-hidden text-nowrap">
+                    <img
+                      class="inline"
+                      :src="rarityIcon(reward.rarity)"
+                      :alt="reward.rarity"
+                      style="height: 20px; vertical-align: text-bottom"
+                    /><span v-if="reward.itemCount > 1">{{ reward.itemCount }} &times; </span
+                    >{{ reward.name_t || reward.name }}
+                  </div>
+                  <span style="font-weight: bold"> {{ reward.primeSellingPrice }}</span>
+                </div>
+              </div>
+            </template>
+          </pv-card>
+        </div>
+      </template>
+    </pv-virtual-scroller>
+    <!-- <div class="flex gap-2 overflow-y-scroll flex-wrap p-2">
       <pv-card class="w-72" v-for="item in items" :key="item.uniqueName">
         <template #header>
           <div class="relative">
             <img
+              class="w-72 h-72"
               loading="lazy"
               :src="'https://content.warframe.com/PublicExport' + item.textureLocation"
             />
@@ -218,7 +326,7 @@ async function clearTrans(reward: RelicRewardEx) {
           </div>
         </template>
       </pv-card>
-    </div>
+    </div> -->
   </div>
   <pv-dialog
     :header="`修改[${dialogData.name}]`"

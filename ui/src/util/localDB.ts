@@ -59,6 +59,8 @@ export interface Relic {
   description: string
   relicRewards: RelicReward[]
   tier: string
+  prefixChar: string
+  serial: number
   textureLocation: string
 }
 
@@ -112,7 +114,7 @@ db.version(1).stores({
   Upgrades: 'uniqueName',
   Arcane: 'uniqueName',
   Recipes: 'uniqueName',
-  Relics: 'uniqueName',
+  Relics: 'uniqueName,order',
   Manifest: 'uniqueName',
   Resources: 'uniqueName',
 })
@@ -171,3 +173,11 @@ export const useOArcane = () =>
   useObservable(liveQuery(() => db.Arcane.toArray()) as unknown as Observable<Arcane[]>, {
     initialValue: [],
   })
+
+export const useORelics = () =>
+  useObservable(
+    liveQuery(async () => await db.Relics.orderBy('order').toArray()) as unknown as Observable<
+      Relic[]
+    >,
+    { initialValue: [] },
+  )

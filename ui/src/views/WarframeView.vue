@@ -18,8 +18,8 @@ const warframes = useOWarframes()
 
 const translatedItems = computed<WarframeItemWithTrans[]>(() => {
   return warframes.value.map((it) => {
-    const name_t = wf_t(it.uniqueName, 'name')
-    const description_t = wf_t(it.uniqueName, 'description')
+    const name_t = wf_t(it.uniqueName, 'name') || ''
+    const description_t = wf_t(it.uniqueName, 'description') || ''
     return { ...it, name_t, description_t }
   })
 })

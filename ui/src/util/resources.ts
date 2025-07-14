@@ -8,6 +8,7 @@ import {
   set_last_update_time,
   type StoreName,
   clear,
+  type Relic,
 } from './localDB'
 import { chunk } from 'lodash'
 
@@ -90,10 +91,17 @@ async function sync_one(item: string, category: StoreName) {
 
   await debug_sleep(1000)
 
-  const arr = await load_resource(item)
+  let arr = await load_resource(item)
   await clear(category)
   await debug_sleep(1000)
   store.setCategoryTotal(category, arr.length)
+  if (category === 'Relics') {
+    arr = arr.map((item) => {
+      const it = item as unknown as Relic
+      const order = it.tier + (it.prefixChar || 'A') + new String(it.serial).padStart(3, '0')
+      return { ...item, order }
+    })
+  }
   if (bulk) {
     for (const shard of chunk(arr, chunk_size)) {
       const _ret = await bulkPut(category as StoreName, shard)

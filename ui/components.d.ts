@@ -38,6 +38,7 @@ declare module 'vue' {
     PvTabs: typeof import('primevue/tabs')['default']
     PvTextarea: typeof import('primevue/textarea')['default']
     PvToast: typeof import('primevue/toast')['default']
+    PvVirtualScroller: typeof import('primevue/virtualscroller')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
