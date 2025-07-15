@@ -192,9 +192,7 @@ const itemHeight = 512
 
 const itemsComputed = computed(() => {
   const lineCount = Math.max(1, Math.floor(width.value / itemWidth))
-  console.log('lineCount', lineCount)
   const chunkedItems = chunk(items.value, lineCount)
-  console.log('chunkedItems', chunkedItems)
   return chunkedItems
 })
 

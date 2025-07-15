@@ -77,7 +77,6 @@ function validate(): boolean {
   const result = schema.safeParse(userCred.value)
   if (!result.success) {
     const tree = z.treeifyError(result.error)
-    console.log(tree)
     errors.value = tree.properties || {}
   } else {
     errors.value = {}
@@ -89,18 +88,13 @@ const loading = ref(false)
 const { setToken } = useTokenStore()
 
 const onFormSubmit = async () => {
-  // console.log('sub', e)
   loading.value = true
   const valid = validate()
   if (valid) {
-    // const data = {};
     const res = await get_token(userCred.value)
-    // console.log(res)
     if (is_success(res)) {
       const token = res.data?.token || ''
-      // console.log(tokens)
       await setToken(token)
-      // loading.value = false
       setTimeout(() => {
         router.back()
       }, 3000)
