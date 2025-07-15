@@ -26,7 +26,7 @@ function strToVNodes(v: string) {
     pos = pat.lastIndex
     const image_url = findImageUrl(arr[1])
     let clazz = props.imageClass || 'inline-block h-lh'
-    if (arr[1] == 'PRE_ATTACK') {
+    if ( ['PRE_ATTACK','ARCHWING'].includes(arr[1])) {
       clazz += ' invert-100 dark:invert-0'
     }
     nodes.push(h('img', { src: image_url, alt: arr[1], class: clazz }))

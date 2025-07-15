@@ -176,8 +176,8 @@ const ignoreCase = ref(true)
 
 <template>
   <div class="c-toolbar w-full sticky top-0 z-10 mt-2 px-2">
-    <div class="bg-stone-200 py-1 px-2 rounded-md flex flex-row gap-3">
-      <div>搜索：<pv-input-text size="small" v-model="kwFilter"></pv-input-text></div>
+    <div class="bg-stone-200 dark:bg-stone-600 py-1 px-2 rounded-md flex flex-row gap-3">
+      <div>搜索：<pv-input-text placeholder="请输入关键词" size="small" v-model="kwFilter"></pv-input-text></div>
       <div class="flex items-center gap-2">
         <pv-checkbox v-model="ignoreCase" inputId="ignoreCase" binary />
         <label for="ignoreCase"> 忽略大小写 </label>

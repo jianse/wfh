@@ -93,7 +93,7 @@ const items = computed(() => {
     <pv-card
       class="w-72"
       :class="{
-        'bg-red-50': !item.inGame,
+        'bg-red-600/10': !item.inGame,
         'border-1': !item.inGame,
         'border-red-300': !item.inGame,
       }"
