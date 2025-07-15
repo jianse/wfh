@@ -207,7 +207,9 @@ const ignoreCase = ref(true)
           ></pv-button>
         </div>
       </template>
-      <template #title>{{ item.name_t || item.name }}</template>
+      <template #title>
+        <StringWithIcon :text="item.name_t || item.name"></StringWithIcon
+      ></template>
       <template #content>
         <div class="max-h-24 overflow-auto">
           {{ item.description_t || item.description }}

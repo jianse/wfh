@@ -35,6 +35,9 @@ visualizer()
   server: {
     proxy: {
       '/api': 'https://api.ntboy.top'
+    },
+    watch: {
+      ignored: ['build/**']
     }
   },
   // experimental: {

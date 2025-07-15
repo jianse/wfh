@@ -82,7 +82,7 @@ function humanFormat(time: Date) {
             <template #body="{ data }">
               <img
                 v-if="data.icon"
-                class="invert-50 dark:invert-25 inline h-lh"
+                class="invert-50 dark:invert-25 inline size-[1lh]"
                 :alt="data.label"
                 :src="data.icon"
               />{{ data.label }}

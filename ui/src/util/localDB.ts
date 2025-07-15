@@ -86,9 +86,16 @@ export interface Manifest {
 export interface Arcane {
   uniqueName: string
   name: string
-  description: string
-  rarity: string
+  // description: string
+  codexSecret: boolean
+  // no rarity means common
+  rarity?: 'UNCOMMON' | 'RARE' | 'LEGENDARY'
+  levelStats: {
+    stats: string[]
+  }[]
   textureLocation: string
+  inGame: boolean
+  slot: string
 }
 
 const DB_NAME = 'wf-data'

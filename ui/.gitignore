@@ -36,3 +36,4 @@ cache
 stats.html
 /build/oss-config.mjs
 /build/data.js
+/build/arcane-ext.js

@@ -41,6 +41,7 @@ declare module 'vue' {
     PvVirtualScroller: typeof import('primevue/virtualscroller')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    StringWithIcon: typeof import('./src/components/StringWithIcon.vue')['default']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
     WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
   }

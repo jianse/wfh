@@ -60,7 +60,7 @@ async function fetch_index() {
   return decompressed
 }
 
-function md5_hash(message) {
+function md5_hash(message: string) {
   const hash = createHash('md5')
   hash.update(message)
   return hash.digest('base64url')
@@ -357,10 +357,25 @@ sentinels.ExportSentinels.forEach((element, index) => {
   element.textureLocation = mf_kv.get(element.uniqueName)
 })
 
+import arcaneExt from './arcane-ext.ts'
+
 const arcane = m.get('Arcane') as ExportArcane
 arcane.ExportArcane.forEach((element, index) => {
   reverse_map.set(element.uniqueName, new ReverseIndex('Arcane', 'ExportArcane', index))
   element.textureLocation = mf_kv.get(element.uniqueName)
+
+  const ext = arcaneExt.find((ext) => ext.uniqueName === element.uniqueName)
+  if (ext) {
+    element.inGame = ext.inGame
+    if (ext.inGame) {
+      element.slot = ext?.slot
+    } else {
+      element.slot = 'Unknown'
+    }
+  } else {
+    element.inGame = true
+    element.slot = 'Unknown'
+  }
 })
 
 // recipes
@@ -445,6 +460,8 @@ interface Arcane {
   rarity?: 'RARE' | 'UNCOMMON' | 'COMMON' | 'LEGENDARY'
   levelStats: { stats: string[] }[]
   textureLocation?: string
+  inGame?: boolean
+  slot?: string
 }
 
 interface ExportRelicArcane {
