@@ -7,7 +7,7 @@ edition = "2024"
 embed = ["service/embed"]
 
 [dependencies]
-tokio = { version = "1.45.1", features = ["full"] }
+tokio = { version = "1.46.1", features = ["full"] }
 service = { path = "service" }
 
 [workspace]
