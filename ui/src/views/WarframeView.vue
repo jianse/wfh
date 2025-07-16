@@ -42,6 +42,12 @@ const items = computed<WarframeItemWithTrans[]>(() => {
         it.description_t?.includes(kwFilter.value)
       )
     }
+  }).filter((it)=>{
+    if(cat.value==='Any'){
+      return true
+    } else {
+      return it.productCategory === cat.value
+    }
   })
 })
 
@@ -172,17 +178,32 @@ async function clearTrans(unique_name: string, prop: string) {
 
 const kwFilter = ref('')
 const ignoreCase = ref(true)
+
+const cat = ref('Any')
 </script>
 
 <template>
-  <div class="c-toolbar w-full sticky top-0 z-10 mt-2 px-2">
-    <div class="bg-stone-200 dark:bg-stone-600 py-1 px-2 rounded-md flex flex-row gap-3">
-      <div>搜索：<pv-input-text placeholder="请输入关键词" size="small" v-model="kwFilter"></pv-input-text></div>
-      <div class="flex items-center gap-2">
-        <pv-checkbox v-model="ignoreCase" inputId="ignoreCase" binary />
-        <label for="ignoreCase"> 忽略大小写 </label>
+  <div
+    class="sticky top-0 z-10 flex flex-row place-content-between"
+    style="background-color: var(--color-background)"
+  >
+    <pv-tabs v-model:value="cat">
+      <pv-tab-list>
+        <pv-tab value="Any">所有</pv-tab>
+        <pv-tab value="Suits">战甲</pv-tab>
+        <pv-tab value="SpaceSuits">曲翼</pv-tab>
+        <pv-tab value="MechSuits">殁世机甲</pv-tab>
+      </pv-tab-list>
+    </pv-tabs>
+    <div class="flex flex-col place-content-around me-3">
+      <div class="flex flex-row gap-3 place-content-around">
+        <label>搜索：<pv-input-text placeholder="输入关键字" size="small" v-model="kwFilter"></pv-input-text></label>
+
+        <div class="flex items-center gap-2">
+          <pv-checkbox v-model="ignoreCase" inputId="ignoreCase" binary />
+          <label for="ignoreCase"> 忽略大小写 </label>
+        </div>
       </div>
-      <div>筛选：<pv-select size="small" /></div>
     </div>
   </div>
 
