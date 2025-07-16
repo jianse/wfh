@@ -21,10 +21,10 @@ const navItems: MenuItem[] = [
   //   label: '资源',
   //   route: { name: 'resources' },
   // },
-  // {
-  //   label: '配方',
-  //   route: { name: 'recipes' },
-  // },
+  {
+    label: '配方',
+    route: { name: 'recipes' },
+  },
   // {
   //   label: '振幅晶体',
   //   route: { name: 'mods' },

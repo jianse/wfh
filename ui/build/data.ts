@@ -101,11 +101,11 @@ for (const it of endpoints) {
     return await resp.text()
   })
 
-  const cjson = JSON.parse(cont)
+  const contentJson = JSON.parse(cont)
 
   const cat = it.replace(/Export([a-zA-Z]+)(_\w{2})?\.json(.*)/, '$1')
   console.log(cat)
-  m.set(cat, cjson)
+  m.set(cat, contentJson)
 }
 class ObservableMap<K, V> extends Map<K, V> {
   get(key: K, warn: boolean = true) {
@@ -403,6 +403,7 @@ interface Recipes {
     // this is always be a mission requirements
     secretIngredients: Ingredient[]
     name?: string
+    description?: string
     textureLocation?: string
   }[]
 }
@@ -418,6 +419,7 @@ recipes.ExportRecipes.forEach((element, index) => {
     const r = (m.get(r_idx.category) as object)[r_idx.prop][r_idx.index]
     // console.log(r)
     element.name = r.name + ' 设计图'
+    element.description = r.description
   }
 
   element.textureLocation = mf_kv.get(element.uniqueName)

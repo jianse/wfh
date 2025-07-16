@@ -31,7 +31,6 @@ function sign_req(req) {
       (match ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (match / 4)))).toString(16),
     )
     if ('get' === method.toLowerCase()) {
-      let t = ''
       if (req.data && Object.keys(req.data).length != 0) {
         const serializedData = serializeData(req.data)
         if (serializedData) {

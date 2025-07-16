@@ -1,94 +1,109 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { VirtualScroller } from 'primevue'
-import Image from 'primevue/image'
-
 import { useElementSize } from '@vueuse/core'
-// import { useTemplateRef } from 'vue'
 import { chunk } from 'lodash'
+import { useORecipes } from '@/util/localDB'
+import { useTransStore } from '@/stores/translations'
 
 const scroller = ref()
 const { width } = useElementSize(scroller)
 
-type Ingredient = {
-  ItemType: string
-  ItemCount: number
-  item: CommonItem
-}
+const items = useORecipes()
 
-type CommonItem = {
-  name: string
-  uniqueName: string
-  description: string
-  imgUrl?: string
-}
+const { wf_t } = useTransStore()
 
-type RecipeItem = {
-  uniqueName: string
-  name: string
-  textureLocation?: string
-  resultType: string
-  resultItem: CommonItem
-  ingredients: Ingredient[]
-}
+const transItems = computed(() => {
+  return items.value.map((item) => {
+    const name_t = wf_t(item.uniqueName, 'name')
+    const description_t = wf_t(item.uniqueName, 'description')
+    const ingredients = item.ingredients.map((ingredient) => {
+      const name_t = wf_t(ingredient.ItemType, 'name')
 
-const items = ref<RecipeItem[]>([])
+      return {
+        ...ingredient,
+        name_t,
+      }
+    })
+    return {
+      ...item,
+      ingredients,
+      name_t,
+      description_t,
+    }
+  })
+})
 
-async function fetchResources() {
-  const res = await fetch('/data/Recipes-filled.json')
-  const data = await res.json()
-  console.log(data)
-  items.value = data.ExportRecipes
-}
-fetchResources()
+const filteredItems = computed(() => {
+  return transItems.value.filter((item) => {
+    return (
+      item.name?.includes(kwFilter.value) ||
+      item.name_t?.includes(kwFilter.value) ||
+      item.description?.includes(kwFilter.value) ||
+      item.description_t?.includes(kwFilter.value) ||
+      item.ingredients.some((ingredient) => {
+        return (
+          ingredient.name?.includes(kwFilter.value) || ingredient.name_t?.includes(kwFilter.value)
+        )
+      })
+    )
+  })
+})
+
 const itemWidth = 500
 
 const itemsComputed = computed(() => {
   const lineCount = Math.max(1, Math.floor(width.value / itemWidth))
-  console.log('lineCount', lineCount)
-  const chunkedItems = chunk(items.value, lineCount)
-  console.log('chunkedItems', chunkedItems)
+  const chunkedItems = chunk(filteredItems.value, lineCount)
   return chunkedItems
 })
+const kwFilter = ref('')
 </script>
 
 <template>
-  <VirtualScroller
+  <div class="flex sticky top-0 w-full p-2" style="background-color: var(--color-background)">
+    <pv-input-text placeholder="请输入关键词" v-model="kwFilter"></pv-input-text>
+  </div>
+  <pv-virtual-scroller
     ref="scroller"
     :items="itemsComputed"
     :item-size="300"
     style="width: 100%; height: calc(100vh - 58px)"
   >
-    <template v-slot:item="{ item }">
+    <template v-slot:item="{ item: row }">
       <!-- <div>{{ line.length }}</div> -->
       <div style="display: flex; flex-direction: row">
-        <template v-for="innerItem in item" :key="innerItem.uniqueName">
+        <template v-for="item in row" :key="item.uniqueName">
           <div class="card-cnt">
             <div class="card">
-              <h3>{{ innerItem.resultItem.name }}</h3>
+              <h3>{{ item.name_t || item.name }}</h3>
               <div class="description">
-                <p>{{ innerItem.resultItem.description }}</p>
+                <p>{{ item.description_t || item.description }}</p>
               </div>
               <div class="card-content">
                 <div>
-                  <Image
-                    :src="innerItem.resultItem.imgUrl"
+                  <pv-image
+                    loading="lazy"
+                    :src="'https://content.warframe.com/PublicExport' + item.textureLocation"
                     preview
-                    style="background-color: #eee; height: 195px"
+                    style="background-color: #eee; height: 195px; width: 195px"
                   />
                 </div>
                 <div class="recipe-ingredients">
                   <div
-                    v-for="ingredient in innerItem.ingredients"
+                    v-for="ingredient in item.ingredients"
                     :key="ingredient.ItemType"
                     style="display: flex; gap: 4px; height: 46px"
                   >
                     <img
-                      :src="ingredient.item.imgUrl"
-                      style="height: 45px; background-color: #eee"
+                      loading="lazy"
+                      :src="
+                        'https://content.warframe.com/PublicExport' + ingredient.textureLocation
+                      "
+                      style="height: 45px; width: 45px; background-color: #eee"
                     />
                     <div>
-                      <span>{{ ingredient.item.name }}</span>
+                      <span>{{ ingredient.name_t || ingredient.name }}</span>
+                      <!-- <span>{{ ingredient.ItemType }}</span> -->
                       <p style="font-weight: bold">{{ ingredient.ItemCount }}</p>
                     </div>
                   </div>
@@ -99,7 +114,7 @@ const itemsComputed = computed(() => {
         </template>
       </div>
     </template>
-  </VirtualScroller>
+  </pv-virtual-scroller>
 </template>
 
 <style scoped>

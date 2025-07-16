@@ -98,6 +98,31 @@ export interface Arcane {
   slot: string
 }
 
+interface Ingredient {
+  // like uniqueName
+  ItemType: string
+  ItemCount: number
+  ProductCategory: string
+  name: string
+  textureLocation: string
+}
+
+export interface Recipe {
+  uniqueName: string
+  resultType: string
+  buildPrice: number
+  buildTime: number
+  skipBuildTimePrice: number
+  consumeOnUse: boolean
+  num: number
+  codexSecret: boolean
+  ingredients: Ingredient[]
+  secretIngredients: Ingredient[]
+  name: string
+  description: string
+  textureLocation: string
+}
+
 const DB_NAME = 'wf-data'
 
 export const db = new Dexie(DB_NAME) as Dexie & {
@@ -107,7 +132,7 @@ export const db = new Dexie(DB_NAME) as Dexie & {
   Weapons: EntityTable<Commons, 'uniqueName'>
   Upgrades: EntityTable<Commons, 'uniqueName'>
   Arcane: EntityTable<Arcane, 'uniqueName'>
-  Recipes: EntityTable<Commons, 'uniqueName'>
+  Recipes: EntityTable<Recipe, 'uniqueName'>
   Relics: EntityTable<Relic, 'uniqueName'>
   Manifest: EntityTable<Manifest, 'uniqueName'>
   Resources: EntityTable<Resources, 'uniqueName'>
@@ -188,3 +213,8 @@ export const useORelics = () =>
     >,
     { initialValue: [] },
   )
+
+export const useORecipes = () =>
+  useObservable(liveQuery(() => db.Recipes.toArray()) as unknown as Observable<Recipe[]>, {
+    initialValue: [],
+  })
