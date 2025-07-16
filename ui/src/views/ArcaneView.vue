@@ -64,30 +64,70 @@ const slot = ref('Any')
 const data = useOArcane()
 
 const items = computed(() => {
-  return data.value.filter((item) => {
-    if (slot.value === 'Any') {
-      return true
-    }
-    return item.slot === slot.value
-  })
+  return data.value
+    .filter((item) => {
+      if (slot.value === 'Any') {
+        return true
+      }
+      return item.slot === slot.value
+    })
+    .filter((item) => {
+      if (!kwFilter.value) {
+        return true
+      }
+      if (ignoreCase.value) {
+        const kwLower = kwFilter.value.toLowerCase()
+        return (
+          item.name.toLowerCase().includes(kwLower) ||
+          item.levelStats[item.levelStats.length - 1].stats.some((term) => {
+            return term.toLowerCase().includes(kwLower)
+          })
+        )
+      } else {
+        return (
+          item.name.includes(kwFilter.value) ||
+          item.levelStats[item.levelStats.length - 1].stats.some((term) => {
+            return term.includes(kwFilter.value)
+          })
+        )
+      }
+    })
 })
+const kwFilter = ref('')
+const ignoreCase = ref(true)
 </script>
 
 <template>
-  <pv-tabs class="sticky top-0 z-10" v-model:value="slot">
-    <pv-tab-list>
-      <pv-tab value="Any">所有</pv-tab>
-      <pv-tab value="Warframe">战甲</pv-tab>
-      <pv-tab value="Operator">指挥官</pv-tab>
-      <pv-tab value="Amp">增幅器</pv-tab>
-      <pv-tab value="LongGun">主武器</pv-tab>
-      <pv-tab value="Pistol">副武器</pv-tab>
-      <pv-tab value="Melee">近战武器</pv-tab>
-      <pv-tab value="Kitgun">组合枪</pv-tab>
-      <pv-tab value="ZAW">天工造武</pv-tab>
-      <pv-tab value="Unknown">未知</pv-tab>
-    </pv-tab-list>
-  </pv-tabs>
+  <div
+    class="sticky top-0 z-10 flex flex-row place-content-between"
+    style="background-color: var(--color-background)"
+  >
+    <pv-tabs v-model:value="slot">
+      <pv-tab-list>
+        <pv-tab value="Any">所有</pv-tab>
+        <pv-tab value="Warframe">战甲</pv-tab>
+        <pv-tab value="Operator">指挥官</pv-tab>
+        <pv-tab value="Amp">增幅器</pv-tab>
+        <pv-tab value="LongGun">主武器</pv-tab>
+        <pv-tab value="Pistol">副武器</pv-tab>
+        <pv-tab value="Melee">近战武器</pv-tab>
+        <pv-tab value="Kitgun">组合枪</pv-tab>
+        <pv-tab value="ZAW">天工造武</pv-tab>
+        <pv-tab value="Unknown">未知</pv-tab>
+      </pv-tab-list>
+    </pv-tabs>
+    <div class="flex flex-col place-content-around me-3">
+      <div class="flex flex-row gap-3 place-content-around">
+        <label>搜索：<pv-input-text size="small" v-model="kwFilter"></pv-input-text></label>
+
+        <div class="flex items-center gap-2">
+          <pv-checkbox v-model="ignoreCase" inputId="ignoreCase" binary />
+          <label for="ignoreCase"> 忽略大小写 </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div style="display: flex; flex-wrap: wrap; gap: 8px; padding: 8px">
     <!-- <div class="w-full">共{{ items.length }}项 / {{ items.filter((it) => it.inGame).length }}</div> -->
     <pv-card
