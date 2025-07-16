@@ -122,6 +122,154 @@ export interface Recipe {
   description: string
   textureLocation: string
 }
+interface CommonWeapon {
+  name: string
+  uniqueName: string
+  codexSecret: boolean
+  damagePerShot: number[]
+  totalDamage: number
+  description: string
+  criticalChance: number
+  criticalMultiplier: number
+  procChance: number
+  fireRate: number
+  masteryReq: number
+  productCategory: string
+  slot?: number
+  textureLocation: string
+}
+
+export interface WeaponPistols extends CommonWeapon {
+  productCategory: 'Pistols'
+  accuracy?: number
+  omegaAttenuation: number
+  noise?: string
+  trigger?: string
+  magazineSize?: number
+  reloadTime?: number
+  multishot?: number
+  maxLevelCap?: number
+  excludeFromCodex?: boolean
+  // this field is for kitgun weapons
+  primeOmegaAttenuation?: number
+}
+
+export interface WeaponMelee extends CommonWeapon {
+  productCategory: 'Melee'
+  omegaAttenuation: number
+  blockingAngle?: number
+  comboDuration?: number
+  followThrough?: number
+  range?: number
+  slamAttack?: number
+  slamRadialDamage?: number
+  slamRadius?: number
+  slideAttack?: number
+  heavyAttackDamage?: number
+  heavySlamAttack?: number
+  heavySlamRadialDamage?: number
+  heavySlamRadius?: number
+  windUp?: number
+  maxLevelCap?: number
+}
+
+export interface WeaponLongGun extends CommonWeapon {
+  productCategory: 'LongGuns'
+  accuracy: number
+  omegaAttenuation: number
+  noise: string
+  trigger: string
+  magazineSize?: number
+  reloadTime: number
+  multishot: number
+  maxLevelCap?: number
+}
+
+export interface WeaponSpaceGun extends CommonWeapon {
+  productCategory: 'SpaceGuns'
+  accuracy: number
+  omegaAttenuation: number
+  noise: string
+  trigger: string
+  magazineSize: number
+  reloadTime: number
+  multishot: number
+  maxLevelCap?: number
+}
+
+export interface WeaponSpaceMelee extends CommonWeapon {
+  productCategory: 'SpaceMelee'
+  omegaAttenuation: number
+  blockingAngle: number
+  comboDuration: number
+  followThrough: number
+  range: number
+  slamAttack: number
+  slamRadialDamage: number
+  slamRadius: number
+  slideAttack: number
+  heavyAttackDamage: number
+  heavySlamAttack: number
+}
+
+export interface WeaponAmp extends CommonWeapon {
+  productCategory: 'OperatorAmps'
+  accuracy: number
+  omegaAttenuation: number
+  noise: string
+  trigger: string
+  magazineSize: number
+  reloadTime: number
+  multishot: number
+}
+
+export interface WeaponSentinel extends CommonWeapon {
+  productCategory: 'SentinelWeapons'
+  accuracy?: number
+  omegaAttenuation: number
+  noise?: string
+  trigger?: string
+  magazineSize?: number
+  reloadTime?: number
+  sentinel: boolean
+  multishot?: number
+  excludeFromCodex?: boolean
+  blockingAngle?: number
+}
+
+export interface WeaponSpecialItems extends CommonWeapon {
+  productCategory: 'SpecialItems'
+  omegaAttenuation: number
+  blockingAngle?: number
+  comboDuration?: number
+  followThrough?: number
+  range?: number
+  slamAttack?: number
+  slamRadialDamage?: number
+  slamRadius?: number
+  slideAttack?: number
+  heavyAttackDamage?: number
+  heavySlamAttack?: number
+  heavySlamRadialDamage?: number
+  heavySlamRadius?: number
+  windUp?: number
+  accuracy?: number
+  noise?: string
+  trigger?: string
+  reloadTime?: number
+  multishot?: number
+  magazineSize?: number
+}
+
+export type Weapon =
+  | WeaponPistols
+  | WeaponMelee
+  | WeaponLongGun
+  | WeaponSpaceGun
+  | WeaponSpaceMelee
+  | WeaponAmp
+  | WeaponSentinel
+  | WeaponSpecialItems
 
 const DB_NAME = 'wf-data'
 
@@ -129,7 +277,7 @@ export const db = new Dexie(DB_NAME) as Dexie & {
   index: EntityTable<Index, 'id'>
   last_update: EntityTable<LastUpdate, 'category'>
   Warframes: EntityTable<Warframes, 'uniqueName'>
-  Weapons: EntityTable<Commons, 'uniqueName'>
+  Weapons: EntityTable<Weapon, 'uniqueName'>
   Upgrades: EntityTable<Commons, 'uniqueName'>
   Arcane: EntityTable<Arcane, 'uniqueName'>
   Recipes: EntityTable<Recipe, 'uniqueName'>
@@ -216,5 +364,10 @@ export const useORelics = () =>
 
 export const useORecipes = () =>
   useObservable(liveQuery(() => db.Recipes.toArray()) as unknown as Observable<Recipe[]>, {
+    initialValue: [],
+  })
+
+export const useOWeapons = () =>
+  useObservable(liveQuery(() => db.Weapons.toArray()) as unknown as Observable<Weapon[]>, {
     initialValue: [],
   })

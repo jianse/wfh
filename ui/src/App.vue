@@ -29,10 +29,10 @@ const navItems: MenuItem[] = [
   //   label: '振幅晶体',
   //   route: { name: 'mods' },
   // },
-  // {
-  //   label: '武器',
-  //   route: { name: 'weapons' },
-  // },
+  {
+    label: '武器',
+    route: { name: 'weapons' },
+  },
   {
     label: '遗物',
     route: { name: 'relics' },
