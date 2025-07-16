@@ -7,9 +7,11 @@ const start_time = Date.now()
 const output_dir = 'public/data'
 const cache_dir = 'cache'
 // Check if the output directory exists, if not create it
-if (!fs.existsSync(output_dir)) {
-  fs.mkdirSync(output_dir, { recursive: true })
-}
+
+// always clear output directory
+fs.rmSync(output_dir, { recursive: true, force: true })
+fs.mkdirSync(output_dir, { recursive: true })
+
 // Check if the cache directory exists, if not create it
 if (!fs.existsSync(cache_dir)) {
   fs.mkdirSync(cache_dir, { recursive: true })
@@ -558,7 +560,7 @@ relics.ExportRelics.sort(relicComparator)
 // process.exit(0)
 
 for (const [k, v] of m.entries()) {
-  fs.writeFileSync(`${output_dir}/${k}.json`, JSON.stringify(v, null, 2))
+  fs.writeFileSync(`${cache_dir}/${k}.json`, JSON.stringify(v, null, 2))
 }
 
 console.log('reverse index size: ', reverse_map.size)
