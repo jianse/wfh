@@ -8,7 +8,14 @@
         >K</kbd
       >
     </button>
-    <pv-dialog v-model:visible="open" modal position="top" :dismissable-mask="true" header="全局搜索" class="w-150 h-72">
+    <pv-dialog
+      v-model:visible="open"
+      modal
+      position="top"
+      :dismissable-mask="true"
+      header="全局搜索"
+      class="w-150 h-72"
+    >
       <div>敬请期待！</div>
     </pv-dialog>
   </div>

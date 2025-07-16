@@ -25,30 +25,32 @@ const translatedItems = computed<WarframeItemWithTrans[]>(() => {
 })
 
 const items = computed<WarframeItemWithTrans[]>(() => {
-  return translatedItems.value.filter((it) => {
-    if (ignoreCase.value) {
-      const kwLower = kwFilter.value.toLowerCase()
-      return (
-        it.name.toLowerCase().includes(kwLower) ||
-        it.description.toLowerCase().includes(kwLower) ||
-        it.name_t?.toLowerCase().includes(kwLower) ||
-        it.description_t?.toLowerCase().includes(kwLower)
-      )
-    } else {
-      return (
-        it.name.includes(kwFilter.value) ||
-        it.description.includes(kwFilter.value) ||
-        it.name_t?.includes(kwFilter.value) ||
-        it.description_t?.includes(kwFilter.value)
-      )
-    }
-  }).filter((it)=>{
-    if(cat.value==='Any'){
-      return true
-    } else {
-      return it.productCategory === cat.value
-    }
-  })
+  return translatedItems.value
+    .filter((it) => {
+      if (ignoreCase.value) {
+        const kwLower = kwFilter.value.toLowerCase()
+        return (
+          it.name.toLowerCase().includes(kwLower) ||
+          it.description.toLowerCase().includes(kwLower) ||
+          it.name_t?.toLowerCase().includes(kwLower) ||
+          it.description_t?.toLowerCase().includes(kwLower)
+        )
+      } else {
+        return (
+          it.name.includes(kwFilter.value) ||
+          it.description.includes(kwFilter.value) ||
+          it.name_t?.includes(kwFilter.value) ||
+          it.description_t?.includes(kwFilter.value)
+        )
+      }
+    })
+    .filter((it) => {
+      if (cat.value === 'Any') {
+        return true
+      } else {
+        return it.productCategory === cat.value
+      }
+    })
 })
 
 const toast = useToast()
@@ -197,7 +199,13 @@ const cat = ref('Any')
     </pv-tabs>
     <div class="flex flex-col place-content-around me-3">
       <div class="flex flex-row gap-3 place-content-around">
-        <label>搜索：<pv-input-text placeholder="输入关键字" size="small" v-model="kwFilter"></pv-input-text></label>
+        <label
+          >搜索：<pv-input-text
+            placeholder="输入关键字"
+            size="small"
+            v-model="kwFilter"
+          ></pv-input-text
+        ></label>
 
         <div class="flex items-center gap-2">
           <pv-checkbox v-model="ignoreCase" inputId="ignoreCase" binary />

@@ -118,7 +118,13 @@ const ignoreCase = ref(true)
     </pv-tabs>
     <div class="flex flex-col place-content-around me-3">
       <div class="flex flex-row gap-3 place-content-around">
-        <label>搜索：<pv-input-text size="small" v-model="kwFilter"></pv-input-text></label>
+        <label
+          >搜索：<pv-input-text
+            placeholder="输入关键字"
+            size="small"
+            v-model="kwFilter"
+          ></pv-input-text
+        ></label>
 
         <div class="flex items-center gap-2">
           <pv-checkbox v-model="ignoreCase" inputId="ignoreCase" binary />
