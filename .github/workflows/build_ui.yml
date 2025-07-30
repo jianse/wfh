@@ -25,5 +25,6 @@ jobs:
       with:
         node-version: 22.x
         cache: 'pnpm'
+        cache-dependency-path: 'ui/pnpm-lock.yaml'
     - run: pnpm install
     - run: pnpm run build --if-present
