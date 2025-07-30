@@ -30,13 +30,12 @@ jobs:
   #       cache-dependency-path: 'ui/pnpm-lock.yaml'
   #   - run: pnpm install
   #   - run: pnpm run build --if-present
+
   build_api:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
-
-      - uses: actions/cache@v4
 
       - uses: actions/cache@v4
         with:
