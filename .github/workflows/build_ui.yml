@@ -6,14 +6,12 @@ name: Build ui
 on: [push, pull_request]
 
 jobs:
-    
   build:
     defaults:
       run:
         working-directory: ui
     runs-on: ubuntu-latest
    
-
     # strategy:
     #   matrix:
     #     node-version: [18.x, 20.x, 22.x]
@@ -29,6 +27,6 @@ jobs:
       with:
         node-version: 22.x
         cache: 'pnpm'
-        # cache-dependency-path: 'ui/pnpm-lock.yaml'
+        cache-dependency-path: 'ui/pnpm-lock.yaml'
     - run: pnpm install
     - run: pnpm run build --if-present
