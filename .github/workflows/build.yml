@@ -11,7 +11,7 @@ jobs:
   #     run:
   #       working-directory: ui
   #   runs-on: ubuntu-latest
-   
+
   #   # strategy:
   #   #   matrix:
   #   #     node-version: [18.x, 20.x, 22.x]
@@ -31,7 +31,7 @@ jobs:
   #   - run: pnpm install
   #   - run: pnpm run build --if-present
   build_api:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
