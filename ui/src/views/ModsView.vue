@@ -1,75 +1,60 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { useOUpgrades } from '@/util/localDB'
+import { useElementSize } from '@vueuse/core'
+import { chunk } from 'lodash'
+import { computed, ref } from 'vue'
 
-type Item = {
-  uniqueName: string
-  name: string
-  textureLocation?: string
-  imgUrl?: string
-}
-
-type ManifestItem = {
-  uniqueName: string
-  textureLocation: string
-}
-
-async function fetchManifest(): Promise<ManifestItem[]> {
-  const res = await fetch('/data/Manifest.json')
-  const data = await res.json()
-  return data.Manifest
-}
-
-const mfItems = await fetchManifest()
-
-const items = ref<Item[]>([])
-
-async function fetchResources() {
-  const res = await fetch('/data/Upgrades.json')
-  const data = await res.json()
-  console.log(data)
-
-  items.value = data.ExportUpgrades.filter((it: Item) => it.name.includes('执刑官')).map(
-    (it: Item) => {
-      const url = imageUrl(it.uniqueName)
-      return { ...it, imgUrl: url }
-    },
+const items = useOUpgrades()
+const kwFilter = ref('')
+const cItems = computed(() => {
+  const r = items.value.filter(
+    (item) => item.name.includes(kwFilter.value) || item.compatName?.includes(kwFilter.value),
   )
-  console.log(items.value)
+  // console.log(r)
+  return r
+})
 
-  // items.value =
-}
-
-function imageUrl(uniqueName: string): string {
-  // console.log(uniqueName);
-
-  const textureLocation = mfItems.find((it) => it.uniqueName === uniqueName)?.textureLocation
-
-  return textureLocation ? `https://content.warframe.com/PublicExport${textureLocation}` : ''
-}
-
-fetchResources()
+const scroller = ref()
+const { width } = useElementSize(scroller)
+const itemWidth = 310
+const itemHeight = 514
+const itemsComputed = computed(() => {
+  const lineCount = Math.max(1, Math.floor(width.value / itemWidth))
+  const chunkedItems = chunk(cItems.value, lineCount)
+  return chunkedItems
+})
 </script>
 
 <template>
-  <header class="sticky-header">
-    <input />
-    <!-- <button> </button> -->
-    <button @click="fetchResources">刷新</button>
-  </header>
-  <div style="display: flex; flex-wrap: wrap; gap: 8px">
-    <div class="card" v-for="item in items" :key="item.uniqueName">
-      <h5>{{ item.name }}</h5>
-      <div class="img-bg">
-        <img :src="item.imgUrl" />
-      </div>
-    </div>
+  <div class="sticky top-0">
+    <pv-input-text v-model="kwFilter" placeholder="请输入关键词"></pv-input-text>
   </div>
+  <pv-virtual-scroller
+    class="mx-2"
+    ref="scroller"
+    :items="itemsComputed"
+    :item-size="itemHeight"
+    style="width: calc(100% - 16px); height: calc(100% - 58px)"
+  >
+    <template v-slot:item="{ item: row }">
+      <div class="flex flex-row gap-2 pb-2">
+        <div class="card" v-for="item in row" :key="item.uniqueName">
+          <h5>{{ item.name }}</h5>
+          <pos-mod :mod="item" max-rank></pos-mod>
+        </div>
+      </div>
+    </template>
+  </pv-virtual-scroller>
+  <!-- <div style="display: flex; flex-wrap: wrap; gap: 8px">
+    <div class="card" v-for="item in cItems" :key="item.uniqueName">
+      <h5>{{ item.name }}</h5>
+      <common-mod :mod="item" max-rank></common-mod>
+    </div>
+  </div> -->
 </template>
 
 <style scoped>
 .card {
-  width: 500px;
-  height: 200px;
   flex: initial;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -90,7 +75,7 @@ fetchResources()
 
 .card img {
   object-fit: contain;
-  height: 150px;
+  /* height: 150px; */
   /* height: fit-content; */
   /* height: min-content; */
 }

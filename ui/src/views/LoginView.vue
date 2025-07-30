@@ -97,7 +97,7 @@ const onFormSubmit = async () => {
       await setToken(token)
       setTimeout(() => {
         router.back()
-      }, 3000)
+      }, 1000)
     } else {
       toast.add({
         severity: 'info',

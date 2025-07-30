@@ -240,6 +240,7 @@ const cat = ref('Any')
         <StringWithIcon :text="item.name_t || item.name"></StringWithIcon
       ></template>
       <template #content>
+        {{ item.uniqueName }}
         <div class="max-h-24 overflow-auto">
           {{ item.description_t || item.description }}
         </div>

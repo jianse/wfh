@@ -2,7 +2,7 @@
 import uiIcons from '@/assets/icons/ui/index.ts'
 import { useSyncStore, type SyncItem } from '@/stores/sync'
 import { check_update_available, update_one } from '@/util/resources'
-import { computed, ref } from 'vue'
+import { computed, onActivated, ref } from 'vue'
 
 interface SyncState {
   label: string
@@ -66,6 +66,11 @@ function humanFormat(time: Date) {
   }
   return dayjs(time).fromNow()
 }
+
+onActivated(() => {
+  console.log('ACTIVATED')
+  syncAll()
+})
 </script>
 
 <template>

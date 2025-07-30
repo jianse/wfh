@@ -8,6 +8,7 @@ import { PrimeVueResolver } from '@primevue/auto-import-resolver'
 // import UnoCSS from 'unocss/vite'
 import tailwindcss from '@tailwindcss/vite'
 import { visualizer } from "rollup-plugin-visualizer";
+import modImageSuit from './build/code-gen-plugin.js'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -25,7 +26,9 @@ export default defineConfig({
       ]
     }),
     tailwindcss(),
-visualizer()
+    visualizer(),
+    modImageSuit()
+    // codegen()
   ],
   resolve: {
     alias: {

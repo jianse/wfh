@@ -13,7 +13,13 @@ import radiation from './RadiationSymbol.png'
 import electricity from './ElectricitySymbol.png'
 import radiant from './VoidSymbol.png'
 import mb00_d from './MouseButton00_d.png'
+import explosion from './BlastSymbol.png'
+import energy from './Energy_d.png'
+import mw_d from './MouseWheelButton_d.png'
+import shield from './HildrynEnergyShield.png'
+import sentient from './Sentient_d.png'
 
+// TODO: AFFINITY_SHARE
 const map = new Map<string, string>([
   ['ARCHWING', archwing],
   ['DT_POISON_COLOR', toxin],
@@ -30,6 +36,11 @@ const map = new Map<string, string>([
   ['DT_ELECTRICITY_COLOR', electricity],
   ['DT_RADIANT_COLOR', radiant],
   ['PRE_ATTACK', mb00_d],
+  ['DT_EXPLOSION_COLOR', explosion],
+  ['ENERGY', energy],
+  ['SECONDARY_FIRE', mw_d],
+  ['SHIELD', shield],
+  ['DT_SENTIENT', sentient],
 ])
 
 export function findImageUrl(name: string): string {

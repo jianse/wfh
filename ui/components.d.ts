@@ -8,6 +8,13 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AmalgamMod: typeof import('./src/components/mods/Amalgam/AmalgamMod.vue')['default']
+    AntivirusMod: typeof import('./src/components/mods/Antivirus/AntivirusMod.vue')['default']
+    ArchonMod: typeof import('./src/components/mods/Archon/ArchonMod.vue')['default']
+    CommonMod: typeof import('./src/components/mods/CommonMod.vue')['default']
+    EmptyMod: typeof import('./src/components/mods/EmptyMod.vue')['default']
+    EnergyAniIcon: typeof import('./src/components/EnergyAniIcon.vue')['default']
+    GalvanizedMod: typeof import('./src/components/mods/Galvanized/GalvanizedMod.vue')['default']
     GlobalSearch: typeof import('./src/components/GlobalSearch.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
@@ -15,7 +22,12 @@ declare module 'vue' {
     IconEcosystem: typeof import('./src/components/icons/IconEcosystem.vue')['default']
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
+    ImmortalMod: typeof import('./src/components/mods/Immortal/ImmortalMod.vue')['default']
     LoginOrOfflineDialog: typeof import('./src/components/LoginOrOfflineDialog.vue')['default']
+    OmegaMod: typeof import('./src/components/mods/Omega/OmegaMod.vue')['default']
+    PeculiarMod: typeof import('./src/components/mods/Peculiar/PeculiarMod.vue')['default']
+    PosMod: typeof import('./src/components/mods/PosMod.vue')['default']
+    PotencyMod: typeof import('./src/components/mods/Potency/PotencyMod.vue')['default']
     PvAvatar: typeof import('primevue/avatar')['default']
     PvButton: typeof import('primevue/button')['default']
     PvCard: typeof import('primevue/card')['default']
@@ -39,10 +51,12 @@ declare module 'vue' {
     PvTextarea: typeof import('primevue/textarea')['default']
     PvToast: typeof import('primevue/toast')['default']
     PvVirtualScroller: typeof import('primevue/virtualscroller')['default']
+    RailjackMod: typeof import('./src/components/mods/Railjack/RailjackMod.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     StringWithIcon: typeof import('./src/components/StringWithIcon.vue')['default']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
+    TomeMod: typeof import('./src/components/mods/Tome/TomeMod.vue')['default']
     WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
   }
   export interface GlobalDirectives {

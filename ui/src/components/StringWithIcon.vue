@@ -5,13 +5,15 @@
 // import { find } from 'lodash';
 import { findImageUrl } from '@/assets/icons/fonts'
 import { h, watch } from 'vue'
+import EnergyAniIcon from './EnergyAniIcon.vue'
 
 const props = defineProps<{
   text: string
   imageClass?: string
 }>()
 
-const pat = /<(.*?)>/g
+// const pat = /<(.*?)>/g
+const pat = /<(.*?)>|\r\n/g
 
 let parsedText = h('span', strToVNodes(props.text))
 
@@ -24,12 +26,25 @@ function strToVNodes(v: string) {
       nodes.push(v.substring(pos, arr.index))
     }
     pos = pat.lastIndex
-    const image_url = findImageUrl(arr[1])
-    let clazz = props.imageClass || 'inline-block h-lh'
-    if (['PRE_ATTACK', 'ARCHWING'].includes(arr[1])) {
-      clazz += ' invert-100 dark:invert-0'
+    const name = arr[1]
+    // console.log(arr)
+    if (arr[0] === '\r\n') {
+      nodes.push(h('br'))
+    } else if (name === 'ENERGY') {
+      nodes.push(h(EnergyAniIcon))
+    } else if (name === 'LOWER_IS_BETTER') {
+      // skip
+    } else if (name === 'LINE_SEPARATOR') {
+      nodes.push(h('hr'))
+    } else {
+      const image_url = findImageUrl(name)
+      let clazz = props.imageClass || 'inline-block h-lh'
+      if (['PRE_ATTACK', 'ARCHWING', 'SECONDARY_FIRE'].includes(name)) {
+        clazz += ' invert-100 dark:invert-0'
+      }
+      nodes.push(h('img', { src: image_url, alt: name, class: clazz }))
     }
-    nodes.push(h('img', { src: image_url, alt: arr[1], class: clazz }))
+
     // console.log(`Found ${arr[0]}. Next starts at ${pat.lastIndex}.`)
   }
   if (pos < v.length) {

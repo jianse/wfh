@@ -25,10 +25,10 @@ const navItems: MenuItem[] = [
     label: '配方',
     route: { name: 'recipes' },
   },
-  // {
-  //   label: '振幅晶体',
-  //   route: { name: 'mods' },
-  // },
+  {
+    label: '振幅晶体',
+    route: { name: 'mods' },
+  },
   {
     label: '武器',
     route: { name: 'weapons' },

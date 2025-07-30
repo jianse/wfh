@@ -271,6 +271,56 @@ export type Weapon =
   | WeaponSentinel
   | WeaponSpecialItems
 
+export interface Upgrade {
+  uniqueName: string
+  name: string
+  polarity:
+    | 'AP_POWER'
+    | 'AP_DEFENSE'
+    | 'AP_TACTIC'
+    | 'AP_ATTACK'
+    | 'AP_WARD'
+    | 'AP_UNIVERSAL'
+    | 'AP_UMBRA'
+    | 'AP_PRECEPT'
+    | 'AP_ANY'
+  rarity: 'COMMON' | 'UNCOMMON' | 'RARE' | 'LEGENDARY'
+  codexSecret: boolean
+  baseDrain: number
+  fusionLimit: number
+  compatName?: string
+  type?: string
+  description?: string[]
+  tags?: string[]
+  isUtility?: boolean
+  levelStats?: {
+    stats: string[]
+  }[]
+  modSet?: string
+  modSetValues?: number[]
+  subType?: string
+  excludeFromCodex?: boolean
+  // riven mod only
+  upgradeEntries?: {
+    tag: string
+    prefixTag: string
+    suffixTag: string
+    upgradeValues: {
+      value: number
+      locTag: string
+    }[]
+  }[]
+  availableChallenges: {
+    fullName: string
+    description: string
+    complications: {
+      fullName: string
+      description: string
+    }[]
+  }[]
+  textureLocation: string
+}
+
 const DB_NAME = 'wf-data'
 
 export const db = new Dexie(DB_NAME) as Dexie & {
@@ -278,7 +328,7 @@ export const db = new Dexie(DB_NAME) as Dexie & {
   last_update: EntityTable<LastUpdate, 'category'>
   Warframes: EntityTable<Warframes, 'uniqueName'>
   Weapons: EntityTable<Weapon, 'uniqueName'>
-  Upgrades: EntityTable<Commons, 'uniqueName'>
+  Upgrades: EntityTable<Upgrade, 'uniqueName'>
   Arcane: EntityTable<Arcane, 'uniqueName'>
   Recipes: EntityTable<Recipe, 'uniqueName'>
   Relics: EntityTable<Relic, 'uniqueName'>
@@ -369,5 +419,10 @@ export const useORecipes = () =>
 
 export const useOWeapons = () =>
   useObservable(liveQuery(() => db.Weapons.toArray()) as unknown as Observable<Weapon[]>, {
+    initialValue: [],
+  })
+
+export const useOUpgrades = () =>
+  useObservable(liveQuery(() => db.Upgrades.toArray()) as unknown as Observable<Upgrade[]>, {
     initialValue: [],
   })
