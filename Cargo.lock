@@ -3770,10 +3770,12 @@ version = "0.9.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "41ae868b5a0f67631c14589f7e250c1ea2c574ee5ba21c6c8dd4b1485705a5a1"
 dependencies = [
+ "indexmap 2.10.0",
  "serde",
  "serde_spanned",
  "toml_datetime 0.7.0",
  "toml_parser",
+ "toml_writer",
  "winnow",
 ]
 
@@ -3811,6 +3813,12 @@ checksum = "97200572db069e74c512a14117b296ba0a80a30123fbbb5aa1f4a348f639ca30"
 dependencies = [
  "winnow",
 ]
+
+[[package]]
+name = "toml_writer"
+version = "1.0.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fcc842091f2def52017664b53082ecbbeb5c7731092bad69d2c63050401dfd64"
 
 [[package]]
 name = "tower"
@@ -4171,8 +4179,12 @@ dependencies = [
 name = "wf_api"
 version = "0.1.0"
 dependencies = [
+ "clap",
+ "eyre",
  "service",
+ "settings",
  "tokio",
+ "toml",
 ]
 
 [[package]]

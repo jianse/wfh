@@ -2,7 +2,7 @@ mod defaults;
 
 use std::collections::HashMap;
 use std::fmt::Display;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::sync::OnceLock;
 
 use argon2::password_hash::SaltString;
@@ -78,13 +78,30 @@ pub enum AllowMethods {
     List(#[serde_as(as = "Vec<serde_with::DisplayFromStr>")] Vec<http::Method>),
 }
 
-#[derive(Deserialize, Serialize, Debug, Default, Clone)]
+#[derive(Deserialize, Serialize, Debug, Clone)]
+// #[serde(default)]
 pub struct LogSettings {
-    #[serde(default = "Default::default")]
+    #[serde(default = "default_log_level")]
     pub level: HashMap<String, LogLevel>,
 
     pub file: Option<LogFileSettings>,
 }
+
+impl Default for LogSettings {
+    fn default() -> Self {
+        Self {
+            level: default_log_level(),
+            file: Default::default(),
+        }
+    }
+}
+
+fn default_log_level() -> HashMap<String, LogLevel> {
+    let mut map = HashMap::new();
+    map.insert("root".to_string(), LogLevel::Info);
+    map
+}
+
 #[derive(Deserialize, Serialize, Debug, Default, Clone)]
 pub struct LogFileSettings {
     #[serde(default = "default_log_file_root")]
@@ -235,12 +252,13 @@ impl Default for JwtSettings {
 }
 
 fn init_settings() -> Result<Settings, ConfigError> {
+    let path = CONFIG_PATH.get_or_init(|| PathBuf::from("config.toml"));
     let defaults = Settings::default();
 
-    let cd = Config::try_from(&defaults)?;
+    let default_settings = Config::try_from(&defaults)?;
     let l_settings = Config::builder()
-        .add_source(cd)
-        .add_source(config::File::with_name("config.toml").required(false))
+        .add_source(default_settings)
+        .add_source(config::File::from(path.as_path()).required(false))
         .build()?;
     let mut result = l_settings.try_deserialize::<Settings>()?;
 
@@ -262,6 +280,11 @@ fn init_settings() -> Result<Settings, ConfigError> {
     Ok(result)
 }
 
+pub fn set_default_config_path<P: AsRef<Path>>(path: P) {
+    CONFIG_PATH.set(PathBuf::from(path.as_ref())).unwrap();
+}
+
+static CONFIG_PATH: OnceLock<PathBuf> = OnceLock::new();
 static SETTINGS: OnceLock<Settings> = OnceLock::new();
 
 pub fn get() -> &'static Settings {

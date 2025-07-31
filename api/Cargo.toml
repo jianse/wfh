@@ -8,4 +8,8 @@ embed = ["service/embed"]
 
 [dependencies]
 tokio = { workspace = true, features = ["full"] }
+clap = { workspace = true, features = ["derive"] }
 service = { path = "../service" }
+settings = { path = "../settings" }
+toml = { workspace = true }
+eyre = { workspace = true }

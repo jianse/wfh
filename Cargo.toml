@@ -33,7 +33,9 @@ serde_with = "3.14.0"
 rust-embed = "8.7.2"
 mime_guess = "2.0.5"
 hex = "0.4.3"
+clap = "4.5.42"
+eyre = "0.6.12"
+toml = "0.9.4"
 
 # dev use only
 criterion = "0.7.0"
-eyre = "0.6.12"

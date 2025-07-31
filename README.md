@@ -26,11 +26,20 @@ first you should complete build ui step above.
 $ cargo build --release --feature embed
 ```
 
+### Run
+
+```bash
+$ ./target/release/wf_api serve
+```
+
+<!-- TODO: ADD MORE DOCUMENT -->
+
 ## TODO
 
-- [ ] CLI for generating configurations and restore admin credentials
+- [X] CLI for generating configurations
 - [ ] Warframe world state api
 - [ ] User management api (create new user, delete user, change password, change role)
 - [ ] User management web interface
 - [ ] Translations for mods
 - [ ] User inventory
+- [ ] CLI for restore admin credentials
