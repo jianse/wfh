@@ -36,6 +36,8 @@ jobs:
         
     - run: pnpm install
     - run: pnpm run build --if-present
+      env:
+        DATA_PROXY: ${{ secrets.DATA_PROXY }}
 
   build_api:
     runs-on: ubuntu-latest
