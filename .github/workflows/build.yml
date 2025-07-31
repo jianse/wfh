@@ -69,7 +69,17 @@ jobs:
   
   build_app_bundle:
     needs: build_ui
-    runs-on: ubuntu-latest
+    runs-on: ${{matrix.os}}
+    
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-musl 
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
 
     steps:
       - uses: actions/checkout@v4
@@ -82,7 +92,10 @@ jobs:
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
             target/
-          key: ${{ runner.os }}-cargo-e-${{ hashFiles('**/Cargo.lock') }}
+          key: ${{ matrix.target }}-cargo-embed-${{ hashFiles('**/Cargo.lock') }}
+      
+      - run: rustup add target ${{ matrix.target }}
+        name: adding target
 
       - name: Download ui from 'build_ui' job
         uses: actions/download-artifact@v4
@@ -94,5 +107,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: wfh-gnu
-          path: target/release/wf_api
+          name: wfh-${{ matrix.target }}
+          path:  |
+            target/release/wf_api
+            target/release/wf_api.exe
