@@ -6,30 +6,36 @@ name: Build
 on: [push, pull_request]
 
 jobs:
-  # build_ui:
-  #   defaults:
-  #     run:
-  #       working-directory: ui
-  #   runs-on: ubuntu-latest
+  build_ui:
+    defaults:
+      run:
+        working-directory: ui
+    runs-on: ubuntu-latest
 
-  #   # strategy:
-  #   #   matrix:
-  #   #     node-version: [18.x, 20.x, 22.x]
-  #       # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    # strategy:
+    #   matrix:
+    #     node-version: [18.x, 20.x, 22.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
-  #   steps:
-  #   - uses: actions/checkout@v4
-  #   - uses: pnpm/action-setup@v4
-  #     with:
-  #       version: 10
+    steps:
+    - uses: actions/checkout@v4
+    - uses: pnpm/action-setup@v4
+      with:
+        version: 10
 
-  #   - uses: actions/setup-node@v4
-  #     with:
-  #       node-version: 22.x
-  #       cache: 'pnpm'
-  #       cache-dependency-path: 'ui/pnpm-lock.yaml'
-  #   - run: pnpm install
-  #   - run: pnpm run build --if-present
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 22.x
+        cache: 'pnpm'
+        cache-dependency-path: 'ui/pnpm-lock.yaml'
+    
+    - uses: actions/cache@v4
+      with:
+        path: ui/cache
+        key: data-cache
+        
+    - run: pnpm install
+    - run: pnpm run build --if-present
 
   build_api:
     runs-on: ubuntu-latest
