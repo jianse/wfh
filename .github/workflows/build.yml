@@ -88,6 +88,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ui
+          path: ui/dist
 
       - run: cargo build --release --features=embed
 
