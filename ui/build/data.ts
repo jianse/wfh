@@ -1,6 +1,13 @@
 import fs from 'node:fs'
 import lzma from 'lzma'
 import { createHash } from 'node:crypto'
+import { ProxyAgent, setGlobalDispatcher, fetch } from 'undici'
+
+if (process.env.DATA_PROXY) {
+  console.log('Using proxy!')
+  const proxy = new ProxyAgent(process.env.DATA_PROXY)
+  setGlobalDispatcher(proxy)
+}
 
 const start_time = Date.now()
 
@@ -140,7 +147,7 @@ class ReverseIndex {
     readonly category: string,
     readonly prop: string,
     readonly index: number,
-  ) {}
+  ) { }
 }
 
 // split relics and arcane
