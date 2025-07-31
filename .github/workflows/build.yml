@@ -68,6 +68,7 @@ jobs:
           path: target/release/wf_api
   
   build_app_bundle:
+    needs: build_ui
     runs-on: ubuntu-latest
 
     steps:
