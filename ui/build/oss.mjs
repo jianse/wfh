@@ -45,8 +45,9 @@ async function doGzip(path, dest) {
 async function onFile(path) {
   const ossKey = path.replace('dist/', '')
   if (path.startsWith('dist/data/')) {
-    console.log('visit path :', path)
-    const [rx, tx] = duplexPair() // const dest = new FastDupStream()
+    // data json files are going to be gzip
+    // console.log('visit path :', path)
+    const [rx, tx] = duplexPair()
     doGzip(path, rx)
     const opts = {
       headers: {},

@@ -18,7 +18,7 @@ const items: SyncState[] = [
   { label: '赋能', icon: uiIcons.arcane, category: 'Arcane' },
   { label: '配方', icon: uiIcons.recipe, category: 'Recipes' },
   { label: '遗物', icon: uiIcons.relic, category: 'Relics' },
-  { label: '清单', icon: uiIcons.manifest, category: 'Manifest' },
+  { label: '资源', icon: uiIcons.manifest, category: 'Resources' },
 ]
 
 const store = useSyncStore()

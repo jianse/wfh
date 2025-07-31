@@ -118,7 +118,7 @@
   <div class="flex flex-row gap-3 relative z-6">
     <pv-button :disabled="currentRank <= 0" label="降低" @click="reduceRank()"></pv-button>
     <pv-button
-      :disabled="currentRank >= props.mod.fusionLimit"
+      :disabled="currentRank >= fusionLimit"
       label="升高"
       @click="increaseRank()"
     ></pv-button>

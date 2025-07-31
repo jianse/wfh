@@ -17,10 +17,10 @@ const navItems: MenuItem[] = [
     label: '战甲',
     route: { name: 'warframes' },
   },
-  // {
-  //   label: '资源',
-  //   route: { name: 'resources' },
-  // },
+  {
+    label: '资源',
+    route: { name: 'resources' },
+  },
   {
     label: '配方',
     route: { name: 'recipes' },

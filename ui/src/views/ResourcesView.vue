@@ -1,62 +1,19 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-
-type Item = {
-  uniqueName: string
-  name: string
-  textureLocation?: string
-  imgUrl?: string
-}
-
-type ManifestItem = {
-  uniqueName: string
-  textureLocation: string
-}
-
-async function fetchManifest(): Promise<ManifestItem[]> {
-  const res = await fetch('/data/Manifest.json')
-  const data = await res.json()
-  return data.Manifest
-}
-
-const mfItems = await fetchManifest()
-
-const items = ref<Item[]>([])
-
-async function fetchResources() {
-  const res = await fetch('/data/Resources.json')
-  const data = await res.json()
-  console.log(data)
-
-  items.value = data.ExportResources.map((it: Item) => {
-    const url = imageUrl(it.uniqueName)
-    return { ...it, imgUrl: url }
-  })
-  // items.value =
-}
-
-function imageUrl(uniqueName: string): string {
-  // console.log(uniqueName);
-
-  const textureLocation = mfItems.find((it) => it.uniqueName === uniqueName)?.textureLocation
-
-  return textureLocation ? `https://content.warframe.com/PublicExport${textureLocation}` : ''
-}
-
-fetchResources()
+import { useOResources } from '@/util/localDB'
+const items = useOResources()
 </script>
 
 <template>
   <header class="sticky-header">
     <input />
     <!-- <button> </button> -->
-    <button @click="fetchResources">刷新</button>
+    <!-- <button @click="fetchResources">刷新</button> -->
   </header>
   <div style="display: flex; flex-wrap: wrap; gap: 8px">
     <div class="card" v-for="item in items" :key="item.uniqueName">
       <h5>{{ item.name }}</h5>
       <div class="img-bg">
-        <img :src="item.imgUrl" />
+        <img :src="'https://content.warframe.com/PublicExport' + item.textureLocation" />
       </div>
     </div>
   </div>

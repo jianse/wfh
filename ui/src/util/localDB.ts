@@ -72,6 +72,7 @@ export interface Resources {
   parentName: string
   excludeFromCodex: boolean
   primeSellingPrice?: number
+  textureLocation: string
 }
 
 export interface Commons {
@@ -424,5 +425,10 @@ export const useOWeapons = () =>
 
 export const useOUpgrades = () =>
   useObservable(liveQuery(() => db.Upgrades.toArray()) as unknown as Observable<Upgrade[]>, {
+    initialValue: [],
+  })
+
+export const useOResources = () =>
+  useObservable(liveQuery(() => db.Resources.toArray()) as unknown as Observable<Resources[]>, {
     initialValue: [],
   })

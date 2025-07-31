@@ -1,15 +1,10 @@
 <template>
-  <div
-    ref="icon"
-    class="inline-block icon"
-    style="background: url(src/assets/icons/fonts/Energy_d.png); width: 1lh; height: 1lh"
-    :style="style"
-  ></div>
+  <div ref="icon" class="inline-block __icon" style="width: 1lh; height: 1lh" :style="style"></div>
 </template>
 <script lang="ts" setup>
 import { useElementSize } from '@vueuse/core'
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-// import {}
+import energyIcon from '@/assets/icons/fonts/Energy_d.png'
 
 const icon = ref<HTMLElement | null>(null)
 const eSize = useElementSize(icon)
@@ -25,6 +20,7 @@ const style = computed(() => {
   const y = Math.floor(pIndex.value / r) * eSize.height.value + 'px'
   // console.log(x, y)
   return {
+    background: `url("${energyIcon}")`,
     backgroundPosition: `${x} ${y}`,
     backgroundSize: `${eSize.width.value * c}px ${eSize.height.value * r}px`,
   }

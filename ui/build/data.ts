@@ -55,6 +55,7 @@ const cache = load_or_create_endpoint_cache()
 async function fetch_index() {
   const origin = 'https://origin.warframe.com/PublicExport/index_zh.txt.lzma'
   const res = await fetch(origin)
+  console.log('Fetching index...', res)
   const raw = await res.bytes()
 
   const decompressed = lzma.decompress(raw)
@@ -567,7 +568,15 @@ for (const [k, v] of m.entries()) {
 
 console.log('reverse index size: ', reverse_map.size)
 
-const include_cats = ['Warframes', 'Weapons', 'Upgrades', 'Recipes', 'Relics', 'Arcane']
+const include_cats = [
+  'Warframes',
+  'Weapons',
+  'Upgrades',
+  'Recipes',
+  'Relics',
+  'Arcane',
+  'Resources',
+]
 const i_list: string[] = []
 
 for (const cat of include_cats) {
