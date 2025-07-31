@@ -7,30 +7,40 @@ edition = "2024"
 embed = ["spa/embed"]
 
 [dependencies]
-axum = { version = "0.8.4", features = ["macros", "http2"] }
-chrono = "0.4.41"
-config = "0.15.13"
-http = "1.3.1"
-jsonwebtoken = "9.3.1"
-log = "0.4.27"
-once_cell = "1.21.3"
-rand = "0.9.2"
-regex = { version = "1.11.1", default-features = false }
-sea-orm = { version = "1.1.14", features = ["sqlx-sqlite", "runtime-tokio-rustls"] }
-sea-orm-migration = { version = "1.1.14", features = ["sqlx-sqlite"] }
-serde = { version = "1.0.219", features = ["derive"] }
-serde_json = "1.0.141"
-thiserror = "2.0.12"
-tokio = { version = "1.47.0", features = ["full"] }
-tracing = "0.1.41"
-tracing-subscriber = { version = "0.3.19", features = ["env-filter", "local-time"] }
-tokio-rustls = { version = "0.26.2", default-features = false, features = ["ring", "logging", "tls12"] }
+axum = { workspace = true, features = ["macros", "http2"] }
+chrono = { workspace = true }
+config = { workspace = true }
+http = { workspace = true }
+jsonwebtoken = { workspace = true }
+log = { workspace = true }
+once_cell = { workspace = true }
+rand = { workspace = true }
+regex = { workspace = true, default-features = false }
+sea-orm = { workspace = true, features = [
+    "sqlx-sqlite",
+    "runtime-tokio-rustls",
+] }
+sea-orm-migration = { workspace = true, features = ["sqlx-sqlite"] }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true, features = ["full"] }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true, features = [
+    "env-filter",
+    "local-time",
+] }
+tokio-rustls = { workspace = true, default-features = false, features = [
+    "ring",
+    "logging",
+    "tls12",
+] }
+axum-server = { workspace = true }
+tower-http = { workspace = true, features = ["trace", "cors"] }
+tracing-appender = { workspace = true }
 settings = { path = "../settings" }
 spa = { path = "../spa" }
-axum-server = "0.7.2"
-tower-http = { version = "0.6.6", features = ["trace", "cors"] }
-tracing-appender = "0.2.3"
 
 [dev-dependencies]
-axum-server = { version = "0.7.2", features = ["tls-rustls"] }
-eyre = "0.6.12"
+axum-server = { workspace = true, features = ["tls-rustls"] }
+eyre = { workspace = true }

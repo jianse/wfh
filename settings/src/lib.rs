@@ -80,6 +80,7 @@ pub enum AllowMethods {
 
 #[derive(Deserialize, Serialize, Debug, Default, Clone)]
 pub struct LogSettings {
+    #[serde(default = "Default::default")]
     pub level: HashMap<String, LogLevel>,
 
     pub file: Option<LogFileSettings>,
