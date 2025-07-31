@@ -94,7 +94,7 @@ jobs:
             target/
           key: ${{ matrix.target }}-cargo-embed-${{ hashFiles('**/Cargo.lock') }}
       
-      - run: rustup add target ${{ matrix.target }}
+      - run: rustup target add ${{ matrix.target }}
         name: adding target
 
       - name: Download ui from 'build_ui' job
