@@ -35,7 +35,7 @@ jobs:
         key: data-cache
         
     - run: pnpm install
-    - run: pnpm run build --if-present
+    - run: pnpm run build
       env:
         DATA_PROXY: ${{ secrets.DATA_PROXY }}
 
