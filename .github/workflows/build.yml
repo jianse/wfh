@@ -38,6 +38,11 @@ jobs:
     - run: pnpm run build
       env:
         DATA_PROXY: ${{ secrets.DATA_PROXY }}
+    
+    - uses: actions/upload-artifact@v4
+      with:
+        name: ui
+        path: ui/dist
 
   build_api:
     runs-on: ubuntu-latest
@@ -59,5 +64,33 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: wfh-api-gun
+          name: wfh-api-gnu
+          path: target/release/wf_api
+  
+  build_app_bundle:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-e-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Download ui from 'build_ui' job
+        uses: actions/download-artifact@v4
+        with:
+          name: ui
+
+      - run: cargo build --release --features=embed
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wfh-gnu
           path: target/release/wf_api
