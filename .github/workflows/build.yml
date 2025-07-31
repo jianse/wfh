@@ -15,37 +15,47 @@ jobs:
     # strategy:
     #   matrix:
     #     node-version: [18.x, 20.x, 22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v4
-    - uses: pnpm/action-setup@v4
-      with:
-        version: 10
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
 
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 22.x
-        cache: 'pnpm'
-        cache-dependency-path: 'ui/pnpm-lock.yaml'
-    
-    - uses: actions/cache@v4
-      with:
-        path: ui/cache
-        key: data-cache
-        
-    - run: pnpm install
-    - run: pnpm run build
-      env:
-        DATA_PROXY: ${{ secrets.DATA_PROXY }}
-    
-    - uses: actions/upload-artifact@v4
-      with:
-        name: ui
-        path: ui/dist
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: "pnpm"
+          cache-dependency-path: "ui/pnpm-lock.yaml"
+
+      - uses: actions/cache@v4
+        with:
+          path: ui/cache
+          key: data-cache
+
+      - run: pnpm install
+      - run: pnpm run build
+        env:
+          DATA_PROXY: ${{ secrets.DATA_PROXY }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ui
+          path: ui/dist
 
   build_api:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-musl
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
 
     steps:
       - uses: actions/checkout@v4
@@ -58,24 +68,26 @@ jobs:
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
             target/
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          key: ${{ matrix.target }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
       - run: cargo build --release
 
       - uses: actions/upload-artifact@v4
         with:
-          name: wfh-api-gnu
-          path: target/release/wf_api
-  
+          name: wfh-api-${{ matrix.target }}
+          path: |
+            target/release/wf_api
+            target/release/wf_api.exe
+
   build_app_bundle:
     needs: build_ui
-    runs-on: ${{matrix.os}}
-    
+    runs-on: ${{ matrix.os }}
+
     strategy:
       matrix:
         include:
           - os: ubuntu-latest
-            target: x86_64-unknown-linux-musl 
+            target: x86_64-unknown-linux-musl
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
           - os: windows-latest
@@ -93,9 +105,9 @@ jobs:
             ~/.cargo/git/db/
             target/
           key: ${{ matrix.target }}-cargo-embed-${{ hashFiles('**/Cargo.lock') }}
-      
+
       - run: rustup target add ${{ matrix.target }}
-        name: adding target
+        name: Adding target
 
       - name: Download ui from 'build_ui' job
         uses: actions/download-artifact@v4
@@ -108,6 +120,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: wfh-${{ matrix.target }}
-          path:  |
+          path: |
             target/release/wf_api
             target/release/wf_api.exe
