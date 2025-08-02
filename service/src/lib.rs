@@ -2,10 +2,12 @@ mod api;
 
 mod entities;
 pub mod error;
+mod job;
 mod logging;
 mod migrator;
 pub mod tls;
 
+use crate::job::WgWorldStateJob;
 use crate::tls::TlsListener;
 use axum::response::Redirect;
 use axum::serve::Listener;
@@ -30,6 +32,7 @@ use tracing::info;
 #[derive(Clone)]
 struct AppStateRaw {
     conn: DatabaseConnection,
+    http_client: reqwest::Client,
 }
 
 async fn shutdown_signal(mut rx: Receiver<()>) {
@@ -70,12 +73,20 @@ pub async fn serve() -> Result<()> {
 
     Migrator::up(&conn, None).await?;
 
-    let state = Arc::new(AppStateRaw { conn });
+    let http_client = reqwest::Client::new();
+
+    let state = Arc::new(AppStateRaw { conn, http_client });
     let (tx, rx) = broadcast::channel::<()>(10);
     let rx2 = tx.subscribe();
 
+    // start control endpoint
     tokio::spawn(start_ctl_endpoint(tx.clone(), rx2));
 
+    // start background jobs
+    let job = WgWorldStateJob::new(state.clone(), shutdown_signal(tx.subscribe()));
+    tokio::task::spawn(job.run());
+
+    // start other endpoints
     match &settings.server.tls {
         None => {
             let listener =

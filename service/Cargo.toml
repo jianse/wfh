@@ -7,6 +7,9 @@ edition = "2024"
 embed = ["spa/embed"]
 
 [dependencies]
+settings = { path = "../settings" }
+spa = { path = "../spa" }
+
 axum = { workspace = true, features = ["macros", "http2"] }
 chrono = { workspace = true }
 config = { workspace = true }
@@ -38,8 +41,16 @@ tokio-rustls = { workspace = true, default-features = false, features = [
 axum-server = { workspace = true }
 tower-http = { workspace = true, features = ["trace", "cors"] }
 tracing-appender = { workspace = true }
-settings = { path = "../settings" }
-spa = { path = "../spa" }
+uuid = { workspace = true, features = ["v4"] }
+reqwest = { workspace = true, features = [
+    "rustls-tls-native-roots",
+    "gzip",
+    "json",
+] }
+md5 = { workspace = true }
+hex = { workspace = true }
+serde_with = { workspace = true, features = ["chrono_0_4"] }
+
 
 [dev-dependencies]
 axum-server = { workspace = true, features = ["tls-rustls"] }

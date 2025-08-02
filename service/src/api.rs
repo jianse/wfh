@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 use crate::{AppState, entities};
 use axum::extract::State;
 use axum::middleware::{Next, from_fn};
@@ -22,14 +24,19 @@ use tracing::{debug, info};
 mod token;
 mod translations;
 mod user;
+pub mod world_state;
 
 use settings::PwdHasherError;
 use token::create_token;
+
+static WHITE_LIST: Lazy<RegexSet> =
+    Lazy::new(|| RegexSet::new(["/translations/all", "/world_state/current"]).unwrap());
 
 pub(crate) fn api_routes(state: AppState) -> Router<AppState> {
     Router::new()
         .nest("/user", user::user_routes())
         .nest("/translations", translations::translations_routes(state))
+        .nest("/world_state", world_state::world_state_routes())
         .layer(from_fn(auth_layer))
         .route("/token", post(create_token))
         .fallback(async || StatusCode::NOT_FOUND)
@@ -70,7 +77,6 @@ impl IntoResponse for AuthError {
 
 async fn auth_layer(mut req: Request, next: Next) -> AuthResult<Response> {
     // white list uri bypass
-    static WHITE_LIST: Lazy<RegexSet> = Lazy::new(|| RegexSet::new(["/translations/all"]).unwrap());
     if WHITE_LIST.is_match(req.uri().path()) {
         return Ok(next.run(req).await);
     }
@@ -194,6 +200,20 @@ pub enum BizError {
 
     #[error("permission deny")]
     Permission,
+
+    #[error("call peer error. {0}")]
+    CallPeer(#[from] reqwest::Error),
+
+    #[error("serde json error. {0}")]
+    SerdeJson(#[from] serde_json::Error),
+
+    #[error("other error. {0}")]
+    Custom(String),
+}
+impl BizError {
+    pub fn custom<S: Display>(msg: S) -> Self {
+        BizError::Custom(msg.to_string())
+    }
 }
 
 impl IntoResponse for BizError {
