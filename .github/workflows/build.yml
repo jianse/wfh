@@ -85,8 +85,8 @@ jobs:
         with:
           name: wfh-api-${{ matrix.target }}
           path: |
-            target/release/wf_api
-            target/release/wf_api.exe
+            target/${{ matrix.target }}/release/wf_api
+            target/${{ matrix.target }}/release/wf_api.exe
 
   build_app_bundle:
     needs: build_ui
@@ -121,7 +121,7 @@ jobs:
       - run: |
           sudo apt-get update
           sudo apt-get install musl-tools
-          
+
         if: ${{  endsWith(matrix.target, '-musl') && startsWith(matrix.os, 'ubuntu') }}
 
       - name: Download ui from 'build_ui' job
@@ -136,5 +136,5 @@ jobs:
         with:
           name: wfh-${{ matrix.target }}
           path: |
-            target/release/wf_api
-            target/release/wf_api.exe
+            target/${{ matrix.target }}/release/wf_api
+            target/${{ matrix.target }}/release/wf_api.exe
