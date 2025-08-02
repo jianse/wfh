@@ -42,7 +42,9 @@ axum-server = { workspace = true }
 tower-http = { workspace = true, features = ["trace", "cors"] }
 tracing-appender = { workspace = true }
 uuid = { workspace = true, features = ["v4"] }
-reqwest = { workspace = true, features = [
+reqwest = { workspace = true, default-features = false, features = [
+    "charset",
+    "http2",
     "rustls-tls-native-roots",
     "gzip",
     "json",
