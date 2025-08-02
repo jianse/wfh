@@ -70,7 +70,7 @@ jobs:
             target/
           key: ${{ matrix.target }}-cargo }}
 
-      - run: cargo build --release
+      - run: cargo build --release --target ${{ matrix.target }}
 
       - uses: actions/upload-artifact@v4
         with:
@@ -115,7 +115,7 @@ jobs:
           name: ui
           path: ui/dist
 
-      - run: cargo build --release --features=embed
+      - run: cargo build --release --features=embed --target ${{ matrix.target }}
 
       - uses: actions/upload-artifact@v4
         with:
