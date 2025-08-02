@@ -73,7 +73,10 @@ jobs:
       - run: rustup target add ${{ matrix.target }}
         name: Adding target
       
-      - run: apt-get install musl-tools
+      - run: |
+          sudo apt-get update
+          sudo apt-get install musl-tools
+
         if: ${{  endsWith(matrix.target, '-musl') && startsWith(matrix.os, 'ubuntu') }}
 
       - run: cargo build --release --target ${{ matrix.target }}
@@ -115,7 +118,10 @@ jobs:
       - run: rustup target add ${{ matrix.target }}
         name: Adding target
 
-      - run: apt-get install musl-tools
+      - run: |
+          sudo apt-get update
+          sudo apt-get install musl-tools
+          
         if: ${{  endsWith(matrix.target, '-musl') && startsWith(matrix.os, 'ubuntu') }}
 
       - name: Download ui from 'build_ui' job
