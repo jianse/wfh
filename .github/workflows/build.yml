@@ -68,7 +68,10 @@ jobs:
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
             target/
-          key: ${{ matrix.target }}-cargo }}
+          key: ${{ matrix.target }}-cargo
+      
+      - run: rustup target add ${{ matrix.target }}
+        name: Adding target
 
       - run: cargo build --release --target ${{ matrix.target }}
 
@@ -104,7 +107,7 @@ jobs:
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
             target/
-          key: ${{ matrix.target }}-cargo-embed }}
+          key: ${{ matrix.target }}-cargo-embed
 
       - run: rustup target add ${{ matrix.target }}
         name: Adding target
