@@ -13,6 +13,8 @@ pub struct Model {
     pub is_success: bool,
     pub error_msg: Option<String>,
     pub time_spent_ms: u32,
+    pub raw: Option<String>,
+    pub warnings: Option<String>,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]

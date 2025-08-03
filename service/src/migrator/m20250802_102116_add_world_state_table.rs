@@ -16,7 +16,7 @@ impl MigrationTrait for Migration {
                     .col(string_null(WorldState::Text))
                     .col(boolean(WorldState::IsSuccess))
                     .col(string_null(WorldState::ErrorMsg))
-                    .col(integer(WorldState::TimeSpentMs))
+                    .col(unsigned(WorldState::TimeSpentMs))
                     .to_owned(),
             )
             .await

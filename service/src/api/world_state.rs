@@ -28,6 +28,7 @@ use tracing::info;
 #[derive(Deserialize, Debug)]
 struct WorldStateRes {
     /// 状态码 1 成功 0 失败
+    #[allow(unused)]
     status: String,
     data: WorldStateData,
 }
@@ -823,24 +824,64 @@ struct CountedItem {
     r#type: String,
     key: String,
 }
-pub async fn get_world_state(state: AppState) -> BizResult<WorldStateData> {
+
+#[derive(Debug)]
+pub struct WorldStateOut {
+    pub raw: String,
+    pub data: WorldStateData,
+}
+
+pub struct WorldStateError {
+    pub raw: Option<String>,
+    // pub data: Option<WorldStateData>,
+    pub err: BizError,
+}
+
+impl From<BizError> for WorldStateError {
+    fn from(err: BizError) -> Self {
+        WorldStateError {
+            raw: None,
+            // data: None,
+            err,
+        }
+    }
+}
+
+impl From<reqwest::Error> for WorldStateError {
+    fn from(err: reqwest::Error) -> Self {
+        WorldStateError {
+            raw: Some(err.to_string()),
+            // data: None,
+            err: BizError::CallPeer(err),
+        }
+    }
+}
+
+pub async fn get_world_state(state: AppState) -> Result<WorldStateOut, WorldStateError> {
+    // let mut res = WorldStateOut::default();
     let start = std::time::Instant::now();
 
-    let resp = state
-        .http_client
-        .get(build_url()?)
-        .headers(headers())
-        .send()
-        .await?;
+    let url = build_url()?;
+
+    let resp = state.http_client.get(url).headers(headers()).send().await?;
+
     debug!("{resp:?}");
-    let s = resp.text().await?;
+    let raw = resp.text().await?;
+
     info!(
         "query world state wegame took: {} ms",
         start.elapsed().as_millis()
     );
 
-    let s = serde_json::from_str::<WorldStateRes>(s.as_str())?;
-    Ok(s.data)
+    let res = serde_json::from_str::<WorldStateRes>(raw.as_str()).map_err(|e| WorldStateError {
+        raw: Some(raw.clone()),
+        err: e.into(),
+    })?;
+
+    Ok(WorldStateOut {
+        raw,
+        data: res.data,
+    })
 }
 
 static REWARD_ITEM_MAP: LazyLock<HashMap<&str, &str>> = LazyLock::new(|| {
@@ -1061,7 +1102,7 @@ mod tests {
         match file {
             Ok(f) => {
                 let s = serde_json::from_reader::<_, WorldStateRes>(f).unwrap();
-                let (res, warn) = rewrite_world_state(s.data);
+                let (_res, warn) = rewrite_world_state(s.data);
                 // dbg!(&s);
                 dbg!(&warn);
             }
