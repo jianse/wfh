@@ -884,15 +884,16 @@ pub async fn get_world_state(state: AppState) -> Result<WorldStateOut, WorldStat
     })
 }
 
-static REWARD_ITEM_MAP: LazyLock<HashMap<&str, &str>> = LazyLock::new(|| {
+static REWARD_ITEM_MAP: LazyLock<HashMap<&str, Option<&str>>> = LazyLock::new(|| {
     HashMap::from([
-        ("Opticor Vandal", "奥堤克光子枪破坏者"),
-        ("Buried Debts Emblem", "雪藏的恩怨徽章"),
-        ("Amalgam Shotgun Spazz", "并合 霰弹弹幕"),
-        ("Amalgam Serration", "并合膛线"),
-        ("Amalgam Barrel Diffusion", "并合弹头扩散"),
-        ("Amalgam Organ Shatter", "并合肢解"),
-        ("Buried Debts Sigil", "雪藏的恩怨纹章"),
+        ("Opticor Vandal", Some("奥堤克光子枪破坏者")),
+        ("Buried Debts Emblem", Some("雪藏的恩怨徽章")),
+        ("Amalgam Shotgun Spazz", Some("并合 霰弹弹幕")),
+        ("Amalgam Serration", Some("并合膛线")),
+        ("Amalgam Barrel Diffusion", Some("并合弹头扩散")),
+        ("Amalgam Organ Shatter", Some("并合肢解")),
+        ("Buried Debts Sigil", Some("雪藏的恩怨纹章")),
+        ("SolNode236", Some("双衍历程")),
     ])
 });
 
@@ -927,24 +928,30 @@ pub struct RewriteWarningItem {
     pub desc: String,
 }
 
+fn rewrite_one(val: &mut String, warnings: &mut RewriteWarning, path: String) {
+    if let Some(ni) = REWARD_ITEM_MAP.get(val.as_str()) {
+        if let Some(ni) = ni {
+            *val = ni.to_string();
+        }
+    } else {
+        warnings.add_item(path, format!("unexpected item: {val} "));
+    }
+}
+
 pub fn rewrite_world_state(data: WorldStateData) -> (WorldStateData, Option<RewriteWarning>) {
     let mut warnings = RewriteWarning::new();
     let mut data = data;
     data.events.iter_mut().enumerate().for_each(|(i, event)| {
         let path = format!("$.events[{i}]");
 
-        // *event.node =
+        rewrite_one(&mut event.node, &mut warnings, format!("{path}.node"));
 
         event.rewards.iter_mut().enumerate().for_each(|(i, r)| {
             let path = format!("{path}.rewards[{i}]");
 
             r.items.iter_mut().enumerate().for_each(|(i, it)| {
                 let path = format!("{path}.items[{i}]");
-                if let Some(ni) = REWARD_ITEM_MAP.get(it.as_str()) {
-                    *it = ni.to_string();
-                } else {
-                    warnings.add_item(path, format!("unexpected item: {it} "));
-                }
+                rewrite_one(it, &mut warnings, path);
             });
         });
 
@@ -958,12 +965,7 @@ pub fn rewrite_world_state(data: WorldStateData) -> (WorldStateData, Option<Rewr
                 s.reward.items.iter_mut().enumerate().for_each(|(i, it)| {
                     let path = format!("{path}.reward.items[{i}]");
 
-                    match REWARD_ITEM_MAP.get(it.as_str()) {
-                        Some(v) => {
-                            *it = v.to_string();
-                        }
-                        None => warnings.add_item(path, format!("unexpected item: {it} ")),
-                    };
+                    rewrite_one(it, &mut warnings, path);
                 })
             })
     });

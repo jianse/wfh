@@ -23,7 +23,7 @@ $ cargo build --release
 first you should complete build ui step above.
 
 ```bash
-$ cargo build --release --feature embed
+$ cargo build --release --features embed
 ```
 
 ### Run
@@ -37,7 +37,8 @@ $ ./target/release/wf_api serve
 ## TODO
 
 - [X] CLI for generating configurations
-- [ ] Warframe world state api
+- [X] Warframe world state api
+- [ ] World state ui
 - [ ] User management api (create new user, delete user, change password, change role)
 - [ ] User management web interface
 - [ ] Translations for mods
