@@ -2,19 +2,25 @@
 
 use crate::AppState;
 use crate::api::world_state::{
-    RewriteWarning, WorldStateData, WorldStateError, WorldStateOut, rewrite_world_state,
+    RewriteWarning, WorldStateData, WorldStateError, WorldStateOut, get_nearest_expiry,
+    rewrite_world_state,
 };
 use crate::entities::prelude::WorldState;
 use crate::entities::world_state;
-use chrono::{TimeDelta, Utc};
+use chrono::{Local, TimeDelta, Utc};
+use log::info;
 use sea_orm::ActiveValue::{NotSet, Set};
 use sea_orm::prelude::DateTimeUtc;
 use sea_orm::{ColumnTrait, EntityTrait, QueryFilter, QueryOrder};
 use std::time::{Duration, Instant};
-use tracing::trace;
+use tracing::{error, trace};
 
 /// min interval between two syncs
-const MIN_INTERVAL: TimeDelta = TimeDelta::seconds(60 * 10);
+/// one minute
+const MIN_INTERVAL: TimeDelta = TimeDelta::seconds(60);
+/// min interval between two syncs but in [std::time::Duration] type
+/// NOTE: this value should be equal to [MIN_INTERVAL]
+const MIN_INTERVAL_DURATION: Duration = Duration::from_secs(60);
 
 pub struct WgWorldStateJob<S> {
     state: AppState,
@@ -39,21 +45,23 @@ where
             drop(signal_rx);
         });
 
-        // calc sleep time via last success time
-        // and
-
+        // calc start up sleep time via last success time
+        // TODO: write nearest expires time into db. so we can get bootstrap sleep time directly
         let mut d = match get_last_run_time(state.clone()).await {
             Some(last) => {
                 let now = Utc::now();
                 let dur = now - last;
                 if dur < MIN_INTERVAL {
-                    (MIN_INTERVAL - dur).to_std().unwrap()
+                    (MIN_INTERVAL - dur)
+                        .to_std()
+                        .unwrap_or(MIN_INTERVAL_DURATION)
                 } else {
                     Duration::ZERO
                 }
             }
             None => Duration::ZERO,
         };
+
         loop {
             tokio::select! {
                 _ = tokio::time::sleep(d) =>  (),
@@ -76,22 +84,34 @@ where
         match res {
             Ok(ws) => {
                 let WorldStateOut { data, raw } = ws;
+                *d = match get_nearest_expiry(&data) {
+                    Some(next_time) => {
+                        let now = Utc::now();
+                        let next_min = now + MIN_INTERVAL;
+                        let nt = std::cmp::max(next_time, next_min);
+                        nt - Utc::now()
+                    }
+                    None => MIN_INTERVAL,
+                }
+                .to_std()
+                .unwrap_or(MIN_INTERVAL_DURATION);
                 let (data, warn) = rewrite_world_state(data);
                 let spent = start.elapsed();
                 write_world_state_into_db(state, raw, data, warn, spent).await;
             }
             Err(err) => {
                 let spent = start.elapsed();
-
+                *d = MIN_INTERVAL_DURATION;
                 log_error(state, err, spent).await
             }
         };
-        *d = MIN_INTERVAL.to_std().unwrap();
+        info!("next run could at {}", Local::now() + *d);
     }
 }
 
 /// logging get warframe world state error into db.
 async fn log_error(state: AppState, err: WorldStateError, spent: Duration) {
+    error!("{}", err.err.to_string());
     let row = world_state::ActiveModel {
         id: NotSet,
         sync_time: Set(Utc::now()),

@@ -48,7 +48,15 @@ pub(crate) struct WorldStateData {
     syndicate_missions: Vec<SyndicateMission>,
     /// 虚空裂缝
     fissures: Vec<Fissure>,
-    // globalUpgrades flashSales
+
+    /// 全局加成
+    #[serde(rename = "globalUpgrades")]
+    global_upgrades: Vec<GlobalUpgrade>,
+
+    /// 闪购
+    #[serde(rename = "flashSales")]
+    flash_sales: Vec<FlashSale>,
+
     /// 入侵
     invasions: Vec<Invasion>,
     // darkSectors
@@ -114,6 +122,48 @@ pub(crate) struct WorldStateData {
     /// 虚空风暴
     #[serde(rename = "voidStorms")]
     void_storms: Vec<VoidStorm>,
+}
+
+#[serde_as]
+#[derive(Deserialize, Serialize, Debug)]
+struct FlashSale {
+    item: String,
+    expiry: DateTime<Utc>,
+    activation: DateTime<Utc>,
+    discount: String,
+    #[serde(rename = "regularOverride")]
+    regular_override: String,
+    #[serde(rename = "premiumOverride")]
+    premium_override: String,
+    #[serde_as(deserialize_as = "BoolFromAny")]
+    #[serde(rename = "isShownInMarket")]
+    is_shown_in_market: bool,
+    id: String,
+    #[serde_as(deserialize_as = "BoolFromAny")]
+    expired: bool,
+
+    #[serde_as(deserialize_as = "DurationFromStr")]
+    eta: Duration,
+}
+
+#[serde_as]
+#[derive(Deserialize, Serialize, Debug)]
+struct GlobalUpgrade {
+    start: DateTime<Utc>,
+    end: DateTime<Utc>,
+    upgrade: String,
+    operation: String,
+    #[serde(rename = "operationSymbol")]
+    operation_symbol: String,
+    #[serde(rename = "upgradeOperationValue")]
+    upgrade_operation_value: String,
+
+    #[serde_as(deserialize_as = "BoolFromAny")]
+    expired: bool,
+
+    #[serde_as(deserialize_as = "DurationFromStr")]
+    eta: Duration,
+    desc: String,
 }
 
 #[derive(Deserialize, Serialize, Debug)]
@@ -736,12 +786,12 @@ struct Event {
     #[serde_as(deserialize_as = "BoolFromAny")]
     active: bool,
 
-    #[serde_as(deserialize_as = "DisplayFromStr")]
+    #[serde_as(deserialize_as = "NumberFromStringLoose")]
     #[serde(rename = "maximumScore")]
     maximum_score: i32,
 
-    #[serde_as(deserialize_as = "DisplayFromStr")]
-    #[serde(rename = "currentScore")]
+    #[serde_as(deserialize_as = "NumberFromStringLoose")]
+    #[serde(rename = "currentScore", default = "Default::default")]
     current_score: i32,
     #[serde(rename = "smallInterval")]
     small_interval: String,
@@ -749,6 +799,9 @@ struct Event {
     large_interval: String,
     description: String,
     tooltip: String,
+
+    // this field is not exist in 净化尸鬼 event
+    #[serde(default = "Default::default")]
     node: String,
     #[serde(rename = "concurrentNodes")]
     concurrent_nodes: Vec<()>,
@@ -757,15 +810,16 @@ struct Event {
     rewards: Vec<EventReward>,
     #[serde_as(deserialize_as = "BoolFromAny")]
     expired: bool,
-    #[serde_as(deserialize_as = "DisplayFromStr")]
+    #[serde_as(deserialize_as = "NumberFromStringLoose")]
     #[serde(default = "Default::default")]
-    health: i32,
+    health: f64,
     #[serde(rename = "interimSteps")]
     interim_steps: Vec<InterimStep>,
     #[serde(rename = "progressSteps")]
     progress_steps: Vec<()>,
     #[serde_as(deserialize_as = "BoolFromAny")]
-    #[serde(rename = "isPersonal")]
+    // this field is not exist in 净化尸鬼 event
+    #[serde(rename = "isPersonal", default = "bool_false")]
     is_personal: bool,
     #[serde_as(deserialize_as = "BoolFromAny")]
     #[serde(rename = "isCommunity", default = "bool_false")]
@@ -932,6 +986,70 @@ impl RewriteWarning {
 pub struct RewriteWarningItem {
     pub path: String,
     pub desc: String,
+}
+
+pub fn get_nearest_expiry(data: &WorldStateData) -> Option<DateTime<Utc>> {
+    let mut expiries = Vec::new();
+
+    let event_expiry = data.events.iter().map(|e| e.expiry).min();
+    expiries.push(event_expiry);
+
+    let alert_expiry = data.alerts.iter().map(|a| a.expiry).min();
+    expiries.push(alert_expiry);
+
+    let sortie_expiry = data.sortie.expiry;
+    expiries.push(Some(sortie_expiry));
+
+    let syndicate_missions_expiry = data.syndicate_missions.iter().map(|a| a.expiry).min();
+    expiries.push(syndicate_missions_expiry);
+
+    let fissures_expiry = data.fissures.iter().map(|a| a.expiry).min();
+    expiries.push(fissures_expiry);
+
+    let global_upgrades_expiry = data.global_upgrades.iter().map(|a| a.end).min();
+    expiries.push(global_upgrades_expiry);
+
+    let flash_sales_expiry = data.flash_sales.iter().map(|a| a.expiry).min();
+    expiries.push(flash_sales_expiry);
+
+    expiries.push(Some(data.void_trader.activation));
+    expiries.push(Some(data.void_trader.expiry));
+
+    let daily_deals_expiry = data.daily_deals.iter().map(|a| a.expiry).min();
+    expiries.push(daily_deals_expiry);
+
+    let conclave_challenges_expiry = data.conclave_challenges.iter().map(|a| a.expiry).min();
+    expiries.push(conclave_challenges_expiry);
+
+    expiries.push(Some(data.earth_cycle.expiry));
+    expiries.push(Some(data.cetus_cycle.expiry));
+    expiries.push(Some(data.vallis_cycle.expiry));
+    expiries.push(Some(data.cambion_cycle.expiry));
+    expiries.push(Some(data.zariman_cycle.expiry));
+
+    expiries.push(Some(data.nightwave.expiry));
+
+    let nightwave_challenges_expiry = data
+        .nightwave
+        .active_challenges
+        .iter()
+        .map(|a| a.expiry)
+        .min();
+    expiries.push(nightwave_challenges_expiry);
+
+    expiries.push(Some(data.steel_path.expiry));
+
+    expiries.push(Some(data.vault_trader.expiry));
+
+    expiries.push(Some(data.archon_hunt.expiry));
+
+    let void_storms_expiry = data.void_storms.iter().map(|a| a.expiry).min();
+    expiries.push(void_storms_expiry);
+
+    expiries
+        .into_iter()
+        .collect::<Option<Vec<DateTime<Utc>>>>()
+        .and_then(|v| v.into_iter().min())
 }
 
 fn rewrite_one(val: &mut String, warnings: &mut RewriteWarning, path: String) {

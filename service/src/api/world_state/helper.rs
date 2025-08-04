@@ -1,3 +1,7 @@
+use std::fmt::Display;
+use std::marker::PhantomData;
+use std::str::FromStr;
+
 use chrono::DateTime;
 use chrono::Duration;
 use chrono::Utc;
@@ -177,32 +181,64 @@ impl From<DateTime<Utc>> for DeDate {
     }
 }
 
+/// A serde_with plugin to parse number from string
+/// like the [serde_with::DisplayFromStr]
+/// but it take an empty string as zero
+///
+/// currently support i32, i64, f64
 pub struct NumberFromStringLoose;
 
-impl<'de> DeserializeAs<'de, i32> for NumberFromStringLoose {
-    fn deserialize_as<D>(deserializer: D) -> Result<i32, D::Error>
+trait Num {
+    fn zero() -> Self;
+}
+
+impl Num for i32 {
+    fn zero() -> Self {
+        0
+    }
+}
+impl Num for i64 {
+    fn zero() -> Self {
+        0
+    }
+}
+impl Num for f64 {
+    fn zero() -> Self {
+        0.0
+    }
+}
+
+impl<'de, T> DeserializeAs<'de, T> for NumberFromStringLoose
+where
+    T: Num + FromStr<Err: Display>,
+{
+    fn deserialize_as<D>(deserializer: D) -> Result<T, D::Error>
     where
         D: serde::Deserializer<'de>,
     {
-        struct StrVisitor;
-        impl<'de> Visitor<'de> for StrVisitor {
-            type Value = i32;
+        struct StrVisitor<T>(PhantomData<T>);
+
+        impl<'de, T> Visitor<'de> for StrVisitor<T>
+        where
+            T: Num + FromStr<Err: Display>,
+        {
+            type Value = T;
 
             fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
                 formatter.write_str("a string or number")
             }
 
-            fn visit_str<E>(self, value: &str) -> Result<i32, E>
+            fn visit_str<E>(self, value: &str) -> Result<T, E>
             where
                 E: serde::de::Error,
             {
                 if value.is_empty() {
-                    Ok(0)
+                    Ok(T::zero())
                 } else {
-                    value.parse::<i32>().map_err(|e| E::custom(e))
+                    value.parse::<T>().map_err(|e| E::custom(e))
                 }
             }
         }
-        deserializer.deserialize_str(StrVisitor)
+        deserializer.deserialize_str(StrVisitor(PhantomData))
     }
 }
