@@ -7,7 +7,7 @@ use crate::api::world_state::{
 };
 use crate::entities::prelude::WorldState;
 use crate::entities::world_state;
-use chrono::{Local, TimeDelta, Utc};
+use chrono::{DateTime, Local, TimeDelta, Utc};
 use log::info;
 use sea_orm::ActiveValue::{NotSet, Set};
 use sea_orm::prelude::DateTimeUtc;
@@ -45,16 +45,12 @@ where
             drop(signal_rx);
         });
 
-        // calc start up sleep time via last success time
-        // TODO: write nearest expires time into db. so we can get bootstrap sleep time directly
-        let mut d = match get_last_run_time(state.clone()).await {
-            Some(last) => {
-                let now = Utc::now();
-                let dur = now - last;
-                if dur < MIN_INTERVAL {
-                    (MIN_INTERVAL - dur)
-                        .to_std()
-                        .unwrap_or(MIN_INTERVAL_DURATION)
+        // calc start up sleep time via precomputed expiry
+        let mut d = match get_nearest_expiry_from_db(state.clone()).await {
+            Some(next_time) => {
+                let dur = next_time - Utc::now();
+                if dur > TimeDelta::zero() {
+                    dur.to_std().unwrap_or(MIN_INTERVAL_DURATION)
                 } else {
                     Duration::ZERO
                 }
@@ -84,7 +80,8 @@ where
         match res {
             Ok(ws) => {
                 let WorldStateOut { data, raw } = ws;
-                *d = match get_nearest_expiry(&data) {
+                let nearest_expiry = get_nearest_expiry(&data);
+                *d = match nearest_expiry {
                     Some(next_time) => {
                         info!("next expiry: {}", next_time.with_timezone(&Local));
                         let now = Utc::now();
@@ -98,7 +95,7 @@ where
                 .unwrap_or(MIN_INTERVAL_DURATION);
                 let (data, warn) = rewrite_world_state(data);
                 let spent = start.elapsed();
-                write_world_state_into_db(state, raw, data, warn, spent).await;
+                write_world_state_into_db(state, raw, data, warn, spent, nearest_expiry).await;
             }
             Err(err) => {
                 let spent = start.elapsed();
@@ -114,14 +111,12 @@ where
 async fn log_error(state: AppState, err: WorldStateError, spent: Duration) {
     error!("{}", err.err.to_string());
     let row = world_state::ActiveModel {
-        id: NotSet,
         sync_time: Set(Utc::now()),
-        text: NotSet,
         is_success: Set(false),
         error_msg: Set(Some(err.err.to_string())),
         time_spent_ms: Set(spent.as_millis() as u32),
         raw: Set(err.raw),
-        warnings: NotSet,
+        ..Default::default()
     };
     WorldState::insert(row).exec(&state.conn).await.unwrap();
 }
@@ -133,6 +128,7 @@ async fn write_world_state_into_db(
     data: WorldStateData,
     warn: Option<RewriteWarning>,
     spent: Duration,
+    nearest_expiry: Option<DateTime<Utc>>,
 ) {
     let warn_str = serde_json::to_string(&warn).unwrap();
     let t = serde_json::to_string(&data).unwrap();
@@ -145,17 +141,18 @@ async fn write_world_state_into_db(
         time_spent_ms: Set(spent.as_millis() as u32),
         raw: Set(Some(raw)),
         warnings: Set(Some(warn_str)),
+        nearest_expiry: Set(nearest_expiry),
     };
     WorldState::insert(row).exec(&state.conn).await.unwrap();
 }
 
 /// get the last sync time
-async fn get_last_run_time(state: AppState) -> Option<DateTimeUtc> {
+async fn get_nearest_expiry_from_db(state: AppState) -> Option<DateTimeUtc> {
     let r = WorldState::find()
         .filter(world_state::Column::IsSuccess.eq(true))
         .order_by_desc(world_state::Column::SyncTime)
         .one(&state.conn)
         .await
         .unwrap();
-    r.map(|m| m.sync_time)
+    r.and_then(|m| m.nearest_expiry)
 }

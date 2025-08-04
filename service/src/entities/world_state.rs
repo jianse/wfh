@@ -15,6 +15,7 @@ pub struct Model {
     pub time_spent_ms: u32,
     pub raw: Option<String>,
     pub warnings: Option<String>,
+    pub nearest_expiry: Option<DateTimeUtc>,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
