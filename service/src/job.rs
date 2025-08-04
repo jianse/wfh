@@ -86,6 +86,7 @@ where
                 let WorldStateOut { data, raw } = ws;
                 *d = match get_nearest_expiry(&data) {
                     Some(next_time) => {
+                        info!("next expiry: {}", next_time.with_timezone(&Local));
                         let now = Utc::now();
                         let next_min = now + MIN_INTERVAL;
                         let nt = std::cmp::max(next_time, next_min);

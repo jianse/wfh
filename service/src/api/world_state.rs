@@ -18,12 +18,11 @@ use chrono::{DateTime, Duration, Utc};
 use helper::{BoolFromAny, DeDate, DurationFromStr, NumberFromStringLoose, bool_false};
 use hex::ToHex;
 use http::HeaderMap;
-use log::debug;
 use sea_orm::{ColumnTrait, EntityTrait, QueryFilter, QueryOrder};
 use serde::{Deserialize, Serialize};
 use serde_with::serde_as;
 use serde_with::{DisplayFromStr, FromInto};
-use tracing::info;
+use tracing::{debug, info, warn};
 
 #[derive(Deserialize, Debug)]
 struct WorldStateRes {
@@ -36,7 +35,7 @@ struct WorldStateRes {
 /// Warframe world state on WeGame
 #[derive(Deserialize, Serialize, Debug)]
 pub(crate) struct WorldStateData {
-    timestamp: DateTime<Utc>,
+    pub timestamp: DateTime<Utc>,
     /// 活动事件
     events: Vec<Event>,
     /// 战术警报
@@ -991,7 +990,12 @@ pub struct RewriteWarningItem {
 pub fn get_nearest_expiry(data: &WorldStateData) -> Option<DateTime<Utc>> {
     let mut expiries = Vec::new();
 
-    let event_expiry = data.events.iter().map(|e| e.expiry).min();
+    let event_expiry = data
+        .events
+        .iter()
+        .filter(|e| !e.expired)
+        .map(|e| e.expiry)
+        .min();
     expiries.push(event_expiry);
 
     let alert_expiry = data.alerts.iter().map(|a| a.expiry).min();
@@ -1003,7 +1007,12 @@ pub fn get_nearest_expiry(data: &WorldStateData) -> Option<DateTime<Utc>> {
     let syndicate_missions_expiry = data.syndicate_missions.iter().map(|a| a.expiry).min();
     expiries.push(syndicate_missions_expiry);
 
-    let fissures_expiry = data.fissures.iter().map(|a| a.expiry).min();
+    let fissures_expiry = data
+        .fissures
+        .iter()
+        .filter(|f| !f.expired)
+        .map(|a| a.expiry)
+        .min();
     expiries.push(fissures_expiry);
 
     let global_upgrades_expiry = data.global_upgrades.iter().map(|a| a.end).min();
@@ -1043,13 +1052,28 @@ pub fn get_nearest_expiry(data: &WorldStateData) -> Option<DateTime<Utc>> {
 
     expiries.push(Some(data.archon_hunt.expiry));
 
-    let void_storms_expiry = data.void_storms.iter().map(|a| a.expiry).min();
+    let void_storms_expiry = data
+        .void_storms
+        .iter()
+        .filter(|v| v.expiry > data.timestamp)
+        .map(|a| a.expiry)
+        .min();
     expiries.push(void_storms_expiry);
 
-    expiries
+    // dbg!(&expiries);
+
+    let t = expiries
         .into_iter()
         .collect::<Option<Vec<DateTime<Utc>>>>()
-        .and_then(|v| v.into_iter().min())
+        .and_then(|v| v.into_iter().min());
+
+    if let Some(t) = t
+        && t < data.timestamp
+    {
+        warn!("expiry time is in the past, this should not happen");
+    }
+
+    t
 }
 
 fn rewrite_one(val: &mut String, warnings: &mut RewriteWarning, path: String) {
@@ -1241,6 +1265,27 @@ mod tests {
                 let (_res, warn) = rewrite_world_state(s.data);
                 // dbg!(&s);
                 dbg!(&warn);
+            }
+            Err(_) => {
+                println!("file not found");
+            }
+        }
+    }
+
+    #[test]
+    fn test_get_expiry_time() {
+        let file = File::open("../ui/cache/worldState_wg.json");
+        match file {
+            Ok(f) => {
+                let s = serde_json::from_reader::<_, WorldStateRes>(f).unwrap();
+                dbg!(&s.data.timestamp);
+
+                let expiry_time = get_nearest_expiry(&s.data);
+                // let (_res, warn) = rewrite_world_state(s.data);
+                // dbg!(&s);
+                dbg!(&expiry_time);
+                assert!(expiry_time.is_some());
+                assert!(expiry_time.unwrap() > s.data.timestamp);
             }
             Err(_) => {
                 println!("file not found");
