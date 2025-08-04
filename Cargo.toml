@@ -39,6 +39,7 @@ toml = "0.9.4"
 md5 = "0.8.0"
 uuid = "1.17.0"
 reqwest = { version = "0.12.22", default-features = false }
+serde_path_to_error = "0.1.17"
 
 # dev use only
 criterion = "0.7.0"

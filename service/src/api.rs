@@ -207,6 +207,9 @@ pub enum BizError {
     #[error("serde json error. {0}")]
     SerdeJson(#[from] serde_json::Error),
 
+    #[error("serde json error. {0}")]
+    SerdeErrorPath(#[from] serde_path_to_error::Error<serde_json::Error>),
+
     #[error("other error. {0}")]
     Custom(String),
 }

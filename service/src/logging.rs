@@ -1,11 +1,11 @@
 use settings::LogFileSettings;
-use tracing::level_filters::LevelFilter;
 use tracing::Subscriber;
+use tracing::level_filters::LevelFilter;
 use tracing_appender::non_blocking::WorkerGuard;
 use tracing_appender::rolling::{daily, hourly, never};
 use tracing_subscriber::fmt::writer::BoxMakeWriter;
+use tracing_subscriber::{EnvFilter, Layer, fmt::time::LocalTime};
 use tracing_subscriber::{fmt, layer::SubscriberExt, util::SubscriberInitExt};
-use tracing_subscriber::{fmt::time::LocalTime, EnvFilter, Layer};
 
 pub fn init_logger() -> Option<WorkerGuard> {
     let filter = init_log_level_filter();

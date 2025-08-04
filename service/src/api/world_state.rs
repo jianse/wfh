@@ -538,8 +538,12 @@ struct Invasion {
     completion: f64,
     #[serde_as(deserialize_as = "BoolFromAny")]
     completed: bool,
-    #[serde_as(deserialize_as = "DurationFromStr", serialize_as = "DisplayFromStr")]
-    eta: Duration,
+
+    // ETA has no sense here
+    // if the count reached requiredRuns, then the event is completed
+
+    // #[serde_as(deserialize_as = "DurationFromStr", serialize_as = "DisplayFromStr")]
+    // eta: Duration,
     #[serde(rename = "rewardTypes")]
     reward_types: Vec<String>,
 }
@@ -873,10 +877,12 @@ pub async fn get_world_state(state: AppState) -> Result<WorldStateOut, WorldStat
         start.elapsed().as_millis()
     );
 
-    let res = serde_json::from_str::<WorldStateRes>(raw.as_str()).map_err(|e| WorldStateError {
-        raw: Some(raw.clone()),
-        err: e.into(),
-    })?;
+    let mut res = serde_json::Deserializer::from_str(raw.as_str());
+    let res: WorldStateRes =
+        serde_path_to_error::deserialize(&mut res).map_err(|e| WorldStateError {
+            raw: Some(raw.clone()),
+            err: e.into(),
+        })?;
 
     Ok(WorldStateOut {
         raw,
@@ -1089,8 +1095,18 @@ mod tests {
         let file = File::open("../ui/cache/worldState_wg.json");
         match file {
             Ok(f) => {
-                let s = serde_json::from_reader::<_, WorldStateRes>(f).unwrap();
-                dbg!(&s);
+                let mut s = serde_json::Deserializer::from_reader(f);
+                let s = serde_path_to_error::deserialize::<_, WorldStateRes>(&mut s);
+
+                match s {
+                    Ok(wsr) => {
+                        dbg!(&wsr);
+                    }
+                    Err(e) => {
+                        println!("{}", e.to_string());
+                        assert!(false);
+                    }
+                };
             }
             Err(_) => {
                 println!("file not found");
