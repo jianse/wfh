@@ -3,8 +3,8 @@ use sea_orm_migration::{prelude::*, schema::*};
 #[derive(DeriveMigrationName)]
 pub struct Migration;
 
-const IDX1: &str = "idx-world-state-sync-time-desc";
-const IDX2: &str = "idx-world-state-is-success";
+const IDX1: &str = "idx-world-state-2-sync-time-desc";
+const IDX2: &str = "idx-world-state-2-is-success";
 
 #[async_trait::async_trait]
 impl MigrationTrait for Migration {
