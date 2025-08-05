@@ -1,24 +1,24 @@
-// #![allow(dead_code)]
-
 mod helper;
 
 use std::{
     collections::HashMap,
-    sync::LazyLock,
     time::{SystemTime, UNIX_EPOCH},
 };
 
 use crate::{
     AppState,
     api::{BizError, BizResponse, BizResult},
-    entities::{prelude::WorldState, world_state},
+    entities::{
+        prelude::{WgWorldStateReplacements, WorldState},
+        world_state,
+    },
 };
 use axum::{Router, extract::State, routing::get};
 use chrono::{DateTime, Duration, Utc};
 use helper::{BoolFromAny, DeDate, DurationFromStr, NumberFromStringLoose, bool_false};
 use hex::ToHex;
 use http::HeaderMap;
-use sea_orm::{ColumnTrait, EntityTrait, QueryFilter, QueryOrder};
+use sea_orm::{ColumnTrait, DbErr, EntityTrait, QueryFilter, QueryOrder};
 use serde::{Deserialize, Serialize};
 use serde_with::serde_as;
 use serde_with::{DisplayFromStr, FromInto};
@@ -943,19 +943,6 @@ pub async fn get_world_state(state: AppState) -> Result<WorldStateOut, WorldStat
     })
 }
 
-static REWARD_ITEM_MAP: LazyLock<HashMap<&str, Option<&str>>> = LazyLock::new(|| {
-    HashMap::from([
-        ("Opticor Vandal", Some("奥堤克光子枪破坏者")),
-        ("Buried Debts Emblem", Some("雪藏的恩怨徽章")),
-        ("Amalgam Shotgun Spazz", Some("并合 霰弹弹幕")),
-        ("Amalgam Serration", Some("并合膛线")),
-        ("Amalgam Barrel Diffusion", Some("并合弹头扩散")),
-        ("Amalgam Organ Shatter", Some("并合肢解")),
-        ("Buried Debts Sigil", Some("雪藏的恩怨纹章")),
-        ("SolNode236", Some("双衍历程")),
-    ])
-});
-
 #[derive(Serialize, Deserialize, Debug)]
 pub struct RewriteWarning {
     warnings: Vec<RewriteWarningItem>,
@@ -1076,8 +1063,21 @@ pub fn get_nearest_expiry(data: &WorldStateData) -> Option<DateTime<Utc>> {
     t
 }
 
-fn rewrite_one(val: &mut String, warnings: &mut RewriteWarning, path: String) {
-    if let Some(ni) = REWARD_ITEM_MAP.get(val.as_str()) {
+async fn load_rewrite_item_map(state: AppState) -> Result<HashMap<String, Option<String>>, DbErr> {
+    let reps = WgWorldStateReplacements::find().all(&state.conn).await?;
+    Ok(reps
+        .into_iter()
+        .map(|r| (r.origin, r.replacement))
+        .collect())
+}
+
+fn rewrite_one(
+    val: &mut String,
+    warnings: &mut RewriteWarning,
+    path: String,
+    replacements: &HashMap<String, Option<String>>,
+) {
+    if let Some(ni) = replacements.get(val) {
         if let Some(ni) = ni {
             *val = ni.to_string();
         }
@@ -1086,20 +1086,29 @@ fn rewrite_one(val: &mut String, warnings: &mut RewriteWarning, path: String) {
     }
 }
 
-pub fn rewrite_world_state(data: WorldStateData) -> (WorldStateData, Option<RewriteWarning>) {
+pub async fn rewrite_world_state(
+    state: AppState,
+    data: WorldStateData,
+) -> Result<(WorldStateData, Option<RewriteWarning>), DbErr> {
+    let replacements = load_rewrite_item_map(state).await?;
     let mut warnings = RewriteWarning::new();
     let mut data = data;
     data.events.iter_mut().enumerate().for_each(|(i, event)| {
         let path = format!("$.events[{i}]");
 
-        rewrite_one(&mut event.node, &mut warnings, format!("{path}.node"));
+        rewrite_one(
+            &mut event.node,
+            &mut warnings,
+            format!("{path}.node"),
+            &replacements,
+        );
 
         event.rewards.iter_mut().enumerate().for_each(|(i, r)| {
             let path = format!("{path}.rewards[{i}]");
 
             r.items.iter_mut().enumerate().for_each(|(i, it)| {
                 let path = format!("{path}.items[{i}]");
-                rewrite_one(it, &mut warnings, path);
+                rewrite_one(it, &mut warnings, path, &replacements);
             });
         });
 
@@ -1113,11 +1122,11 @@ pub fn rewrite_world_state(data: WorldStateData) -> (WorldStateData, Option<Rewr
                 s.reward.items.iter_mut().enumerate().for_each(|(i, it)| {
                     let path = format!("{path}.reward.items[{i}]");
 
-                    rewrite_one(it, &mut warnings, path);
+                    rewrite_one(it, &mut warnings, path, &replacements);
                 })
             })
     });
-    (data, warnings.into_option())
+    Ok((data, warnings.into_option()))
 }
 
 #[axum::debug_handler]
@@ -1249,22 +1258,6 @@ mod tests {
                         assert!(false);
                     }
                 };
-            }
-            Err(_) => {
-                println!("file not found");
-            }
-        }
-    }
-
-    #[test]
-    fn test_rewrite() {
-        let file = File::open("../ui/cache/worldState_wg.json");
-        match file {
-            Ok(f) => {
-                let s = serde_json::from_reader::<_, WorldStateRes>(f).unwrap();
-                let (_res, warn) = rewrite_world_state(s.data);
-                // dbg!(&s);
-                dbg!(&warn);
             }
             Err(_) => {
                 println!("file not found");

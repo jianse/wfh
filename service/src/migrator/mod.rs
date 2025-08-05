@@ -8,6 +8,7 @@ mod m20250630_110142_alter_user_0_role_to_admin;
 mod m20250802_102116_add_world_state_table;
 mod m20250803_043406_alter_world_state_table;
 mod m20250804_101453_world_state_add_nearest_expiry;
+mod m20250804_110641_create_table_wg_world_state_replacements;
 
 pub struct Migrator;
 
@@ -23,6 +24,7 @@ impl MigratorTrait for Migrator {
             Box::new(m20250802_102116_add_world_state_table::Migration),
             Box::new(m20250803_043406_alter_world_state_table::Migration),
             Box::new(m20250804_101453_world_state_add_nearest_expiry::Migration),
+            Box::new(m20250804_110641_create_table_wg_world_state_replacements::Migration),
         ]
     }
 }

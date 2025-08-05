@@ -11,7 +11,7 @@ use chrono::{DateTime, Local, TimeDelta, Utc};
 use log::info;
 use sea_orm::ActiveValue::{NotSet, Set};
 use sea_orm::prelude::DateTimeUtc;
-use sea_orm::{ColumnTrait, EntityTrait, QueryFilter, QueryOrder};
+use sea_orm::{ColumnTrait, DbErr, EntityTrait, QueryFilter, QueryOrder};
 use std::time::{Duration, Instant};
 use tracing::{error, trace};
 
@@ -47,15 +47,21 @@ where
 
         // calc start up sleep time via precomputed expiry
         let mut d = match get_nearest_expiry_from_db(state.clone()).await {
-            Some(next_time) => {
-                let dur = next_time - Utc::now();
-                if dur > TimeDelta::zero() {
-                    dur.to_std().unwrap_or(MIN_INTERVAL_DURATION)
-                } else {
-                    Duration::ZERO
+            Ok(d) => match d {
+                Some(next_time) => {
+                    let dur = next_time - Utc::now();
+                    if dur > TimeDelta::zero() {
+                        dur.to_std().unwrap_or(MIN_INTERVAL_DURATION)
+                    } else {
+                        Duration::ZERO
+                    }
                 }
+                None => Duration::ZERO,
+            },
+            Err(e) => {
+                error!("{}", e);
+                MIN_INTERVAL_DURATION
             }
-            None => Duration::ZERO,
         };
 
         loop {
@@ -66,14 +72,19 @@ where
                     break;
                 },
             };
-            Self::job_body(state.clone(), &mut d).await
+            match Self::job_body(state.clone(), &mut d).await {
+                Ok(_) => {}
+                Err(e) => {
+                    error!("{}", e);
+                    d = MIN_INTERVAL_DURATION;
+                }
+            }
         }
-        // drop(close_rx);
 
         trace!("waiting for pending job(s) to finish");
     }
 
-    async fn job_body(state: AppState, d: &mut Duration) -> () {
+    async fn job_body(state: AppState, d: &mut Duration) -> Result<(), DbErr> {
         let start = Instant::now();
         let res = crate::api::world_state::get_world_state(state.clone()).await;
 
@@ -93,22 +104,23 @@ where
                 }
                 .to_std()
                 .unwrap_or(MIN_INTERVAL_DURATION);
-                let (data, warn) = rewrite_world_state(data);
+                let (data, warn) = rewrite_world_state(state.clone(), data).await?;
                 let spent = start.elapsed();
-                write_world_state_into_db(state, raw, data, warn, spent, nearest_expiry).await;
+                write_world_state_into_db(state, raw, data, warn, spent, nearest_expiry).await?;
             }
             Err(err) => {
                 let spent = start.elapsed();
                 *d = MIN_INTERVAL_DURATION;
-                log_error(state, err, spent).await
+                log_error(state, err, spent).await?
             }
         };
         info!("next run could at {}", Local::now() + *d);
+        Ok(())
     }
 }
 
 /// logging get warframe world state error into db.
-async fn log_error(state: AppState, err: WorldStateError, spent: Duration) {
+async fn log_error(state: AppState, err: WorldStateError, spent: Duration) -> Result<(), DbErr> {
     error!("{}", err.err.to_string());
     let row = world_state::ActiveModel {
         sync_time: Set(Utc::now()),
@@ -118,7 +130,8 @@ async fn log_error(state: AppState, err: WorldStateError, spent: Duration) {
         raw: Set(err.raw),
         ..Default::default()
     };
-    WorldState::insert(row).exec(&state.conn).await.unwrap();
+    WorldState::insert(row).exec(&state.conn).await?;
+    Ok(())
 }
 
 /// save warframe world state into db
@@ -129,9 +142,11 @@ async fn write_world_state_into_db(
     warn: Option<RewriteWarning>,
     spent: Duration,
     nearest_expiry: Option<DateTime<Utc>>,
-) {
+) -> Result<(), DbErr> {
+    // TODO: remove unwrap
     let warn_str = serde_json::to_string(&warn).unwrap();
     let t = serde_json::to_string(&data).unwrap();
+    // let t = brotli_compress(t).await.unwrap();
     let row = world_state::ActiveModel {
         id: NotSet,
         sync_time: Set(Utc::now()),
@@ -143,16 +158,18 @@ async fn write_world_state_into_db(
         warnings: Set(Some(warn_str)),
         nearest_expiry: Set(nearest_expiry),
     };
-    WorldState::insert(row).exec(&state.conn).await.unwrap();
+    WorldState::insert(row).exec(&state.conn).await?;
+    Ok(())
 }
 
 /// get the last sync time
-async fn get_nearest_expiry_from_db(state: AppState) -> Option<DateTimeUtc> {
+async fn get_nearest_expiry_from_db(state: AppState) -> Result<Option<DateTimeUtc>, DbErr> {
     let r = WorldState::find()
         .filter(world_state::Column::IsSuccess.eq(true))
         .order_by_desc(world_state::Column::SyncTime)
         .one(&state.conn)
-        .await
-        .unwrap();
-    r.and_then(|m| m.nearest_expiry)
+        .await?;
+    Ok(r.and_then(|m| m.nearest_expiry))
 }
+
+
