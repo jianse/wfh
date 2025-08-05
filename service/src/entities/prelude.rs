@@ -3,4 +3,4 @@
 pub use super::translation::Entity as Translation;
 pub use super::user::Entity as User;
 pub use super::wg_world_state_replacements::Entity as WgWorldStateReplacements;
-pub use super::world_state::Entity as WorldState;
+pub use super::world_state2::Entity as WorldState2;

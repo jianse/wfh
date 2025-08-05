@@ -5,8 +5,10 @@ use crate::api::world_state::{
     RewriteWarning, WorldStateData, WorldStateError, WorldStateOut, get_nearest_expiry,
     rewrite_world_state,
 };
-use crate::entities::prelude::WorldState;
-use crate::entities::world_state;
+use crate::api::{BizError, BizResult};
+use crate::common::brotli_compress;
+use crate::entities::prelude::WorldState2;
+use crate::entities::world_state2;
 use chrono::{DateTime, Local, TimeDelta, Utc};
 use log::info;
 use sea_orm::ActiveValue::{NotSet, Set};
@@ -84,7 +86,7 @@ where
         trace!("waiting for pending job(s) to finish");
     }
 
-    async fn job_body(state: AppState, d: &mut Duration) -> Result<(), DbErr> {
+    async fn job_body(state: AppState, d: &mut Duration) -> BizResult<()> {
         let start = Instant::now();
         let res = crate::api::world_state::get_world_state(state.clone()).await;
 
@@ -120,17 +122,24 @@ where
 }
 
 /// logging get warframe world state error into db.
-async fn log_error(state: AppState, err: WorldStateError, spent: Duration) -> Result<(), DbErr> {
+async fn log_error(state: AppState, err: WorldStateError, spent: Duration) -> Result<(), BizError> {
+    let raw = match err.raw {
+        Some(raw) => {
+            let t = brotli_compress(raw).await?;
+            Some(t)
+        }
+        None => None,
+    };
     error!("{}", err.err.to_string());
-    let row = world_state::ActiveModel {
+    let row = world_state2::ActiveModel {
         sync_time: Set(Utc::now()),
         is_success: Set(false),
         error_msg: Set(Some(err.err.to_string())),
-        time_spent_ms: Set(spent.as_millis() as u32),
-        raw: Set(err.raw),
+        time_spent_ms: Set(spent.as_millis() as i32),
+        raw: Set(raw),
         ..Default::default()
     };
-    WorldState::insert(row).exec(&state.conn).await?;
+    WorldState2::insert(row).exec(&state.conn).await?;
     Ok(())
 }
 
@@ -142,34 +151,35 @@ async fn write_world_state_into_db(
     warn: Option<RewriteWarning>,
     spent: Duration,
     nearest_expiry: Option<DateTime<Utc>>,
-) -> Result<(), DbErr> {
+) -> BizResult<()> {
     // TODO: remove unwrap
-    let warn_str = serde_json::to_string(&warn).unwrap();
-    let t = serde_json::to_string(&data).unwrap();
-    // let t = brotli_compress(t).await.unwrap();
-    let row = world_state::ActiveModel {
+    let warn_str = serde_json::to_string(&warn)?;
+    let t = serde_json::to_string(&data)?;
+    let t = brotli_compress(t).await?;
+
+    let raw = brotli_compress(raw).await?;
+
+    let row = world_state2::ActiveModel {
         id: NotSet,
         sync_time: Set(Utc::now()),
         text: Set(Some(t)),
         is_success: Set(true),
         error_msg: Set(None),
-        time_spent_ms: Set(spent.as_millis() as u32),
+        time_spent_ms: Set(spent.as_millis() as i32),
         raw: Set(Some(raw)),
         warnings: Set(Some(warn_str)),
         nearest_expiry: Set(nearest_expiry),
     };
-    WorldState::insert(row).exec(&state.conn).await?;
+    WorldState2::insert(row).exec(&state.conn).await?;
     Ok(())
 }
 
 /// get the last sync time
 async fn get_nearest_expiry_from_db(state: AppState) -> Result<Option<DateTimeUtc>, DbErr> {
-    let r = WorldState::find()
-        .filter(world_state::Column::IsSuccess.eq(true))
-        .order_by_desc(world_state::Column::SyncTime)
+    let r = WorldState2::find()
+        .filter(world_state2::Column::IsSuccess.eq(true))
+        .order_by_desc(world_state2::Column::SyncTime)
         .one(&state.conn)
         .await?;
     Ok(r.and_then(|m| m.nearest_expiry))
 }
-
-

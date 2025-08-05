@@ -4,16 +4,18 @@ use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq, Serialize, Deserialize)]
-#[sea_orm(table_name = "world_state")]
+#[sea_orm(table_name = "world_state2")]
 pub struct Model {
     #[sea_orm(primary_key)]
     pub id: i32,
     pub sync_time: DateTimeUtc,
-    pub text: Option<String>,
+    #[sea_orm(column_type = "Blob", nullable)]
+    pub text: Option<Vec<u8>>,
     pub is_success: bool,
     pub error_msg: Option<String>,
-    pub time_spent_ms: u32,
-    pub raw: Option<String>,
+    pub time_spent_ms: i32,
+    #[sea_orm(column_type = "Blob", nullable)]
+    pub raw: Option<Vec<u8>>,
     pub warnings: Option<String>,
     pub nearest_expiry: Option<DateTimeUtc>,
 }

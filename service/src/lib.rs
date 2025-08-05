@@ -1,5 +1,6 @@
 mod api;
 
+mod common;
 mod entities;
 pub mod error;
 mod job;

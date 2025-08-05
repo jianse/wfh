@@ -1,6 +1,6 @@
 use std::fmt::Display;
 
-use crate::{AppState, entities};
+use crate::{AppState, common, entities};
 use axum::extract::State;
 use axum::middleware::{Next, from_fn};
 use axum::response::IntoResponse;
@@ -209,6 +209,9 @@ pub enum BizError {
 
     #[error("serde json error. {0}")]
     SerdeErrorPath(#[from] serde_path_to_error::Error<serde_json::Error>),
+
+    #[error(transparent)]
+    Compress(#[from] common::CompressError),
 
     #[error("other error. {0}")]
     Custom(String),

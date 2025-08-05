@@ -8,9 +8,10 @@ use std::{
 use crate::{
     AppState,
     api::{BizError, BizResponse, BizResult},
+    common::brotli_decompress,
     entities::{
-        prelude::{WgWorldStateReplacements, WorldState},
-        world_state,
+        prelude::{WgWorldStateReplacements, WorldState2},
+        world_state2,
     },
 };
 use axum::{Router, extract::State, routing::get};
@@ -1131,15 +1132,16 @@ pub async fn rewrite_world_state(
 
 #[axum::debug_handler]
 async fn world_state(State(state): State<AppState>) -> BizResult<BizResponse<serde_json::Value>> {
-    let r = WorldState::find()
-        .filter(world_state::Column::IsSuccess.eq(true))
-        .order_by_desc(world_state::Column::SyncTime)
+    let r = WorldState2::find()
+        .filter(world_state2::Column::IsSuccess.eq(true))
+        .order_by_desc(world_state2::Column::SyncTime)
         .one(&state.conn)
         .await?;
     match r {
         Some(m) => {
             let t = m.text.ok_or(BizError::custom("no world state"))?;
-            let s = serde_json::from_str::<serde_json::Value>(t.as_str())?;
+            let t = brotli_decompress(t).await?;
+            let s = serde_json::from_slice::<serde_json::Value>(&t)?;
             Ok(BizResponse::ok_with(s))
         }
         None => Err(BizError::custom("no world state"))?,
