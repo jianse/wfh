@@ -41,6 +41,7 @@ uuid = "1.17.0"
 reqwest = { version = "0.12.22", default-features = false }
 serde_path_to_error = "0.1.17"
 async-compression = "0.4.27"
+async-trait = "0.1.88"
 
 # dev use only
 criterion = "0.7.0"

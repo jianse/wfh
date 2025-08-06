@@ -70,7 +70,7 @@ pub async fn get_world_state(state: AppState) -> Result<WorldStateOut, WorldStat
     let raw = resp.text().await?;
 
     info!(
-        "query world state wegame took: {} ms",
+        "query world state wegame network took: {} ms",
         start.elapsed().as_millis()
     );
 
@@ -196,12 +196,12 @@ pub fn get_nearest_expiry(data: &WorldStateData) -> Option<DateTime<Utc>> {
         .min();
     expiries.push(void_storms_expiry);
 
-    // dbg!(&expiries);
+    let mut e_list = Vec::new();
+    for i in expiries.into_iter().flatten() {
+        e_list.push(i);
+    }
 
-    let t = expiries
-        .into_iter()
-        .collect::<Option<Vec<DateTime<Utc>>>>()
-        .and_then(|v| v.into_iter().min());
+    let t = e_list.into_iter().min();
 
     if let Some(t) = t
         && t < data.timestamp
@@ -427,6 +427,7 @@ mod tests {
                         dbg!(&data.timestamp);
 
                         let expiry_time = get_nearest_expiry(&data);
+                        // dbg!(data);
                         // let (_res, warn) = rewrite_world_state(s.data);
                         // dbg!(&s);
                         dbg!(&expiry_time);

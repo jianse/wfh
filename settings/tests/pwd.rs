@@ -2,7 +2,6 @@ use argon2::{
     Argon2, PasswordHash, PasswordHasher, PasswordVerifier,
     password_hash::{SaltString, rand_core::OsRng},
 };
-use hex::ToHex;
 
 const PASSWORD: &str = "UJU2g1sqL7QcflwEGE"; // Bad passwo
 

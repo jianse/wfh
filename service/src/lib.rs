@@ -8,7 +8,7 @@ mod logging;
 mod migrator;
 pub mod tls;
 
-use crate::job::WgWorldStateJob;
+use crate::job::JobRegistry;
 use crate::tls::TlsListener;
 use axum::response::Redirect;
 use axum::serve::Listener;
@@ -66,7 +66,7 @@ pub(crate) type AppState = Arc<AppStateRaw>;
 pub async fn serve() -> Result<()> {
     let settings = settings::get();
     let _guard = init_logger();
-    dbg!(settings);
+    // dbg!(settings);
     let mut opt = ConnectOptions::new(&settings.db.database_url);
     opt.sqlx_logging_level(log::LevelFilter::Debug);
 
@@ -84,8 +84,8 @@ pub async fn serve() -> Result<()> {
     tokio::spawn(start_ctl_endpoint(tx.clone(), rx2));
 
     // start background jobs
-    let job = WgWorldStateJob::new(state.clone(), shutdown_signal(tx.subscribe()));
-    tokio::task::spawn(job.run());
+    let job = JobRegistry::new(state.clone(), shutdown_signal(tx.subscribe()));
+    tokio::task::spawn(job.start());
 
     // start other endpoints
     match &settings.server.tls {

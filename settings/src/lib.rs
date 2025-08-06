@@ -36,6 +36,54 @@ pub struct Settings {
 
     /// cors settings
     pub cors: Option<CorsSettings>,
+
+    /// job settings
+    pub job: JobSettings,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default, Clone, Copy)]
+pub enum JobRetryPolicy {
+    #[serde(alias = "fixed")]
+    Fixed,
+
+    #[serde(alias = "linear")]
+    Linear,
+    
+    #[default]
+    #[serde(alias = "exponential")]
+    Exponential,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default, Clone)]
+pub struct JobSettingOverrides {
+    pub interval_secs: Option<u64>,
+    pub retry_policy: Option<JobRetryPolicy>,
+    pub max_retries: Option<u32>,
+    pub timeout_secs: Option<u64>,
+    #[serde(default = "defaults::bool::_true")]
+    pub enabled: bool,
+}
+
+#[derive(Deserialize, Serialize, Debug, Clone)]
+pub struct JobSettings {
+    pub interval_secs: u64,
+    pub retry_policy: JobRetryPolicy,
+    pub max_retries: u32,
+    pub timeout_secs: u64,
+    #[serde(default = "Default::default")]
+    pub overrides: HashMap<String, JobSettingOverrides>,
+}
+
+impl Default for JobSettings {
+    fn default() -> Self {
+        Self {
+            interval_secs: 10 * 60,
+            retry_policy: Default::default(),
+            max_retries: 5,
+            timeout_secs: 30,
+            overrides: Default::default(),
+        }
+    }
 }
 
 #[derive(Deserialize, Serialize, Debug, Default, Clone)]

@@ -1,123 +1,272 @@
 //! Background jobs
 
 use crate::AppState;
+use crate::api::world_state::get_world_state;
 use crate::api::world_state::{
-    RewriteWarning, WorldStateError, WorldStateOut, get_nearest_expiry, models::WorldStateData,
+    RewriteWarning, WorldStateError, get_nearest_expiry, models::WorldStateData,
     rewrite_world_state,
 };
 use crate::api::{BizError, BizResult};
 use crate::common::brotli_compress;
 use crate::entities::prelude::WorldState2;
 use crate::entities::world_state2;
-use chrono::{DateTime, Local, TimeDelta, Utc};
-use log::info;
+use async_trait::async_trait;
+use chrono::{DateTime, Local, Utc};
 use sea_orm::ActiveValue::{NotSet, Set};
 use sea_orm::prelude::DateTimeUtc;
 use sea_orm::{ColumnTrait, DbErr, EntityTrait, QueryFilter, QueryOrder};
+use settings::{JobRetryPolicy, JobSettings};
+use std::cmp;
+use std::collections::HashMap;
 use std::time::{Duration, Instant};
-use tracing::{error, trace};
+use thiserror::Error;
+use tokio::sync::watch;
+use tokio::time::timeout;
+use tracing::{error, info, trace};
 
-/// min interval between two syncs
-/// one minute
-const MIN_INTERVAL: TimeDelta = TimeDelta::seconds(60);
-/// min interval between two syncs but in [std::time::Duration] type
-/// NOTE: this value should be equal to [MIN_INTERVAL]
-const MIN_INTERVAL_DURATION: Duration = Duration::from_secs(60);
+type BoxJob = Box<dyn Job + Send + Sync>;
 
-pub struct WgWorldStateJob<S> {
-    state: AppState,
+pub struct JobRegistry<S> {
+    jobs: HashMap<&'static str, (JobConf, BoxJob)>,
+    // state: AppState,
     signal: S,
+    // broadcast: tokio::sync::broadcast::Sender<()>,
 }
-
-impl<S> WgWorldStateJob<S>
+impl<S> JobRegistry<S>
 where
     S: Future<Output = ()> + Send + 'static,
 {
     pub fn new(state: AppState, signal: S) -> Self {
-        WgWorldStateJob { state, signal }
+        let mut jobs = HashMap::new();
+
+        // let (broadcast, rx1) = tokio::sync::broadcast::channel::<()>(16);
+        let job = Box::new(WgWorldStateJob::new(state)).boxed();
+        let conf = job_conf_for(job.name());
+
+        jobs.insert(job.name(), (conf, job));
+        info!("registered jobs: {:?}", jobs.keys());
+        JobRegistry {
+            jobs,
+            // state,
+            signal,
+            // broadcast,
+        }
     }
 
-    pub async fn run(self) {
-        let Self { state, signal } = self;
+    pub async fn start(self) {
+        let Self { jobs, signal, .. } = self;
         let (signal_tx, signal_rx) = tokio::sync::watch::channel(());
+        // let
         tokio::spawn(async move {
             // pin!(signal);
             signal.await;
             trace!("received graceful shutdown signal");
             drop(signal_rx);
         });
-
-        // calc start up sleep time via precomputed expiry
-        let mut d = match get_nearest_expiry_from_db(state.clone()).await {
-            Ok(d) => match d {
-                Some(next_time) => {
-                    let dur = next_time - Utc::now();
-                    if dur > TimeDelta::zero() {
-                        dur.to_std().unwrap_or(MIN_INTERVAL_DURATION)
-                    } else {
-                        Duration::ZERO
-                    }
-                }
-                None => Duration::ZERO,
-            },
-            Err(e) => {
-                error!("{}", e);
-                MIN_INTERVAL_DURATION
+        for (_, (conf, job)) in jobs {
+            // skip disabled jobs
+            if !conf.enabled {
+                continue;
             }
-        };
 
-        loop {
-            tokio::select! {
-                _ = tokio::time::sleep(d) =>  (),
-                _ = signal_tx.closed() => {
-                    trace!("received signal");
-                    break;
-                },
-            };
-            match Self::job_body(state.clone(), &mut d).await {
-                Ok(_) => {}
-                Err(e) => {
-                    error!("{}", e);
-                    d = MIN_INTERVAL_DURATION;
-                }
+            info!("starting job: {}", job.name());
+
+            let tx = signal_tx.clone();
+            tokio::spawn(async move {
+                run_job(conf, job, tx).await;
+            });
+        }
+    }
+}
+
+async fn run_job(conf: JobConf, job: BoxJob, tx: watch::Sender<()>) {
+    let mut dur = job.bootstrap_run_duration().await;
+    match job.job_type() {
+        JobType::Periodic => {
+            let mut retry_count = 0;
+
+            loop {
+                tokio::select! {
+                    _ = tokio::time::sleep(dur) =>  (),
+                    _ = tx.closed() => {
+                        trace!("received signal");
+                        break;
+                    },
+                };
+                let r = with_timeout(&conf, &job).await;
+                match r {
+                    Ok(expect_dur) => {
+                        if let Some(d) = expect_dur {
+                            info!(
+                                "{} job expected duration to next run is: {} secs",
+                                job.name(),
+                                d.as_secs()
+                            );
+
+                            dur = cmp::max(d, Duration::from_secs(conf.interval_secs));
+                        } else {
+                            info!(
+                                "{} job not provide an expected duration to next run use default value: {} secs",
+                                job.name(),
+                                conf.interval_secs
+                            );
+                            dur = Duration::from_secs(conf.interval_secs);
+                        }
+                        retry_count = 0;
+                    }
+                    Err(e) => {
+                        error!("run job failed: {e}");
+                        if retry_count >= conf.max_retries {
+                            error!("job {} failed, retry count exceeded", job.name());
+                            dur = calc_dur(&conf, conf.max_retries);
+                        } else {
+                            retry_count += 1;
+                            dur = calc_dur(&conf, retry_count);
+                        }
+                        error!("job {} failed, retrying...", job.name());
+                    }
+                };
+                info!(
+                    "next run will start at {}, after {} secs",
+                    Local::now() + dur,
+                    dur.as_secs()
+                )
             }
         }
+        JobType::OneTime => {
+            // we do not have onetime job now!
+            unimplemented!("one time job")
+        }
+    }
+}
 
-        trace!("waiting for pending job(s) to finish");
+fn calc_dur(conf: &JobConf, retry: u32) -> Duration {
+    match conf.retry_policy {
+        JobRetryPolicy::Fixed => Duration::from_secs(conf.interval_secs),
+        JobRetryPolicy::Exponential => Duration::from_secs(conf.interval_secs * 2_u64.pow(retry)),
+        JobRetryPolicy::Linear => Duration::from_secs(conf.interval_secs * (retry as u64)),
+    }
+}
+
+#[derive(Debug, Error)]
+pub enum JobError {
+    #[error("job \"{0}\" timeout")]
+    Timeout(String),
+    #[error("job \"{0}\" biz error: {1}")]
+    Biz(String, BizError),
+}
+
+async fn with_timeout(conf: &JobConf, job: &BoxJob) -> Result<Option<Duration>, JobError> {
+    let job_name = job.name().to_owned();
+    timeout(Duration::from_secs(conf.timeout_secs), job.job_body())
+        .await
+        .map_err(|_e| JobError::Timeout(job_name.clone()))?
+        .map_err(|e| JobError::Biz(job_name, e))
+}
+
+#[allow(unused)]
+pub enum JobType {
+    Periodic,
+    OneTime,
+}
+
+#[async_trait]
+pub trait Job {
+    /// job's name
+    fn name(&self) -> &'static str;
+
+    /// get bootstrap run duration
+    /// default is zero means run bootstrap immediately
+    async fn bootstrap_run_duration(&self) -> Duration {
+        Duration::ZERO
     }
 
-    async fn job_body(state: AppState, d: &mut Duration) -> BizResult<()> {
+    /// job running type (periodic or one time)
+    fn job_type(&self) -> JobType;
+
+    /// job body
+    ///
+    /// `duration` is the duration between two runs
+    async fn job_body(&self) -> BizResult<Option<Duration>>;
+}
+
+pub struct WgWorldStateJob {
+    state: AppState,
+}
+
+#[async_trait]
+impl Job for WgWorldStateJob {
+    fn name(&self) -> &'static str {
+        "wg_world_state"
+    }
+
+    fn job_type(&self) -> JobType {
+        JobType::Periodic
+    }
+
+    async fn bootstrap_run_duration(&self) -> Duration {
+        let d = get_nearest_expiry_from_db(self.state.clone())
+            .await
+            .ok()
+            .and_then(|s| s);
+        match d {
+            Some(t) => (t - Utc::now()).to_std().unwrap_or(Duration::ZERO),
+            None => Duration::ZERO,
+        }
+    }
+
+    async fn job_body(&self) -> BizResult<Option<Duration>> {
+        let mut expected_duration = None;
         let start = Instant::now();
-        let res = crate::api::world_state::get_world_state(state.clone()).await;
+        let res = get_world_state(self.state.clone()).await;
 
         match res {
             Ok(ws) => {
-                let WorldStateOut { data, raw } = ws;
-                let nearest_expiry = get_nearest_expiry(&data);
-                *d = match nearest_expiry {
+                // let WorldStateOut { data, raw } = ws;
+                // dbg!(&data);
+                let nearest_expiry = get_nearest_expiry(&ws.data);
+                // dbg!(&nearest_expiry);
+                expected_duration = match nearest_expiry {
                     Some(next_time) => {
                         info!("next expiry: {}", next_time.with_timezone(&Local));
-                        let now = Utc::now();
-                        let next_min = now + MIN_INTERVAL;
-                        let nt = std::cmp::max(next_time, next_min);
-                        nt - Utc::now()
+                        // let now = Utc::now();
+                        // let next_min = now + MIN_INTERVAL;
+                        // let nt = std::cmp::max(next_time, next_min);
+                        (next_time - Utc::now()).to_std().ok()
                     }
-                    None => MIN_INTERVAL,
-                }
-                .to_std()
-                .unwrap_or(MIN_INTERVAL_DURATION);
-                let (data, warn) = rewrite_world_state(state.clone(), data).await?;
+                    None => None,
+                };
+
+                // .unwrap_or(MIN_INTERVAL_DURATION);
+                let (data, warn) = rewrite_world_state(self.state.clone(), ws.data).await?;
                 let spent = start.elapsed();
-                write_world_state_into_db(state, raw, data, warn, spent, nearest_expiry).await?;
+                write_world_state_into_db(
+                    self.state.clone(),
+                    ws.raw,
+                    data,
+                    warn,
+                    spent,
+                    nearest_expiry,
+                )
+                .await?;
             }
             Err(err) => {
                 let spent = start.elapsed();
-                *d = MIN_INTERVAL_DURATION;
-                log_error(state, err, spent).await?
+                // *d = MIN_INTERVAL_DURATION;
+                log_error(self.state.clone(), err, spent).await?
             }
         };
-        info!("next run could at {}", Local::now() + *d);
-        Ok(())
+        Ok(expected_duration)
+    }
+}
+
+impl WgWorldStateJob {
+    fn new(state: AppState) -> Self {
+        WgWorldStateJob { state }
+    }
+
+    fn boxed(self) -> Box<dyn Job + Send + Sync> {
+        Box::new(self)
     }
 }
 
@@ -182,4 +331,40 @@ async fn get_nearest_expiry_from_db(state: AppState) -> Result<Option<DateTimeUt
         .one(&state.conn)
         .await?;
     Ok(r.and_then(|m| m.nearest_expiry))
+}
+
+struct JobConf {
+    pub interval_secs: u64,
+    pub retry_policy: JobRetryPolicy,
+    pub max_retries: u32,
+    pub timeout_secs: u64,
+    pub enabled: bool,
+}
+
+fn job_conf_for(name: &str) -> JobConf {
+    let settings = settings::get();
+    let JobSettings {
+        interval_secs,
+        retry_policy,
+        max_retries,
+        timeout_secs,
+        overrides,
+    } = settings.job.clone();
+
+    match overrides.get(name) {
+        Some(o) => JobConf {
+            interval_secs: o.interval_secs.unwrap_or(interval_secs),
+            retry_policy: o.retry_policy.unwrap_or(retry_policy),
+            max_retries: o.max_retries.unwrap_or(max_retries),
+            timeout_secs: o.interval_secs.unwrap_or(timeout_secs),
+            enabled: o.enabled,
+        },
+        None => JobConf {
+            interval_secs,
+            retry_policy,
+            max_retries,
+            timeout_secs,
+            enabled: true,
+        },
+    }
 }
