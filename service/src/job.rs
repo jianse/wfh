@@ -2,7 +2,7 @@
 
 use crate::AppState;
 use crate::api::world_state::{
-    RewriteWarning, WorldStateData, WorldStateError, WorldStateOut, get_nearest_expiry,
+    RewriteWarning, WorldStateError, WorldStateOut, get_nearest_expiry, models::WorldStateData,
     rewrite_world_state,
 };
 use crate::api::{BizError, BizResult};
@@ -147,7 +147,7 @@ async fn log_error(state: AppState, err: WorldStateError, spent: Duration) -> Re
 async fn write_world_state_into_db(
     state: AppState,
     raw: String,
-    data: WorldStateData,
+    data: Box<WorldStateData>,
     warn: Option<RewriteWarning>,
     spent: Duration,
     nearest_expiry: Option<DateTime<Utc>>,

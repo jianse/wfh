@@ -204,6 +204,9 @@ pub enum BizError {
     #[error("call peer error. {0}")]
     CallPeer(#[from] reqwest::Error),
 
+    #[error("peer response error. code: {0}, message: {1}")]
+    PeerResponse(String, String),
+
     #[error("serde json error. {0}")]
     SerdeJson(#[from] serde_json::Error),
 
