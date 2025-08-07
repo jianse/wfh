@@ -827,13 +827,14 @@ pub struct Event {
     #[serde(rename = "largeInterval")]
     pub large_interval: String,
     pub description: String,
+    #[serde(default = "Default::default")]
     pub tooltip: String,
 
     // this field is not exist in 净化尸鬼 event
     #[serde(default = "Default::default")]
     pub node: String,
     #[serde(rename = "concurrentNodes")]
-    pub concurrent_nodes: Vec<()>,
+    pub concurrent_nodes: Vec<String>,
     #[serde(rename = "scoreLocTag")]
     pub score_loc_tag: Option<String>,
     pub rewards: Vec<EventReward>,
