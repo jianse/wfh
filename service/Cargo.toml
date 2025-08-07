@@ -9,6 +9,7 @@ embed = ["spa/embed"]
 [dependencies]
 settings = { path = "../settings" }
 spa = { path = "../spa" }
+migration = { path = "../migration" }
 
 axum = { workspace = true, features = ["macros", "http2"] }
 chrono = { workspace = true }
@@ -23,7 +24,6 @@ sea-orm = { workspace = true, features = [
     "sqlx-sqlite",
     "runtime-tokio-rustls",
 ] }
-sea-orm-migration = { workspace = true, features = ["sqlx-sqlite"] }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 thiserror = { workspace = true }

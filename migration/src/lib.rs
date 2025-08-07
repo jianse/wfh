@@ -1,4 +1,6 @@
-use sea_orm_migration::prelude::*;
+pub use sea_orm_migration::prelude::*;
+
+pub use sea_orm_migration::MigrationStatus;
 
 mod m20250524_000001_create_user_table;
 mod m20250524_000002_create_admin_user;

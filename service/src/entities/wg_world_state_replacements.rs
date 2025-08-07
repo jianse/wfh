@@ -7,6 +7,8 @@ use serde::{Deserialize, Serialize};
 #[sea_orm(table_name = "wg_world_state_replacements")]
 pub struct Model {
     #[sea_orm(primary_key, auto_increment = false)]
+    pub path: String,
+    #[sea_orm(primary_key, auto_increment = false)]
     pub origin: String,
     pub replacement: Option<String>,
     pub remark: Option<String>,

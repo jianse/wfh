@@ -10,9 +10,15 @@ impl MigrationTrait for Migration {
             .create_table(
                 Table::create()
                     .table(WgWorldStateReplacements::Table)
-                    .col(string(WgWorldStateReplacements::Origin).primary_key())
+                    .col(string(WgWorldStateReplacements::Path))
+                    .col(string(WgWorldStateReplacements::Origin))
                     .col(string_null(WgWorldStateReplacements::Replacement))
                     .col(string_null(WgWorldStateReplacements::Remark))
+                    .primary_key(
+                        sea_query::Index::create()
+                            .col(WgWorldStateReplacements::Path)
+                            .col(WgWorldStateReplacements::Origin),
+                    )
                     .to_owned(),
             )
             .await
@@ -32,6 +38,7 @@ impl MigrationTrait for Migration {
 #[derive(DeriveIden)]
 enum WgWorldStateReplacements {
     Table,
+    Path,
     Origin,
     Replacement,
     Remark,

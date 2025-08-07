@@ -7,9 +7,15 @@ edition = "2024"
 embed = ["service/embed"]
 
 [dependencies]
-tokio = { workspace = true, features = ["full"] }
-clap = { workspace = true, features = ["derive"] }
+migration = { path = "../migration" }
 service = { path = "../service" }
 settings = { path = "../settings" }
+
+tokio = { workspace = true, features = ["full"] }
+clap = { workspace = true, features = ["derive"] }
 toml = { workspace = true }
 eyre = { workspace = true }
+sea-orm = { workspace = true, features = [
+    "sqlx-sqlite",
+    "runtime-tokio-rustls",
+] }

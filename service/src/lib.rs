@@ -5,7 +5,6 @@ mod entities;
 pub mod error;
 mod job;
 mod logging;
-mod migrator;
 pub mod tls;
 
 use crate::job::JobRegistry;
@@ -17,9 +16,8 @@ use error::Result;
 use http::uri::{Authority, Scheme};
 use http::{HeaderValue, Uri};
 use logging::init_logger;
-use migrator::Migrator;
+use migration::{Migrator, MigratorTrait};
 use sea_orm::{ConnectOptions, Database, DatabaseConnection};
-use sea_orm_migration::MigratorTrait;
 use settings::TlsSettings;
 use std::sync::Arc;
 use tokio::net::TcpListener;

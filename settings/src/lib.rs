@@ -48,7 +48,7 @@ pub enum JobRetryPolicy {
 
     #[serde(alias = "linear")]
     Linear,
-    
+
     #[default]
     #[serde(alias = "exponential")]
     Exponential,

@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["api", "settings", "spa", "service", "api"]
+members = ["api", "settings", "spa", "service", "api", "migration"]
 
 [workspace.package]
 license = "MIT OR Apache-2.0"
@@ -33,7 +33,7 @@ serde_with = "3.14.0"
 rust-embed = "8.7.2"
 mime_guess = "2.0.5"
 hex = "0.4.3"
-clap = "4.5.42"
+clap = "4.5.43"
 eyre = "0.6.12"
 toml = "0.9.5"
 md5 = "0.8.0"

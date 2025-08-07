@@ -12,14 +12,17 @@ use crate::{
     common::brotli_decompress,
     entities::{
         prelude::{WgWorldStateReplacements, WorldState2},
-        world_state2,
+        wg_world_state_replacements, world_state2,
     },
 };
-use axum::{Router, extract::State, routing::get};
+use axum::{Router, extract::State, response::Result, routing::get};
 use chrono::{DateTime, Utc};
 use hex::ToHex;
 use http::HeaderMap;
-use sea_orm::{ColumnTrait, DbErr, EntityTrait, QueryFilter, QueryOrder};
+use regex::Regex;
+use sea_orm::{
+    ActiveValue::Set, ColumnTrait, DbErr, EntityTrait, QueryFilter, QueryOrder, sea_query,
+};
 use serde::{Deserialize, Serialize};
 
 use models::{WorldStateData, WorldStateRes};
@@ -104,8 +107,8 @@ impl RewriteWarning {
         }
     }
 
-    pub fn add_item(&mut self, path: String, desc: String) {
-        self.warnings.push(RewriteWarningItem { path, desc });
+    pub fn add_item(&mut self, path: String, value: String, desc: String) {
+        self.warnings.push(RewriteWarningItem { path, value, desc });
     }
 
     pub fn into_option(self) -> Option<Self> {
@@ -120,6 +123,7 @@ impl RewriteWarning {
 #[derive(Serialize, Deserialize, Debug)]
 pub struct RewriteWarningItem {
     pub path: String,
+    pub value: String,
     pub desc: String,
 }
 
@@ -212,11 +216,27 @@ pub fn get_nearest_expiry(data: &WorldStateData) -> Option<DateTime<Utc>> {
     t
 }
 
-async fn load_rewrite_item_map(state: AppState) -> Result<HashMap<String, Option<String>>, DbErr> {
+#[derive(Debug, Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
+struct RewriteKey(String, String);
+
+impl<S> From<(S, S)> for RewriteKey
+where
+    S: Into<String>,
+{
+    fn from(value: (S, S)) -> Self {
+        Self(value.0.into(), value.1.into())
+    }
+}
+
+// impl Eq for RewriteKey {}
+
+async fn load_rewrite_item_map(
+    state: AppState,
+) -> Result<HashMap<RewriteKey, Option<String>>, DbErr> {
     let reps = WgWorldStateReplacements::find().all(&state.conn).await?;
     Ok(reps
         .into_iter()
-        .map(|r| (r.origin, r.replacement))
+        .map(|r| ((r.path, r.origin).into(), r.replacement))
         .collect())
 }
 
@@ -224,14 +244,17 @@ fn rewrite_one(
     val: &mut String,
     warnings: &mut RewriteWarning,
     path: String,
-    replacements: &HashMap<String, Option<String>>,
+    replacements: &HashMap<RewriteKey, Option<String>>,
 ) {
-    if let Some(ni) = replacements.get(val) {
+    let re = Regex::new(r"\[\d+\]").unwrap();
+    let cp = re.replace_all(&path, "[*]").into_owned();
+
+    if let Some(ni) = replacements.get(&(cp.clone(), val.to_owned()).into()) {
         if let Some(ni) = ni {
             *val = ni.to_string();
         }
     } else {
-        warnings.add_item(path, format!("unexpected item: {val} "));
+        warnings.add_item(path, val.to_owned(), format!("unexpected item: {val} "));
     }
 }
 
@@ -239,9 +262,11 @@ pub async fn rewrite_world_state(
     state: AppState,
     data: Box<WorldStateData>,
 ) -> Result<(Box<WorldStateData>, Option<RewriteWarning>), DbErr> {
-    let replacements = load_rewrite_item_map(state).await?;
+    let replacements = load_rewrite_item_map(state.clone()).await?;
     let mut warnings = RewriteWarning::new();
     let mut data = data;
+
+    // rewrite events
     data.events.iter_mut().enumerate().for_each(|(i, event)| {
         let path = format!("$.events[{i}]");
 
@@ -273,8 +298,72 @@ pub async fn rewrite_world_state(
 
                     rewrite_one(it, &mut warnings, path, &replacements);
                 })
-            })
+            });
+
+        // Ok(())
     });
+
+    // rewrite fissures
+    data.fissures
+        .iter_mut()
+        .enumerate()
+        .for_each(|(i, fissure)| {
+            let path = format!("$.fissures[{i}]");
+            rewrite_one(
+                &mut fissure.node,
+                &mut warnings,
+                format!("{path}.node"),
+                &replacements,
+            );
+
+            rewrite_one(
+                &mut fissure.mission_type,
+                &mut warnings,
+                format!("{path}.missionType"),
+                &replacements,
+            );
+            rewrite_one(
+                &mut fissure.tier,
+                &mut warnings,
+                format!("{path}.tier"),
+                &replacements,
+            );
+            rewrite_one(
+                &mut fissure.tier_num,
+                &mut warnings,
+                format!("{path}.tierNum"),
+                &replacements,
+            );
+        });
+
+    // writes all warnings to db
+    let rs = warnings
+        .warnings
+        .iter()
+        .map(|w| {
+            let re = Regex::new(r"\[\d+\]").unwrap();
+            let cp = re.replace_all(&w.path, "[*]").into_owned();
+            wg_world_state_replacements::ActiveModel {
+                path: Set(cp),
+                origin: Set(w.value.clone()),
+                replacement: Set(None),
+                remark: Set(Some("world state rewrite".to_owned())),
+            }
+        })
+        .collect::<Vec<wg_world_state_replacements::ActiveModel>>();
+
+    WgWorldStateReplacements::insert_many(rs)
+        .on_empty_do_nothing()
+        .on_conflict(
+            sea_query::OnConflict::columns([
+                wg_world_state_replacements::Column::Path,
+                wg_world_state_replacements::Column::Origin,
+            ])
+            .do_nothing()
+            .to_owned(),
+        )
+        .exec(&state.conn)
+        .await?;
     Ok((data, warnings.into_option()))
 }
 
