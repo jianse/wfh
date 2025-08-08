@@ -277,7 +277,7 @@ pub struct VaultTraderSchedule {
 }
 #[serde_as]
 #[derive(Deserialize, Serialize, Debug)]
-pub struct VaultTraderInventory {
+pub struct TraderInventory {
     pub item: String,
     #[serde_as(deserialize_as = "NumberFromStringLoose")]
     pub ducats: i32,
@@ -295,7 +295,7 @@ pub struct VaultTrader {
     pub active: bool,
     pub character: String,
     pub location: String,
-    pub inventory: Vec<VaultTraderInventory>,
+    pub inventory: Vec<TraderInventory>,
     #[serde(rename = "psId")]
     pub ps_id: String,
     #[serde_as(deserialize_as = "DurationFromStr", serialize_as = "DisplayFromStr")]
@@ -564,7 +564,7 @@ pub struct VoidTrader {
     pub active: bool,
     pub character: String,
     pub location: String,
-    pub inventory: Vec<()>,
+    pub inventory: Vec<TraderInventory>,
     #[serde(rename = "psId")]
     pub ps_id: String,
     #[serde_as(deserialize_as = "DurationFromStr", serialize_as = "DisplayFromStr")]

@@ -161,8 +161,15 @@ pub fn get_nearest_expiry(data: &WorldStateData) -> Option<DateTime<Utc>> {
     let flash_sales_expiry = data.flash_sales.iter().map(|a| a.expiry).min();
     expiries.push(flash_sales_expiry);
 
-    expiries.push(Some(data.void_trader.activation));
-    expiries.push(Some(data.void_trader.expiry));
+    let void_trader_expiry = [
+        data.void_trader.activation,
+        data.void_trader.expiry,
+    ]
+    .into_iter()
+    .filter(|t| t > &data.timestamp)
+    .min();
+
+    expiries.push(void_trader_expiry);
 
     let daily_deals_expiry = data.daily_deals.iter().map(|a| a.expiry).min();
     expiries.push(daily_deals_expiry);
@@ -200,12 +207,26 @@ pub fn get_nearest_expiry(data: &WorldStateData) -> Option<DateTime<Utc>> {
         .min();
     expiries.push(void_storms_expiry);
 
+    #[cfg(test)]
+    {
+        println!("expiries");
+        dbg!(&expiries);
+        println!("timestamp");
+        dbg!(data.timestamp);
+    }
+
     let mut e_list = Vec::new();
     for i in expiries.into_iter().flatten() {
         e_list.push(i);
     }
 
     let t = e_list.into_iter().min();
+
+    #[cfg(test)]
+    {
+        println!("min expiry");
+        dbg!(t);
+    }
 
     if let Some(t) = t
         && t < data.timestamp
@@ -513,13 +534,13 @@ mod tests {
                 let s = serde_json::from_reader::<_, WorldStateRes>(f).unwrap();
                 match s {
                     WorldStateRes::Ok(data) => {
-                        dbg!(&data.timestamp);
+                        // dbg!(&data.timestamp);
 
                         let expiry_time = get_nearest_expiry(&data);
                         // dbg!(data);
                         // let (_res, warn) = rewrite_world_state(s.data);
                         // dbg!(&s);
-                        dbg!(&expiry_time);
+                        // dbg!(&expiry_time);
                         assert!(expiry_time.is_some());
                         assert!(expiry_time.unwrap() > data.timestamp);
                     }
