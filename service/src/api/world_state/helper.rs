@@ -34,26 +34,31 @@ impl<'de> DeserializeAs<'de, bool> for BoolFromAny {
                 formatter.write_str("a string or number")
             }
 
-            // fn visit_
-
-            fn visit_str<E>(self, value: &str) -> Result<Self::Value, E>
-            where
-                E: serde::de::Error,
-            {
-                Ok(!FALSIFIABLE.contains(&value))
-            }
             fn visit_bool<E>(self, value: bool) -> Result<Self::Value, E>
             where
                 E: serde::de::Error,
             {
                 Ok(value)
             }
-            fn visit_none<E>(self) -> Result<Self::Value, E>
+            fn visit_i8<E>(self, v: i8) -> Result<Self::Value, E>
             where
-                E: serde::de::Error,
+                E: DeError,
             {
-                Ok(false)
+                Ok(v != 0)
             }
+            fn visit_i64<E>(self, v: i64) -> Result<Self::Value, E>
+            where
+                E: DeError,
+            {
+                Ok(v != 0)
+            }
+            fn visit_i128<E>(self, v: i128) -> Result<Self::Value, E>
+            where
+                E: DeError,
+            {
+                Ok(v != 0)
+            }
+
             fn visit_u8<E>(self, v: u8) -> Result<Self::Value, E>
             where
                 E: serde::de::Error,
@@ -61,21 +66,7 @@ impl<'de> DeserializeAs<'de, bool> for BoolFromAny {
                 Ok(v != 0)
             }
 
-            fn visit_i8<E>(self, v: i8) -> Result<Self::Value, E>
-            where
-                E: DeError,
-            {
-                Ok(v != 0)
-            }
-
             fn visit_u64<E>(self, v: u64) -> Result<Self::Value, E>
-            where
-                E: DeError,
-            {
-                Ok(v != 0)
-            }
-
-            fn visit_i64<E>(self, v: i64) -> Result<Self::Value, E>
             where
                 E: DeError,
             {
@@ -89,11 +80,18 @@ impl<'de> DeserializeAs<'de, bool> for BoolFromAny {
                 Ok(v != 0)
             }
 
-            fn visit_i128<E>(self, v: i128) -> Result<Self::Value, E>
+            fn visit_str<E>(self, value: &str) -> Result<Self::Value, E>
             where
-                E: DeError,
+                E: serde::de::Error,
             {
-                Ok(v != 0)
+                Ok(!FALSIFIABLE.contains(&value))
+            }
+
+            fn visit_none<E>(self) -> Result<Self::Value, E>
+            where
+                E: serde::de::Error,
+            {
+                Ok(false)
             }
         }
 
@@ -183,7 +181,7 @@ impl From<DateTime<Utc>> for DeDate {
 
 /// A serde_with plugin to parse number from string
 /// like the [serde_with::DisplayFromStr]
-/// but it take an empty string as zero
+/// but it takes an empty string as zero
 ///
 /// currently support i32, i64, f64
 pub struct NumberFromStringLoose;

@@ -15,7 +15,7 @@ impl MigrationTrait for Migration {
                     .col(string_null(WgWorldStateReplacements::Replacement))
                     .col(string_null(WgWorldStateReplacements::Remark))
                     .primary_key(
-                        sea_query::Index::create()
+                        Index::create()
                             .col(WgWorldStateReplacements::Path)
                             .col(WgWorldStateReplacements::Origin),
                     )

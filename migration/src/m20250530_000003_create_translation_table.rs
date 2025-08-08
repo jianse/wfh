@@ -26,7 +26,7 @@ impl MigrationTrait for Migration {
                     )
                     .col(ColumnDef::new(Translation::Content).text().not_null())
                     .primary_key(
-                        sea_query::Index::create()
+                        Index::create()
                             .col(Translation::UniqueName)
                             .col(Translation::Prop),
                     )

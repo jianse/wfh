@@ -10,7 +10,6 @@ harness = false
 [dependencies]
 bcrypt = { workspace = true }
 argon2 = { workspace = true, features = ["std"] }
-once_cell = { workspace = true }
 config = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 tracing = { workspace = true }
@@ -23,4 +22,3 @@ serde_with = { workspace = true }
 [dev-dependencies]
 criterion = { workspace = true }
 eyre = { workspace = true }
-hex = { workspace = true }

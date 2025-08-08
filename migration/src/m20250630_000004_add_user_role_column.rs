@@ -13,7 +13,7 @@ impl MigrationTrait for Migration {
         {
             manager
                 .alter_table(
-                    sea_query::Table::alter()
+                    Table::alter()
                         .table(User::Table)
                         .add_column(
                             ColumnDef::new(User::Role)
@@ -36,7 +36,7 @@ impl MigrationTrait for Migration {
         {
             manager
                 .alter_table(
-                    sea_query::Table::alter()
+                    Table::alter()
                         .table(User::Table)
                         .drop_column(User::Role)
                         .to_owned(),

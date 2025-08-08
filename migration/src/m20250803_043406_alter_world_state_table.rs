@@ -12,7 +12,7 @@ impl MigrationTrait for Migration {
         {
             manager
                 .alter_table(
-                    sea_query::Table::alter()
+                    Table::alter()
                         .table(WorldState::Table)
                         .add_column(string_null(WorldState::Raw))
                         .to_owned(),
@@ -28,7 +28,7 @@ impl MigrationTrait for Migration {
         {
             manager
                 .alter_table(
-                    sea_query::Table::alter()
+                    Table::alter()
                         .table(WorldState::Table)
                         .add_column(string_null(WorldState::Warnings))
                         .to_owned(),
@@ -45,7 +45,7 @@ impl MigrationTrait for Migration {
         {
             manager
                 .alter_table(
-                    sea_query::Table::alter()
+                    Table::alter()
                         .table(WorldState::Table)
                         .drop_column(WorldState::Raw)
                         .to_owned(),
@@ -61,7 +61,7 @@ impl MigrationTrait for Migration {
         {
             manager
                 .alter_table(
-                    sea_query::Table::alter()
+                    Table::alter()
                         .table(WorldState::Table)
                         .drop_column(WorldState::Warnings)
                         .to_owned(),

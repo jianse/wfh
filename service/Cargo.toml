@@ -18,7 +18,6 @@ http = { workspace = true }
 jsonwebtoken = { workspace = true }
 log = { workspace = true }
 once_cell = { workspace = true }
-rand = { workspace = true }
 regex = { workspace = true, default-features = false }
 sea-orm = { workspace = true, features = [
     "sqlx-sqlite",
@@ -38,7 +37,6 @@ tokio-rustls = { workspace = true, default-features = false, features = [
     "logging",
     "tls12",
 ] }
-axum-server = { workspace = true }
 tower-http = { workspace = true, features = ["trace", "cors"] }
 tracing-appender = { workspace = true }
 uuid = { workspace = true, features = ["v4"] }
@@ -58,5 +56,4 @@ async-trait = { workspace = true }
 
 
 [dev-dependencies]
-axum-server = { workspace = true, features = ["tls-rustls"] }
 eyre = { workspace = true }

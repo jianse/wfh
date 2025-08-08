@@ -105,7 +105,7 @@ pub async fn serve() -> Result<()> {
             let rustls_config = tls::rustls_server_config(&tls_opt.key, &tls_opt.cert);
             let tls_acceptor = TlsAcceptor::from(rustls_config);
             let bind = (settings.server.host.to_owned(), tls_opt.port);
-            let tcp_listener = TcpListener::bind(bind).await.unwrap();
+            let tcp_listener = TcpListener::bind(bind).await?;
             info!("HTTPS server listening on {}.", tcp_listener.local_addr()?);
             let tls_listener = TlsListener::new(tls_acceptor, tcp_listener);
 

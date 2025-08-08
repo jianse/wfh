@@ -24,7 +24,6 @@ tokio = "1.47.1"
 tracing = "0.1.41"
 tracing-subscriber = "0.3.19"
 tokio-rustls = { version = "0.26.2", default-features = false }
-axum-server = "0.7.2"
 tower-http = "0.6.6"
 tracing-appender = "0.2.3"
 bcrypt = "0.17.0"
@@ -42,6 +41,7 @@ reqwest = { version = "0.12.22", default-features = false }
 serde_path_to_error = "0.1.17"
 async-compression = "0.4.27"
 async-trait = "0.1.88"
+async-std = "1"
 
 # dev use only
 criterion = "0.7.0"

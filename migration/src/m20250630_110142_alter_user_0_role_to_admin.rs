@@ -6,7 +6,7 @@ pub struct Migration;
 #[async_trait::async_trait]
 impl MigrationTrait for Migration {
     async fn up(&self, manager: &SchemaManager) -> Result<(), DbErr> {
-        let stmt = sea_query::Query::update()
+        let stmt = Query::update()
             .table(User::Table)
             .value(User::Role, "admin")
             .and_where(Expr::col(User::Id).eq(0))

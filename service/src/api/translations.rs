@@ -8,10 +8,10 @@ use log::info;
 use sea_orm::{ActiveModelTrait, ActiveValue::Set, EntityTrait, IntoActiveModel, TransactionTrait};
 use serde::Deserialize;
 
+use crate::AppState;
 use crate::api::{BizResponse, BizResult};
 use crate::entities::prelude::*;
 use crate::entities::translation::Model;
-use crate::{AppState, entities};
 
 pub(crate) fn translations_routes(state: AppState) -> Router<AppState> {
     Router::new()
@@ -26,7 +26,7 @@ pub(crate) fn translations_routes(state: AppState) -> Router<AppState> {
 async fn add_or_update_translation(
     // Extension(cur_user):Extension<CurrentUser>,
     State(state): State<AppState>,
-    Json(trans): Json<entities::translation::Model>,
+    Json(trans): Json<Model>,
 ) -> BizResult<BizResponse> {
     let txn = state.conn.begin().await?;
 

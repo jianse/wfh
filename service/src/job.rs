@@ -55,7 +55,7 @@ where
 
     pub async fn start(self) {
         let Self { jobs, signal, .. } = self;
-        let (signal_tx, signal_rx) = tokio::sync::watch::channel(());
+        let (signal_tx, signal_rx) = watch::channel(());
         // let
         tokio::spawn(async move {
             // pin!(signal);
@@ -92,7 +92,7 @@ async fn run_job(conf: JobConf, job: BoxJob, tx: watch::Sender<()>) {
                         trace!("received signal");
                         break;
                     },
-                };
+                }
                 let r = with_timeout(&conf, &job).await;
                 match r {
                     Ok(expect_dur) => {
@@ -200,10 +200,6 @@ impl Job for WgWorldStateJob {
         "wg_world_state"
     }
 
-    fn job_type(&self) -> JobType {
-        JobType::Periodic
-    }
-
     async fn bootstrap_run_duration(&self) -> Duration {
         let d = get_nearest_expiry_from_db(self.state.clone())
             .await
@@ -213,6 +209,10 @@ impl Job for WgWorldStateJob {
             Some(t) => (t - Utc::now()).to_std().unwrap_or(Duration::ZERO),
             None => Duration::ZERO,
         }
+    }
+
+    fn job_type(&self) -> JobType {
+        JobType::Periodic
     }
 
     async fn job_body(&self) -> BizResult<Option<Duration>> {
@@ -301,7 +301,6 @@ async fn write_world_state_into_db(
     spent: Duration,
     nearest_expiry: Option<DateTime<Utc>>,
 ) -> BizResult<()> {
-    // TODO: remove unwrap
     let warn_str = serde_json::to_string(&warn)?;
     let t = serde_json::to_string(&data)?;
     let t = brotli_compress(t).await?;

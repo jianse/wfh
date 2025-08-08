@@ -11,7 +11,7 @@ path = "src/lib.rs"
 [dependencies]
 settings = { path = "../settings"}
 
-async-std = { version = "1", features = ["attributes", "tokio1"] }
+async-std = { workspace = true, features = ["attributes", "tokio1"] }
 rand = { workspace = true }
 tracing = { workspace = true }
 
