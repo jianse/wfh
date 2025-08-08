@@ -17,11 +17,7 @@ export async function get_all_translations(): Promise<BizResp<TranslationTerm[]>
 }
 
 export async function save_translation(translation: TranslationTerm) {
-  await http.post('/translations', translation, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
+  await http.post('/translations', translation)
 }
 
 export async function delete_translation(translation_id: TranslationId) {

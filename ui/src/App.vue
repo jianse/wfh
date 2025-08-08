@@ -2,10 +2,12 @@
 import type { MenuItem } from 'primevue/menuitem'
 import { useRouter } from 'vue-router'
 import { useUserStore } from './stores/user'
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useTokenStore } from './stores/token'
 import { storeToRefs } from 'pinia'
 import { get_current_user } from './api/user'
+
+// const {isAdmin} = storeToRefs(useUserStore())
 
 const navItems: MenuItem[] = [
   {
@@ -49,14 +51,31 @@ const navItems: MenuItem[] = [
     label: '关于',
     route: { name: 'about' },
   },
+  {
+    label: '事件追踪',
+    route: { name: 'world-state' },
+  },
+  {
+    requireAdmin: true,
+    label: '重写数据',
+    route: { name: 'world-state-rewrite' },
+  },
 ]
+
+const computedNav = computed(() => {
+  if (isAdmin.value) {
+    return navItems
+  }
+  return navItems.filter((nav) => !nav.requireAdmin)
+})
+
 const router = useRouter()
 
 function toLogin() {
   router.push({ name: 'login' })
 }
 
-const { isLogin, user } = storeToRefs(useUserStore())
+const { isLogin, user, isAdmin } = storeToRefs(useUserStore())
 
 // user menu
 const menu = ref()
@@ -91,7 +110,7 @@ onMounted(async () => {
   <pv-toast />
   <pv-dynamic-dialog />
   <div class="bg-slate-50 dark:bg-slate-800">
-    <pv-menubar :model="navItems">
+    <pv-menubar :model="computedNav">
       <template #item="{ item, props, hasSubmenu }">
         <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
           <a v-ripple :href="href" v-bind="props.action" @click="navigate">

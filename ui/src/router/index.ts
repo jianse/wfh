@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import { useUserStore } from '@/stores/user'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -67,7 +68,36 @@ const router = createRouter({
       name: 'login',
       component: () => import('@/views/LoginView.vue'),
     },
+    {
+      path: '/world_state',
+      name: 'world-state',
+      component: () => import('@/views/WorldStateView.vue'),
+    },
+    {
+      path: '/world_state/rewrite',
+      name: 'world-state-rewrite',
+      component: () => import('@/views/manage/WorldStateRewriteView.vue'),
+      meta: {
+        requiresAdmin: true,
+      },
+    },
+    {
+      path: '/404',
+      name: 'not-found',
+      component: () => import('@/views/NotFoundView.vue'),
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: '/404',
+    },
   ],
+})
+
+router.beforeEach((to, _from) => {
+  const { isAdmin } = useUserStore()
+  if (to.meta.requiresAdmin && !isAdmin) {
+    return { name: 'not-found' }
+  }
 })
 
 export default router

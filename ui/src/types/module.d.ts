@@ -17,7 +17,7 @@ interface ImageSuit {
 }
 
 declare module 'virtual:mod-image-suit' {
-  export function getImageSuit(mod: Object): ImageSuit
+  export function getImageSuit(mod: object): ImageSuit
   export const rankCompleteLine: ImageInfoItem
 
   export const OmegaSuit: ImageSuit

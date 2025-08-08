@@ -5,6 +5,14 @@ import { defineAsyncComponent } from 'vue'
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_BASEURL,
+  headers: {
+    post: {
+      'Content-Type': 'application/json',
+    },
+    put: {
+      'Content-Type': 'application/json',
+    },
+  },
 })
 
 interface Err {
@@ -51,6 +59,13 @@ export interface BizResp<T> {
   code: number
   msg: string
   data?: T
+}
+
+export interface Page<T> {
+  page: number
+  page_size: number
+  total: number
+  items: T[]
 }
 
 export function is_success<T>(resp: BizResp<T>): boolean {

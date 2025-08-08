@@ -147,7 +147,7 @@ class ReverseIndex {
     readonly category: string,
     readonly prop: string,
     readonly index: number,
-  ) { }
+  ) {}
 }
 
 // split relics and arcane
