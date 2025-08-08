@@ -16,7 +16,7 @@ use jsonwebtoken::{Algorithm, DecodingKey, Validation, decode};
 use once_cell::sync::Lazy;
 use regex::RegexSet;
 use sea_orm::{DbErr, EntityTrait};
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use serde_json::json;
 use thiserror::Error;
 use tracing::{debug, info};
@@ -151,6 +151,20 @@ impl BizResponse<()> {
     }
 }
 
+impl<I: Serialize> BizResponse<Page<I>> {
+    pub fn ok_page(page: u64, page_size: u64, total: u64, items: Vec<I>) -> Self {
+        Self::new(
+            BizStatus::OK,
+            Some(Page {
+                page,
+                page_size,
+                total,
+                items,
+            }),
+        )
+    }
+}
+
 impl<DATA: Serialize> BizResponse<DATA> {
     pub fn ok_with(data: DATA) -> Self {
         Self::new_with(BizStatus::OK, data)
@@ -256,4 +270,18 @@ async fn require_admin_role(
         return Err(BizError::Permission);
     }
     Ok(next.run(req).await)
+}
+
+#[derive(Debug, Deserialize, Clone)]
+pub struct Pager {
+    pub page: u64,
+    pub page_size: u64,
+}
+
+#[derive(Debug, Serialize, Clone)]
+pub struct Page<T: Serialize> {
+    pub page: u64,
+    pub page_size: u64,
+    pub total: u64,
+    pub items: Vec<T>,
 }

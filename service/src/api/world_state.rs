@@ -1,5 +1,6 @@
 mod helper;
 pub mod models;
+mod rep;
 
 use std::{
     collections::HashMap,
@@ -8,7 +9,7 @@ use std::{
 
 use crate::{
     AppState,
-    api::{BizError, BizResponse, BizResult},
+    api::{BizError, BizResponse, BizResult, world_state::rep::rep_routes},
     common::brotli_decompress,
     entities::{
         prelude::{WgWorldStateReplacements, WorldState2},
@@ -468,7 +469,9 @@ fn build_url() -> Result<String, BizError> {
 }
 
 pub(crate) fn world_state_routes() -> Router<AppState> {
-    Router::new().route("/current", get(world_state))
+    Router::new()
+        .route("/current", get(world_state))
+        .nest("/rep", rep_routes())
 }
 
 #[cfg(test)]
