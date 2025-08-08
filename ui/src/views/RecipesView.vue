@@ -57,11 +57,22 @@ const itemsComputed = computed(() => {
   return chunkedItems
 })
 const kwFilter = ref('')
+
+function onKwInput(e: Event) {
+  if (e instanceof InputEvent && e.isComposing) {
+    return
+  }
+  kwFilter.value = (e.target as HTMLInputElement).value
+}
 </script>
 
 <template>
   <div class="flex sticky top-0 w-full p-2" style="background-color: var(--color-background)">
-    <pv-input-text placeholder="请输入关键词" v-model="kwFilter"></pv-input-text>
+    <pv-input-text
+      placeholder="请输入关键词"
+      default-value="kwFilter"
+      @input="onKwInput"
+    ></pv-input-text>
   </div>
   <pv-virtual-scroller
     ref="scroller"

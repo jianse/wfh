@@ -198,6 +198,13 @@ const itemsComputed = computed(() => {
 
 const kwFilter = ref('')
 const ignoreCase = ref(true)
+
+function searchInput(e: Event) {
+  if (e instanceof InputEvent && e.isComposing) {
+    return
+  }
+  kwFilter.value = (e.target as HTMLInputElement).value
+}
 </script>
 
 <template>
@@ -222,7 +229,8 @@ const ignoreCase = ref(true)
             >搜索：<pv-input-text
               placeholder="输入关键字"
               size="small"
-              v-model="kwFilter"
+              :default-value="kwFilter"
+              @input="searchInput"
             ></pv-input-text
           ></label>
 

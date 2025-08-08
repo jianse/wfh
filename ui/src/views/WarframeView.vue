@@ -182,6 +182,13 @@ const kwFilter = ref('')
 const ignoreCase = ref(true)
 
 const cat = ref('Any')
+
+function onInput(e: Event) {
+  if (e instanceof InputEvent && e.isComposing) {
+    return
+  }
+  kwFilter.value = (e.target as HTMLInputElement).value
+}
 </script>
 
 <template>
@@ -203,7 +210,8 @@ const cat = ref('Any')
           >搜索：<pv-input-text
             placeholder="输入关键字"
             size="small"
-            v-model="kwFilter"
+            :default-value="kwFilter"
+            @input="onInput"
           ></pv-input-text
         ></label>
 
