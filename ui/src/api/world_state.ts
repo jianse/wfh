@@ -33,6 +33,87 @@ export interface WorldState {
     isStorm: boolean
     tierNum: string
   }[]
+  voidTrader: {
+    activation: string
+    expiry: string
+    active: boolean
+    inventory: {
+      item: string
+      credits: number
+      ducats: number
+    }[]
+    location: string
+  }
+  steelPath: {
+    currentReward: {
+      name: string
+      cost: number
+    }
+    expiry: string
+  }
+  vaultTrader: {
+    expiry: string
+    active: boolean
+    inventory: {
+      item: string
+      credits: number
+      ducats: number
+    }[]
+  }
+  dailyDeals: {
+    item: string
+    expiry: string
+    originalPrice: number
+    salePrice: number
+  }[]
+  archonHunt: {
+    expiry: string
+    missions: {
+      node: string
+      type: string
+    }[]
+  }
+  sentientOutposts: {
+    expiry: string
+    mission: {
+      node: string
+      type: string
+    }
+  }
+  sortie: {
+    expiry: string
+    variants: {
+      node: string
+      missionType: string
+      modifier: string
+    }[]
+  }
+  nightwave: {
+    activeChallenges: {
+      expiry: string
+      isDaily: boolean
+      isElite: boolean
+      title: string
+      reputation: number
+      desc: string
+      id: string
+    }[]
+  }
+  invasions: {
+    id: string
+    count: number
+    requiredRuns: number
+    node: string
+    completion: number
+    attackingFaction: string
+    attackerReward: {
+      asString: string
+    }
+    defendingFaction: string
+    defenderReward: {
+      asString: string
+    }
+  }[]
 }
 
 export async function get_world_state() {

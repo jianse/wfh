@@ -45,6 +45,7 @@ declare module 'vue' {
     PvMessage: typeof import('primevue/message')['default']
     PvPaginator: typeof import('primevue/paginator')['default']
     PvPassword: typeof import('primevue/password')['default']
+    PvProgressBar: typeof import('primevue/progressbar')['default']
     PvSelect: typeof import('primevue/select')['default']
     PvSpeedDial: typeof import('primevue/speeddial')['default']
     PvTab: typeof import('primevue/tab')['default']

@@ -46,17 +46,38 @@ function humanFormat(dur: Duration) {
   const seconds = Math.abs(dur.asSeconds())
   const values = [
     { unit: '天', value: Math.floor(seconds / 86400) },
-    { unit: '小时', value: Math.floor((seconds / 3600) % 24) },
-    { unit: '分钟', value: Math.floor((seconds / 60) % 60) },
-    { unit: '秒', value: Math.floor(seconds % 60) },
+    {
+      unit: '时',
+      value: Math.floor((seconds / 3600) % 24),
+      vFormat: (v: number) => v.toString().padStart(2, '0'),
+    },
+    {
+      unit: '分',
+      value: Math.floor((seconds / 60) % 60),
+      vFormat: (v: number) => v.toString().padStart(2, '0'),
+    },
+    {
+      unit: '秒',
+      value: Math.floor(seconds % 60),
+      vFormat: (v: number) => v.toString().padStart(2, '0'),
+    },
   ]
-  for (const { unit, value } of values) {
-    if (value > 0) {
-      parts.push(`${value}${unit}`)
+  let ignoreZero = true
+  for (const { unit, value, vFormat } of values) {
+    if (ignoreZero && value === 0) {
+      continue
+    } else {
+      ignoreZero = false
     }
-  }
-  parts.push(suffix)
+    let fv = value.toString()
+    if (vFormat) {
+      fv = vFormat(value)
+    }
 
-  return parts.join('')
+    parts.push(`${fv}${unit}`)
+  }
+  // parts.push(suffix)
+
+  return parts.join(' ') + suffix
 }
 </script>
