@@ -1,24 +1,16 @@
 //! Background jobs
 
 use crate::AppState;
-use crate::api::world_state::get_world_state;
-use crate::api::world_state::{
-    RewriteWarning, WorldStateError, get_nearest_expiry, models::WorldStateData,
-    rewrite_world_state,
-};
+use crate::api::world_state::get_nearest_expiry;
+use crate::api::world_state::{get_nearest_expiry_from_db, wf_world_state};
 use crate::api::{BizError, BizResult};
-use crate::common::brotli_compress;
-use crate::entities::prelude::WorldState2;
-use crate::entities::world_state2;
+
 use async_trait::async_trait;
-use chrono::{DateTime, Local, Utc};
-use sea_orm::ActiveValue::{NotSet, Set};
-use sea_orm::prelude::DateTimeUtc;
-use sea_orm::{ColumnTrait, DbErr, EntityTrait, QueryFilter, QueryOrder};
+use chrono::{Local, Utc};
 use settings::{JobRetryPolicy, JobSettings};
 use std::cmp;
 use std::collections::HashMap;
-use std::time::{Duration, Instant};
+use std::time::Duration;
 use thiserror::Error;
 use tokio::sync::watch;
 use tokio::time::timeout;
@@ -216,45 +208,17 @@ impl Job for WgWorldStateJob {
     }
 
     async fn job_body(&self) -> BizResult<Option<Duration>> {
-        let mut expected_duration = None;
-        let start = Instant::now();
-        let res = get_world_state(self.state.clone()).await;
+        let res = wf_world_state(self.state.clone()).await?;
 
-        match res {
-            Ok(ws) => {
-                // let WorldStateOut { data, raw } = ws;
-                // dbg!(&data);
-                let nearest_expiry = get_nearest_expiry(&ws.data);
-                // dbg!(&nearest_expiry);
-                expected_duration = match nearest_expiry {
-                    Some(next_time) => {
-                        info!("next expiry: {}", next_time.with_timezone(&Local));
-                        // let now = Utc::now();
-                        // let next_min = now + MIN_INTERVAL;
-                        // let nt = std::cmp::max(next_time, next_min);
-                        (next_time - Utc::now()).to_std().ok()
-                    }
-                    None => None,
-                };
+        let nearest_expiry = get_nearest_expiry(&res);
 
-                // .unwrap_or(MIN_INTERVAL_DURATION);
-                let (data, warn) = rewrite_world_state(self.state.clone(), ws.data).await?;
-                let spent = start.elapsed();
-                write_world_state_into_db(
-                    self.state.clone(),
-                    ws.raw,
-                    data,
-                    warn,
-                    spent,
-                    nearest_expiry,
-                )
-                .await?;
+        let expected_duration = match nearest_expiry {
+            Some(next_time) => {
+                info!("next expiry: {}", next_time.with_timezone(&Local));
+
+                (next_time - Utc::now()).to_std().ok()
             }
-            Err(err) => {
-                let spent = start.elapsed();
-                // *d = MIN_INTERVAL_DURATION;
-                log_error(self.state.clone(), err, spent).await?
-            }
+            None => None,
         };
         Ok(expected_duration)
     }
@@ -268,68 +232,6 @@ impl WgWorldStateJob {
     fn boxed(self) -> Box<dyn Job + Send + Sync> {
         Box::new(self)
     }
-}
-
-/// logging get warframe world state error into db.
-async fn log_error(state: AppState, err: WorldStateError, spent: Duration) -> Result<(), BizError> {
-    let raw = match err.raw {
-        Some(raw) => {
-            let t = brotli_compress(raw).await?;
-            Some(t)
-        }
-        None => None,
-    };
-    error!("{}", err.err.to_string());
-    let row = world_state2::ActiveModel {
-        sync_time: Set(Utc::now()),
-        is_success: Set(false),
-        error_msg: Set(Some(err.err.to_string())),
-        time_spent_ms: Set(spent.as_millis() as i32),
-        raw: Set(raw),
-        ..Default::default()
-    };
-    WorldState2::insert(row).exec(&state.conn).await?;
-    Ok(())
-}
-
-/// save warframe world state into db
-async fn write_world_state_into_db(
-    state: AppState,
-    raw: String,
-    data: Box<WorldStateData>,
-    warn: Option<RewriteWarning>,
-    spent: Duration,
-    nearest_expiry: Option<DateTime<Utc>>,
-) -> BizResult<()> {
-    let warn_str = serde_json::to_string(&warn)?;
-    let t = serde_json::to_string(&data)?;
-    let t = brotli_compress(t).await?;
-
-    let raw = brotli_compress(raw).await?;
-
-    let row = world_state2::ActiveModel {
-        id: NotSet,
-        sync_time: Set(Utc::now()),
-        text: Set(Some(t)),
-        is_success: Set(true),
-        error_msg: Set(None),
-        time_spent_ms: Set(spent.as_millis() as i32),
-        raw: Set(Some(raw)),
-        warnings: Set(Some(warn_str)),
-        nearest_expiry: Set(nearest_expiry),
-    };
-    WorldState2::insert(row).exec(&state.conn).await?;
-    Ok(())
-}
-
-/// get the last sync time
-async fn get_nearest_expiry_from_db(state: AppState) -> Result<Option<DateTimeUtc>, DbErr> {
-    let r = WorldState2::find()
-        .filter(world_state2::Column::IsSuccess.eq(true))
-        .order_by_desc(world_state2::Column::SyncTime)
-        .one(&state.conn)
-        .await?;
-    Ok(r.and_then(|m| m.nearest_expiry))
 }
 
 struct JobConf {

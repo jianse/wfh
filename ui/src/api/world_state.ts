@@ -120,3 +120,8 @@ export async function get_world_state() {
   const { data } = await http.get<BizResp<WorldState>>('/world_state/current')
   return data
 }
+
+export async function update_and_get() {
+  const { data } = await http.get<BizResp<WorldState>>('/world_state/update')
+  return data
+}

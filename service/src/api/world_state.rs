@@ -4,31 +4,34 @@ mod rep;
 
 use std::{
     collections::HashMap,
-    time::{SystemTime, UNIX_EPOCH},
+    time::{Duration, Instant, SystemTime, UNIX_EPOCH},
 };
 
 use crate::{
     AppState,
     api::{BizError, BizResponse, BizResult, world_state::rep::rep_routes},
-    common::brotli_decompress,
+    common::{brotli_compress, brotli_decompress},
     entities::{
         prelude::{WgWorldStateReplacements, WorldState2},
         wg_world_state_replacements, world_state2,
     },
 };
-use axum::{Router, extract::State, response::Result, routing::get};
+use axum::{Router, extract::State, routing::get};
 use chrono::{DateTime, Utc};
 use hex::ToHex;
 use http::HeaderMap;
 use regex::Regex;
 use sea_orm::{
-    ActiveValue::Set, ColumnTrait, DbErr, EntityTrait, QueryFilter, QueryOrder, sea_query,
+    ActiveValue::{NotSet, Set},
+    ColumnTrait, DbErr, EntityTrait, QueryFilter, QueryOrder,
+    prelude::DateTimeUtc,
+    sea_query,
 };
 use serde::{Deserialize, Serialize};
 
 use models::{WorldStateData, WorldStateRes};
 
-use tracing::{debug, info, warn};
+use tracing::{debug, error, info, warn};
 
 #[derive(Debug)]
 pub struct WorldStateOut {
@@ -62,7 +65,7 @@ impl From<reqwest::Error> for WorldStateError {
     }
 }
 
-pub async fn get_world_state(state: AppState) -> Result<WorldStateOut, WorldStateError> {
+async fn get_world_state(state: AppState) -> Result<WorldStateOut, WorldStateError> {
     // let mut res = WorldStateOut::default();
     let start = std::time::Instant::now();
 
@@ -277,7 +280,7 @@ fn rewrite_one(
     }
 }
 
-pub async fn rewrite_world_state(
+async fn rewrite_world_state(
     state: AppState,
     data: Box<WorldStateData>,
 ) -> Result<(Box<WorldStateData>, Option<RewriteWarning>), DbErr> {
@@ -551,9 +554,105 @@ fn build_url() -> Result<String, BizError> {
     Ok(res)
 }
 
+/// update world state and return to client
+async fn update_and_get(
+    State(state): State<AppState>,
+) -> BizResult<BizResponse<Box<WorldStateData>>> {
+    // todo!("not implemented")
+    let d = wf_world_state(state).await?;
+    Ok(BizResponse::ok_with(d))
+}
+
+pub async fn wf_world_state(state: AppState) -> Result<Box<WorldStateData>, BizError> {
+    let start = Instant::now();
+    let res = get_world_state(state.clone()).await;
+
+    match res {
+        Ok(ws) => {
+            let nearest_expiry = get_nearest_expiry(&ws.data);
+            let (data, warn) = rewrite_world_state(state.clone(), ws.data).await?;
+            let spent = start.elapsed();
+            write_world_state_into_db(state, ws.raw, &data, warn, spent, nearest_expiry).await?;
+            Ok(data)
+        }
+        Err(err) => {
+            let spent = start.elapsed();
+            log_error(state.clone(), &err, spent).await?;
+            Err(err.err)
+        }
+    }
+}
+
+/// logging get warframe world state error into db.
+async fn log_error(
+    state: AppState,
+    err: &WorldStateError,
+    spent: Duration,
+) -> Result<(), BizError> {
+    let raw = match err.raw.as_ref() {
+        Some(raw) => {
+            let t = brotli_compress(raw.to_owned()).await?;
+            Some(t)
+        }
+        None => None,
+    };
+    error!("{}", err.err.to_string());
+    let row = world_state2::ActiveModel {
+        sync_time: Set(Utc::now()),
+        is_success: Set(false),
+        error_msg: Set(Some(err.err.to_string())),
+        time_spent_ms: Set(spent.as_millis() as i32),
+        raw: Set(raw),
+        ..Default::default()
+    };
+    WorldState2::insert(row).exec(&state.conn).await?;
+    Ok(())
+}
+
+/// save warframe world state into db
+async fn write_world_state_into_db(
+    state: AppState,
+    raw: String,
+    data: &WorldStateData,
+    warn: Option<RewriteWarning>,
+    spent: Duration,
+    nearest_expiry: Option<DateTime<Utc>>,
+) -> BizResult<()> {
+    let warn_str = serde_json::to_string(&warn)?;
+    let t = serde_json::to_string(&data)?;
+    let t = brotli_compress(t).await?;
+
+    let raw = brotli_compress(raw).await?;
+
+    let row = world_state2::ActiveModel {
+        id: NotSet,
+        sync_time: Set(Utc::now()),
+        text: Set(Some(t)),
+        is_success: Set(true),
+        error_msg: Set(None),
+        time_spent_ms: Set(spent.as_millis() as i32),
+        raw: Set(Some(raw)),
+        warnings: Set(Some(warn_str)),
+        nearest_expiry: Set(nearest_expiry),
+    };
+    WorldState2::insert(row).exec(&state.conn).await?;
+    Ok(())
+}
+
+/// get the last sync time
+pub async fn get_nearest_expiry_from_db(state: AppState) -> Result<Option<DateTimeUtc>, DbErr> {
+    let r = WorldState2::find()
+        .filter(world_state2::Column::IsSuccess.eq(true))
+        .order_by_desc(world_state2::Column::SyncTime)
+        .one(&state.conn)
+        .await?;
+    Ok(r.and_then(|m| m.nearest_expiry))
+}
+
 pub(crate) fn world_state_routes() -> Router<AppState> {
     Router::new()
         .route("/current", get(world_state))
+        .route("/update", get(update_and_get))
         .nest("/rep", rep_routes())
 }
 

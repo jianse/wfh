@@ -272,17 +272,52 @@
       </template>
     </pv-card>
   </div>
+  <div class="fixed right-5 bottom-5 flex flex-row gap-2">
+    <pv-button
+      v-if="isAdmin"
+      icon="pi pi-refresh"
+      severity="warn"
+      rounded
+      aria-label="ForceRefresh"
+      @click="forceFetch"
+      :loading="loading"
+    />
+    <pv-button
+      icon="pi pi-refresh"
+      severity="success"
+      rounded
+      aria-label="Refresh"
+      @click="fetchWorldState"
+      :loading="loading"
+    />
+  </div>
 </template>
 <script setup lang="ts">
-import { get_world_state, type WorldState } from '@/api/world_state'
+import { get_world_state, update_and_get, type WorldState } from '@/api/world_state'
+import { useUserStore } from '@/stores/user'
+import { storeToRefs } from 'pinia'
+import { useToast } from 'primevue/usetoast'
 import { computed, ref } from 'vue'
 
 const worldState = ref<WorldState>()
+const loading = ref(false)
+const toast = useToast()
 
 async function fetchWorldState() {
-  const { data } = await get_world_state()
-  if (data) {
-    worldState.value = data
+  loading.value = true
+  try {
+    const { data } = await get_world_state()
+    if (data) {
+      worldState.value = data
+      toast.add({
+        severity: 'success',
+        summary: '更新成功',
+        detail: '已更新世界状态数据',
+        life: 3000,
+      })
+    }
+  } finally {
+    loading.value = false
   }
 }
 
@@ -322,4 +357,24 @@ const voidStorm = computed(() => {
     .filter((f) => f.isStorm)
     .sort((a, b) => strCmp(a.tierNum, b.tierNum))
 })
+
+async function forceFetch() {
+  loading.value = true
+  try {
+    const { data } = await update_and_get()
+    if (data) {
+      worldState.value = data
+      toast.add({
+        severity: 'success',
+        summary: '更新成功',
+        detail: '已强制更新世界状态数据',
+        life: 3000,
+      })
+    }
+  } finally {
+    loading.value = false
+  }
+}
+
+const { isAdmin } = storeToRefs(useUserStore())
 </script>
