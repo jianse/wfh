@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-row gap-2 m-2 flex-wrap">
-    <div class="flex flex-row gap-2 place-content-between w-full flex-wrap">
+    <div class="grid grid-cols-5 gap-2 w-full">
       <pv-card class="min-w-4xs grow h-fit">
         <template #title>夜灵平野</template>
         <template #content>
@@ -61,216 +61,263 @@
           </p>
         </template>
       </pv-card>
-    </div>
+      <!-- </div> -->
 
-    <!-- 虚空裂缝 -->
-    <pv-card class="w-full min-w-sm max-w-5xl h-fit">
-      <template #title>虚空裂缝</template>
-      <template #content>
-        <div class="flex flex-row gap-5 flex-wrap">
-          <div>
-            <h2 class="text-lg">普通</h2>
-            <ul>
-              <li class="list-disc list-inside" v-for="fissure in normalFissures" :key="fissure.id">
-                {{ fissure.tier }} {{ fissure.node }} {{ fissure.missionType }}
-                {{ fissure.isHard ? '钢铁之路' : '' }} {{ fissure.isStorm ? '虚空暴风' : '' }}
-                <br />
-                <CountDownTo :time="fissure.expiry"></CountDownTo>结束
-                {{ fissure.expired ? '已结束' : '' }}
+      <!-- <div class="grid grid-cols-5 flex-row gap-2 place-content-between w-full flex-wrap"> -->
+      <!-- 虚空裂缝 -->
+      <pv-card class="min-w-sm h-fit col-span-2">
+        <template #title>虚空裂缝</template>
+        <template #content>
+          <div class="flex flex-row gap-5 flex-wrap">
+            <div>
+              <h2 class="text-lg">普通</h2>
+              <ul>
+                <li
+                  class="list-disc list-inside"
+                  v-for="fissure in normalFissures"
+                  :key="fissure.id"
+                >
+                  {{ fissure.tier }} {{ fissure.node }} {{ fissure.missionType }}
+                  {{ fissure.isHard ? '钢铁之路' : '' }} {{ fissure.isStorm ? '虚空暴风' : '' }}
+                  <br />
+                  <CountDownTo :time="fissure.expiry"></CountDownTo>结束
+                  {{ fissure.expired ? '已结束' : '' }}
 
-                <!-- {{ fissure }} -->
-              </li>
-            </ul>
+                  <!-- {{ fissure }} -->
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h2 class="text-lg">钢铁之路</h2>
+              <ul>
+                <li class="list-disc list-inside" v-for="fissure in hardFissures" :key="fissure.id">
+                  {{ fissure.tier }} {{ fissure.node }} {{ fissure.missionType }}
+                  <!-- {{ fissure.isHard ? '钢铁之路' : '' }} {{ fissure.isStorm ? '虚空暴风' : '' }} -->
+                  <br />
+                  <CountDownTo :time="fissure.expiry"></CountDownTo>结束
+                  {{ fissure.expired ? '已结束' : '' }}
+
+                  <!-- {{ fissure }} -->
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h2 class="text-lg">虚空风暴</h2>
+              <ul>
+                <li class="list-disc list-inside" v-for="fissure in voidStorm" :key="fissure.id">
+                  {{ fissure.tier }} {{ fissure.node }} {{ fissure.missionType }}
+                  <!-- {{ fissure.isHard ? '钢铁之路' : '' }} {{ fissure.isStorm ? '虚空暴风' : '' }} -->
+                  <br />
+                  <CountDownTo :time="fissure.expiry"></CountDownTo>结束
+                  {{ fissure.expired ? '已结束' : '' }}
+
+                  <!-- {{ fissure }} -->
+                </li>
+              </ul>
+            </div>
           </div>
-          <div>
-            <h2 class="text-lg">钢铁之路</h2>
-            <ul>
-              <li class="list-disc list-inside" v-for="fissure in hardFissures" :key="fissure.id">
-                {{ fissure.tier }} {{ fissure.node }} {{ fissure.missionType }}
-                {{ fissure.isHard ? '钢铁之路' : '' }} {{ fissure.isStorm ? '虚空暴风' : '' }}
-                <br />
-                <CountDownTo :time="fissure.expiry"></CountDownTo>结束
-                {{ fissure.expired ? '已结束' : '' }}
 
-                <!-- {{ fissure }} -->
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h2 class="text-lg">虚空风暴</h2>
-            <ul>
-              <li class="list-disc list-inside" v-for="fissure in voidStorm" :key="fissure.id">
-                {{ fissure.tier }} {{ fissure.node }} {{ fissure.missionType }}
-                {{ fissure.isHard ? '钢铁之路' : '' }} {{ fissure.isStorm ? '虚空暴风' : '' }}
-                <br />
-                <CountDownTo :time="fissure.expiry"></CountDownTo>结束
-                {{ fissure.expired ? '已结束' : '' }}
-
-                <!-- {{ fissure }} -->
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- <div v-for="fissure in worldState?.fissures" :key="fissure.id">
+          <!-- <div v-for="fissure in worldState?.fissures" :key="fissure.id">
 
           {{ fissure }}
         </div> -->
-      </template>
-    </pv-card>
-
-    <div class="flex flex-col gap-2">
-      <pv-card class="w-md h-fit">
-        <template #title>钢铁之路每周</template>
-        <template #content>
-          {{ worldState?.steelPath.currentReward.name }}
-          {{ worldState?.steelPath.currentReward.cost }}钢铁精华
-
-          <p><CountDownTo :time="worldState?.steelPath.expiry" /> 轮换</p>
-          <!-- {{ worldState?.steelPath }} -->
         </template>
       </pv-card>
 
-      <pv-card class="w-md h-fit">
-        <template #title>达尔沃的特惠商品</template>
+      <div class="flex flex-col gap-2 flex-1">
+        <pv-card class="h-fit">
+          <template #title>钢铁之路每周</template>
+          <template #content>
+            {{ worldState?.steelPath.currentReward.name }}
+            {{ worldState?.steelPath.currentReward.cost }}钢铁精华
+
+            <p><CountDownTo :time="worldState?.steelPath.expiry" /> 轮换</p>
+            <!-- {{ worldState?.steelPath }} -->
+          </template>
+        </pv-card>
+
+        <pv-card class="h-fit">
+          <template #title>达尔沃的特惠商品</template>
+          <template #content>
+            <ul>
+              <li v-for="deal in worldState?.dailyDeals" :key="deal.item">
+                {{ deal.item }} {{ deal.salePrice }}P <CountDownTo :time="deal.expiry" />轮换
+              </li>
+            </ul>
+            <!-- {{ worldState?.dailyDeals }} -->
+          </template>
+        </pv-card>
+
+        <pv-card class="h-fit">
+          <template #title>执刑官猎杀</template>
+          <template #content>
+            <p><CountDownTo :time="worldState?.archonHunt?.expiry" />轮换</p>
+            <ul>
+              <li v-for="(mission, index) in worldState?.archonHunt.missions" :key="index">
+                {{ mission.node }} {{ mission.type }}
+              </li>
+            </ul>
+            <!-- {{ worldState?.archonHunt }} -->
+          </template>
+        </pv-card>
+
+        <pv-card class="h-fit">
+          <template #title>灵煞异常</template>
+          <template #content>
+            <p><CountDownTo :time="worldState?.sentientOutposts?.expiry" />轮换</p>
+            <div>
+              {{ worldState?.sentientOutposts.mission.node }}
+              {{ worldState?.sentientOutposts.mission.type }}
+            </div>
+          </template>
+        </pv-card>
+        <pv-card class="h-fit">
+          <template #title>突击任务</template>
+          <template #content>
+            <p><CountDownTo :time="worldState?.sortie?.expiry" />轮换</p>
+            <ul>
+              <li v-for="(mission, index) in worldState?.sortie.variants" :key="index">
+                {{ mission.node }} {{ mission.missionType }} {{ mission.modifier }}
+              </li>
+            </ul>
+            <!-- {{ worldState?.archonHunt }} -->
+          </template>
+        </pv-card>
+      </div>
+
+      <div class="flex flex-col gap-2 flex-1">
+        <pv-card class="h-fit">
+          <template #title>虚空商人</template>
+          <template #content>
+            <div>{{ worldState?.voidTrader.active ? '已到来' : '未到来' }}</div>
+            <div>{{ worldState?.voidTrader.location }}</div>
+            <div v-if="worldState?.voidTrader.active">
+              <CountDownTo :time="worldState?.voidTrader.expiry"></CountDownTo> 离开
+            </div>
+            <div v-else>
+              <CountDownTo :time="worldState?.voidTrader.activation"></CountDownTo> 到达
+            </div>
+            <pv-data-table
+              v-if="worldState?.voidTrader.active"
+              :value="worldState?.voidTrader.inventory"
+              scrollable
+              scroll-height="250px"
+            >
+              <pv-column field="item" header="物品" style="width: 50%"></pv-column>
+              <pv-column field="ducats" header="杜卡德金币" style="width: 30%"></pv-column>
+              <pv-column field="credits" header="星币" style="width: 20%"></pv-column>
+            </pv-data-table>
+            <!-- {{ worldState?.voidTrader }} -->
+          </template>
+        </pv-card>
+
+        <pv-card class="h-fit">
+          <template #title>圣装重生</template>
+          <template #content>
+            <p><CountDownTo :time="worldState?.vaultTrader.expiry" /> 轮换</p>
+            <!-- {{ worldState?.vaultTrader}} -->
+            <pv-data-table
+              v-if="worldState?.vaultTrader.active"
+              :value="worldState?.vaultTrader.inventory"
+              scrollable
+              scroll-height="250px"
+            >
+              <pv-column field="item" header="物品"></pv-column>
+              <pv-column field="ducats" header="御品阿耶精华" style="width: 30%"></pv-column>
+              <pv-column field="credits" header="阿耶精华" style="width: 25%"></pv-column>
+            </pv-data-table>
+          </template>
+        </pv-card>
+      </div>
+      <pv-card class="h-fit flex-1">
+        <template #title>午夜电波</template>
         <template #content>
-          <ul>
-            <li v-for="deal in worldState?.dailyDeals" :key="deal.item">
-              {{ deal.item }} {{ deal.salePrice }}P <CountDownTo :time="deal.expiry" />轮换
+          <ul class="list-disc list-inside">
+            <li v-for="c in worldState?.nightwave.activeChallenges" :key="c.id">
+              <p class="inline-flex place-content-between" style="width: calc(100% - 1rem)">
+                <span
+                  >{{ c.title }} {{ c.isDaily ? '每日' : '' }} {{ c.isElite ? '精英' : '' }}</span
+                >
+                <span>{{ c.reputation }}</span>
+              </p>
+
+              <p><CountDownTo :time="c.expiry" />结束</p>
+
+              <p>{{ c.desc }}</p>
             </li>
           </ul>
-          <!-- {{ worldState?.dailyDeals }} -->
+
+          <!-- {{ worldState?.nightwave }} -->
         </template>
       </pv-card>
 
-      <pv-card class="w-md h-fit">
-        <template #title>执刑官猎杀</template>
+      <pv-card class="h-fit">
+        <template #title>入侵任务</template>
         <template #content>
-          <p><CountDownTo :time="worldState?.archonHunt?.expiry" />轮换</p>
-          <ul>
-            <li v-for="(mission, index) in worldState?.archonHunt.missions" :key="index">
-              {{ mission.node }} {{ mission.type }}
-            </li>
-          </ul>
-          <!-- {{ worldState?.archonHunt }} -->
-        </template>
-      </pv-card>
+          <div
+            v-for="invasion in worldState?.invasions"
+            :key="invasion.id"
+            class="inline-block w-full"
+          >
+            <p>{{ invasion.node }}</p>
 
-      <pv-card class="w-md h-fit">
-        <template #title>灵煞异常</template>
-        <template #content>
-          <p><CountDownTo :time="worldState?.sentientOutposts?.expiry" />轮换</p>
-          <div>
-            {{ worldState?.sentientOutposts.mission.node }}
-            {{ worldState?.sentientOutposts.mission.type }}
+            <div class="flex flex-row place-content-between">
+              <div class="flex flex-col">
+                <div>{{ invasion.attackingFaction }}</div>
+                <div>{{ invasion.attackerReward.asString }}</div>
+              </div>
+              <div class="flex flex-col items-end">
+                <div class="w-fit">{{ invasion.defendingFaction }}</div>
+                <div class="w-fit">{{ invasion.defenderReward.asString }}</div>
+              </div>
+            </div>
+
+            <!-- {{ invasion.defendingReward.item }} {{ invasion.defendingFaction }} -->
+            <pv-progress-bar :value="Math.abs(invasion.completion)">
+              {{ Math.abs(invasion.count) }} / {{ invasion.requiredRuns }}</pv-progress-bar
+            >
           </div>
+
+          <!-- <code>
+          <pre>{{ JSON.stringify(worldState?.invasions[1],undefined,2) }}</pre>
+        </code> -->
         </template>
       </pv-card>
-      <pv-card class="w-md h-fit">
-        <template #title>突击任务</template>
+
+      <pv-card class="h-fit">
+        <template #title>活动</template>
         <template #content>
-          <p><CountDownTo :time="worldState?.sortie?.expiry" />轮换</p>
-          <ul>
-            <li v-for="(mission, index) in worldState?.sortie.variants" :key="index">
-              {{ mission.node }} {{ mission.missionType }} {{ mission.modifier }}
-            </li>
-          </ul>
-          <!-- {{ worldState?.archonHunt }} -->
+          <div class="flex flex-col gap-2">
+            <div v-for="event in worldState?.events" :key="event.id">
+              {{ event.description }} {{ event.node }} <CountDownTo :time="event.expiry" />结束
+
+              <div>{{ event.tooltip }}</div>
+            </div>
+          </div>
+
+          <!-- <code class="font-mono">
+          <pre>{{ worldState?.events }}</pre>
+        </code> -->
+        </template>
+      </pv-card>
+
+      <pv-card class="h-fit">
+        <template #title>警报</template>
+        <template #content>
+          <div class="flex flex-col gap-2">
+            <div v-for="alert in worldState?.alerts" :key="alert.id">
+              {{ alert.description }} {{ alert.node }} <CountDownTo :time="alert.expiry" />结束
+
+              <!-- <div>{{ event.tooltip }}</div> -->
+            </div>
+          </div>
+          <!--
+        <code class="font-mono">
+          <pre>{{ worldState?.alerts }}</pre>
+        </code> -->
         </template>
       </pv-card>
     </div>
-
-    <div class="flex flex-col gap-2">
-      <pv-card class="w-md h-fit">
-        <template #title>虚空商人</template>
-        <template #content>
-          <div>{{ worldState?.voidTrader.active ? '已到来' : '未到来' }}</div>
-          <div>{{ worldState?.voidTrader.location }}</div>
-          <div v-if="worldState?.voidTrader.active">
-            <CountDownTo :time="worldState?.voidTrader.expiry"></CountDownTo> 离开
-          </div>
-          <div v-else>
-            <CountDownTo :time="worldState?.voidTrader.activation"></CountDownTo> 到达
-          </div>
-          <pv-data-table
-            v-if="worldState?.voidTrader.active"
-            :value="worldState?.voidTrader.inventory"
-            scrollable
-            scroll-height="250px"
-          >
-            <pv-column field="item" header="物品" style="width: 50%"></pv-column>
-            <pv-column field="ducats" header="杜卡德金币" style="width: 30%"></pv-column>
-            <pv-column field="credits" header="星币" style="width: 20%"></pv-column>
-          </pv-data-table>
-          <!-- {{ worldState?.voidTrader }} -->
-        </template>
-      </pv-card>
-
-      <pv-card class="w-md h-fit">
-        <template #title>圣装重生</template>
-        <template #content>
-          <p><CountDownTo :time="worldState?.vaultTrader.expiry" /> 轮换</p>
-          <!-- {{ worldState?.vaultTrader}} -->
-          <pv-data-table
-            v-if="worldState?.vaultTrader.active"
-            :value="worldState?.vaultTrader.inventory"
-            scrollable
-            scroll-height="250px"
-          >
-            <pv-column field="item" header="物品"></pv-column>
-            <pv-column field="ducats" header="御品阿耶精华" style="width: 30%"></pv-column>
-            <pv-column field="credits" header="阿耶精华" style="width: 25%"></pv-column>
-          </pv-data-table>
-        </template>
-      </pv-card>
-    </div>
-    <pv-card class="w-md h-fit">
-      <template #title>午夜电波</template>
-      <template #content>
-        <ul class="list-disc list-inside">
-          <li v-for="c in worldState?.nightwave.activeChallenges" :key="c.id">
-            {{ c.title }} {{ c.isDaily ? '每日' : '' }} {{ c.isElite ? '精英' : '' }}
-            <p><CountDownTo :time="c.expiry" />结束</p>
-
-            <p>{{ c.desc }}</p>
-            <p>奖励 {{ c.reputation }}</p>
-          </li>
-        </ul>
-
-        <!-- {{ worldState?.nightwave }} -->
-      </template>
-    </pv-card>
-
-    <pv-card class="w-md h-fit">
-      <template #title>入侵任务</template>
-      <template #content>
-        <div
-          v-for="invasion in worldState?.invasions"
-          :key="invasion.id"
-          class="inline-block w-full"
-        >
-          <p>{{ invasion.node }}</p>
-
-          <div class="flex flex-row place-content-between">
-            <div class="flex flex-col">
-              <div>{{ invasion.attackingFaction }}</div>
-              <div>{{ invasion.attackerReward.asString }}</div>
-            </div>
-            <div class="flex flex-col">
-              <div>{{ invasion.attackingFaction }}</div>
-              <div>{{ invasion.defenderReward.asString }}</div>
-            </div>
-          </div>
-
-          <!-- {{ invasion.defendingReward.item }} {{ invasion.defendingFaction }} -->
-          <pv-progress-bar :value="Math.abs(invasion.completion)">
-            {{ Math.abs(invasion.count) }} / {{ invasion.requiredRuns }}</pv-progress-bar
-          >
-        </div>
-
-        <!-- {{ worldState?.invasions }} -->
-      </template>
-    </pv-card>
   </div>
   <div class="fixed right-5 bottom-5 flex flex-row gap-2">
     <pv-button

@@ -114,6 +114,20 @@ export interface WorldState {
       asString: string
     }
   }[]
+  events: {
+    id: string
+    description: string
+    node: string
+    tooltip: string
+    expiry: string
+  }[]
+  alerts: {
+    id: string
+    node: string
+    description: string
+    image: string
+    expiry: string
+  }[]
 }
 
 export async function get_world_state() {
