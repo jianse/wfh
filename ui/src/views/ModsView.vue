@@ -36,7 +36,7 @@ function onKwInput(e: Event) {
 <template>
   <div class="sticky top-0">
     <pv-input-text
-      default-value="kwFilter"
+      :default-value="kwFilter"
       @input="onKwInput"
       placeholder="请输入关键词"
     ></pv-input-text>

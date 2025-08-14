@@ -70,7 +70,7 @@ function onKwInput(e: Event) {
   <div class="flex sticky top-0 w-full p-2" style="background-color: var(--color-background)">
     <pv-input-text
       placeholder="请输入关键词"
-      default-value="kwFilter"
+      :default-value="kwFilter"
       @input="onKwInput"
     ></pv-input-text>
   </div>
