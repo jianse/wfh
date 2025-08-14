@@ -251,7 +251,7 @@ pub struct ArchonHuntMission {
     pub node: String,
     #[serde(rename = "nodeKey")]
     pub node_key: String,
-    r#type: String,
+    pub r#type: String,
     #[serde(rename = "typeKey")]
     pub type_key: String,
     #[serde_as(deserialize_as = "BoolFromAny")]
@@ -339,7 +339,7 @@ pub struct SteelPathIncursions {
 pub struct SentientOutpostsMission {
     pub node: String,
     pub faction: String,
-    r#type: String,
+    pub r#type: String,
 }
 
 #[serde_as]
@@ -633,7 +633,7 @@ pub struct SyndicateMissionJob {
     pub id: String,
     #[serde(rename = "rewardPool")]
     pub reward_pool: Vec<()>,
-    r#type: String,
+    pub r#type: String,
     #[serde_as(deserialize_as = "Vec<DisplayFromStr>")]
     #[serde(rename = "enemyLevels")]
     pub enemy_levels: Vec<i32>,
@@ -707,7 +707,7 @@ pub struct AlertMission {
     pub node: String,
     #[serde(rename = "nodeKey")]
     pub node_key: String,
-    r#type: String,
+    pub r#type: String,
     #[serde(rename = "typeKey")]
     pub type_key: String,
     pub faction: String,
@@ -785,7 +785,7 @@ pub struct Fissure {
 
     pub tier: String,
 
-    /// this could be a number but it's a string
+    /// this could be a number, but it's a string
     /// 1,2,3,4,5,VoidT6
     // #[serde_as(deserialize_as = "DisplayFromStr")]
     #[serde(rename = "tierNum")]
@@ -909,6 +909,6 @@ pub struct EventReward {
 pub struct CountedItem {
     #[serde_as(deserialize_as = "DisplayFromStr")]
     pub count: i32,
-    r#type: String,
+    pub r#type: String,
     pub key: String,
 }

@@ -3,7 +3,7 @@
 use axum::{
     Json, Router,
     extract::{Query, State},
-    routing::{get, post},
+    routing::get,
 };
 use sea_orm::{ActiveValue::Set, EntityTrait, IntoActiveModel, PaginatorTrait};
 use serde::Deserialize;

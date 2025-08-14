@@ -162,13 +162,10 @@ pub fn get_nearest_expiry(data: &WorldStateData) -> Option<DateTime<Utc>> {
     let flash_sales_expiry = data.flash_sales.iter().map(|a| a.expiry).min();
     expiries.push(flash_sales_expiry);
 
-    let void_trader_expiry = [
-        data.void_trader.activation,
-        data.void_trader.expiry,
-    ]
-    .into_iter()
-    .filter(|t| t > &data.timestamp)
-    .min();
+    let void_trader_expiry = [data.void_trader.activation, data.void_trader.expiry]
+        .into_iter()
+        .filter(|t| t > &data.timestamp)
+        .min();
 
     expiries.push(void_trader_expiry);
 
@@ -358,6 +355,92 @@ pub async fn rewrite_world_state(
             );
         });
 
+    // archon hunt
+    data.archon_hunt
+        .missions
+        .iter_mut()
+        .enumerate()
+        .for_each(|(i, m)| {
+            let path = format!("$.archonHunt.missions[{i}]");
+            rewrite_one(
+                &mut m.node,
+                &mut warnings,
+                format!("{path}.node"),
+                &replacements,
+            );
+            rewrite_one(
+                &mut m.r#type,
+                &mut warnings,
+                format!("{path}.type"),
+                &replacements,
+            );
+        });
+
+    // sentient outposts
+    rewrite_one(
+        &mut data.sentient_outposts.mission.faction,
+        &mut warnings,
+        "$.sentientOutposts.mission.faction".to_owned(),
+        &replacements,
+    );
+    rewrite_one(
+        &mut data.sentient_outposts.mission.node,
+        &mut warnings,
+        "$.sentientOutposts.mission.node".to_owned(),
+        &replacements,
+    );
+    rewrite_one(
+        &mut data.sentient_outposts.mission.r#type,
+        &mut warnings,
+        "$.sentientOutposts.mission.type".to_owned(),
+        &replacements,
+    );
+
+    // vault trader
+    data.vault_trader
+        .inventory
+        .iter_mut()
+        .enumerate()
+        .for_each(|(idx, i)| {
+            let path = format!("$.vaultTrader.inventory[{idx}]");
+            rewrite_one(
+                &mut i.item,
+                &mut warnings,
+                format!("{path}.item"),
+                &replacements,
+            );
+        });
+
+    // nightwave
+    data.nightwave
+        .active_challenges
+        .iter_mut()
+        .enumerate()
+        .for_each(|(idx, c)| {
+            let path = format!("$.nightwave.activeChallenges[{idx}]");
+            rewrite_one(
+                &mut c.title,
+                &mut warnings,
+                format!("{path}.title"),
+                &replacements,
+            );
+            rewrite_one(
+                &mut c.desc,
+                &mut warnings,
+                format!("{path}.desc"),
+                &replacements,
+            );
+        });
+
+    write_unchecked_replacements(state, &warnings).await?;
+
+    Ok((data, warnings.into_option()))
+}
+
+async fn write_unchecked_replacements(
+    state: AppState,
+    warnings: &RewriteWarning,
+) -> Result<(), DbErr> {
     // writes all warnings to db
     let rs = warnings
         .warnings
@@ -386,7 +469,7 @@ pub async fn rewrite_world_state(
         )
         .exec(&state.conn)
         .await?;
-    Ok((data, warnings.into_option()))
+    Ok(())
 }
 
 #[axum::debug_handler]
