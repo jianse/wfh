@@ -123,9 +123,14 @@ export interface WorldState {
   }[]
   alerts: {
     id: string
-    node: string
-    description: string
-    image: string
+    mission: {
+      node: string
+      description: string
+      type: string
+      reward: {
+        asString: string
+      }
+    }
     expiry: string
   }[]
 }

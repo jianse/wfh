@@ -38,7 +38,7 @@ $ ./target/release/wf_api serve
 
 - [X] CLI for generating configurations
 - [X] Warframe world state api
-- [ ] World state ui
+- [X] World state ui
 - [ ] User management api (create new user, delete user, change password, change role)
 - [ ] User management web interface
 - [ ] Translations for mods

@@ -306,14 +306,17 @@
         <template #content>
           <div class="flex flex-col gap-2">
             <div v-for="alert in worldState?.alerts" :key="alert.id">
-              {{ alert.description }} {{ alert.node }} <CountDownTo :time="alert.expiry" />结束
+              {{ alert.mission.node }} {{ alert.mission.type }}
+              <p>{{ alert.mission.description }}</p>
+              <p><CountDownTo :time="alert.expiry" />结束</p>
+              <p>{{ alert.mission.reward.asString }}</p>
 
               <!-- <div>{{ event.tooltip }}</div> -->
             </div>
           </div>
-          <!--
-        <code class="font-mono">
-          <pre>{{ worldState?.alerts }}</pre>
+
+          <!-- <code class="font-mono">
+          <pre>{{ worldState?.alerts[0] }}</pre>
         </code> -->
         </template>
       </pv-card>
