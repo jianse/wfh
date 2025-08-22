@@ -288,6 +288,17 @@ async fn rewrite_world_state(
     let mut warnings = RewriteWarning::new();
     let mut data = data;
 
+    // daily deals
+    data.daily_deals.iter_mut().enumerate().for_each(|(i, d)| {
+        let path = format!("$.dailyDeals[{i}]");
+        rewrite_one(
+            &mut d.item,
+            &mut warnings,
+            format!("{path}.item"),
+            &replacements,
+        );
+    });
+
     // rewrite events
     data.events.iter_mut().enumerate().for_each(|(i, event)| {
         let path = format!("$.events[{i}]");
