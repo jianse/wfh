@@ -400,7 +400,8 @@ async fn rewrite_world_state(
     );
 
     // void trader
-    data.void_trader.inventory
+    data.void_trader
+        .inventory
         .iter_mut()
         .enumerate()
         .for_each(|(idx, i)| {
