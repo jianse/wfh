@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["api", "settings", "spa", "service", "api", "migration"]
+members = ["api", "settings", "spa", "service", "api", "migration", "inv", "relay"]
 
 [workspace.package]
 license = "MIT OR Apache-2.0"
@@ -17,16 +17,16 @@ rand = "0.9.2"
 regex = { version = "1.11.1", default-features = false }
 sea-orm = "1.1.14"
 serde = "1.0.219"
-serde_json = "1.0.142"
+serde_json = "1.0.143"
 sea-orm-migration = "1.1.14"
-thiserror = "2.0.14"
+thiserror = "2.0.16"
 tokio = "1.47.1"
 tracing = "0.1.41"
 tracing-subscriber = "0.3.19"
 tokio-rustls = { version = "0.26.2", default-features = false }
 tower-http = "0.6.6"
 tracing-appender = "0.2.3"
-bcrypt = "0.17.0"
+bcrypt = "0.17.1"
 argon2 = "0.5.3"
 serde_with = "3.14.0"
 rust-embed = "8.7.2"
@@ -40,8 +40,8 @@ uuid = "1.18.0"
 reqwest = { version = "0.12.23", default-features = false }
 serde_path_to_error = "0.1.17"
 async-compression = "0.4.27"
-async-trait = "0.1.88"
-async-std = "1.13.1"
+async-trait = "0.1.89"
+async-std = "1.13.2"
 
 # dev use only
 criterion = "0.7.0"

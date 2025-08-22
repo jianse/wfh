@@ -399,6 +399,20 @@ async fn rewrite_world_state(
         &replacements,
     );
 
+    // void trader
+    data.void_trader.inventory
+        .iter_mut()
+        .enumerate()
+        .for_each(|(idx, i)| {
+            let path = format!("$.voidTrader.inventory[{idx}]");
+            rewrite_one(
+                &mut i.item,
+                &mut warnings,
+                format!("{path}.item"),
+                &replacements,
+            );
+        });
+
     // vault trader
     data.vault_trader
         .inventory
