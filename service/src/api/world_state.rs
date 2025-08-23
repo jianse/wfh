@@ -297,6 +297,13 @@ async fn rewrite_world_state(
             format!("{path}.mission.reward.asString"),
             &replacements,
         );
+
+        rewrite_one(
+            &mut a.mission.description,
+            &mut warnings,
+            format!("{path}.mission.description"),
+            &replacements,
+        );
     });
 
     // daily deals
