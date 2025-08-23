@@ -55,7 +55,7 @@ enum AuthError {
     #[error(transparent)]
     HeaderToStr(#[from] header::ToStrError),
 
-    #[error("decode jwt error")]
+    #[error("decode jwt error, {0}")]
     JwtDecode(#[from] jsonwebtoken::errors::Error),
 }
 
@@ -64,13 +64,16 @@ type AuthResult<T> = Result<T, AuthError>;
 impl IntoResponse for AuthError {
     fn into_response(self) -> Response {
         match self {
-            AuthError::UnAuthorized | AuthError::HeaderToStr(_) | AuthError::JwtDecode(_) => (
-                StatusCode::UNAUTHORIZED,
-                Json(json!({
-                    "msg": "unauthorized"
-                })),
-            )
-                .into_response(),
+            AuthError::UnAuthorized | AuthError::HeaderToStr(_) | AuthError::JwtDecode(_) => {
+                debug!("auth error {self}");
+                (
+                    StatusCode::UNAUTHORIZED,
+                    Json(json!({
+                        "msg": "unauthorized"
+                    })),
+                )
+                    .into_response()
+            }
         }
     }
 }
