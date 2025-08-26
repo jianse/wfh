@@ -62,9 +62,12 @@ async fn shutdown_signal(mut rx: Receiver<()>) {
 pub(crate) type AppState = Arc<AppStateRaw>;
 
 pub async fn serve() -> Result<()> {
-    let settings = settings::get();
     let _guard = init_logger();
-    // dbg!(settings);
+    let settings = settings::get();
+    #[cfg(debug_assertions)]
+    {
+        dbg!(&settings);
+    }
     let mut opt = ConnectOptions::new(&settings.db.database_url);
     opt.sqlx_logging_level(log::LevelFilter::Debug);
 
