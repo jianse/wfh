@@ -21,6 +21,7 @@ impl MigrationTrait for Migration {
             .map(char::from)
             .collect();
 
+        // panic on startup should be fine
         let encrypted = settings::get().auth.pwd_hasher.hash(&rand_string).unwrap();
 
         let insert = Query::insert()

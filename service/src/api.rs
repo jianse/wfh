@@ -29,6 +29,7 @@ pub mod world_state;
 use settings::PwdHasherError;
 use token::create_token;
 
+// panic on startup should be fine
 static WHITE_LIST: Lazy<RegexSet> =
     Lazy::new(|| RegexSet::new(["/translations/all", "/world_state/current"]).unwrap());
 

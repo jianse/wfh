@@ -26,7 +26,7 @@ use tokio::sync::broadcast::{self, Receiver, Sender};
 use tokio_rustls::TlsAcceptor;
 use tower_http::cors::{Any, CorsLayer};
 use tower_http::trace::TraceLayer;
-use tracing::info;
+use tracing::{error, info};
 
 #[derive(Clone)]
 struct AppStateRaw {
@@ -225,11 +225,21 @@ fn control_router(tx: Sender<()>) -> Router {
 fn redirect_to_https_router(host: String, port: u16) -> Router {
     let a = Authority::from_maybe_shared(format!("{host}:{port}")).unwrap();
     Router::new().fallback(async move |uri: Uri| {
-        let mut parts = uri.into_parts();
-        parts.scheme = Some(Scheme::HTTPS);
-        parts.authority = Some(a);
-        let r_url = Uri::from_parts(parts).unwrap();
-        Redirect::temporary(r_url.to_string().as_str())
+        let mut builder = Uri::builder().scheme(Scheme::HTTPS).authority(a);
+        if let Some(pq) = uri.path_and_query() {
+            builder = builder.path_and_query(pq.to_owned());
+        };
+
+        let r_url = match builder.build() {
+            Ok(u) => u.to_string(),
+            Err(e) => {
+                error!("build redirect uri error : {e}");
+                format!("https://{host}:{port}/")
+            }
+        };
+
+        info!("redirect from {uri} to {r_url}");
+        Redirect::temporary(r_url.as_str())
     })
 }
 
