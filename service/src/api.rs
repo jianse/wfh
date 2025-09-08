@@ -21,6 +21,7 @@ use serde_json::json;
 use thiserror::Error;
 use tracing::{debug, info};
 
+mod raw_world_state;
 mod token;
 mod translations;
 mod user;
@@ -30,14 +31,24 @@ use settings::PwdHasherError;
 use token::create_token;
 
 // panic on startup should be fine
-static WHITE_LIST: Lazy<RegexSet> =
-    Lazy::new(|| RegexSet::new(["/translations/all", "/world_state/current"]).unwrap());
+static WHITE_LIST: Lazy<RegexSet> = Lazy::new(|| {
+    RegexSet::new([
+        "/translations/all",
+        "/world_state/current",
+        "/raw_world_state/current",
+    ])
+    .unwrap()
+});
 
 pub(crate) fn api_routes(state: AppState) -> Router<AppState> {
     Router::new()
         .nest("/user", user::user_routes())
         .nest("/translations", translations::translations_routes(state))
         .nest("/world_state", world_state::world_state_routes())
+        .nest(
+            "/raw_world_state",
+            raw_world_state::raw_world_state_routes(),
+        )
         .layer(from_fn(auth_layer))
         .route("/token", post(create_token))
         .fallback(async || StatusCode::NOT_FOUND)

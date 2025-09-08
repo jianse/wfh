@@ -1,0 +1,7029 @@
+{
+  "WorldSeed": "jV3scRh9I1cwJ5ynaRwX+zD8bCT5e1LPoJhT86vRLg57rdapmGx5RpIJTsEAuXNPql/2bfbXXg6uZPTG0D95KOPElBNtQ86Bj38tKqvy19pZlJIYVBCI/cHXoOFPjY1qEejDHBFfIFuRQ+1BjGul+wb+0ZKmk537fumxcjecPYA=",
+  "Version": 10,
+  "MobileVersion": "5.0.2.0",
+  "BuildLabel": "2025.08.28.07.59/FcCEQHekO73H9ITVEswXRg",
+  "Time": 1756555444,
+  "Events": [
+    {
+      "_id": {
+        "$oid": "62d31b87106360aa5703954d"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "en",
+          "Message": "/Lotus/Language/CommunityMessages/JoinDiscord"
+        },
+        {
+          "LanguageCode": "fr",
+          "Message": "/Lotus/Language/CommunityMessages/JoinDiscord"
+        },
+        {
+          "LanguageCode": "it",
+          "Message": "/Lotus/Language/CommunityMessages/JoinDiscord"
+        },
+        {
+          "LanguageCode": "de",
+          "Message": "/Lotus/Language/CommunityMessages/JoinDiscord"
+        },
+        {
+          "LanguageCode": "es",
+          "Message": "/Lotus/Language/CommunityMessages/JoinDiscord"
+        },
+        {
+          "LanguageCode": "pt",
+          "Message": "/Lotus/Language/CommunityMessages/JoinDiscord"
+        },
+        {
+          "LanguageCode": "ru",
+          "Message": "/Lotus/Language/CommunityMessages/JoinDiscord"
+        },
+        {
+          "LanguageCode": "pl",
+          "Message": "/Lotus/Language/CommunityMessages/JoinDiscord"
+        },
+        {
+          "LanguageCode": "uk",
+          "Message": "/Lotus/Language/CommunityMessages/JoinDiscord"
+        },
+        {
+          "LanguageCode": "tr",
+          "Message": "/Lotus/Language/CommunityMessages/JoinDiscord"
+        },
+        {
+          "LanguageCode": "ja",
+          "Message": "/Lotus/Language/CommunityMessages/JoinDiscord"
+        },
+        {
+          "LanguageCode": "zh",
+          "Message": "/Lotus/Language/CommunityMessages/JoinDiscord"
+        },
+        {
+          "LanguageCode": "ko",
+          "Message": "/Lotus/Language/CommunityMessages/JoinDiscord"
+        },
+        {
+          "LanguageCode": "tc",
+          "Message": "/Lotus/Language/CommunityMessages/JoinDiscord"
+        }
+      ],
+      "Prop": "https://discord.com/invite/playwarframe",
+      "Icon": "/Lotus/Interface/Icons/DiscordIconNoBacker.png",
+      "Priority": false,
+      "MobileOnly": false,
+      "Community": true
+    },
+    {
+      "_id": {
+        "$oid": "62dff6238607d6b5d80876f5"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "fr",
+          "Message": "Une ressource indispensable, le Wiki FR Warframe !"
+        }
+      ],
+      "Prop": "https://warframe.fandom.com/fr/wiki/Wiki_Warframe",
+      "ImageUrl": "https://content.invisioncic.com/Mwarframe/monthly_2022_07/image.png.f54c43d80f7da00887a7c41471884c84.png",
+      "Priority": false,
+      "MobileOnly": false,
+      "Community": true
+    },
+    {
+      "_id": {
+        "$oid": "67ae4e9fca4611344608d246"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "en",
+          "Message": "Check out the official Warframe Wiki "
+        }
+      ],
+      "Prop": "https://wiki.warframe.com/",
+      "Priority": false,
+      "MobileOnly": false,
+      "Community": true
+    },
+    {
+      "_id": {
+        "$oid": "6824c85b6c30b5a005004018"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "en",
+          "Message": "Visit the official Warframe Forums!"
+        }
+      ],
+      "Prop": "https://forums.warframe.com/",
+      "Priority": false,
+      "MobileOnly": false,
+      "Community": true
+    },
+    {
+      "_id": {
+        "$oid": "682de27153447e81120764d2"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "tr",
+          "Message": "Epic Games Hesap Bağlama ve Otomatik Giriş"
+        }
+      ],
+      "Prop": "https://forums.warframe.com/topic/1454865-epic-games-hesap-ba%C4%9Flama-ve-otomatik-giri%C5%9F/",
+      "Date": {
+        "$date": {
+          "$numberLong": "1747837440000"
+        }
+      },
+      "Priority": false,
+      "MobileOnly": false,
+      "Community": true
+    },
+    {
+      "_id": {
+        "$oid": "6855a1d787107cb1060a5c18"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "ja",
+          "Message": "公式Blueskyアカウント開設のお知らせ"
+        }
+      ],
+      "Prop": "http://bit.ly/4ncDPFs",
+      "Date": {
+        "$date": {
+          "$numberLong": "1750441980000"
+        }
+      },
+      "ImageUrl": "https://media.invisioncic.com/Mwarframe/monthly_2021_01/Wiki-background.thumb.jpg.f568775e1b4eab008c7c6d3802c942aa.jpg",
+      "Priority": false,
+      "MobileOnly": false,
+      "Community": true
+    },
+    {
+      "_id": {
+        "$oid": "685c13261ee3864df10c353d"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "ko",
+          "Message": "업데이트 39: 섬을 엮는 자"
+        }
+      ],
+      "Prop": "",
+      "Links": [
+        {
+          "LanguageCode": "ko",
+          "Link": "https://forums.warframe.com/topic/1458559-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8-39-%EC%84%AC%EC%9D%84-%EC%97%AE%EB%8A%94-%EC%9E%90/"
+        }
+      ],
+      "Date": {
+        "$date": {
+          "$numberLong": "1750864620000"
+        }
+      },
+      "Priority": false,
+      "MobileOnly": false
+    },
+    {
+      "_id": {
+        "$oid": "685c181cb8ae2e80b1089d87"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "uk",
+          "Message": "ОНОВЛЕННЯ 39: «ТКАЛЯ ОСТРОВІВ»"
+        }
+      ],
+      "Prop": "https://forums.warframe.com/topic/1458588-%D0%BE%D0%BD%D0%BE%D0%B2%D0%BB%D0%B5%D0%BD%D0%BD%D1%8F-39-%C2%AB%D1%82%D0%BA%D0%B0%D0%BB%D1%8F-%D0%BE%D1%81%D1%82%D1%80%D0%BE%D0%B2%D1%96%D0%B2%C2%BB/",
+      "Date": {
+        "$date": {
+          "$numberLong": "1750865880000"
+        }
+      },
+      "ImageUrl": "https://www-static.warframe.com/uploads/4935c4604470be4a16dc20c0fb468a3b.png",
+      "Priority": false,
+      "MobileOnly": false
+    },
+    {
+      "_id": {
+        "$oid": "685c59a70427af7c0600a4d2"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "es",
+          "Message": "ACTUALIZACIÓN 39: TEJEDORA DE ISLAS"
+        }
+      ],
+      "Prop": "https://forums.warframe.com/topic/1458771-actualizaci%C3%B3n-39-tejedora-de-islas/",
+      "Date": {
+        "$date": {
+          "$numberLong": "1750882500000"
+        }
+      },
+      "Priority": false,
+      "MobileOnly": false,
+      "Community": true
+    },
+    {
+      "_id": {
+        "$oid": "687c301a0dc6a45fd5054dd6"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "tr",
+          "Message": "Warframe Android Kapalı Beta SSS"
+        }
+      ],
+      "Prop": "https://forums.warframe.com/topic/1463044-warframe-android-kapal%C4%B1-beta-sss/",
+      "Date": {
+        "$date": {
+          "$numberLong": "1752969180000"
+        }
+      },
+      "EventEndDate": {
+        "$date": {
+          "$numberLong": "1767153600000"
+        }
+      },
+      "Priority": false,
+      "MobileOnly": false,
+      "Community": true
+    },
+    {
+      "_id": {
+        "$oid": "687f857a910139bf53053fa1"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "fr",
+          "Message": "FAQ Bêta Fermée Android Warframe"
+        }
+      ],
+      "Prop": "https://forums.warframe.com/topic/1463252-faq-b%C3%AAta-ferm%C3%A9e-android-warframe/",
+      "Date": {
+        "$date": {
+          "$numberLong": "1753187580000"
+        }
+      },
+      "ImageUrl": "https://media.invisioncic.com/Mwarframe/monthly_2025_07/image.png.ddd144db7ffc3ce51081fd5c0f6a5b95.png",
+      "Priority": false,
+      "MobileOnly": false
+    },
+    {
+      "_id": {
+        "$oid": "688a53f2e18e0e37600e6d8a"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "ja",
+          "Message": "ボランティア翻訳者：新規募集のお知らせ"
+        }
+      ],
+      "Prop": "https://bit.ly/3J8thHU",
+      "Date": {
+        "$date": {
+          "$numberLong": "1753895760000"
+        }
+      },
+      "ImageUrl": "https://media.invisioncic.com/Mwarframe/monthly_2021_01/Wiki-background.jpg.99762af758976907159eb62672da6374.jpg",
+      "Priority": false,
+      "MobileOnly": false,
+      "Community": true
+    },
+    {
+      "_id": {
+        "$oid": "6894de1161013e12700dea13"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "tr",
+          "Message": "Dog Days Tüm Platformlarda Başladı! (6 Ağustos - 3 Eylül tarihleri arasında)"
+        }
+      ],
+      "Prop": "https://forums.warframe.com/topic/1465486-dog-days-t%C3%BCm-platformlarda-ba%C5%9Flad%C4%B1-6-a%C4%9Fustos-3-eyl%C3%BCl-tarihleri-aras%C4%B1nda",
+      "Date": {
+        "$date": {
+          "$numberLong": "1754586600000"
+        }
+      },
+      "EventEndDate": {
+        "$date": {
+          "$numberLong": "1756872000000"
+        }
+      },
+      "ImageUrl": "https://media.invisioncic.com/Mwarframe/monthly_2025_08/WF_DogDays_XBOX_EventImage_1920x1080.png.2813b3656699cb77d96a4521623ddd5b.png",
+      "Priority": false,
+      "MobileOnly": false,
+      "Community": true
+    },
+    {
+      "_id": {
+        "$oid": "68ac8bbbd49775e70f08f9b1"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "tr",
+          "Message": "Lich Rehberi"
+        }
+      ],
+      "Prop": "https://forums.warframe.com/topic/1443505-lich-rehberi/#comment-13253569",
+      "Date": {
+        "$date": {
+          "$numberLong": "1756138320000"
+        }
+      },
+      "EventEndDate": {
+        "$date": {
+          "$numberLong": "1757044800000"
+        }
+      },
+      "Priority": false,
+      "MobileOnly": false,
+      "Community": true
+    },
+    {
+      "_id": {
+        "$oid": "68aca03a1de7cc060207ead9"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "en",
+          "Message": "Back to School Sale 2025"
+        },
+        {
+          "LanguageCode": "fr",
+          "Message": "Soldes de la Rentrée 2025"
+        },
+        {
+          "LanguageCode": "it",
+          "Message": "Offerte Ritorno a Scuola 2025"
+        },
+        {
+          "LanguageCode": "de",
+          "Message": "Zurück zur Schule 2025 Angebote"
+        },
+        {
+          "LanguageCode": "es",
+          "Message": "Ofertas de regreso a clases 2025"
+        },
+        {
+          "LanguageCode": "pt",
+          "Message": "Promoção de Volta às Aulas 2025"
+        },
+        {
+          "LanguageCode": "ru",
+          "Message": "Распродажа «Назад в школу» 2025"
+        },
+        {
+          "LanguageCode": "pl",
+          "Message": "Powakacyjna wyprzedaż 2025"
+        },
+        {
+          "LanguageCode": "uk",
+          "Message": "Розпродаж «Знову в школу» 2025"
+        },
+        {
+          "LanguageCode": "tr",
+          "Message": "2025 Okula Dönüş İndirimi"
+        },
+        {
+          "LanguageCode": "ja",
+          "Message": "新学期セール"
+        },
+        {
+          "LanguageCode": "zh",
+          "Message": "2025 返校促销"
+        },
+        {
+          "LanguageCode": "ko",
+          "Message": "개학맞이 세일 2025"
+        },
+        {
+          "LanguageCode": "tc",
+          "Message": "開學優惠 2025"
+        },
+        {
+          "LanguageCode": "th",
+          "Message": "Back to School Sale 2025"
+        }
+      ],
+      "Prop": "https://www.warframe.com/news/back-to-school-sale-2025?utm_medium=in-game&utm_source=in-game&utm_campaign=2025-BackToSchoolSale",
+      "Date": {
+        "$date": {
+          "$numberLong": "1756141200000"
+        }
+      },
+      "EventEndDate": {
+        "$date": {
+          "$numberLong": "1757601000000"
+        }
+      },
+      "ImageUrl": "https://www-static.warframe.com/uploads/e8e1b3796a8988a9091dfa5b63ce599d.png",
+      "Priority": false,
+      "MobileOnly": false
+    },
+    {
+      "_id": {
+        "$oid": "68acd156ad3713262d0ce7ff"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "en",
+          "Message": "Community Stream & Twitch Drops Schedule"
+        }
+      ],
+      "Prop": "https://forums.warframe.com/topic/1467105-community-stream-schedule-august-25-30th-2025/?utm_medium=in-game&utm_source=in-game&utm_campaign=2025-08-CommunityStreams-25",
+      "Date": {
+        "$date": {
+          "$numberLong": "1756156200000"
+        }
+      },
+      "EventEndDate": {
+        "$date": {
+          "$numberLong": "1756609200000"
+        }
+      },
+      "ImageUrl": "https://www-static.warframe.com/uploads/b7bc31a4e6d505cb2f2bf33dba3c6cb4.png",
+      "Priority": false,
+      "MobileOnly": false,
+      "Community": true,
+      "HideEndDateModifier": true
+    },
+    {
+      "_id": {
+        "$oid": "68acd880e5b20e063b005fb3"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "ja",
+          "Message": "8月25日～8月30日の配信スケジュール"
+        }
+      ],
+      "Prop": "bit.ly/3UHPJdJ",
+      "Date": {
+        "$date": {
+          "$numberLong": "1756157880000"
+        }
+      },
+      "EventStartDate": {
+        "$date": {
+          "$numberLong": "1756094400000"
+        }
+      },
+      "EventEndDate": {
+        "$date": {
+          "$numberLong": "1756612800000"
+        }
+      },
+      "ImageUrl": "https://media.invisioncic.com/Mwarframe/monthly_2025_08/RelicsPack(1).png.84f53e896045e531f8afb2b2fa7c529d.png",
+      "Priority": false,
+      "MobileOnly": false,
+      "Community": true,
+      "HideEndDateModifier": true
+    },
+    {
+      "_id": {
+        "$oid": "68adc0cbbe6f6b781c091ebe"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "fr",
+          "Message": "Streams & Drops : 25 - 30 août"
+        }
+      ],
+      "Prop": "https://forums.warframe.com/topic/1467156-streams-communautaires-25-30-ao%C3%BBt/",
+      "Date": {
+        "$date": {
+          "$numberLong": "1756217460000"
+        }
+      },
+      "EventStartDate": {
+        "$date": {
+          "$numberLong": "1756180800000"
+        }
+      },
+      "EventEndDate": {
+        "$date": {
+          "$numberLong": "1756630800000"
+        }
+      },
+      "ImageUrl": "https://media.invisioncic.com/Mwarframe/monthly_2025_08/RelicsPack(1).png.84f53e896045e531f8afb2b2fa7c529d.png",
+      "Priority": false,
+      "MobileOnly": false,
+      "HideEndDateModifier": true
+    },
+    {
+      "_id": {
+        "$oid": "68adce1d9921fa7dfd00dd7a"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "fr",
+          "Message": "Notes de mise à jour : Caliban Prime"
+        }
+      ],
+      "Prop": "https://forums.warframe.com/topic/1467159-mise-%C3%A0-jour-391-caliban-prime/",
+      "Date": {
+        "$date": {
+          "$numberLong": "1756220880000"
+        }
+      },
+      "ImageUrl": "https://www-static.warframe.com/uploads/2d606f9d205d300cd46f8441278d6fef.png",
+      "Priority": false,
+      "MobileOnly": false
+    },
+    {
+      "_id": {
+        "$oid": "68adcf1fcc33bc904a08aa27"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "en",
+          "Message": "Update 39.1: Caliban Prime"
+        }
+      ],
+      "Prop": "https://www.warframe.com/patch-notes/pc/39-1-0",
+      "Date": {
+        "$date": {
+          "$numberLong": "1756220700000"
+        }
+      },
+      "Priority": false,
+      "MobileOnly": false
+    },
+    {
+      "_id": {
+        "$oid": "68add02e211e9aab7803de30"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "en",
+          "Message": "TennoGen Factions Available Now"
+        },
+        {
+          "LanguageCode": "fr",
+          "Message": "TennoGen Factions - Disponible maintenant"
+        },
+        {
+          "LanguageCode": "it",
+          "Message": "TennoGen Factions Disponibile Ora"
+        },
+        {
+          "LanguageCode": "de",
+          "Message": "TennoGen: Fraktionen ist jetzt verfügbar"
+        },
+        {
+          "LanguageCode": "es",
+          "Message": "Facciones TennoGen disponibles ya"
+        },
+        {
+          "LanguageCode": "pt",
+          "Message": "As Facções do TennoGen já estão disponíveis"
+        },
+        {
+          "LanguageCode": "ru",
+          "Message": "ТэнноГен «Фракции» уже в продаже"
+        },
+        {
+          "LanguageCode": "pl",
+          "Message": "Frakcje TennoGen już dostępne"
+        },
+        {
+          "LanguageCode": "uk",
+          "Message": "Предмети «ТенноҐен „Угруповання”» уже доступні"
+        },
+        {
+          "LanguageCode": "tr",
+          "Message": "TennoGen Fraksiyonları Şimdi Sizlerle"
+        },
+        {
+          "LanguageCode": "ja",
+          "Message": "TennoGen勢力バンドルが登場"
+        },
+        {
+          "LanguageCode": "zh",
+          "Message": "TennoGen 派系现已登场"
+        },
+        {
+          "LanguageCode": "ko",
+          "Message": "텐노젠 진영 번들을 지금 만나보세요"
+        },
+        {
+          "LanguageCode": "tc",
+          "Message": "TennoCon 派系現已登場"
+        },
+        {
+          "LanguageCode": "th",
+          "Message": "TennoGen Factions วางจำหน่ายแล้ว"
+        }
+      ],
+      "Prop": "https://www.warframe.com/news/tennogen-factions-available-august-26?utm_medium=in-game&utm_source=in-game&utm_campaign=2025-TennoGenFactionsLaunch",
+      "Date": {
+        "$date": {
+          "$numberLong": "1756220400000"
+        }
+      },
+      "ImageUrl": "https://www-static.warframe.com/uploads/8ee8c199425d3ab5dd321b4c5aedca8f.png",
+      "Priority": false,
+      "MobileOnly": false
+    },
+    {
+      "_id": {
+        "$oid": "68add38a67d6c42b5209d74d"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "en",
+          "Message": "Caliban Prime Access Available Now"
+        },
+        {
+          "LanguageCode": "fr",
+          "Message": "Prime Access Caliban Prime disponible maintenant"
+        },
+        {
+          "LanguageCode": "it",
+          "Message": "L'Accesso Caliban Prime è Disponibile Ora"
+        },
+        {
+          "LanguageCode": "de",
+          "Message": "Caliban Prime Access ab sofort verfügbar"
+        },
+        {
+          "LanguageCode": "es",
+          "Message": "Prime Access de Caliban disponible ya"
+        },
+        {
+          "LanguageCode": "pt",
+          "Message": "O Prime Access do Caliban Prime já está disponível"
+        },
+        {
+          "LanguageCode": "ru",
+          "Message": "Доступ Калибан Прайм уже открыт"
+        },
+        {
+          "LanguageCode": "pl",
+          "Message": "Caliban Prime Access już dostępny"
+        },
+        {
+          "LanguageCode": "uk",
+          "Message": "Калібан-прайм уже доступний"
+        },
+        {
+          "LanguageCode": "tr",
+          "Message": "Caliban Prime Access Şimdi Sizlerle"
+        },
+        {
+          "LanguageCode": "ja",
+          "Message": "Caliban Prime Accessが登場"
+        },
+        {
+          "LanguageCode": "zh",
+          "Message": "Caliban Prime Access 现已登场"
+        },
+        {
+          "LanguageCode": "ko",
+          "Message": "칼리반 프라임 액세스 지금 만나보세요"
+        },
+        {
+          "LanguageCode": "tc",
+          "Message": "Caliban Prime Access 現已登場"
+        },
+        {
+          "LanguageCode": "th",
+          "Message": "Caliban Prime Access วางจำหน่ายแล้ว"
+        }
+      ],
+      "Prop": "https://www.warframe.com/prime-access?utm_medium=in-game&utm_source=in-game&utm_campaign=2025-08-CalibanPrimeAccessLaunch",
+      "Date": {
+        "$date": {
+          "$numberLong": "1756220400000"
+        }
+      },
+      "ImageUrl": "https://www-static.warframe.com/uploads/6c30aab9165fd011f36542870be7e9f4.png",
+      "Priority": false,
+      "MobileOnly": false
+    },
+    {
+      "_id": {
+        "$oid": "68add6272859f8cb6d042359"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "it",
+          "Message": "Aggiornamento 39.1.0: Caliban Prime"
+        }
+      ],
+      "Prop": "https://forums.warframe.com/topic/1467174-aggiornamento-3910-caliban-prime/",
+      "Date": {
+        "$date": {
+          "$numberLong": "1756222800000"
+        }
+      },
+      "EventEndDate": {
+        "$date": {
+          "$numberLong": "1757368800000"
+        }
+      },
+      "Priority": true,
+      "MobileOnly": false
+    },
+    {
+      "_id": {
+        "$oid": "68ade6609921fa7dfd00e20c"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "tr",
+          "Message": "Topluluk Yayın Programı: 26 Ağustos-30 Ağustos 2025"
+        }
+      ],
+      "Prop": "https://forums.warframe.com/topic/1467191-topluluk-yay%C4%B1n-program%C4%B1-26-a%C4%9Fustos-30-a%C4%9Fustos-2025",
+      "Date": {
+        "$date": {
+          "$numberLong": "1756227120000"
+        }
+      },
+      "EventEndDate": {
+        "$date": {
+          "$numberLong": "1756612800000"
+        }
+      },
+      "Priority": false,
+      "MobileOnly": false,
+      "Community": true
+    },
+    {
+      "_id": {
+        "$oid": "68adee98abf06645f803bc2f"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "tr",
+          "Message": "Ağustos 2025 Riven Durumu"
+        }
+      ],
+      "Prop": "https://forums.warframe.com/topic/1467202-a%C4%9Fustos-2025-riven-durumu",
+      "Date": {
+        "$date": {
+          "$numberLong": "1756229220000"
+        }
+      },
+      "EventEndDate": {
+        "$date": {
+          "$numberLong": "1756612800000"
+        }
+      },
+      "Priority": false,
+      "MobileOnly": false,
+      "Community": true
+    },
+    {
+      "_id": {
+        "$oid": "68ae10164e96a62148063254"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "es",
+          "Message": "Actualización 39.1.0: Caliban Prime"
+        }
+      ],
+      "Prop": "https://forums.warframe.com/topic/1467236-actualizaci%C3%B3n-3910-caliban-prime/",
+      "Date": {
+        "$date": {
+          "$numberLong": "1756237800000"
+        }
+      },
+      "Priority": false,
+      "MobileOnly": false,
+      "Community": true
+    },
+    {
+      "_id": {
+        "$oid": "68ae184907175566370093c0"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "pl",
+          "Message": "Aktualizacja 39.1.0: Caliban Prime"
+        }
+      ],
+      "Prop": "https://forums.warframe.com/topic/1467145-aktualizacja-3910-caliban-prime/",
+      "Date": {
+        "$date": {
+          "$numberLong": "1756239720000"
+        }
+      },
+      "EventStartDate": {
+        "$date": {
+          "$numberLong": "1756180800000"
+        }
+      },
+      "EventEndDate": {
+        "$date": {
+          "$numberLong": "1760500800000"
+        }
+      },
+      "ImageUrl": "https://www-static.warframe.com/uploads/2d606f9d205d300cd46f8441278d6fef.png",
+      "Priority": true,
+      "MobileOnly": false,
+      "HideEndDateModifier": true
+    },
+    {
+      "_id": {
+        "$oid": "68ae25497d440315560b7da7"
+      },
+      "Messages": [],
+      "Prop": "https://forums.warframe.com/topic/1467251-caliban-prime-correctif-3911/",
+      "Date": {
+        "$date": {
+          "$numberLong": "1756243080000"
+        }
+      },
+      "ImageUrl": "https://www-static.warframe.com/uploads/5b9f760ec6eb7ba546e5870a948a8199.png",
+      "Priority": false,
+      "MobileOnly": false
+    },
+    {
+      "_id": {
+        "$oid": "68ae37428885ffbddb0399bb"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "pt",
+          "Message": "Atualização 39.1.0: Caliban Prime + Correção 39.1.1"
+        }
+      ],
+      "Prop": "https://forums.warframe.com/topic/1467259-atualiza%C3%A7%C3%A3o-3910-caliban-prime-corre%C3%A7%C3%A3o-3911/",
+      "Date": {
+        "$date": {
+          "$numberLong": "1756247820000"
+        }
+      },
+      "Priority": false,
+      "MobileOnly": false,
+      "Community": true
+    },
+    {
+      "_id": {
+        "$oid": "68af159f8e125cba5c02a90a"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "it",
+          "Message": "Caliban Prime: Hotfix 39.1.1"
+        }
+      ],
+      "Prop": "https://forums.warframe.com/topic/1467370-caliban-prime-hotfix-3911/",
+      "Date": {
+        "$date": {
+          "$numberLong": "1756304460000"
+        }
+      },
+      "EventEndDate": {
+        "$date": {
+          "$numberLong": "1756591200000"
+        }
+      },
+      "Priority": true,
+      "MobileOnly": false
+    },
+    {
+      "_id": {
+        "$oid": "68af1d86a3f34b7c9d033a38"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "en",
+          "Message": "Dog Days 2025 Ending Soon"
+        },
+        {
+          "LanguageCode": "fr",
+          "Message": "Les Batailles d'Eau 2025 se terminent bientôt"
+        },
+        {
+          "LanguageCode": "it",
+          "Message": "Dog Days 2025 Terminerà Presto"
+        },
+        {
+          "LanguageCode": "de",
+          "Message": "Hitzefrei 2025 endet in Kürze"
+        },
+        {
+          "LanguageCode": "es",
+          "Message": "Canícula 2025 está por terminar"
+        },
+        {
+          "LanguageCode": "pt",
+          "Message": "Os Dias de Cão 2025 terminarão em breve"
+        },
+        {
+          "LanguageCode": "ru",
+          "Message": "Знойные дни 2025 скоро завершатся"
+        },
+        {
+          "LanguageCode": "pl",
+          "Message": "Koniec Kanikuł 2025 już niedługo"
+        },
+        {
+          "LanguageCode": "uk",
+          "Message": "«Спекотні дні» 2025 незабаром завершаться"
+        },
+        {
+          "LanguageCode": "tr",
+          "Message": "Dog Days 2025 Yakında Sona Eriyor"
+        },
+        {
+          "LanguageCode": "ja",
+          "Message": "ドッグ・デイズ 2025の終了まであとわずか"
+        },
+        {
+          "LanguageCode": "zh",
+          "Message": "三伏天 2025 即将结束"
+        },
+        {
+          "LanguageCode": "ko",
+          "Message": "도그 데이즈 2025가 곧 종료됩니다"
+        },
+        {
+          "LanguageCode": "tc",
+          "Message": "三伏天 2025 即將結束"
+        },
+        {
+          "LanguageCode": "th",
+          "Message": "Dog Days 2025 ใกล้จะจบลงแล้ว"
+        }
+      ],
+      "Prop": "https://www.warframe.com/news/dog-days-2025?utm_medium=in-game&utm_source=in-game&utm_campaign=2025-DogDaysEndingSoon",
+      "Date": {
+        "$date": {
+          "$numberLong": "1756306800000"
+        }
+      },
+      "EventEndDate": {
+        "$date": {
+          "$numberLong": "1756908000000"
+        }
+      },
+      "ImageUrl": "https://www-static.warframe.com/uploads/de706e5220b63cf642eae86d992dcb2d.png",
+      "Priority": false,
+      "MobileOnly": false
+    },
+    {
+      "_id": {
+        "$oid": "68b06f54f81206681e0d4972"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "en",
+          "Message": "August Double Affinity Weekend #5"
+        },
+        {
+          "LanguageCode": "fr",
+          "Message": "Week-end Double Affinité d'août 5"
+        },
+        {
+          "LanguageCode": "it",
+          "Message": "Weekend d'Agosto Doppia Affinità #5"
+        },
+        {
+          "LanguageCode": "de",
+          "Message": "August Wochenende 5: Doppelte Erfahrung"
+        },
+        {
+          "LanguageCode": "es",
+          "Message": "Fin de semana de doble afinidad de agosto #5"
+        },
+        {
+          "LanguageCode": "pt",
+          "Message": "5º Fim de Semana de Agosto com Afinidade em Dobro"
+        },
+        {
+          "LanguageCode": "ru",
+          "Message": "Августовские выходные удвоенного синтеза #5"
+        },
+        {
+          "LanguageCode": "pl",
+          "Message": "Podwójna Biegłość w 5. sierpniowy weekend"
+        },
+        {
+          "LanguageCode": "uk",
+          "Message": "5-ті серпневі вихідні з подвоєною єдністю "
+        },
+        {
+          "LanguageCode": "tr",
+          "Message": "Ağustos Ayı Hafta Sonu Boyunca İki Kat XP #5"
+        },
+        {
+          "LanguageCode": "ja",
+          "Message": "8月の取得アフィニティ2倍ウィークエンド #5"
+        },
+        {
+          "LanguageCode": "zh",
+          "Message": "八月双倍经验周末 #5"
+        },
+        {
+          "LanguageCode": "ko",
+          "Message": "8월 숙련도 두 배 주말 이벤트 #5"
+        },
+        {
+          "LanguageCode": "tc",
+          "Message": "8 月雙倍經驗週末 #5"
+        },
+        {
+          "LanguageCode": "th",
+          "Message": "แอฟฟินิตี้สองเท่าในวันหยุดสุดสัปดาห์เดือนสิงหาคม #5"
+        }
+      ],
+      "Prop": "https://www.warframe.com/news/warframes-august-2025-events?utm_medium=in-game&utm_source=in-game&utm_campaign=2025-AugustAffinityWeekend5",
+      "Date": {
+        "$date": {
+          "$numberLong": "1756393200000"
+        }
+      },
+      "EventEndDate": {
+        "$date": {
+          "$numberLong": "1756738800000"
+        }
+      },
+      "ImageUrl": "https://www-static.warframe.com/uploads/1b0bdaf7777857fcac30fa634e309da4.png",
+      "Priority": false,
+      "MobileOnly": false
+    },
+    {
+      "_id": {
+        "$oid": "68b06f83b17276426b03a3a0"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "en",
+          "Message": "Caliban Prime: Hotfix 39.1.2"
+        }
+      ],
+      "Prop": "https://www.warframe.com/patch-notes/pc/39-1-2",
+      "Date": {
+        "$date": {
+          "$numberLong": "1756393320000"
+        }
+      },
+      "Priority": false,
+      "MobileOnly": false
+    },
+    {
+      "_id": {
+        "$oid": "68b07a3c4b091e0025090347"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "it",
+          "Message": "Caliban Prime: Hotfix 39.1.2"
+        }
+      ],
+      "Prop": "https://forums.warframe.com/topic/1467510-caliban-prime-hotfix-3912/",
+      "Date": {
+        "$date": {
+          "$numberLong": "1756395540000"
+        }
+      },
+      "EventEndDate": {
+        "$date": {
+          "$numberLong": "1756591200000"
+        }
+      },
+      "Priority": true,
+      "MobileOnly": false
+    },
+    {
+      "_id": {
+        "$oid": "68b07d2bfacef10d62012889"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "en",
+          "Message": "Floaty of Fury Alert August 28 - September 1"
+        },
+        {
+          "LanguageCode": "fr",
+          "Message": "Alerte Fureur Aquatique du 28 août au 1er septembre"
+        },
+        {
+          "LanguageCode": "it",
+          "Message": "Allerta Floaty of Fury - 28 Agosto - 1 Settembre"
+        },
+        {
+          "LanguageCode": "de",
+          "Message": "Alarmierung: Schwimmring des Zorns 28. August - 1. September"
+        },
+        {
+          "LanguageCode": "es",
+          "Message": "Alerta de Furor acuático: 28 agosto - 1 septiembre"
+        },
+        {
+          "LanguageCode": "pt",
+          "Message": "Alerta da Fúria Flutuante: 28 de agosto a 1º de setembro"
+        },
+        {
+          "LanguageCode": "ru",
+          "Message": "Сигналы тревоги «Плавучая ярость»: 28 августа - 1 сентября"
+        },
+        {
+          "LanguageCode": "pl",
+          "Message": "Alarmy Wodnej Furii: 28 sierpnia - 1 września"
+        },
+        {
+          "LanguageCode": "uk",
+          "Message": "Виклики «Заплава люті», 28 серпня — 1 вересня"
+        },
+        {
+          "LanguageCode": "tr",
+          "Message": "Can Simidi Öfkesi Alert Görevi: 28 Ağustos - 1 Eylül"
+        },
+        {
+          "LanguageCode": "ja",
+          "Message": "真夏のフローティーアラート 8月29日から9月2日まで"
+        },
+        {
+          "LanguageCode": "zh",
+          "Message": "愤怒的浮具警报：美东夏令时间 8 月 28 日至 9 月 1 日"
+        },
+        {
+          "LanguageCode": "ko",
+          "Message": "분노의 플로티 얼럿 북미 시각 8월 28일 - 9월 1일"
+        },
+        {
+          "LanguageCode": "tc",
+          "Message": "浪戰警報美東夏令時間 8 月 28 日至 9 月 1 日"
+        },
+        {
+          "LanguageCode": "th",
+          "Message": "ภารกิจแจ้งเตือน Floaty of Fury วันที่ 28 สิงหาคม - 1 กันยายน"
+        }
+      ],
+      "Prop": "https://www.warframe.com/news/dog-days-2025?utm_medium=in-game&utm_source=in-game&utm_campaign=2025-FloatyOfFuryAlert-4",
+      "Date": {
+        "$date": {
+          "$numberLong": "1756396800000"
+        }
+      },
+      "EventEndDate": {
+        "$date": {
+          "$numberLong": "1756713600000"
+        }
+      },
+      "ImageUrl": "https://www-static.warframe.com/uploads/e1ca472d54800bb4644a8cb5772b0c15.png",
+      "Priority": false,
+      "MobileOnly": false
+    },
+    {
+      "_id": {
+        "$oid": "68b09b1a06b8878a5b0d6251"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "en",
+          "Message": "Chroma Prime & Zephyr Prime Return"
+        },
+        {
+          "LanguageCode": "fr",
+          "Message": "Chroma Prime et Zephyr Prime sont de retour !"
+        },
+        {
+          "LanguageCode": "it",
+          "Message": "Tornano Chroma Prime & Zephyr Prime"
+        },
+        {
+          "LanguageCode": "de",
+          "Message": "Chroma Prime & Zephyr Prime sind zurück"
+        },
+        {
+          "LanguageCode": "es",
+          "Message": "Chroma Prime y Zephyr Prime están de regreso"
+        },
+        {
+          "LanguageCode": "pt",
+          "Message": "O Chroma Prime e a Zephyr Prime retornam"
+        },
+        {
+          "LanguageCode": "ru",
+          "Message": "Хрома Прайм и Зефир Прайм возвращаются"
+        },
+        {
+          "LanguageCode": "pl",
+          "Message": "Chroma Prime i Zephyr Prime powracają"
+        },
+        {
+          "LanguageCode": "uk",
+          "Message": "Хрома-прайм і Зефіра-прайм повертаються"
+        },
+        {
+          "LanguageCode": "tr",
+          "Message": "Chroma Prime ve Zephyr Prime Geri Dönüyor"
+        },
+        {
+          "LanguageCode": "ja",
+          "Message": "Chroma PrimeとZephyr Primeが復帰"
+        },
+        {
+          "LanguageCode": "zh",
+          "Message": "Chroma Prime 和 Zephyr Prime 回归"
+        },
+        {
+          "LanguageCode": "ko",
+          "Message": "크로마 프라임 & 제피르 프라임이 돌아옵니다"
+        },
+        {
+          "LanguageCode": "tc",
+          "Message": "Chroma Prime 以及 Zephyr Prime 回歸"
+        },
+        {
+          "LanguageCode": "th",
+          "Message": "Chroma Prime และ Zephyr Prime กลับมาแล้ว"
+        }
+      ],
+      "Prop": "https://www.warframe.com/prime-resurgence?utm_medium=in-game&utm_source=in-game&utm_campaign=20-PrimeResurgenceR35",
+      "Date": {
+        "$date": {
+          "$numberLong": "1756404000000"
+        }
+      },
+      "EventEndDate": {
+        "$date": {
+          "$numberLong": "1757487600000"
+        }
+      },
+      "ImageUrl": "https://www-static.warframe.com/uploads/79519dc546a6e21c3b3ce38b8749ec39.png",
+      "Priority": false,
+      "MobileOnly": false
+    },
+    {
+      "_id": {
+        "$oid": "68b1bf8abca71961d500ffe4"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "fr",
+          "Message": "Notes : correctif 39.1.2"
+        }
+      ],
+      "Prop": "https://forums.warframe.com/topic/1467628-caliban-prime-correctif-3912/",
+      "Date": {
+        "$date": {
+          "$numberLong": "1756479300000"
+        }
+      },
+      "Priority": false,
+      "MobileOnly": false
+    },
+    {
+      "_id": {
+        "$oid": "68b1bfc4b9ceec357508c646"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "fr",
+          "Message": "Problèmes connus : Caliban Prime"
+        }
+      ],
+      "Prop": "https://forums.warframe.com/topic/1467161-probl%C3%A8mes-connus-caliban-prime/",
+      "Date": {
+        "$date": {
+          "$numberLong": "1756479360000"
+        }
+      },
+      "ImageUrl": "https://www-static.warframe.com/uploads/5b9f760ec6eb7ba546e5870a948a8199.png",
+      "Priority": false,
+      "MobileOnly": false
+    },
+    {
+      "_id": {
+        "$oid": "68b229dd44c6e00a35093c93"
+      },
+      "Messages": [
+        {
+          "LanguageCode": "tr",
+          "Message": "30 Ağustos Zafer Bayramımız Kutlu Olsun, Tenno! "
+        }
+      ],
+      "Prop": "https://forums.warframe.com/topic/1467666-30-a%C4%9Fustos-zafer-bayram%C4%B1m%C4%B1z-kutlu-olsun-tenno%C2%A0",
+      "Date": {
+        "$date": {
+          "$numberLong": "1756506420000"
+        }
+      },
+      "EventEndDate": {
+        "$date": {
+          "$numberLong": "1757019600000"
+        }
+      },
+      "Priority": false,
+      "MobileOnly": false,
+      "Community": true
+    }
+  ],
+  "Goals": [
+    {
+      "_id": {
+        "$oid": "5c7cb0d00000000000000000"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1755532800000"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756742400000"
+        }
+      },
+      "Node": "SolNode129",
+      "ScoreVar": "FissuresClosed",
+      "ScoreLocTag": "/Lotus/Language/G1Quests/HeatFissuresEventScore",
+      "Count": 14,
+      "HealthPct": 0.14,
+      "Regions": [
+        1
+      ],
+      "Desc": "/Lotus/Language/G1Quests/HeatFissuresEventName",
+      "ToolTip": "/Lotus/Language/G1Quests/HeatFissuresEventDesc",
+      "OptionalInMission": true,
+      "Tag": "HeatFissure",
+      "UpgradeIds": [
+        {
+          "$oid": "68a0ad59c69590165089b03d"
+        },
+        {
+          "$oid": "68a0ad59c69590165089b03e"
+        }
+      ],
+      "Personal": true,
+      "Community": true,
+      "Goal": 100,
+      "Reward": {
+        "credits": 0,
+        "xp": 0,
+        "items": [
+          "/Lotus/StoreItems/Weapons/Corpus/LongGuns/CrpBFG/Vandal/VandalCrpBFG"
+        ],
+        "countedItems": []
+      },
+      "InterimGoals": [
+        5,
+        25,
+        50,
+        75
+      ],
+      "InterimRewards": [
+        {
+          "credits": 0,
+          "xp": 0,
+          "items": [
+            "/Lotus/StoreItems/Upgrades/Skins/Clan/OrbBadgeItem"
+          ],
+          "countedItems": []
+        },
+        {
+          "credits": 0,
+          "xp": 0,
+          "items": [
+            "/Lotus/StoreItems/Upgrades/Mods/DualSource/Shotgun/ShotgunMedicMod",
+            "/Lotus/StoreItems/Upgrades/Mods/DualSource/Rifle/SerratedRushMod"
+          ],
+          "countedItems": []
+        },
+        {
+          "credits": 0,
+          "xp": 0,
+          "items": [
+            "/Lotus/StoreItems/Upgrades/Mods/DualSource/Pistol/MultishotDodgeMod",
+            "/Lotus/StoreItems/Upgrades/Mods/DualSource/Melee/CritDamageChargeSpeedMod"
+          ],
+          "countedItems": []
+        },
+        {
+          "credits": 0,
+          "xp": 0,
+          "items": [
+            "/Lotus/StoreItems/Upgrades/Skins/Sigils/OrbSigil"
+          ],
+          "countedItems": []
+        }
+      ]
+    },
+    {
+      "_id": {
+        "$oid": "68936df00000000000000000"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1754492400000"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756911600000"
+        }
+      },
+      "Count": 0,
+      "Goal": 100,
+      "InterimGoals": [
+        25,
+        50
+      ],
+      "BonusGoal": 200,
+      "Success": 0,
+      "Personal": true,
+      "Bounty": true,
+      "ClampNodeScores": true,
+      "Node": "EventNode25",
+      "ConcurrentMissionKeyNames": [
+        "/Lotus/Types/Keys/TacAlertKeyWaterFightB",
+        "/Lotus/Types/Keys/TacAlertKeyWaterFightC",
+        "/Lotus/Types/Keys/TacAlertKeyWaterFightD"
+      ],
+      "ConcurrentNodeReqs": [
+        25,
+        50,
+        100
+      ],
+      "ConcurrentNodes": [
+        "EventNode24",
+        "EventNode34",
+        "EventNode35"
+      ],
+      "MissionKeyName": "/Lotus/Types/Keys/TacAlertKeyWaterFightA",
+      "Faction": "FC_CORPUS",
+      "Desc": "/Lotus/Language/Alerts/TacAlertWaterFight",
+      "Icon": "/Lotus/Interface/Icons/StoreIcons/Emblems/SplashEventIcon.png",
+      "Tag": "WaterFight",
+      "InterimRewards": [
+        {
+          "credits": 50000,
+          "items": [
+            "/Lotus/StoreItems/Types/StoreItems/AvatarImages/AvatarImageDogDaysHydroidGlyph"
+          ],
+          "countedItems": [
+            {
+              "ItemType": "/Lotus/Types/Items/MiscItems/WaterFightBucks",
+              "ItemCount": 25
+            }
+          ]
+        },
+        {
+          "credits": 50000,
+          "items": [
+            "/Lotus/StoreItems/Types/StoreItems/AvatarImages/AvatarImageDogDaysLokiGlyph"
+          ],
+          "countedItems": [
+            {
+              "ItemType": "/Lotus/Types/Items/MiscItems/WaterFightBucks",
+              "ItemCount": 50
+            }
+          ]
+        }
+      ],
+      "Reward": {
+        "credits": 50000,
+        "items": [
+          "/Lotus/StoreItems/Types/StoreItems/AvatarImages/AvatarImageDogDaysNovaGlyph"
+        ],
+        "countedItems": [
+          {
+            "ItemType": "/Lotus/Types/Items/MiscItems/WaterFightBucks",
+            "ItemCount": 75
+          }
+        ]
+      },
+      "BonusReward": {
+        "credits": 50000,
+        "items": [
+          "/Lotus/StoreItems/Types/StoreItems/AvatarImages/AvatarImageDogDaysValkyrGlyph"
+        ],
+        "countedItems": [
+          {
+            "ItemType": "/Lotus/Types/Items/MiscItems/WaterFightBucks",
+            "ItemCount": 100
+          }
+        ]
+      },
+      "ScoreVar": "Team1Score",
+      "NightLevel": "/Lotus/Levels/GrineerBeach/GrineerBeachEventNight.level"
+    },
+    {
+      "_id": {
+        "$oid": "68b0d3bacfdd5dfe3f89b03e"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756488143641"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1758302543641"
+        }
+      },
+      "HealthPct": 0.834552,
+      "VictimNode": "SolNode228",
+      "Regions": [
+        2
+      ],
+      "Success": 0,
+      "Desc": "/Lotus/Language/GameModes/RecurringGhoulAlert",
+      "ToolTip": "/Lotus/Language/GameModes/RecurringGhoulAlertDesc",
+      "Icon": "/Lotus/Interface/Icons/Categories/IconGhouls256.png",
+      "Tag": "GhoulEmergence",
+      "JobAffiliationTag": "CetusSyndicate",
+      "JobCurrentVersion": {
+        "$oid": "68b2e7390000000000000009"
+      },
+      "Jobs": [
+        {
+          "jobType": "/Lotus/Types/Gameplay/Eidolon/Jobs/Events/GhoulAlertBountyHunt",
+          "rewards": "/Lotus/Types/Game/MissionDecks/EidolonJobMissionRewards/GhoulBountyTableARewards",
+          "masteryReq": 1,
+          "minEnemyLevel": 15,
+          "maxEnemyLevel": 25,
+          "xpAmounts": [
+            310,
+            310,
+            310,
+            460
+          ]
+        },
+        {
+          "jobType": "/Lotus/Types/Gameplay/Eidolon/Jobs/Events/GhoulAlertBountyExt",
+          "rewards": "/Lotus/Types/Game/MissionDecks/EidolonJobMissionRewards/GhoulBountyTableBRewards",
+          "masteryReq": 3,
+          "minEnemyLevel": 40,
+          "maxEnemyLevel": 50,
+          "xpAmounts": [
+            540,
+            540,
+            540,
+            790
+          ]
+        }
+      ],
+      "JobPreviousVersion": {
+        "$oid": "68b2c4120000000000000009"
+      },
+      "PreviousJobs": [
+        {
+          "jobType": "/Lotus/Types/Gameplay/Eidolon/Jobs/Events/GhoulAlertBountyRes",
+          "rewards": "/Lotus/Types/Game/MissionDecks/EidolonJobMissionRewards/GhoulBountyTableARewards",
+          "masteryReq": 1,
+          "minEnemyLevel": 15,
+          "maxEnemyLevel": 25,
+          "xpAmounts": [
+            250,
+            250,
+            250,
+            360
+          ]
+        },
+        {
+          "jobType": "/Lotus/Types/Gameplay/Eidolon/Jobs/Events/GhoulAlertBountyHunt",
+          "rewards": "/Lotus/Types/Game/MissionDecks/EidolonJobMissionRewards/GhoulBountyTableBRewards",
+          "masteryReq": 3,
+          "minEnemyLevel": 40,
+          "maxEnemyLevel": 50,
+          "xpAmounts": [
+            490,
+            490,
+            490,
+            710
+          ]
+        }
+      ]
+    }
+  ],
+  "Alerts": [
+    {
+      "_id": {
+        "$oid": "68b06ef00000000000000000"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756393200000"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756738800000"
+        }
+      },
+      "MissionInfo": {
+        "location": "SolNode451",
+        "missionType": "MT_OFFERING",
+        "faction": "FC_INFESTATION",
+        "difficulty": 1,
+        "missionReward": {
+          "credits": 50000,
+          "countedItems": [
+            {
+              "ItemType": "/Lotus/Types/Items/MiscItems/WaterFightBucks",
+              "ItemCount": 175
+            }
+          ]
+        },
+        "levelOverride": "/Lotus/Levels/FiveFates/CetusInvasion.level",
+        "enemySpec": "/Lotus/Types/Game/EnemySpecs/FiveFatesDefense",
+        "vipAgent": "/Lotus/Types/Enemies/Infested/InfestedMicroplanet/Oni/InfestedOniAgent",
+        "minEnemyLevel": 25,
+        "maxEnemyLevel": 30,
+        "descText": "/Lotus/Language/Alerts/WaterFightAlertMissionDesc"
+      },
+      "Tag": "WaterFight"
+    }
+  ],
+  "Sorties": [
+    {
+      "_id": {
+        "$oid": "68b1cafe57b78ad67d89b03e"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483200000"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569600000"
+        }
+      },
+      "Reward": "/Lotus/Types/Game/MissionDecks/SortieRewards",
+      "Seed": 64918,
+      "Boss": "SORTIE_BOSS_RAPTOR",
+      "ExtraDrops": [],
+      "Variants": [
+        {
+          "missionType": "MT_RETRIEVAL",
+          "modifierType": "SORTIE_MODIFIER_LOW_ENERGY",
+          "node": "SolNode214",
+          "tileset": "CorpusIcePlanetTileset"
+        },
+        {
+          "missionType": "MT_INTEL",
+          "modifierType": "SORTIE_MODIFIER_HAZARD_RADIATION",
+          "node": "SolNode48",
+          "tileset": "CorpusOutpostTileset"
+        },
+        {
+          "missionType": "MT_ARTIFACT",
+          "modifierType": "SORTIE_MODIFIER_PUNCTURE",
+          "node": "SolNode74",
+          "tileset": "CorpusGasCityTileset"
+        }
+      ],
+      "Twitter": true
+    }
+  ],
+  "LiteSorties": [
+    {
+      "_id": {
+        "$oid": "68aba3fe80f937298189b03e"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756080000000"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756684800000"
+        }
+      },
+      "Reward": "/Lotus/Types/Game/MissionDecks/ArchonSortieRewards",
+      "Seed": 52161,
+      "Boss": "SORTIE_BOSS_AMAR",
+      "Missions": [
+        {
+          "missionType": "MT_EXTERMINATION",
+          "node": "SolNode16"
+        },
+        {
+          "missionType": "MT_DEFENSE",
+          "node": "SolNode46"
+        },
+        {
+          "missionType": "MT_ASSASSINATION",
+          "node": "SolNode99"
+        }
+      ]
+    }
+  ],
+  "SyndicateMissions": [
+    {
+      "_id": {
+        "$oid": "68b1ce46798276533689b041"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483142799"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569540000"
+        }
+      },
+      "Tag": "ArbitersSyndicate",
+      "Seed": 64918,
+      "Nodes": [
+        "SolNode130",
+        "SolNode107",
+        "SettlementNode12",
+        "SolNode711",
+        "SolNode100",
+        "SolNode140",
+        "SolNode21"
+      ]
+    },
+    {
+      "_id": {
+        "$oid": "68b1ce46798276533689b042"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483142799"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569540000"
+        }
+      },
+      "Tag": "CephalonSudaSyndicate",
+      "Seed": 57826,
+      "Nodes": [
+        "SolNode75",
+        "SolNode223",
+        "SolNode61",
+        "SolNode204",
+        "SolNode6",
+        "SolNode191",
+        "SolNode164"
+      ]
+    },
+    {
+      "_id": {
+        "$oid": "68b1ce46798276533689b043"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483142799"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569540000"
+        }
+      },
+      "Tag": "NecraloidSyndicate",
+      "Seed": 56057,
+      "Nodes": []
+    },
+    {
+      "_id": {
+        "$oid": "68b1ce46798276533689b044"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483142799"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569540000"
+        }
+      },
+      "Tag": "EventSyndicate",
+      "Seed": 12195,
+      "Nodes": []
+    },
+    {
+      "_id": {
+        "$oid": "68b1ce46798276533689b045"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483142799"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569540000"
+        }
+      },
+      "Tag": "KahlSyndicate",
+      "Seed": 44850,
+      "Nodes": []
+    },
+    {
+      "_id": {
+        "$oid": "68b1ce46798276533689b046"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483142799"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569540000"
+        }
+      },
+      "Tag": "NewLokaSyndicate",
+      "Seed": 66676,
+      "Nodes": [
+        "SolNode36",
+        "SolNode79",
+        "SolNode25",
+        "SettlementNode11",
+        "SolNode215",
+        "SolNode153",
+        "SolNode400"
+      ]
+    },
+    {
+      "_id": {
+        "$oid": "68b1ce47798276533689b047"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483142799"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569540000"
+        }
+      },
+      "Tag": "QuillsSyndicate",
+      "Seed": 66297,
+      "Nodes": []
+    },
+    {
+      "_id": {
+        "$oid": "68b1ce47798276533689b048"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483142799"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569540000"
+        }
+      },
+      "Tag": "PerrinSyndicate",
+      "Seed": 46971,
+      "Nodes": [
+        "SolNode11",
+        "SolNode59",
+        "SolNode103",
+        "SolNode205",
+        "SolNode166",
+        "SolNode2",
+        "SolNode42"
+      ]
+    },
+    {
+      "_id": {
+        "$oid": "68b1ce47798276533689b049"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483142799"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569540000"
+        }
+      },
+      "Tag": "RadioLegion2Syndicate",
+      "Seed": 95974,
+      "Nodes": []
+    },
+    {
+      "_id": {
+        "$oid": "68b1ce47798276533689b04b"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483142799"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569540000"
+        }
+      },
+      "Tag": "RadioLegionIntermission10Syndicate",
+      "Seed": 68202,
+      "Nodes": []
+    },
+    {
+      "_id": {
+        "$oid": "68b1ce47798276533689b04c"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483142799"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569540000"
+        }
+      },
+      "Tag": "RadioLegionIntermission11Syndicate",
+      "Seed": 73414,
+      "Nodes": []
+    },
+    {
+      "_id": {
+        "$oid": "68b1ce47798276533689b04a"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483142799"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569540000"
+        }
+      },
+      "Tag": "RadioLegion3Syndicate",
+      "Seed": 78706,
+      "Nodes": []
+    },
+    {
+      "_id": {
+        "$oid": "68b1ce47798276533689b04d"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483142799"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569540000"
+        }
+      },
+      "Tag": "RadioLegionIntermission12Syndicate",
+      "Seed": 44032,
+      "Nodes": []
+    },
+    {
+      "_id": {
+        "$oid": "68b1ce47798276533689b04e"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483142799"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569540000"
+        }
+      },
+      "Tag": "RadioLegionIntermission13Syndicate",
+      "Seed": 59377,
+      "Nodes": []
+    },
+    {
+      "_id": {
+        "$oid": "68b1ce47798276533689b04f"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483142799"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569540000"
+        }
+      },
+      "Tag": "RadioLegionIntermission2Syndicate",
+      "Seed": 83955,
+      "Nodes": []
+    },
+    {
+      "_id": {
+        "$oid": "68b1ce47798276533689b050"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483142799"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569540000"
+        }
+      },
+      "Tag": "RadioLegionIntermission3Syndicate",
+      "Seed": 89681,
+      "Nodes": []
+    },
+    {
+      "_id": {
+        "$oid": "68b1ce47798276533689b051"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483142799"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569540000"
+        }
+      },
+      "Tag": "RadioLegionIntermission4Syndicate",
+      "Seed": 44764,
+      "Nodes": []
+    },
+    {
+      "_id": {
+        "$oid": "68b1ce47798276533689b052"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483142799"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569540000"
+        }
+      },
+      "Tag": "RadioLegionIntermission5Syndicate",
+      "Seed": 69265,
+      "Nodes": []
+    },
+    {
+      "_id": {
+        "$oid": "68b1ce47798276533689b054"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483142799"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569540000"
+        }
+      },
+      "Tag": "RadioLegionIntermission7Syndicate",
+      "Seed": 66030,
+      "Nodes": []
+    },
+    {
+      "_id": {
+        "$oid": "68b1ce47798276533689b056"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483142799"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569540000"
+        }
+      },
+      "Tag": "RadioLegionIntermission9Syndicate",
+      "Seed": 88618,
+      "Nodes": []
+    },
+    {
+      "_id": {
+        "$oid": "68b1ce47798276533689b055"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483142799"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569540000"
+        }
+      },
+      "Tag": "RadioLegionIntermission8Syndicate",
+      "Seed": 71010,
+      "Nodes": []
+    },
+    {
+      "_id": {
+        "$oid": "68b1ce47798276533689b053"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483142799"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569540000"
+        }
+      },
+      "Tag": "RadioLegionIntermission6Syndicate",
+      "Seed": 57321,
+      "Nodes": []
+    },
+    {
+      "_id": {
+        "$oid": "68b1ce47798276533689b057"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483142799"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569540000"
+        }
+      },
+      "Tag": "RadioLegionIntermissionSyndicate",
+      "Seed": 64843,
+      "Nodes": []
+    },
+    {
+      "_id": {
+        "$oid": "68b1ce47798276533689b058"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483142799"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569540000"
+        }
+      },
+      "Tag": "RadioLegionSyndicate",
+      "Seed": 30858,
+      "Nodes": []
+    },
+    {
+      "_id": {
+        "$oid": "68b1ce47798276533689b059"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483142799"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569540000"
+        }
+      },
+      "Tag": "RedVeilSyndicate",
+      "Seed": 25241,
+      "Nodes": [
+        "SolNode16",
+        "SolNode225",
+        "SolNode710",
+        "SolNode82",
+        "SolNode181",
+        "SolNode172",
+        "SolNode56"
+      ]
+    },
+    {
+      "_id": {
+        "$oid": "68b1ce47798276533689b05b"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483142799"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569540000"
+        }
+      },
+      "Tag": "VoxSyndicate",
+      "Seed": 19527,
+      "Nodes": []
+    },
+    {
+      "_id": {
+        "$oid": "68b1ce47798276533689b05a"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483142799"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569540000"
+        }
+      },
+      "Tag": "VentKidsSyndicate",
+      "Seed": 46543,
+      "Nodes": []
+    },
+    {
+      "_id": {
+        "$oid": "68b1ce47798276533689b05c"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756483142799"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756569540000"
+        }
+      },
+      "Tag": "SteelMeridianSyndicate",
+      "Seed": 43411,
+      "Nodes": [
+        "SolNode46",
+        "SolNode39",
+        "SolNode67",
+        "SolNode119",
+        "SolNode17",
+        "SolNode185",
+        "SolNode137"
+      ]
+    },
+    {
+      "_id": {
+        "$oid": "68b2e7390000000000000004"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756555065746"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756564064620"
+        }
+      },
+      "Tag": "EntratiLabSyndicate",
+      "Seed": 43706,
+      "Nodes": []
+    },
+    {
+      "_id": {
+        "$oid": "68b2e7390000000000000006"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756555065746"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756564064620"
+        }
+      },
+      "Tag": "HexSyndicate",
+      "Seed": 43706,
+      "Nodes": []
+    },
+    {
+      "_id": {
+        "$oid": "68b2e7390000000000000002"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756555065746"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756564064620"
+        }
+      },
+      "Tag": "EntratiSyndicate",
+      "Seed": 43705,
+      "Nodes": [],
+      "Jobs": [
+        {
+          "jobType": "/Lotus/Types/Gameplay/InfestedMicroplanet/Jobs/DeimosExcavateBounty",
+          "rewards": "/Lotus/Types/Game/MissionDecks/DeimosMissionRewards/TierATableBRewards",
+          "masteryReq": 0,
+          "minEnemyLevel": 5,
+          "maxEnemyLevel": 15,
+          "xpAmounts": [
+            5,
+            5,
+            5
+          ]
+        },
+        {
+          "jobType": "/Lotus/Types/Gameplay/InfestedMicroplanet/Jobs/DeimosAreaDefenseBounty",
+          "rewards": "/Lotus/Types/Game/MissionDecks/DeimosMissionRewards/TierCTableBRewards",
+          "masteryReq": 1,
+          "minEnemyLevel": 15,
+          "maxEnemyLevel": 25,
+          "xpAmounts": [
+            10,
+            10,
+            10
+          ]
+        },
+        {
+          "jobType": "/Lotus/Types/Gameplay/InfestedMicroplanet/Jobs/DeimosEndlessPurifyBounty",
+          "rewards": "/Lotus/Types/Game/MissionDecks/DeimosMissionRewards/TierBTableARewards",
+          "masteryReq": 5,
+          "minEnemyLevel": 25,
+          "maxEnemyLevel": 30,
+          "endless": true,
+          "xpAmounts": [
+            14,
+            14,
+            14
+          ]
+        },
+        {
+          "jobType": "/Lotus/Types/Gameplay/InfestedMicroplanet/Jobs/DeimosGrnSurvivorBounty",
+          "rewards": "/Lotus/Types/Game/MissionDecks/DeimosMissionRewards/TierDTableBRewards",
+          "masteryReq": 2,
+          "minEnemyLevel": 30,
+          "maxEnemyLevel": 40,
+          "xpAmounts": [
+            18,
+            18,
+            18,
+            28
+          ]
+        },
+        {
+          "jobType": "/Lotus/Types/Gameplay/InfestedMicroplanet/Jobs/DeimosPurifyBounty",
+          "rewards": "/Lotus/Types/Game/MissionDecks/DeimosMissionRewards/TierETableARewards",
+          "masteryReq": 3,
+          "minEnemyLevel": 40,
+          "maxEnemyLevel": 60,
+          "xpAmounts": [
+            22,
+            22,
+            22,
+            22,
+            44
+          ]
+        },
+        {
+          "jobType": "/Lotus/Types/Gameplay/InfestedMicroplanet/Jobs/DeimosCrpSurvivorBounty",
+          "rewards": "/Lotus/Types/Game/MissionDecks/DeimosMissionRewards/TierETableARewards",
+          "masteryReq": 10,
+          "minEnemyLevel": 100,
+          "maxEnemyLevel": 100,
+          "xpAmounts": [
+            25,
+            25,
+            25,
+            25,
+            50
+          ]
+        },
+        {
+          "rewards": "/Lotus/Types/Game/MissionDecks/DeimosMissionRewards/VaultBountyTierATableARewards",
+          "masteryReq": 5,
+          "minEnemyLevel": 30,
+          "maxEnemyLevel": 40,
+          "xpAmounts": [
+            2,
+            2,
+            2,
+            4
+          ],
+          "locationTag": "ChamberB",
+          "isVault": true
+        },
+        {
+          "rewards": "/Lotus/Types/Game/MissionDecks/DeimosMissionRewards/VaultBountyTierBTableARewards",
+          "masteryReq": 5,
+          "minEnemyLevel": 40,
+          "maxEnemyLevel": 50,
+          "xpAmounts": [
+            4,
+            4,
+            4,
+            5
+          ],
+          "locationTag": "ChamberA",
+          "isVault": true
+        },
+        {
+          "rewards": "/Lotus/Types/Game/MissionDecks/DeimosMissionRewards/VaultBountyTierCTableARewards",
+          "masteryReq": 5,
+          "minEnemyLevel": 50,
+          "maxEnemyLevel": 60,
+          "xpAmounts": [
+            5,
+            5,
+            5,
+            7
+          ],
+          "locationTag": "ChamberC",
+          "isVault": true
+        }
+      ]
+    },
+    {
+      "_id": {
+        "$oid": "68b2e7390000000000000029"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756555065746"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756564064620"
+        }
+      },
+      "Tag": "SolarisSyndicate",
+      "Seed": 43705,
+      "Nodes": [],
+      "Jobs": [
+        {
+          "jobType": "/Lotus/Types/Gameplay/Venus/Jobs/VenusHelpingJobResource",
+          "rewards": "/Lotus/Types/Game/MissionDecks/VenusJobMissionRewards/VenusTierATableBRewards",
+          "masteryReq": 0,
+          "minEnemyLevel": 5,
+          "maxEnemyLevel": 15,
+          "xpAmounts": [
+            450,
+            450,
+            450
+          ]
+        },
+        {
+          "jobType": "/Lotus/Types/Gameplay/Venus/Jobs/VenusTheftJobAmbush",
+          "rewards": "/Lotus/Types/Game/MissionDecks/VenusJobMissionRewards/VenusTierBTableBRewards",
+          "masteryReq": 1,
+          "minEnemyLevel": 10,
+          "maxEnemyLevel": 30,
+          "xpAmounts": [
+            710,
+            710,
+            710
+          ]
+        },
+        {
+          "jobType": "/Lotus/Types/Gameplay/Venus/Jobs/VenusIntelJobResource",
+          "rewards": "/Lotus/Types/Game/MissionDecks/VenusJobMissionRewards/VenusTierCTableBRewards",
+          "masteryReq": 2,
+          "minEnemyLevel": 20,
+          "maxEnemyLevel": 40,
+          "xpAmounts": [
+            630,
+            630,
+            630,
+            930
+          ]
+        },
+        {
+          "jobType": "/Lotus/Types/Gameplay/Venus/Jobs/VenusTheftJobExcavation",
+          "rewards": "/Lotus/Types/Game/MissionDecks/VenusJobMissionRewards/VenusTierDTableBRewards",
+          "masteryReq": 3,
+          "minEnemyLevel": 30,
+          "maxEnemyLevel": 50,
+          "xpAmounts": [
+            610,
+            610,
+            610,
+            610,
+            1200
+          ]
+        },
+        {
+          "jobType": "/Lotus/Types/Gameplay/Venus/Jobs/VenusArtifactJobRecovery",
+          "rewards": "/Lotus/Types/Game/MissionDecks/VenusJobMissionRewards/VenusTierETableBRewards",
+          "masteryReq": 5,
+          "minEnemyLevel": 40,
+          "maxEnemyLevel": 60,
+          "xpAmounts": [
+            720,
+            720,
+            720,
+            720,
+            1410
+          ]
+        },
+        {
+          "jobType": "/Lotus/Types/Gameplay/Venus/Jobs/VenusArtifactJobAmbush",
+          "rewards": "/Lotus/Types/Game/MissionDecks/VenusJobMissionRewards/VenusTierETableBRewards",
+          "masteryReq": 10,
+          "minEnemyLevel": 100,
+          "maxEnemyLevel": 100,
+          "xpAmounts": [
+            840,
+            840,
+            840,
+            840,
+            1660
+          ]
+        },
+        {
+          "jobType": "/Lotus/Types/Gameplay/Venus/Jobs/Narmer/NarmerVenusCullJobExterminate",
+          "rewards": "/Lotus/Types/Game/MissionDecks/EidolonJobMissionRewards/NarmerTableBRewards",
+          "masteryReq": 0,
+          "minEnemyLevel": 50,
+          "maxEnemyLevel": 70,
+          "xpAmounts": [
+            800,
+            800,
+            800,
+            800,
+            1580
+          ]
+        }
+      ]
+    },
+    {
+      "_id": {
+        "$oid": "68b2e7390000000000000009"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756555065746"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756564064620"
+        }
+      },
+      "Tag": "CetusSyndicate",
+      "Seed": 43705,
+      "Nodes": [],
+      "Jobs": [
+        {
+          "jobType": "/Lotus/Types/Gameplay/Eidolon/Jobs/CaptureBountyCapTwo",
+          "rewards": "/Lotus/Types/Game/MissionDecks/EidolonJobMissionRewards/TierATableBRewards",
+          "masteryReq": 0,
+          "minEnemyLevel": 5,
+          "maxEnemyLevel": 15,
+          "xpAmounts": [
+            430,
+            430,
+            430
+          ]
+        },
+        {
+          "jobType": "/Lotus/Types/Gameplay/Eidolon/Jobs/AssassinateBountyAss",
+          "rewards": "/Lotus/Types/Game/MissionDecks/EidolonJobMissionRewards/TierBTableBRewards",
+          "masteryReq": 1,
+          "minEnemyLevel": 10,
+          "maxEnemyLevel": 30,
+          "xpAmounts": [
+            620,
+            620,
+            620
+          ]
+        },
+        {
+          "jobType": "/Lotus/Types/Gameplay/Eidolon/Jobs/AttritionBountyCap",
+          "rewards": "/Lotus/Types/Game/MissionDecks/EidolonJobMissionRewards/TierCTableBRewards",
+          "masteryReq": 2,
+          "minEnemyLevel": 20,
+          "maxEnemyLevel": 40,
+          "xpAmounts": [
+            580,
+            580,
+            580,
+            860
+          ]
+        },
+        {
+          "jobType": "/Lotus/Types/Gameplay/Eidolon/Jobs/AssassinateBountyCap",
+          "rewards": "/Lotus/Types/Game/MissionDecks/EidolonJobMissionRewards/TierDTableBRewards",
+          "masteryReq": 3,
+          "minEnemyLevel": 30,
+          "maxEnemyLevel": 50,
+          "xpAmounts": [
+            610,
+            610,
+            610,
+            610,
+            1200
+          ]
+        },
+        {
+          "jobType": "/Lotus/Types/Gameplay/Eidolon/Jobs/ReclamationBountyCache",
+          "rewards": "/Lotus/Types/Game/MissionDecks/EidolonJobMissionRewards/TierETableBRewards",
+          "masteryReq": 5,
+          "minEnemyLevel": 40,
+          "maxEnemyLevel": 60,
+          "xpAmounts": [
+            740,
+            740,
+            740,
+            740,
+            1460
+          ]
+        },
+        {
+          "jobType": "/Lotus/Types/Gameplay/Eidolon/Jobs/ReclamationBountyCap",
+          "rewards": "/Lotus/Types/Game/MissionDecks/EidolonJobMissionRewards/TierETableBRewards",
+          "masteryReq": 10,
+          "minEnemyLevel": 100,
+          "maxEnemyLevel": 100,
+          "xpAmounts": [
+            840,
+            840,
+            840,
+            840,
+            1660
+          ]
+        },
+        {
+          "jobType": "/Lotus/Types/Gameplay/Eidolon/Jobs/Narmer/AttritionBountyLib",
+          "rewards": "/Lotus/Types/Game/MissionDecks/EidolonJobMissionRewards/NarmerTableBRewards",
+          "masteryReq": 0,
+          "minEnemyLevel": 50,
+          "maxEnemyLevel": 70,
+          "xpAmounts": [
+            800,
+            800,
+            800,
+            800,
+            1580
+          ]
+        }
+      ]
+    },
+    {
+      "_id": {
+        "$oid": "68b2e7390000000000000033"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756555065746"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756564064620"
+        }
+      },
+      "Tag": "ZarimanSyndicate",
+      "Seed": 43706,
+      "Nodes": []
+    }
+  ],
+  "ActiveMissions": [
+    {
+      "_id": {
+        "$oid": "68b2d39a0b626ba7e989b03e"
+      },
+      "Region": 3,
+      "Seed": 384,
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756550042481"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756556702042"
+        }
+      },
+      "Node": "SolNode26",
+      "MissionType": "MT_DEFENSE",
+      "Modifier": "VoidT1",
+      "Hard": true
+    },
+    {
+      "_id": {
+        "$oid": "68b2d57ae942b3676889b03f"
+      },
+      "Region": 19,
+      "Seed": 92874,
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756550522060"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756556093349"
+        }
+      },
+      "Node": "SolNode743",
+      "MissionType": "MT_MOBILE_DEFENSE",
+      "Modifier": "VoidT5"
+    },
+    {
+      "_id": {
+        "$oid": "68b2db1a3140ffb0cc89b03e"
+      },
+      "Region": 13,
+      "Seed": 12949,
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756551962932"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756558685614"
+        }
+      },
+      "Node": "SolNode211",
+      "MissionType": "MT_TERRITORY",
+      "Modifier": "VoidT3"
+    },
+    {
+      "_id": {
+        "$oid": "68b2db1a3140ffb0cc89b03f"
+      },
+      "Region": 15,
+      "Seed": 16732,
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756551962932"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756559018748"
+        }
+      },
+      "Node": "SolNode410",
+      "MissionType": "MT_MOBILE_DEFENSE",
+      "Modifier": "VoidT3"
+    },
+    {
+      "_id": {
+        "$oid": "68b2e0061697d3676689b03e"
+      },
+      "Region": 8,
+      "Seed": 67105,
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756553222834"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756557668929"
+        }
+      },
+      "Node": "SolNode84",
+      "MissionType": "MT_INTEL",
+      "Modifier": "VoidT3",
+      "Hard": true
+    },
+    {
+      "_id": {
+        "$oid": "68b2e16e2c6b25981689b03e"
+      },
+      "Region": 12,
+      "Seed": 11221,
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756553582093"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756558629886"
+        }
+      },
+      "Node": "SolNode188",
+      "MissionType": "MT_INTEL",
+      "Modifier": "VoidT4",
+      "Hard": true
+    },
+    {
+      "_id": {
+        "$oid": "68b2e1e63353d3ea7189b03e"
+      },
+      "Region": 2,
+      "Seed": 48834,
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756553702293"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756560893848"
+        }
+      },
+      "Node": "SolNode107",
+      "MissionType": "MT_CAPTURE",
+      "Modifier": "VoidT1"
+    },
+    {
+      "_id": {
+        "$oid": "68b2e1e63353d3ea7189b03f"
+      },
+      "Region": 4,
+      "Seed": 15615,
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756553702293"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756559798566"
+        }
+      },
+      "Node": "SolNode106",
+      "MissionType": "MT_TERRITORY",
+      "Modifier": "VoidT1"
+    },
+    {
+      "_id": {
+        "$oid": "68b2e3c65c4cc08e2589b03e"
+      },
+      "Region": 18,
+      "Seed": 87132,
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756554182771"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756559101124"
+        }
+      },
+      "Node": "SolNode310",
+      "MissionType": "MT_SURVIVAL",
+      "Modifier": "VoidT6"
+    },
+    {
+      "_id": {
+        "$oid": "68b2e3c65c4cc08e2589b03f"
+      },
+      "Region": 22,
+      "Seed": 33750,
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756554182771"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756560585088"
+        }
+      },
+      "Node": "SolNode232",
+      "MissionType": "MT_VOID_CASCADE",
+      "Modifier": "VoidT6"
+    },
+    {
+      "_id": {
+        "$oid": "68b2e3c65c4cc08e2589b040"
+      },
+      "Region": 17,
+      "Seed": 86127,
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756554182771"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756561112816"
+        }
+      },
+      "Node": "SolNode718",
+      "MissionType": "MT_ALCHEMY",
+      "Modifier": "VoidT6"
+    },
+    {
+      "_id": {
+        "$oid": "68b2e4f2e46c96d2b689b03e"
+      },
+      "Region": 11,
+      "Seed": 15583,
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756554482788"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756558642185"
+        }
+      },
+      "Node": "SolNode173",
+      "MissionType": "MT_MOBILE_DEFENSE",
+      "Modifier": "VoidT4"
+    },
+    {
+      "_id": {
+        "$oid": "68b2e56a0d336e6a7f89b03e"
+      },
+      "Region": 19,
+      "Seed": 11738,
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756554602267"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756561013827"
+        }
+      },
+      "Node": "SolNode744",
+      "MissionType": "MT_SURVIVAL",
+      "Modifier": "VoidT5",
+      "Hard": true
+    },
+    {
+      "_id": {
+        "$oid": "68b2e5a62f5578d28d89b03e"
+      },
+      "Region": 22,
+      "Seed": 65357,
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756554662722"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756560247431"
+        }
+      },
+      "Node": "SolNode230",
+      "MissionType": "MT_CORRUPTION",
+      "Modifier": "VoidT6",
+      "Hard": true
+    },
+    {
+      "_id": {
+        "$oid": "68b2e7869a6587b3a389b03e"
+      },
+      "Region": 5,
+      "Seed": 30178,
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756555142570"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756560860115"
+        }
+      },
+      "Node": "SolNode10",
+      "MissionType": "MT_SABOTAGE",
+      "Modifier": "VoidT2"
+    },
+    {
+      "_id": {
+        "$oid": "68b2e7869a6587b3a389b03f"
+      },
+      "Region": 16,
+      "Seed": 27412,
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756555142570"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756558829156"
+        }
+      },
+      "Node": "SettlementNode15",
+      "MissionType": "MT_MOBILE_DEFENSE",
+      "Modifier": "VoidT2"
+    },
+    {
+      "_id": {
+        "$oid": "68b2e7869a6587b3a389b040"
+      },
+      "Region": 10,
+      "Seed": 93370,
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756555142570"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756561890304"
+        }
+      },
+      "Node": "SolNode146",
+      "MissionType": "MT_SURVIVAL",
+      "Modifier": "VoidT2",
+      "Hard": true
+    },
+    {
+      "_id": {
+        "$oid": "68b2e7869a6587b3a389b041"
+      },
+      "Region": 16,
+      "Seed": 7648,
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756555142570"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756559912667"
+        }
+      },
+      "Node": "SettlementNode11",
+      "MissionType": "MT_DEFENSE",
+      "Modifier": "VoidT2",
+      "Hard": true
+    }
+  ],
+  "GlobalUpgrades": [
+    {
+      "_id": {
+        "$oid": "688b89f361a9548394089954"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756393200000"
+        }
+      },
+      "ExpiryDate": {
+        "$date": {
+          "$numberLong": "1756738800000"
+        }
+      },
+      "UpgradeType": "GAMEPLAY_KILL_XP_AMOUNT",
+      "OperationType": "MULTIPLY",
+      "Value": 2,
+      "LocalizeTag": "",
+      "LocalizeDescTag": ""
+    }
+  ],
+  "FlashSales": [
+    {
+      "TypeName": "/Lotus/Types/StoreItems/Packages/VeilbreakerSupporterPack",
+      "ShowInMarket": true,
+      "HideFromMarket": true,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 1,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1672591560000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1895849220000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/Packages/HODMarketBundle",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 465,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1709308800000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1893510000000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/Packages/TNWMarketBundle",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 145,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1709308800000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1893510000000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/Packages/AOTZMarketBundle",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 35,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1709308800000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1893510000000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/Packages/2024Bundles/EmberHeirloomPack",
+      "ShowInMarket": true,
+      "HideFromMarket": true,
+      "SupporterPack": true,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 1,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1721487600000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1766156400000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/Packages/2024Bundles/JadeShadowsSupporterPack",
+      "ShowInMarket": true,
+      "HideFromMarket": true,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 1,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1740585600000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1895961600000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/Packages/2024Bundles/ShrineMaidenSupporterPack",
+      "ShowInMarket": true,
+      "HideFromMarket": true,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 1,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1747897200000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1894358760000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/Packages/InitiateIIIConsolePack",
+      "ShowInMarket": true,
+      "HideFromMarket": true,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 150,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1727691900000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1893456000000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/Packages/2024Bundles/VoltNovaSumoDeluxePack",
+      "ShowInMarket": true,
+      "HideFromMarket": true,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 1,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1747897200000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1894358760000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/Packages/TnDeimosSupporterArmourBundle",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 110,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1709308800000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1893510000000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/Packages/WinterSolsticeArcaArmourBundle",
+      "ShowInMarket": true,
+      "HideFromMarket": true,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 100,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1735827540000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1767363540000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/Packages/2024Bundles/DanteChroniclesPack",
+      "ShowInMarket": true,
+      "HideFromMarket": true,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 1,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1733335200000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1767290400000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/Items/ShipDecos/TarotCardValkyrHeirloom",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 35,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1753110000000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1893489540000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Upgrades/Skins/Crowns/HeirloomValkyrCrown",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 85,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1753110000000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1893489480000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/SuitCustomizations/ColourPickerValkyrHeirloom",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 80,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1753110000000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1893489480000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/Items/ShipDecos/Events/WFBeastMasterBobbleHead",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 35,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1754492400000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1756911600000"
+        }
+      },
+      "ProductExpiryOverride": {
+        "$date": {
+          "$numberLong": "1756911600000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/Packages/2025Bundles/RhinoHeirloomPack",
+      "ShowInMarket": true,
+      "HideFromMarket": true,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 1,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1753110000000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1893492420000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Upgrades/Skins/Berserker/ValkyrHeirloomSkin",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 225,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1753110000000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1893489420000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/Packages/2025Bundles/TC2025DigitalPack",
+      "ShowInMarket": true,
+      "HideFromMarket": true,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 1,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1753441200000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1895570760000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/Packages/HeirloomPackValkyr",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 400,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1753110000000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1893489300000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Upgrades/Skins/Sigils/HeirloomValkyrSigil",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 25,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1753110000000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1893489660000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/Items/ShipDecos/Events/WFChargerBobbleHead",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 35,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1754492400000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1756911600000"
+        }
+      },
+      "ProductExpiryOverride": {
+        "$date": {
+          "$numberLong": "1756911600000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/Packages/WaterFightNoggleBundle",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 240,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1754492400000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1756911600000"
+        }
+      },
+      "ProductExpiryOverride": {
+        "$date": {
+          "$numberLong": "1756911600000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/AvatarImages/HeirloomValkyrGlyph",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 25,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1753110000000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1893489540000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/Items/ShipDecos/Events/WFGruntBobbleHead",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 35,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1754492400000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1756911600000"
+        }
+      },
+      "ProductExpiryOverride": {
+        "$date": {
+          "$numberLong": "1756911600000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/Items/ShipDecos/Events/WFHealerBobbleHead",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 35,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1754492400000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1756911600000"
+        }
+      },
+      "ProductExpiryOverride": {
+        "$date": {
+          "$numberLong": "1756911600000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/AvatarImages/ImagePopsicleGrineerPurple",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 0,
+      "RegularOverride": 1,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1754492400000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1756911600000"
+        }
+      },
+      "ProductExpiryOverride": {
+        "$date": {
+          "$numberLong": "1756911600000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/Items/ShipDecos/Events/WFEngineerBobbleHead",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 35,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1754492400000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1756911600000"
+        }
+      },
+      "ProductExpiryOverride": {
+        "$date": {
+          "$numberLong": "1756911600000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/Items/ShipDecos/Events/WFHeavyBobbleHead",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 35,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1754492400000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1756911600000"
+        }
+      },
+      "ProductExpiryOverride": {
+        "$date": {
+          "$numberLong": "1756911600000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/Items/ShipDecos/Events/WFSniperBobbleHead",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 35,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1754492400000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1756911600000"
+        }
+      },
+      "ProductExpiryOverride": {
+        "$date": {
+          "$numberLong": "1756911600000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/Items/ShipDecos/Events/WFHellionBobbleHead",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 35,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1754492400000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1756911600000"
+        }
+      },
+      "ProductExpiryOverride": {
+        "$date": {
+          "$numberLong": "1756911600000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/Items/ShipDecos/Events/WFTankBobbleHead",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 35,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1754492400000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1756911600000"
+        }
+      },
+      "ProductExpiryOverride": {
+        "$date": {
+          "$numberLong": "1756911600000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/SuitCustomizations/ColourPickerRollers",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 75,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1754492400000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1756911600000"
+        }
+      },
+      "ProductExpiryOverride": {
+        "$date": {
+          "$numberLong": "1756911600000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/Packages/1999FloofBundle",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 18,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 140,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1756166400000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1756598400000"
+        }
+      },
+      "DailySaleGenerated": true
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/Packages/InitiateIIIPCPack",
+      "ShowInMarket": true,
+      "HideFromMarket": true,
+      "SupporterPack": false,
+      "Discount": 0,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 1,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1755517920000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1893498780000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/Packages/HarkonarSkinBundle",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 17,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 50,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1756252800000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1756684800000"
+        }
+      },
+      "DailySaleGenerated": true
+    },
+    {
+      "TypeName": "/Lotus/Upgrades/Skins/AntiMatter/UnlockAntiMatterAgile",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 20,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 40,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1756339200000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1756771200000"
+        }
+      },
+      "DailySaleGenerated": true
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/Packages/2024Bundles/WeaponStarterPack",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 50,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 0,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1756141200000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1756746000000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/Packages/2024Bundles/Cyte09SupporterPack",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 40,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 0,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1756141200000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1756746000000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/Packages/2024Bundles/GeminiHexCompleteSupporterPack",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 40,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 0,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1756141200000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1756746000000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/Packages/2024Bundles/GeminiSkinsSupporterPack",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 40,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 0,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1756141200000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1756746000000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/Packages/2025Bundles/GlamrockSupporterPack",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 30,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 0,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1756141200000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1756746000000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/Packages/2025Bundles/EncoreGeminiSupPack",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 30,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 0,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1756141200000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1756746000000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/Packages/2025Bundles/EncoreCompSupPack",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 30,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 0,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1756141200000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1756746000000"
+        }
+      }
+    },
+    {
+      "TypeName": "/Lotus/Types/StoreItems/Packages/CrpCubinatorArmorBundle",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 20,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 80,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1756425600000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1756857600000"
+        }
+      },
+      "DailySaleGenerated": true
+    },
+    {
+      "TypeName": "/Lotus/Upgrades/Skins/Anima/AnimaAltHelmetTwo",
+      "ShowInMarket": true,
+      "HideFromMarket": false,
+      "SupporterPack": false,
+      "Discount": 20,
+      "BogoBuy": 0,
+      "BogoGet": 0,
+      "PremiumOverride": 60,
+      "RegularOverride": 0,
+      "StartDate": {
+        "$date": {
+          "$numberLong": "1756512000000"
+        }
+      },
+      "EndDate": {
+        "$date": {
+          "$numberLong": "1756944000000"
+        }
+      },
+      "DailySaleGenerated": true
+    }
+  ],
+  "InGameMarket": {
+    "LandingPage": {
+      "Categories": [
+        {
+          "CategoryName": "NEW_PLAYER",
+          "Name": "/Lotus/Language/Store/NewPlayerCategoryTitle",
+          "Icon": "newplayer",
+          "AddToMenu": true,
+          "Items": [
+            "/Lotus/Types/StoreItems/Packages/2025Bundles/2025SupporterPack",
+            "/Lotus/StoreItems/Powersuits/Rhino/Rhino",
+            "/Lotus/StoreItems/Weapons/Tenno/Melee/SwordsAndBoards/MeleeContestWinnerOne/TennoSwordShield",
+            "/Lotus/StoreItems/Upgrades/Skins/Effects/WerewolfEphemera",
+            "/Lotus/StoreItems/Types/StoreItems/SlotItems/TwoWeaponSlotItem",
+            "/Lotus/StoreItems/Powersuits/Wisp/Wisp",
+            "/Lotus/StoreItems/Weapons/Tenno/Shotgun/Shotgun",
+            "/Lotus/StoreItems/Powersuits/MonkeyKing/MonkeyKing",
+            "/Lotus/StoreItems/Weapons/Corpus/Pistols/CrpAirPistol/CrpAirPistolArray",
+            "/Lotus/Types/StoreItems/Boosters/AffinityBooster3DayStoreItem"
+          ]
+        },
+        {
+          "CategoryName": "POPULAR",
+          "Name": "/Lotus/Language/Menu/StorePopular",
+          "Icon": "popular",
+          "AddToMenu": true,
+          "Items": [
+            "/Lotus/Types/StoreItems/Packages/2025Bundles/ValkyrHeirloomPack",
+            "/Lotus/Types/StoreItems/Packages/PrimeAccess2Tier3StoreItem",
+            "/Lotus/Types/StoreItems/Packages/PrimeAccess2CompleteStoreItem",
+            "/Lotus/Types/StoreItems/Packages/2025Bundles/OraxiaSupporterPack",
+            "/Lotus/StoreItems/Types/StoreItems/SuitCustomizations/ColourPickerRollers",
+            "/Lotus/Types/StoreItems/Packages/FormaPack",
+            "/Lotus/StoreItems/Upgrades/Skins/Berserker/ValkyrHeirloomSkin",
+            "/Lotus/Types/StoreItems/Boosters/ResourceAmount30DayStoreItem",
+            "/Lotus/StoreItems/Types/StoreItems/SuitCustomizations/ColourPickerDefaultsItemA",
+            "/Lotus/StoreItems/Upgrades/Skins/Jade/WF1999NyxSkin",
+            "/Lotus/StoreItems/Upgrades/Skins/AntiMatter/WF1999NovaSkin",
+            "/Lotus/StoreItems/Upgrades/Skins/Saryn/WF1999SarynSkin",
+            "/Lotus/Types/StoreItems/Packages/DeluxeBundles/CitrineDeluxeSkinBundle",
+            "/Lotus/StoreItems/Powersuits/Oraxia/Oraxia",
+            "/Lotus/StoreItems/Upgrades/Skins/PaxDuviricus/KulervoDeluxeSkin"
+          ]
+        },
+        {
+          "CategoryName": "TENNOGEN",
+          "Name": "/Lotus/Language/Menu/Store_Tennogen",
+          "Icon": "tennogen",
+          "AddToMenu": true,
+          "Items": [
+            "/Lotus/StoreItems/Upgrades/Skins/Runner/SWProfitasSkin",
+            "/Lotus/StoreItems/Upgrades/Skins/SteamWorkshop/Melee/Whip/SWJotunheimWhipSkin",
+            "/Lotus/StoreItems/Upgrades/Skins/Armor/SWXairaksArmor/SWXairaksArmorC",
+            "/Lotus/StoreItems/Upgrades/Skins/Armor/SWXairaksArmor/SWXairaksArmorL",
+            "/Lotus/StoreItems/Upgrades/Skins/Scarves/SWXikonosSyandana",
+            "/Lotus/Types/StoreItems/Packages/TennoGenBundleIsleweaverA",
+            "/Lotus/Types/StoreItems/Packages/TennoGenBundleIsleweaverB",
+            "/Lotus/StoreItems/Upgrades/Skins/Bard/SWNetrahymnSkin",
+            "/Lotus/StoreItems/Upgrades/Skins/IronFrame/SWHildrynSarcostemaSkin",
+            "/Lotus/StoreItems/Upgrades/Skins/Operator/Accessories/SWEternaliaEyeAcc",
+            "/Lotus/StoreItems/Upgrades/Skins/SteamWorkshop/Primary/ArcaPlasmor/SWArcosoliumSkin",
+            "/Lotus/StoreItems/Upgrades/Skins/Operator/Accessories/SWStygeanEyeAcc"
+          ]
+        },
+        {
+          "CategoryName": "HEIRLOOM",
+          "Name": "/Lotus/Language/Store/HeirloomCategoryTitle",
+          "Icon": "heirloom",
+          "AddToMenu": true,
+          "Items": [
+            "/Lotus/Types/StoreItems/Packages/2025Bundles/ValkyrHeirloomPack",
+            "/Lotus/StoreItems/Upgrades/Skins/Berserker/ValkyrHeirloomSkin",
+            "/Lotus/StoreItems/Upgrades/Skins/Crowns/HeirloomValkyrCrown",
+            "/Lotus/StoreItems/Types/StoreItems/SuitCustomizations/ColourPickerValkyrHeirloom",
+            "/Lotus/StoreItems/Types/Items/ShipDecos/TarotCardValkyrHeirloom",
+            "/Lotus/StoreItems/Types/StoreItems/AvatarImages/HeirloomValkyrGlyph",
+            "/Lotus/StoreItems/Upgrades/Skins/Sigils/HeirloomValkyrSigil",
+            "/Lotus/Types/StoreItems/Packages/HeirloomPackRhino",
+            "/Lotus/StoreItems/Upgrades/Skins/Rhino/RhinoHeirloomSkin",
+            "/Lotus/StoreItems/Upgrades/Skins/Crowns/HeirloomRhinoCrown",
+            "/Lotus/StoreItems/Types/StoreItems/SuitCustomizations/ColourPickerRhinoHeirloom",
+            "/Lotus/StoreItems/Types/Items/ShipDecos/TarotCardRhinoHeirloom",
+            "/Lotus/StoreItems/Types/StoreItems/AvatarImages/HeirloomRhinoGlyph",
+            "/Lotus/StoreItems/Upgrades/Skins/Sigils/HeirloomRhinoSigil",
+            "/Lotus/Types/StoreItems/Packages/HeirloomPackEmber",
+            "/Lotus/StoreItems/Upgrades/Skins/Ember/EmberHeirloomSkin",
+            "/Lotus/StoreItems/Upgrades/Skins/Crowns/HeirloomEmberCrown",
+            "/Lotus/StoreItems/Types/StoreItems/SuitCustomizations/ColourPickerEmberHeirloom",
+            "/Lotus/StoreItems/Types/Items/ShipDecos/TarotCardEmberHeirloom",
+            "/Lotus/StoreItems/Types/StoreItems/AvatarImages/HeirloomEmberGlyph",
+            "/Lotus/StoreItems/Upgrades/Skins/Sigils/HeirloomEmberSigil"
+          ]
+        },
+        {
+          "CategoryName": "SEASONAL",
+          "Name": "/Lotus/Language/Store/SeasonalCategoryTitle",
+          "Icon": "seasonal",
+          "AddToMenu": true,
+          "Items": [
+            "/Lotus/Types/StoreItems/Packages/WaterFightNoggleBundle",
+            "/Lotus/StoreItems/Types/Items/ShipDecos/Events/WFBeastMasterBobbleHead",
+            "/Lotus/StoreItems/Types/Items/ShipDecos/Events/WFChargerBobbleHead",
+            "/Lotus/StoreItems/Types/Items/ShipDecos/Events/WFEngineerBobbleHead",
+            "/Lotus/StoreItems/Types/Items/ShipDecos/Events/WFGruntBobbleHead",
+            "/Lotus/StoreItems/Types/Items/ShipDecos/Events/WFHealerBobbleHead",
+            "/Lotus/StoreItems/Types/Items/ShipDecos/Events/WFHeavyBobbleHead",
+            "/Lotus/StoreItems/Types/Items/ShipDecos/Events/WFHellionBobbleHead",
+            "/Lotus/StoreItems/Types/Items/ShipDecos/Events/WFSniperBobbleHead",
+            "/Lotus/StoreItems/Types/Items/ShipDecos/Events/WFTankBobbleHead",
+            "/Lotus/StoreItems/Types/StoreItems/SuitCustomizations/ColourPickerRollers",
+            "/Lotus/StoreItems/Types/StoreItems/AvatarImages/ImagePopsicleGrineerPurple"
+          ]
+        },
+        {
+          "CategoryName": "SALE",
+          "Name": "/Lotus/Language/Menu/Store_Sale",
+          "Icon": "sale",
+          "AddToMenu": true,
+          "Items": []
+        },
+        {
+          "CategoryName": "WISH_LIST",
+          "Name": "/Lotus/Language/Menu/Store_Wishlist",
+          "Icon": "wishlist",
+          "Items": []
+        },
+        {
+          "CategoryName": "PREMIUM_BUNDLES",
+          "Name": "/Lotus/Language/Store/Store_PremiumBundles",
+          "Icon": "premiumbundles",
+          "Items": [
+            "/Lotus/Types/StoreItems/Packages/2025Bundles/ValkyrHeirloomPack",
+            "/Lotus/Types/StoreItems/Packages/2025Bundles/OraxiaSupporterPack",
+            "/Lotus/Types/StoreItems/Packages/2025Bundles/2025SupporterPack",
+            "/Lotus/Types/StoreItems/Packages/PrimeAccess2Tier3StoreItem",
+            "/Lotus/Types/StoreItems/Packages/PrimeAccess2CompleteStoreItem",
+            "/Lotus/Types/StoreItems/Packages/2025Bundles/EncoreCompSupPack",
+            "/Lotus/Types/StoreItems/Packages/2025Bundles/EncoreGeminiSupPack",
+            "/Lotus/Types/StoreItems/Packages/2025Bundles/GlamrockSupporterPack",
+            "/Lotus/Types/StoreItems/Packages/2024Bundles/GeminiHexCompleteSupporterPack",
+            "/Lotus/Types/StoreItems/Packages/2024Bundles/GeminiSkinsSupporterPack",
+            "/Lotus/Types/StoreItems/Packages/2024Bundles/Cyte09SupporterPack",
+            "/Lotus/Types/StoreItems/Packages/PrimeAccess2Tier2StoreItem",
+            "/Lotus/Types/StoreItems/Packages/PrimeAccess2Tier1StoreItem",
+            "/Lotus/Types/StoreItems/Packages/PrimeAccess2AccessoryStoreItem",
+            "/Lotus/Types/StoreItems/Packages/PrimeAccessory2StoreItem",
+            "/Lotus/Types/StoreItems/Packages/PrimeAccess2StoreItem",
+            "/Lotus/Types/StoreItems/Packages/2024Bundles/WeaponStarterPack"
+          ]
+        }
+      ]
+    }
+  },
+  "Invasions": [
+    {
+      "_id": {
+        "$oid": "68af3f6e178330a69e89b03f"
+      },
+      "Faction": "FC_GRINEER",
+      "DefenderFaction": "FC_CORPUS",
+      "Node": "SolNode102",
+      "Count": -44023,
+      "Goal": 44000,
+      "LocTag": "/Lotus/Language/Menu/GrineerInvasionGeneric",
+      "Completed": true,
+      "ChainID": {
+        "$oid": "68a6c64adb0216c68289b040"
+      },
+      "AttackerReward": {
+        "countedItems": [
+          {
+            "ItemType": "/Lotus/Types/Items/Research/ChemComponent",
+            "ItemCount": 3
+          }
+        ]
+      },
+      "AttackerMissionInfo": {
+        "seed": 685592,
+        "faction": "FC_CORPUS"
+      },
+      "DefenderReward": {
+        "countedItems": [
+          {
+            "ItemType": "/Lotus/Types/Items/Research/EnergyComponent",
+            "ItemCount": 3
+          }
+        ]
+      },
+      "DefenderMissionInfo": {
+        "seed": 906430,
+        "faction": "FC_GRINEER"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756316552702"
+        }
+      }
+    },
+    {
+      "_id": {
+        "$oid": "68b1b713621455401389b03f"
+      },
+      "Faction": "FC_CORPUS",
+      "DefenderFaction": "FC_GRINEER",
+      "Node": "SolNode31",
+      "Count": -59058,
+      "Goal": 76000,
+      "LocTag": "/Lotus/Language/Menu/CorpusInvasionGeneric",
+      "Completed": false,
+      "ChainID": {
+        "$oid": "68a9f717f9dde1c7f089b040"
+      },
+      "AttackerReward": {
+        "countedItems": [
+          {
+            "ItemType": "/Lotus/Types/Recipes/Components/OrokinReactorBlueprint",
+            "ItemCount": 1
+          }
+        ]
+      },
+      "AttackerMissionInfo": {
+        "seed": 690239,
+        "faction": "FC_GRINEER"
+      },
+      "DefenderReward": {
+        "countedItems": [
+          {
+            "ItemType": "/Lotus/Types/Recipes/Components/OrokinCatalystBlueprint",
+            "ItemCount": 1
+          }
+        ]
+      },
+      "DefenderMissionInfo": {
+        "seed": 126097,
+        "faction": "FC_CORPUS"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756478186889"
+        }
+      }
+    },
+    {
+      "_id": {
+        "$oid": "68b1a6aa92d7bfbf6889b03f"
+      },
+      "Faction": "FC_INFESTATION",
+      "DefenderFaction": "FC_CORPUS",
+      "Node": "SolNode210",
+      "Count": -21269,
+      "Goal": 30000,
+      "LocTag": "/Lotus/Language/Menu/InfestedInvasionBoss",
+      "Completed": false,
+      "ChainID": {
+        "$oid": "68b16d3e0b1d40b0a789b03e"
+      },
+      "AttackerReward": [],
+      "AttackerMissionInfo": {
+        "seed": 363725,
+        "faction": "FC_CORPUS"
+      },
+      "DefenderReward": {
+        "countedItems": [
+          {
+            "ItemType": "/Lotus/Types/Items/MiscItems/InfestedAladCoordinate",
+            "ItemCount": 1
+          }
+        ]
+      },
+      "DefenderMissionInfo": {
+        "seed": 226796,
+        "faction": "FC_INFESTATION",
+        "missionReward": []
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756473001735"
+        }
+      }
+    },
+    {
+      "_id": {
+        "$oid": "68b1b713621455401389b040"
+      },
+      "Faction": "FC_CORPUS",
+      "DefenderFaction": "FC_GRINEER",
+      "Node": "SolNode20",
+      "Count": 1047,
+      "Goal": 44000,
+      "LocTag": "/Lotus/Language/Menu/CorpusInvasionGeneric",
+      "Completed": false,
+      "ChainID": {
+        "$oid": "68b1b713621455401389b040"
+      },
+      "AttackerReward": {
+        "countedItems": [
+          {
+            "ItemType": "/Lotus/Types/Recipes/Weapons/SnipetronVandalBlueprint",
+            "ItemCount": 1
+          }
+        ]
+      },
+      "AttackerMissionInfo": {
+        "seed": 222432,
+        "faction": "FC_GRINEER"
+      },
+      "DefenderReward": {
+        "countedItems": [
+          {
+            "ItemType": "/Lotus/Types/Recipes/Weapons/WeaponParts/GrineerCombatKnifeBlade",
+            "ItemCount": 1
+          }
+        ]
+      },
+      "DefenderMissionInfo": {
+        "seed": 53866,
+        "faction": "FC_CORPUS"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756539475701"
+        }
+      }
+    },
+    {
+      "_id": {
+        "$oid": "68b1f7863fd296209e89b03e"
+      },
+      "Faction": "FC_INFESTATION",
+      "DefenderFaction": "FC_GRINEER",
+      "Node": "SolNode138",
+      "Count": -37640,
+      "Goal": 37000,
+      "LocTag": "/Lotus/Language/Menu/InfestedInvasionGeneric",
+      "Completed": true,
+      "ChainID": {
+        "$oid": "68b1f7863fd296209e89b03e"
+      },
+      "AttackerReward": [],
+      "AttackerMissionInfo": {
+        "seed": 632870,
+        "faction": "FC_GRINEER"
+      },
+      "DefenderReward": {
+        "countedItems": [
+          {
+            "ItemType": "/Lotus/Types/Items/Research/BioComponent",
+            "ItemCount": 1
+          }
+        ]
+      },
+      "DefenderMissionInfo": {
+        "seed": 538635,
+        "faction": "FC_INFESTATION"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756499300452"
+        }
+      }
+    },
+    {
+      "_id": {
+        "$oid": "68b2208afde886dd4589b03e"
+      },
+      "Faction": "FC_INFESTATION",
+      "DefenderFaction": "FC_GRINEER",
+      "Node": "SolNode144",
+      "Count": -18921,
+      "Goal": 30000,
+      "LocTag": "/Lotus/Language/Menu/InfestedInvasionBoss",
+      "Completed": false,
+      "ChainID": {
+        "$oid": "68b1f7863fd296209e89b03e"
+      },
+      "AttackerReward": [],
+      "AttackerMissionInfo": {
+        "seed": 959940,
+        "faction": "FC_GRINEER"
+      },
+      "DefenderReward": {
+        "countedItems": [
+          {
+            "ItemType": "/Lotus/Types/Items/Research/BioComponent",
+            "ItemCount": 1
+          }
+        ]
+      },
+      "DefenderMissionInfo": {
+        "seed": 621107,
+        "faction": "FC_INFESTATION",
+        "missionReward": []
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756504202545"
+        }
+      }
+    },
+    {
+      "_id": {
+        "$oid": "68b2208afde886dd4589b03f"
+      },
+      "Faction": "FC_INFESTATION",
+      "DefenderFaction": "FC_GRINEER",
+      "Node": "SolNode139",
+      "Count": -37054,
+      "Goal": 37000,
+      "LocTag": "/Lotus/Language/Menu/InfestedInvasionGeneric",
+      "Completed": true,
+      "ChainID": {
+        "$oid": "68b1f7863fd296209e89b03e"
+      },
+      "AttackerReward": [],
+      "AttackerMissionInfo": {
+        "seed": 121227,
+        "faction": "FC_GRINEER"
+      },
+      "DefenderReward": {
+        "countedItems": [
+          {
+            "ItemType": "/Lotus/Types/Items/Research/BioComponent",
+            "ItemCount": 1
+          }
+        ]
+      },
+      "DefenderMissionInfo": {
+        "seed": 750244,
+        "faction": "FC_INFESTATION"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756504202545"
+        }
+      }
+    },
+    {
+      "_id": {
+        "$oid": "68b2208afde886dd4589b040"
+      },
+      "Faction": "FC_INFESTATION",
+      "DefenderFaction": "FC_GRINEER",
+      "Node": "SolNode141",
+      "Count": -45095,
+      "Goal": 45000,
+      "LocTag": "/Lotus/Language/Menu/InfestedInvasionGeneric",
+      "Completed": true,
+      "ChainID": {
+        "$oid": "68b1f7863fd296209e89b03e"
+      },
+      "AttackerReward": [],
+      "AttackerMissionInfo": {
+        "seed": 505667,
+        "faction": "FC_GRINEER"
+      },
+      "DefenderReward": {
+        "countedItems": [
+          {
+            "ItemType": "/Lotus/Types/Items/Research/BioComponent",
+            "ItemCount": 1
+          }
+        ]
+      },
+      "DefenderMissionInfo": {
+        "seed": 420177,
+        "faction": "FC_INFESTATION"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756504202545"
+        }
+      }
+    },
+    {
+      "_id": {
+        "$oid": "68b23dd6daabfae23789b03e"
+      },
+      "Faction": "FC_INFESTATION",
+      "DefenderFaction": "FC_GRINEER",
+      "Node": "SolNode146",
+      "Count": -38676,
+      "Goal": 38000,
+      "LocTag": "/Lotus/Language/Menu/InfestedInvasionGeneric",
+      "Completed": true,
+      "ChainID": {
+        "$oid": "68b1f7863fd296209e89b03e"
+      },
+      "AttackerReward": [],
+      "AttackerMissionInfo": {
+        "seed": 459829,
+        "faction": "FC_GRINEER"
+      },
+      "DefenderReward": {
+        "countedItems": [
+          {
+            "ItemType": "/Lotus/Types/Items/Research/ChemComponent",
+            "ItemCount": 3
+          }
+        ]
+      },
+      "DefenderMissionInfo": {
+        "seed": 84473,
+        "faction": "FC_INFESTATION"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756511702435"
+        }
+      }
+    },
+    {
+      "_id": {
+        "$oid": "68b2415ad5d56a426689b041"
+      },
+      "Faction": "FC_INFESTATION",
+      "DefenderFaction": "FC_GRINEER",
+      "Node": "SolNode149",
+      "Count": -50158,
+      "Goal": 50000,
+      "LocTag": "/Lotus/Language/Menu/InfestedInvasionGeneric",
+      "Completed": true,
+      "ChainID": {
+        "$oid": "68b1f7863fd296209e89b03e"
+      },
+      "AttackerReward": [],
+      "AttackerMissionInfo": {
+        "seed": 906884,
+        "faction": "FC_GRINEER"
+      },
+      "DefenderReward": {
+        "countedItems": [
+          {
+            "ItemType": "/Lotus/Types/Items/Research/BioComponent",
+            "ItemCount": 1
+          }
+        ]
+      },
+      "DefenderMissionInfo": {
+        "seed": 143411,
+        "faction": "FC_INFESTATION"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756512602283"
+        }
+      }
+    },
+    {
+      "_id": {
+        "$oid": "68b26b8a77d2162e2e89b03e"
+      },
+      "Faction": "FC_INFESTATION",
+      "DefenderFaction": "FC_GRINEER",
+      "Node": "SolNode132",
+      "Count": -44671,
+      "Goal": 44000,
+      "LocTag": "/Lotus/Language/Menu/InfestedInvasionGeneric",
+      "Completed": true,
+      "ChainID": {
+        "$oid": "68b1f7863fd296209e89b03e"
+      },
+      "AttackerReward": [],
+      "AttackerMissionInfo": {
+        "seed": 651024,
+        "faction": "FC_GRINEER"
+      },
+      "DefenderReward": {
+        "countedItems": [
+          {
+            "ItemType": "/Lotus/Types/Items/Research/BioComponent",
+            "ItemCount": 1
+          }
+        ]
+      },
+      "DefenderMissionInfo": {
+        "seed": 390380,
+        "faction": "FC_INFESTATION"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756523402418"
+        }
+      }
+    },
+    {
+      "_id": {
+        "$oid": "68b28fdea5e3b64e1089b03e"
+      },
+      "Faction": "FC_INFESTATION",
+      "DefenderFaction": "FC_GRINEER",
+      "Node": "SolNode131",
+      "Count": -30592,
+      "Goal": 30000,
+      "LocTag": "/Lotus/Language/Menu/InfestedInvasionGeneric",
+      "Completed": true,
+      "ChainID": {
+        "$oid": "68b1f7863fd296209e89b03e"
+      },
+      "AttackerReward": [],
+      "AttackerMissionInfo": {
+        "seed": 119667,
+        "faction": "FC_GRINEER"
+      },
+      "DefenderReward": {
+        "countedItems": [
+          {
+            "ItemType": "/Lotus/Types/Items/Research/ChemComponent",
+            "ItemCount": 3
+          }
+        ]
+      },
+      "DefenderMissionInfo": {
+        "seed": 237367,
+        "faction": "FC_INFESTATION"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756532702236"
+        }
+      }
+    },
+    {
+      "_id": {
+        "$oid": "68b2a87bb58256ca4e89b03e"
+      },
+      "Faction": "FC_INFESTATION",
+      "DefenderFaction": "FC_GRINEER",
+      "Node": "SolNode147",
+      "Count": -22644,
+      "Goal": 34000,
+      "LocTag": "/Lotus/Language/Menu/InfestedInvasionGeneric",
+      "Completed": false,
+      "ChainID": {
+        "$oid": "68b1f7863fd296209e89b03e"
+      },
+      "AttackerReward": [],
+      "AttackerMissionInfo": {
+        "seed": 909186,
+        "faction": "FC_GRINEER"
+      },
+      "DefenderReward": {
+        "countedItems": [
+          {
+            "ItemType": "/Lotus/Types/Items/Research/ChemComponent",
+            "ItemCount": 3
+          }
+        ]
+      },
+      "DefenderMissionInfo": {
+        "seed": 553892,
+        "faction": "FC_INFESTATION"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756539002711"
+        }
+      }
+    }
+  ],
+  "HubEvents": [],
+  "NodeOverrides": [
+    {
+      "_id": {
+        "$oid": "549b18e9b029cef5991d6aec"
+      },
+      "Node": "EuropaHUB",
+      "Hide": true
+    },
+    {
+      "_id": {
+        "$oid": "54a1737aeb658f6cbccf70ff"
+      },
+      "Node": "ErisHUB",
+      "Hide": true
+    },
+    {
+      "_id": {
+        "$oid": "54a736ddec12f80bd6e9e326"
+      },
+      "Node": "VenusHUB",
+      "Hide": true
+    },
+    {
+      "_id": {
+        "$oid": "5ad9f9bb6df82a56eabf3d44"
+      },
+      "Node": "SolNode802",
+      "Seed": 10610675
+    },
+    {
+      "_id": {
+        "$oid": "5b8817c2bd4f253264d6aa91"
+      },
+      "Node": "EarthHUB",
+      "Hide": false,
+      "LevelOverride": "/Lotus/Levels/Proc/Hub/RelayStationHubTwoB",
+      "Activation": {
+        "$date": {
+          "$numberLong": "1535646600000"
+        }
+      }
+    },
+    {
+      "_id": {
+        "$oid": "5d24d1f674491d51f8d44473"
+      },
+      "Node": "MercuryHUB",
+      "Hide": true,
+      "LevelOverride": "/Lotus/Levels/Proc/Hub/RelayStationHubHydroid",
+      "Activation": {
+        "$date": {
+          "$numberLong": "1563030000000"
+        }
+      }
+    },
+    {
+      "_id": {
+        "$oid": "5c7cb0d00000000000000000"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1755532800000"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756742400000"
+        }
+      },
+      "Node": "SolNode129",
+      "Faction": "FC_CORPUS",
+      "CustomNpcEncounters": [
+        "/Lotus/Types/Gameplay/Venus/Encounters/Heists/ExploiterHeistFissure"
+      ]
+    }
+  ],
+  "VoidTraders": [
+    {
+      "_id": {
+        "$oid": "5d1e07a0a38e4a4fdd7cefca"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1757077200000"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1757250000000"
+        }
+      },
+      "Character": "Baro'Ki Teel",
+      "Node": "PlutoHUB"
+    }
+  ],
+  "PrimeVaultTraders": [
+    {
+      "_id": {
+        "$oid": "631f8c4ac36af423770eaa97"
+      },
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756404000000"
+        }
+      },
+      "InitialStartDate": {
+        "$date": {
+          "$numberLong": "1662738144266"
+        }
+      },
+      "Node": "TradeHUB1",
+      "Manifest": [
+        {
+          "ItemType": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVZephyrPrimeSinglePack",
+          "PrimePrice": 6
+        },
+        {
+          "ItemType": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVZephyrChromaPrimeDualPack",
+          "PrimePrice": 10
+        },
+        {
+          "ItemType": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVChromaPrimeSinglePack",
+          "PrimePrice": 6
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Powersuits/Tengu/ZephyrPrime",
+          "PrimePrice": 3
+        },
+        {
+          "ItemType": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVCommodorePrimeSuit",
+          "PrimePrice": 2
+        },
+        {
+          "ItemType": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVTiborPrimeKavatArmor",
+          "PrimePrice": 2
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Weapons/Tenno/Melee/Tonfa/TonfaContestWinnerPrime/TonfaContestWinnerPrimeWeapon",
+          "PrimePrice": 2
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Weapons/Tenno/LongGuns/PrimeTiberon/PrimeTiberonRifle",
+          "PrimePrice": 2
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Powersuits/Dragon/ChromaPrime",
+          "PrimePrice": 3
+        },
+        {
+          "ItemType": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVImugiPrimeArmorSet",
+          "PrimePrice": 2
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Scarves/PrimeChromaCape",
+          "PrimePrice": 2
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Weapons/Tenno/LongGuns/RubicoPrime/RubicoPrimeWeapon",
+          "PrimePrice": 2
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Weapons/Tenno/Melee/Swords/PrimeGram/PrimeGram",
+          "PrimePrice": 2
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Items/ShipDecos/ZephyrPrimeBobbleHead",
+          "PrimePrice": 1
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Items/ShipDecos/ChromaPrimeBobbleHead",
+          "PrimePrice": 1
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Game/Projections/T1VoidProjectionChromaZephyrVaultABronze",
+          "RegularPrice": 1
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Game/Projections/T1VoidProjectionChromaZephyrVaultBBronze",
+          "RegularPrice": 1
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Game/Projections/T2VoidProjectionChromaZephyrVaultABronze",
+          "RegularPrice": 1
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Game/Projections/T3VoidProjectionChromaZephyrVaultABronze",
+          "RegularPrice": 1
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Game/Projections/T3VoidProjectionChromaZephyrVaultBBronze",
+          "RegularPrice": 1
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Game/Projections/T4VoidProjectionChromaZephyrVaultABronze",
+          "RegularPrice": 1
+        }
+      ],
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1758823200000"
+        }
+      },
+      "EvergreenManifest": [
+        {
+          "ItemType": "/Lotus/StoreItems/Weapons/Tenno/Rifle/BratonPrime",
+          "PrimePrice": 1
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Weapons/Tenno/LongGuns/PrimeBurston/PrimeBurston",
+          "PrimePrice": 2
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Weapons/Tenno/Melee/DualDagger/FangPrimeDagger",
+          "PrimePrice": 2
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Weapons/Tenno/Pistols/PrimeLex/PrimeLex",
+          "PrimePrice": 1
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Scarves/PrimeTwitchScarf",
+          "PrimePrice": 2
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Scarves/TwitchPrimeScarf",
+          "PrimePrice": 2
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/MeleeDangles/TwitchPrimeMeleeDangle",
+          "PrimePrice": 1
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Liset/LisetSkinTwitchPrime",
+          "RegularPrice": 10
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Sigils/TwitchPrimeSigil",
+          "PrimePrice": 1
+        },
+        {
+          "ItemType": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVNecraloidBundle",
+          "RegularPrice": 10
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Clan/TwitchNecraloidBadgeItem",
+          "RegularPrice": 5
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Scarves/InfMembraneCape",
+          "RegularPrice": 10
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Scarves/AmazonOniSyandana",
+          "RegularPrice": 10
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Game/ShipScenes/PrimeLisetFiligreeScene",
+          "PrimePrice": 1
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Game/ShipScenes/CorpusShipScene",
+          "RegularPrice": 7
+        },
+        {
+          "ItemType": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVVayasPrimeAccessories",
+          "PrimePrice": 2
+        },
+        {
+          "ItemType": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVAviaPrimeArmorSet",
+          "PrimePrice": 2
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Scarves/PrimeAviaSyandana",
+          "PrimePrice": 2
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Scarves/LasBackpackMedkitSyandana",
+          "PrimePrice": 1
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Effects/TwitchEphemera",
+          "PrimePrice": 1
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Loki/LokiTwitchSkin",
+          "PrimePrice": 1
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/StoreItems/AvatarImages/AvatarImageLokiActionTwitch",
+          "RegularPrice": 5
+        },
+        {
+          "ItemType": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVVervArmorSet",
+          "PrimePrice": 1
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Promo/Twitch/LisetSkinTwitch",
+          "RegularPrice": 10
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Sigils/TwitchPromo2021Sigil",
+          "RegularPrice": 5
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Clan/TwitchPromo2021BadgeItem",
+          "RegularPrice": 5
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Weapons/Redeemer/RedeemerTwitchSkin",
+          "RegularPrice": 7
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Promo/Twitch/Twitch2021AfurisSkin",
+          "RegularPrice": 7
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Promo/Twitch/TwitchRubicoSkin",
+          "RegularPrice": 7
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Promo/Twitch/TwitchPentaSkin",
+          "RegularPrice": 7
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Scarves/Twitch2021Syandana",
+          "RegularPrice": 10
+        },
+        {
+          "ItemType": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVVervSentrexSentAccessories",
+          "RegularPrice": 7
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Kubrows/Armor/Twitch2021IfritKubrowArmor",
+          "RegularPrice": 7
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Catbrows/Armor/Twitch2021MyrdinCatbrowArmor",
+          "RegularPrice": 7
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Items/ShipDecos/LisetPropCleaningDroneTwitch",
+          "RegularPrice": 7
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Game/QuartersWallpapers/TwitchPrimeWallpaper",
+          "RegularPrice": 5
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Scarves/FlameScarfRefresh",
+          "RegularPrice": 10
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/MeleeDangles/FireMeleeDangleRefresh",
+          "RegularPrice": 6
+        },
+        {
+          "ItemType": "/Lotus/Types/StoreItems/Packages/PrimeColorPackA",
+          "PrimePrice": 1
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/StoreItems/SuitCustomizations/ColourPickerPrimeDayItemA",
+          "RegularPrice": 5
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/StoreItems/SuitCustomizations/ColourPickerTwitchItemC",
+          "RegularPrice": 5
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Promo/Twitch/TigrisTwitchSkin",
+          "RegularPrice": 7
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Promo/Twitch/TwitchAnkyros",
+          "RegularPrice": 7
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Sigils/TwitchProminenceSigil",
+          "RegularPrice": 5
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Promo/Twitch/ExcaliburTwitchSkin",
+          "RegularPrice": 12
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Volt/VoltTwitchSkin",
+          "RegularPrice": 12
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Scarves/TnLargeCapeTwitch",
+          "RegularPrice": 10
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Bard/BardTwitchSkin",
+          "PrimePrice": 1
+        },
+        {
+          "ItemType": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVIridosArmorSet",
+          "RegularPrice": 10
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Characters/Tenno/Accessory/Scarves/U17IntermScarf/IridosUdyatSkin/UdyatPrimeGamingSyandana",
+          "RegularPrice": 10
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Promo/Twitch/PyranaTwitchSkin",
+          "RegularPrice": 7
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Promo/Twitch/OgrisTwitchSkin",
+          "RegularPrice": 7
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Weapons/Tonfa/KronenTwitchSkin",
+          "RegularPrice": 7
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Promo/Twitch/AkjagaraIridosSkin",
+          "RegularPrice": 7
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Liset/LisetInsectSkinIridos",
+          "RegularPrice": 10
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Necramech/TefilahIridosSkin",
+          "RegularPrice": 10
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Items/ShipDecos/LisetPropShawzinTwitch",
+          "RegularPrice": 7
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/StoreItems/AvatarImages/AvatarImageOctaviaActionTwitch",
+          "RegularPrice": 5
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Upgrades/Skins/Effects/OvergrowthEphemera",
+          "RegularPrice": 10
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Items/ShipDecos/ResourceDecoItemCetusWispTwitch",
+          "RegularPrice": 7
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Items/SongItems/GaussPrimeSongItem",
+          "RegularPrice": 5
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Items/SongItems/GaraPrimeSongItem",
+          "RegularPrice": 5
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Items/SongItems/GrendelPrimeSongItem",
+          "RegularPrice": 5
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Items/SongItems/HildrynPrimeSongItem",
+          "RegularPrice": 5
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Items/SongItems/HydroidPrimeSongItem",
+          "RegularPrice": 5
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Items/SongItems/KhoraPrimeSongItem",
+          "RegularPrice": 5
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Items/SongItems/NekrosPrimeSongItem",
+          "RegularPrice": 5
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Items/SongItems/NidusPrimeSongItem",
+          "RegularPrice": 5
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Items/SongItems/OberonPrimeSongItem",
+          "RegularPrice": 5
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Items/SongItems/OctaviaPrimeSongItem",
+          "RegularPrice": 5
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Items/SongItems/RevenantPrimeSongItem",
+          "RegularPrice": 5
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Items/SongItems/VaubanPrimeSongItem",
+          "RegularPrice": 5
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Items/SongItems/ProteaPrimeSongItem",
+          "RegularPrice": 5
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Items/SongItems/WispPrimeSongItem",
+          "RegularPrice": 5
+        },
+        {
+          "ItemType": "/Lotus/StoreItems/Types/Items/MiscItems/PrimeBucks",
+          "RegularPrice": 1
+        },
+        {
+          "ItemType": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVVoidTraceBundle",
+          "RegularPrice": 1
+        }
+      ],
+      "ScheduleInfo": [
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1667498400000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "0"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVEquinoxWukongPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1669921200000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "0"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVValkyrSarynPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1672945200000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1668711600000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVOberonPrimeSinglePack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1675364400000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1671130800000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVVoltLokiPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1677783600000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1674154800000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVAtlasVaubanPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1680804000000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1676473200000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVNekrosOberonPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1683223200000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1679594400000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVMagRhinoPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1685718000000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1682013600000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVNekrosOberonPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1688666400000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1684433100000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVInarosAshPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1691085600000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1687456800000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVBansheeMiragePrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1694109600000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1689876000000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVFrostMagPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1696528800000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1692900000000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVEquinoxWukongPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1698948000000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1695319200000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVZephyrChromaPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1703185200000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1697738400000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVNezhaOctaviaPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1704394800000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1697738400000"
+            }
+          },
+          "FeaturedItem": "/Lotus/StoreItems/Types/StoreItems/Packages/MegaPrimeVault/LastChanceItemC"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1705604400000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "0"
+            }
+          },
+          "FeaturedItem": "/Lotus/StoreItems/Types/StoreItems/Packages/MegaPrimeVault/LastChanceItemC"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1706814000000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "0"
+            }
+          },
+          "FeaturedItem": "/Lotus/StoreItems/Types/StoreItems/Packages/MegaPrimeVault/LastChanceItemC"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1708023600000"
+            }
+          },
+          "FeaturedItem": "/Lotus/StoreItems/Types/StoreItems/Packages/MegaPrimeVault/LastChanceItemC"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1710439200000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1706814000000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVBansheeMiragePrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1712858400000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1709233200000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVTitaniaGaraPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1715277600000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1711648800000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVInarosAshPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1717696800000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1714068000000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVEquinoxWukongPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1720116000000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1716487200000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVZephyrChromaPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1722535200000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1718906400000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVHarrowNekrosPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1724954400000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1721325600000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVMesaLimboPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1727373600000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1723744800000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVNezhaOctaviaPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1729792800000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1726164000000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVNovaTrinityPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1732215600000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1728583200000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVGarudaKhoraPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1734030000000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1731006000000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVIvaraOberonPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1736449200000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1732820400000"
+            }
+          },
+          "FeaturedItem": "/Lotus/StoreItems/Types/StoreItems/Packages/MegaPrimeVault/LastChanceItemC"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1738868400000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1734030000000"
+            }
+          },
+          "FeaturedItem": "/Lotus/StoreItems/Types/StoreItems/Packages/MegaPrimeVault/LastChanceItemB"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1739473200000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1732820400000"
+            }
+          },
+          "FeaturedItem": "/Lotus/StoreItems/Types/StoreItems/Packages/MegaPrimeVault/LastChanceItemA"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1741888800000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1738868400000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVInarosAshPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1744308000000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1740682800000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVNidusSarynPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1746727200000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1743098400000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVBansheeMiragePrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1749146400000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1745517600000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVNekrosOberonPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1751565600000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1747940280000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVRevenantBaruukPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1753984800000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1750356000000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVTitaniaGaraPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1756404000000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1752775200000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVEquinoxWukongPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1758823200000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1755194400000"
+            }
+          },
+          "FeaturedItem": "/Lotus/Types/StoreItems/Packages/MegaPrimeVault/MPVZephyrChromaPrimeDualPack"
+        },
+        {
+          "Expiry": {
+            "$date": {
+              "$numberLong": "1761242400000"
+            }
+          },
+          "PreviewHiddenUntil": {
+            "$date": {
+              "$numberLong": "1757613600000"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "VoidStorms": [
+    {
+      "_id": {
+        "$oid": "68b2c6f24b869a0afc89b03d"
+      },
+      "Node": "CrewBattleNode518",
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756550401396"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756555801396"
+        }
+      },
+      "ActiveMissionTier": "VoidT1"
+    },
+    {
+      "_id": {
+        "$oid": "68b2c6f24b869a0afc89b03e"
+      },
+      "Node": "CrewBattleNode512",
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756550401400"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756555801400"
+        }
+      },
+      "ActiveMissionTier": "VoidT1"
+    },
+    {
+      "_id": {
+        "$oid": "68b2c6f24b869a0afc89b03f"
+      },
+      "Node": "CrewBattleNode530",
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756550401401"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756555801401"
+        }
+      },
+      "ActiveMissionTier": "VoidT2"
+    },
+    {
+      "_id": {
+        "$oid": "68b2c6f24b869a0afc89b040"
+      },
+      "Node": "CrewBattleNode524",
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756550401402"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756555801402"
+        }
+      },
+      "ActiveMissionTier": "VoidT3"
+    },
+    {
+      "_id": {
+        "$oid": "68b2c6f24b869a0afc89b041"
+      },
+      "Node": "CrewBattleNode531",
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756550401403"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756555801403"
+        }
+      },
+      "ActiveMissionTier": "VoidT4"
+    },
+    {
+      "_id": {
+        "$oid": "68b2c6f24b869a0afc89b042"
+      },
+      "Node": "CrewBattleNode543",
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756550401403"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756555801403"
+        }
+      },
+      "ActiveMissionTier": "VoidT4"
+    },
+    {
+      "_id": {
+        "$oid": "68b2d5025f0ec7467f89b03e"
+      },
+      "Node": "CrewBattleNode515",
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756554001400"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756559401400"
+        }
+      },
+      "ActiveMissionTier": "VoidT1"
+    },
+    {
+      "_id": {
+        "$oid": "68b2d5025f0ec7467f89b03d"
+      },
+      "Node": "CrewBattleNode522",
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756554001396"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756559401396"
+        }
+      },
+      "ActiveMissionTier": "VoidT1"
+    },
+    {
+      "_id": {
+        "$oid": "68b2d5025f0ec7467f89b03f"
+      },
+      "Node": "CrewBattleNode533",
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756554001401"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756559401401"
+        }
+      },
+      "ActiveMissionTier": "VoidT2"
+    },
+    {
+      "_id": {
+        "$oid": "68b2d5025f0ec7467f89b042"
+      },
+      "Node": "CrewBattleNode542",
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756554001403"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756559401403"
+        }
+      },
+      "ActiveMissionTier": "VoidT4"
+    },
+    {
+      "_id": {
+        "$oid": "68b2d5025f0ec7467f89b041"
+      },
+      "Node": "CrewBattleNode529",
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756554001403"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756559401403"
+        }
+      },
+      "ActiveMissionTier": "VoidT4"
+    },
+    {
+      "_id": {
+        "$oid": "68b2d5025f0ec7467f89b040"
+      },
+      "Node": "CrewBattleNode525",
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756554001402"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756559401402"
+        }
+      },
+      "ActiveMissionTier": "VoidT3"
+    }
+  ],
+  "PrimeAccessAvailability": {
+    "State": "PRIME2"
+  },
+  "PrimeVaultAvailabilities": [
+    false,
+    false,
+    false,
+    false,
+    false
+  ],
+  "PrimeTokenAvailability": true,
+  "DailyDeals": [
+    {
+      "StoreItem": "/Lotus/StoreItems/Upgrades/Focus/PowerLensGreater",
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756522800000"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756616400000"
+        }
+      },
+      "Discount": 50,
+      "OriginalPrice": 40,
+      "SalePrice": 20,
+      "AmountTotal": 50,
+      "AmountSold": 50
+    }
+  ],
+  "LibraryInfo": {
+    "LastCompletedTargetType": "/Lotus/Types/Game/Library/Targets/Research7Target"
+  },
+  "PVPChallengeInstances": [
+    {
+      "_id": {
+        "$oid": "68b2498e6b19dc08ca89b03e"
+      },
+      "challengeTypeRefID": "/Lotus/PVPChallengeTypes/PVPTimedChallengeGameModeComplete",
+      "startDate": {
+        "$date": {
+          "$numberLong": "1756514702277"
+        }
+      },
+      "endDate": {
+        "$date": {
+          "$numberLong": "1757119502277"
+        }
+      },
+      "params": [
+        {
+          "n": "ScriptParamValue",
+          "v": 20
+        }
+      ],
+      "isGenerated": true,
+      "PVPMode": "PVPMODE_ALL",
+      "subChallenges": [],
+      "Category": "PVPChallengeTypeCategory_WEEKLY"
+    },
+    {
+      "_id": {
+        "$oid": "68b2498e6b19dc08ca89b03d"
+      },
+      "challengeTypeRefID": "/Lotus/PVPChallengeTypes/PVPTimedChallengeGameModeWins",
+      "startDate": {
+        "$date": {
+          "$numberLong": "1756514702277"
+        }
+      },
+      "endDate": {
+        "$date": {
+          "$numberLong": "1757119502277"
+        }
+      },
+      "params": [
+        {
+          "n": "ScriptParamValue",
+          "v": 6
+        }
+      ],
+      "isGenerated": true,
+      "PVPMode": "PVPMODE_ALL",
+      "subChallenges": [],
+      "Category": "PVPChallengeTypeCategory_WEEKLY"
+    },
+    {
+      "_id": {
+        "$oid": "68b2498e6b19dc08ca89b040"
+      },
+      "challengeTypeRefID": "/Lotus/PVPChallengeTypes/PVPTimedChallengeWeeklyStandardSet",
+      "startDate": {
+        "$date": {
+          "$numberLong": "1756514702277"
+        }
+      },
+      "endDate": {
+        "$date": {
+          "$numberLong": "1757119502277"
+        }
+      },
+      "params": [
+        {
+          "n": "ScriptParamValue",
+          "v": 0
+        }
+      ],
+      "isGenerated": true,
+      "PVPMode": "PVPMODE_NONE",
+      "subChallenges": [
+        {
+          "$oid": "68b2498e6b19dc08ca89b03d"
+        },
+        {
+          "$oid": "68b2498e6b19dc08ca89b03e"
+        },
+        {
+          "$oid": "68b2498e6b19dc08ca89b03f"
+        }
+      ],
+      "Category": "PVPChallengeTypeCategory_WEEKLY_ROOT"
+    },
+    {
+      "_id": {
+        "$oid": "68b2498e6b19dc08ca89b03f"
+      },
+      "challengeTypeRefID": "/Lotus/PVPChallengeTypes/PVPTimedChallengeOtherChallengeCompleteANY",
+      "startDate": {
+        "$date": {
+          "$numberLong": "1756514702277"
+        }
+      },
+      "endDate": {
+        "$date": {
+          "$numberLong": "1757119502277"
+        }
+      },
+      "params": [
+        {
+          "n": "ScriptParamValue",
+          "v": 10
+        }
+      ],
+      "isGenerated": true,
+      "PVPMode": "PVPMODE_ALL",
+      "subChallenges": [],
+      "Category": "PVPChallengeTypeCategory_WEEKLY"
+    },
+    {
+      "_id": {
+        "$oid": "68b295b904fcf9bc8889b03f"
+      },
+      "challengeTypeRefID": "/Lotus/PVPChallengeTypes/PVPTimedChallengeKillsStreakDominationEASY",
+      "startDate": {
+        "$date": {
+          "$numberLong": "1756534201848"
+        }
+      },
+      "endDate": {
+        "$date": {
+          "$numberLong": "1756620601848"
+        }
+      },
+      "params": [
+        {
+          "n": "ScriptParamValue",
+          "v": 1
+        }
+      ],
+      "isGenerated": true,
+      "PVPMode": "PVPMODE_TEAMDEATHMATCH",
+      "subChallenges": [],
+      "Category": "PVPChallengeTypeCategory_DAILY"
+    },
+    {
+      "_id": {
+        "$oid": "68b295b904fcf9bc8889b03e"
+      },
+      "challengeTypeRefID": "/Lotus/PVPChallengeTypes/PVPTimedChallengeFlagReturnEASY",
+      "startDate": {
+        "$date": {
+          "$numberLong": "1756534201848"
+        }
+      },
+      "endDate": {
+        "$date": {
+          "$numberLong": "1756620601848"
+        }
+      },
+      "params": [
+        {
+          "n": "ScriptParamValue",
+          "v": 1
+        }
+      ],
+      "isGenerated": true,
+      "PVPMode": "PVPMODE_CAPTURETHEFLAG",
+      "subChallenges": [],
+      "Category": "PVPChallengeTypeCategory_DAILY"
+    },
+    {
+      "_id": {
+        "$oid": "68b295b904fcf9bc8889b03d"
+      },
+      "challengeTypeRefID": "/Lotus/PVPChallengeTypes/PVPTimedChallengeFlagCaptureMEDIUM",
+      "startDate": {
+        "$date": {
+          "$numberLong": "1756534201848"
+        }
+      },
+      "endDate": {
+        "$date": {
+          "$numberLong": "1756620601848"
+        }
+      },
+      "params": [
+        {
+          "n": "ScriptParamValue",
+          "v": 4
+        }
+      ],
+      "isGenerated": true,
+      "PVPMode": "PVPMODE_CAPTURETHEFLAG",
+      "subChallenges": [],
+      "Category": "PVPChallengeTypeCategory_DAILY"
+    },
+    {
+      "_id": {
+        "$oid": "68b295b904fcf9bc8889b040"
+      },
+      "challengeTypeRefID": "/Lotus/PVPChallengeTypes/PVPTimedChallengeKillsPrimaryHARD",
+      "startDate": {
+        "$date": {
+          "$numberLong": "1756534201848"
+        }
+      },
+      "endDate": {
+        "$date": {
+          "$numberLong": "1756620601848"
+        }
+      },
+      "params": [
+        {
+          "n": "ScriptParamValue",
+          "v": 3
+        }
+      ],
+      "isGenerated": true,
+      "PVPMode": "PVPMODE_TEAMDEATHMATCH",
+      "subChallenges": [],
+      "Category": "PVPChallengeTypeCategory_DAILY"
+    },
+    {
+      "_id": {
+        "$oid": "68b295b904fcf9bc8889b041"
+      },
+      "challengeTypeRefID": "/Lotus/PVPChallengeTypes/PVPTimedChallengeKillsPaybackEASY",
+      "startDate": {
+        "$date": {
+          "$numberLong": "1756534201848"
+        }
+      },
+      "endDate": {
+        "$date": {
+          "$numberLong": "1756620601848"
+        }
+      },
+      "params": [
+        {
+          "n": "ScriptParamValue",
+          "v": 1
+        }
+      ],
+      "isGenerated": true,
+      "PVPMode": "PVPMODE_DEATHMATCH",
+      "subChallenges": [],
+      "Category": "PVPChallengeTypeCategory_DAILY"
+    },
+    {
+      "_id": {
+        "$oid": "68b295b904fcf9bc8889b042"
+      },
+      "challengeTypeRefID": "/Lotus/PVPChallengeTypes/PVPTimedChallengeKillsStreakStopped_MEDIUM",
+      "startDate": {
+        "$date": {
+          "$numberLong": "1756534201848"
+        }
+      },
+      "endDate": {
+        "$date": {
+          "$numberLong": "1756620601848"
+        }
+      },
+      "params": [
+        {
+          "n": "ScriptParamValue",
+          "v": 3
+        }
+      ],
+      "isGenerated": true,
+      "PVPMode": "PVPMODE_DEATHMATCH",
+      "subChallenges": [],
+      "Category": "PVPChallengeTypeCategory_DAILY"
+    },
+    {
+      "_id": {
+        "$oid": "68b295b904fcf9bc8889b043"
+      },
+      "challengeTypeRefID": "/Lotus/PVPChallengeTypes/PVPTimedChallengeSpeedballInterceptionsEASY",
+      "startDate": {
+        "$date": {
+          "$numberLong": "1756534201848"
+        }
+      },
+      "endDate": {
+        "$date": {
+          "$numberLong": "1756620601848"
+        }
+      },
+      "params": [
+        {
+          "n": "ScriptParamValue",
+          "v": 3
+        }
+      ],
+      "isGenerated": true,
+      "PVPMode": "PVPMODE_SPEEDBALL",
+      "subChallenges": [],
+      "Category": "PVPChallengeTypeCategory_DAILY"
+    },
+    {
+      "_id": {
+        "$oid": "68b295b904fcf9bc8889b044"
+      },
+      "challengeTypeRefID": "/Lotus/PVPChallengeTypes/PVPTimedChallengeSpeedballGoalsMEDIUM",
+      "startDate": {
+        "$date": {
+          "$numberLong": "1756534201848"
+        }
+      },
+      "endDate": {
+        "$date": {
+          "$numberLong": "1756620601848"
+        }
+      },
+      "params": [
+        {
+          "n": "ScriptParamValue",
+          "v": 6
+        }
+      ],
+      "isGenerated": true,
+      "PVPMode": "PVPMODE_SPEEDBALL",
+      "subChallenges": [],
+      "Category": "PVPChallengeTypeCategory_DAILY"
+    }
+  ],
+  "PersistentEnemies": [],
+  "PVPAlternativeModes": [],
+  "PVPActiveTournaments": [],
+  "ProjectPct": [
+    84.91444854806034,
+    132.6895205734528,
+    0
+  ],
+  "ConstructionProjects": [],
+  "TwitchPromos": [],
+  "ExperimentRecommended": [],
+  "EndlessXpChoices": [
+    {
+      "Category": "EXC_NORMAL",
+      "Choices": [
+        "Excalibur",
+        "Trinity",
+        "Ember"
+      ]
+    },
+    {
+      "Category": "EXC_HARD",
+      "Choices": [
+        "AckAndBrunt",
+        "Soma",
+        "Vasto",
+        "NamiSolo",
+        "Burston"
+      ]
+    }
+  ],
+  "ForceLogoutVersion": 0,
+  "FeaturedGuilds": [
+    {
+      "_id": {
+        "$oid": "5e5c1e2370db93a7ba27506e"
+      },
+      "Name": "TheKnights Of Blood Oath#768",
+      "Tier": 4,
+      "Emblem": true,
+      "AllianceId": {
+        "$oid": "6401cc813a9f080e3c0acb10"
+      },
+      "HiddenPlatforms": {
+        "PLATFORM_SWITCH": true,
+        "PLATFORM_CROSS_PLATFORM": true
+      },
+      "IconOverride": 5
+    },
+    {
+      "_id": {
+        "$oid": "6686b05f4367086a050a7a70"
+      },
+      "Name": "Headless Torture#480",
+      "Tier": 2,
+      "AllianceId": {
+        "$oid": "5ec820fb0848b52e5156357c"
+      },
+      "HiddenPlatforms": {
+        "PLATFORM_CROSS_PLATFORM": true
+      },
+      "IconOverride": 5
+    },
+    {
+      "_id": {
+        "$oid": "5a2c80d19ab2264cc80e5be7"
+      },
+      "Name": "Annora#892",
+      "Tier": 2,
+      "Emblem": true,
+      "AllianceId": {
+        "$oid": "64750757e2bc7e55240cd443"
+      },
+      "HiddenPlatforms": {
+        "PLATFORM_SWITCH": true,
+        "PLATFORM_CROSS_PLATFORM": true
+      },
+      "IconOverride": 6
+    },
+    {
+      "_id": {
+        "$oid": "639be72f4a403583f40ff1e2"
+      },
+      "Name": "Apollonian#131",
+      "Tier": 1,
+      "AllianceId": {
+        "$oid": "64750757e2bc7e55240cd443"
+      },
+      "HiddenPlatforms": {
+        "PLATFORM_CROSS_PLATFORM": true
+      },
+      "IconOverride": 6
+    },
+    {
+      "_id": {
+        "$oid": "54283e6107c56f0e3b1e89bd"
+      },
+      "Name": "THE ONYX CHAPTER#480",
+      "Tier": 3,
+      "Emblem": true,
+      "AllianceId": {
+        "$oid": "64750757e2bc7e55240cd443"
+      },
+      "IconOverride": 4
+    },
+    {
+      "_id": {
+        "$oid": "66d495623feaa814c6002908"
+      },
+      "Name": "--Shadow Hydra--#145",
+      "Tier": 4,
+      "Emblem": true,
+      "AllianceId": {
+        "$oid": "5d549117a38e4a7da27802dd"
+      },
+      "HiddenPlatforms": {
+        "PLATFORM_CROSS_PLATFORM": true
+      },
+      "IconOverride": 1
+    },
+    {
+      "_id": {
+        "$oid": "61b0ce403f9d2b2b8c41fc08"
+      },
+      "Name": "FALCONS LEGACY#746",
+      "Tier": 2,
+      "AllianceId": {
+        "$oid": "5bef03b76b02fdb524198601"
+      },
+      "HiddenPlatforms": {
+        "PLATFORM_CROSS_PLATFORM": true
+      },
+      "IconOverride": 1
+    },
+    {
+      "_id": {
+        "$oid": "52dcb17507c56fd372002892"
+      },
+      "Name": "Circle Guards#401",
+      "Tier": 2,
+      "AllianceId": {
+        "$oid": "5fd4cc94b05ec93bea4d71f4"
+      },
+      "Emblem": true,
+      "HiddenPlatforms": {
+        "PLATFORM_SWITCH": true,
+        "PLATFORM_CROSS_PLATFORM": true
+      },
+      "IconOverride": 0
+    }
+  ],
+  "SeasonInfo": {
+    "Activation": {
+      "$date": {
+        "$numberLong": "1747851300000"
+      }
+    },
+    "Expiry": {
+      "$date": {
+        "$numberLong": "1765756800000"
+      }
+    },
+    "AffiliationTag": "RadioLegionIntermission13Syndicate",
+    "Season": 15,
+    "Phase": 0,
+    "Params": "",
+    "ActiveChallenges": [
+      {
+        "_id": {
+          "$oid": "001600150000000000000207"
+        },
+        "Daily": true,
+        "Activation": {
+          "$date": {
+            "$numberLong": "1756339200000"
+          }
+        },
+        "Expiry": {
+          "$date": {
+            "$numberLong": "1756598400000"
+          }
+        },
+        "Challenge": "/Lotus/Types/Challenges/Seasons/Daily/SeasonDailyBuildersTouch"
+      },
+      {
+        "_id": {
+          "$oid": "001600150000000000000208"
+        },
+        "Daily": true,
+        "Activation": {
+          "$date": {
+            "$numberLong": "1756425600000"
+          }
+        },
+        "Expiry": {
+          "$date": {
+            "$numberLong": "1756684800000"
+          }
+        },
+        "Challenge": "/Lotus/Types/Challenges/Seasons/Daily/SeasonDailyDeploySpecter"
+      },
+      {
+        "_id": {
+          "$oid": "001600150000000000000209"
+        },
+        "Daily": true,
+        "Activation": {
+          "$date": {
+            "$numberLong": "1756512000000"
+          }
+        },
+        "Expiry": {
+          "$date": {
+            "$numberLong": "1756771200000"
+          }
+        },
+        "Challenge": "/Lotus/Types/Challenges/Seasons/Daily/SeasonDailyVisitFeaturedDojo"
+      },
+      {
+        "_id": {
+          "$oid": "001600150000000000000197"
+        },
+        "Activation": {
+          "$date": {
+            "$numberLong": "1756080000000"
+          }
+        },
+        "Expiry": {
+          "$date": {
+            "$numberLong": "1756684800000"
+          }
+        },
+        "Challenge": "/Lotus/Types/Challenges/Seasons/Weekly/SeasonWeeklyPermanentCompleteMissions15"
+      },
+      {
+        "_id": {
+          "$oid": "001600150000000000000198"
+        },
+        "Activation": {
+          "$date": {
+            "$numberLong": "1756080000000"
+          }
+        },
+        "Expiry": {
+          "$date": {
+            "$numberLong": "1756684800000"
+          }
+        },
+        "Challenge": "/Lotus/Types/Challenges/Seasons/Weekly/SeasonWeeklyPermanentKillEximus15"
+      },
+      {
+        "_id": {
+          "$oid": "001600150000000000000199"
+        },
+        "Activation": {
+          "$date": {
+            "$numberLong": "1756080000000"
+          }
+        },
+        "Expiry": {
+          "$date": {
+            "$numberLong": "1756684800000"
+          }
+        },
+        "Challenge": "/Lotus/Types/Challenges/Seasons/Weekly/SeasonWeeklyPermanentKillEnemies15"
+      },
+      {
+        "_id": {
+          "$oid": "001600150000000000000200"
+        },
+        "Activation": {
+          "$date": {
+            "$numberLong": "1756080000000"
+          }
+        },
+        "Expiry": {
+          "$date": {
+            "$numberLong": "1756684800000"
+          }
+        },
+        "Challenge": "/Lotus/Types/Challenges/Seasons/Weekly/SeasonWeeklyBeastSlayer"
+      },
+      {
+        "_id": {
+          "$oid": "001600150000000000000201"
+        },
+        "Activation": {
+          "$date": {
+            "$numberLong": "1756080000000"
+          }
+        },
+        "Expiry": {
+          "$date": {
+            "$numberLong": "1756684800000"
+          }
+        },
+        "Challenge": "/Lotus/Types/Challenges/Seasons/Weekly/SeasonWeeklyRailjackHijackDestroyThree"
+      },
+      {
+        "_id": {
+          "$oid": "001600150000000000000202"
+        },
+        "Activation": {
+          "$date": {
+            "$numberLong": "1756080000000"
+          }
+        },
+        "Expiry": {
+          "$date": {
+            "$numberLong": "1756684800000"
+          }
+        },
+        "Challenge": "/Lotus/Types/Challenges/Seasons/WeeklyHard/SeasonWeeklyHardKillExploiterOrb"
+      },
+      {
+        "_id": {
+          "$oid": "001600150000000000000203"
+        },
+        "Activation": {
+          "$date": {
+            "$numberLong": "1756080000000"
+          }
+        },
+        "Expiry": {
+          "$date": {
+            "$numberLong": "1756684800000"
+          }
+        },
+        "Challenge": "/Lotus/Types/Challenges/Seasons/WeeklyHard/SeasonWeeklyHardCompleteSteelPathMissions"
+      }
+    ]
+  },
+  "KnownCalendarSeasons": [
+    {
+      "Activation": {
+        "$date": {
+          "$numberLong": "1756080000000"
+        }
+      },
+      "Expiry": {
+        "$date": {
+          "$numberLong": "1756684800000"
+        }
+      },
+      "Days": [
+        {
+          "day": 1,
+          "events": []
+        },
+        {
+          "day": 14,
+          "events": [
+            {
+              "type": "CET_CHALLENGE",
+              "challenge": "/Lotus/Types/Challenges/Calendar1999/CalendarKillEnemiesWithMeleeEasy"
+            }
+          ]
+        },
+        {
+          "day": 16,
+          "events": [
+            {
+              "type": "CET_REWARD",
+              "reward": "/Lotus/StoreItems/Types/BoosterPacks/CalendarRivenPack"
+            },
+            {
+              "type": "CET_REWARD",
+              "reward": "/Lotus/Types/StoreItems/Packages/Calendar/CalendarKuvaBundleSmall"
+            }
+          ]
+        },
+        {
+          "day": 18,
+          "events": [
+            {
+              "type": "CET_UPGRADE",
+              "upgrade": "/Lotus/Upgrades/Calendar/EnergyRestoration"
+            },
+            {
+              "type": "CET_UPGRADE",
+              "upgrade": "/Lotus/Upgrades/Calendar/MagazineCapacity"
+            },
+            {
+              "type": "CET_UPGRADE",
+              "upgrade": "/Lotus/Upgrades/Calendar/RadiationProcOnTakeDamage"
+            }
+          ]
+        },
+        {
+          "day": 22,
+          "events": [
+            {
+              "type": "CET_CHALLENGE",
+              "challenge": "/Lotus/Types/Challenges/Calendar1999/CalendarKillEximusEasy"
+            }
+          ]
+        },
+        {
+          "day": 28,
+          "events": [
+            {
+              "type": "CET_REWARD",
+              "reward": "/Lotus/Types/StoreItems/Boosters/ModDropChanceBooster3DayStoreItem"
+            },
+            {
+              "type": "CET_REWARD",
+              "reward": "/Lotus/StoreItems/Types/BoosterPacks/CalendarMajorArtifactPack"
+            }
+          ]
+        },
+        {
+          "day": 38,
+          "events": [
+            {
+              "type": "CET_CHALLENGE",
+              "challenge": "/Lotus/Types/Challenges/Calendar1999/CalendarDestroyPropsMedium"
+            }
+          ]
+        },
+        {
+          "day": 45,
+          "events": []
+        },
+        {
+          "day": 51,
+          "events": [
+            {
+              "type": "CET_REWARD",
+              "reward": "/Lotus/StoreItems/Types/Recipes/Components/WeaponUtilityUnlockerBlueprint"
+            },
+            {
+              "type": "CET_REWARD",
+              "reward": "/Lotus/StoreItems/Types/Items/MiscItems/WeaponSecondaryArcaneUnlocker"
+            }
+          ]
+        },
+        {
+          "day": 53,
+          "events": [
+            {
+              "type": "CET_CHALLENGE",
+              "challenge": "/Lotus/Types/Challenges/Calendar1999/CalendarKillEnemiesMedium"
+            }
+          ]
+        },
+        {
+          "day": 54,
+          "events": [
+            {
+              "type": "CET_REWARD",
+              "reward": "/Lotus/StoreItems/Types/Gameplay/NarmerSorties/ArchonCrystalNira"
+            },
+            {
+              "type": "CET_REWARD",
+              "reward": "/Lotus/StoreItems/Types/BoosterPacks/CalendarMajorArtifactPack"
+            }
+          ]
+        },
+        {
+          "day": 57,
+          "events": [
+            {
+              "type": "CET_UPGRADE",
+              "upgrade": "/Lotus/Upgrades/Calendar/AttackAndMovementSpeedOnCritMelee"
+            },
+            {
+              "type": "CET_UPGRADE",
+              "upgrade": "/Lotus/Upgrades/Calendar/MagnetStatusPull"
+            },
+            {
+              "type": "CET_UPGRADE",
+              "upgrade": "/Lotus/Upgrades/Calendar/OrbsDuplicateOnPickup"
+            }
+          ]
+        },
+        {
+          "day": 64,
+          "events": [
+            {
+              "type": "CET_CHALLENGE",
+              "challenge": "/Lotus/Types/Challenges/Calendar1999/CalendarKillTechrotEnemiesHard"
+            }
+          ]
+        },
+        {
+          "day": 65,
+          "events": [
+            {
+              "type": "CET_REWARD",
+              "reward": "/Lotus/StoreItems/Types/BoosterPacks/CalendarArtifactPack"
+            },
+            {
+              "type": "CET_REWARD",
+              "reward": "/Lotus/Types/StoreItems/Packages/Calendar/CalendarKuvaBundleSmall"
+            }
+          ]
+        },
+        {
+          "day": 74,
+          "events": []
+        },
+        {
+          "day": 78,
+          "events": [
+            {
+              "type": "CET_UPGRADE",
+              "upgrade": "/Lotus/Upgrades/Calendar/OvershieldCap"
+            },
+            {
+              "type": "CET_UPGRADE",
+              "upgrade": "/Lotus/Upgrades/Calendar/AbilityStrength"
+            },
+            {
+              "type": "CET_UPGRADE",
+              "upgrade": "/Lotus/Upgrades/Calendar/PunchToPrimary"
+            }
+          ]
+        },
+        {
+          "day": 83,
+          "events": [
+            {
+              "type": "CET_CHALLENGE",
+              "challenge": "/Lotus/Types/Challenges/Calendar1999/CalendarKillScaldraEnemiesMedium"
+            }
+          ]
+        },
+        {
+          "day": 86,
+          "events": [
+            {
+              "type": "CET_REWARD",
+              "reward": "/Lotus/Types/StoreItems/Boosters/ModDropChanceBooster3DayStoreItem"
+            },
+            {
+              "type": "CET_REWARD",
+              "reward": "/Lotus/StoreItems/Types/Items/MiscItems/Forma"
+            }
+          ]
+        }
+      ],
+      "Season": "CST_WINTER",
+      "YearIteration": 9,
+      "Version": 19,
+      "UpgradeAvaliabilityRequirements": [
+        "/Lotus/Upgrades/Calendar/1999UpgradeApplicationRequirement"
+      ]
+    }
+  ],
+  "Tmp": "{\"cavabegin\":\"1690761600\",\"pgr\":{\"ts\":\"1732572900\",\"en\":\"CUSTOM DECALS @ ZEVILA\",\"fr\":\"DECALS CUSTOM @ ZEVILA\",\"it\":\"DECALCOMANIE PERSONALIZZATE @ ZEVILA\",\"de\":\"AUFKLEBER NACH WUNSCH @ ZEVILA\",\"es\":\"CALCOMANÍAS PERSONALIZADAS @ ZEVILA\",\"pt\":\"DECALQUES PERSONALIZADOS NA ZEVILA\",\"ru\":\"ПОЛЬЗОВАТЕЛЬСКИЕ НАКЛЕЙКИ @ ЗеВиЛа\",\"pl\":\"NOWE NAKLEJKI @ ZEVILA\",\"uk\":\"КОРИСТУВАЦЬКІ ДЕКОЛІ @ ЗІВІЛА\",\"tr\":\"ÖZEL ÇIKARTMALAR @ ZEVILA\",\"ja\":\"カスタムデカール @ ゼビラ\",\"zh\":\"定制贴花认准泽威拉\",\"ko\":\"커스텀 데칼 @ ZEVILA\",\"tc\":\"自訂貼花 @ ZEVILA\",\"th\":\"รูปลอกสั่งทำที่ ZEVILA\"},\"ennnd\":true,\"mbrt\":true,\"fbst\":{\"a\":1756540800,\"e\":1756548000,\"n\":1756569600},\"lqo66\":{\"mt\":[\"Survival\",\"Alchemy\",\"Extermination\"],\"mv\":[\"UnpoweredCapsules\",\"EximusGrenadiers\",\"GrowingIncursion\"],\"c\":[[\"RegeneratingEnemies\",\"Quicksand\"],[\"DrainingResiduals\",\"ExplosiveCrawlers\"],[\"AntiMaterialWeapons\",\"EMPBlackHole\"]],\"fv\":[\"Undersupplied\",\"ShieldDelay\",\"Exhaustion\",\"DecayingFlesh\"]},\"hqo18\":{\"mt\":[\"EndlessCapture\",\"Survival\",\"Defense\"],\"mv\":[\"DoubleTroubleLegacyte\",\"ContaminationZone\",\"ChemicalNoise\"],\"mf\":[9,8,8],\"c\":[[\"HostileOvergrowth\",\"RegeneratingEnemies\"],[\"VoidAberration\",\"Quicksand\"],[\"DrainingResiduals\",\"PointBlank\"]],\"fv\":[\"OperatorLockout\",\"OverSensitive\",\"Starvation\",\"ContactDamage\"]},\"dmegp\":1753284600,\"tcaz\":0,\"tces\":true,\"sfn\":550,\"QTCCFloofCount\":0,\"QTCCFloofLimit\":40000}",
+  "Tmp1": {
+    "cavabegin": "1690761600",
+    "pgr": {
+      "ts": "1732572900",
+      "en": "CUSTOM DECALS @ ZEVILA",
+      "fr": "DECALS CUSTOM @ ZEVILA",
+      "it": "DECALCOMANIE PERSONALIZZATE @ ZEVILA",
+      "de": "AUFKLEBER NACH WUNSCH @ ZEVILA",
+      "es": "CALCOMANÍAS PERSONALIZADAS @ ZEVILA",
+      "pt": "DECALQUES PERSONALIZADOS NA ZEVILA",
+      "ru": "ПОЛЬЗОВАТЕЛЬСКИЕ НАКЛЕЙКИ @ ЗеВиЛа",
+      "pl": "NOWE NAKLEJKI @ ZEVILA",
+      "uk": "КОРИСТУВАЦЬКІ ДЕКОЛІ @ ЗІВІЛА",
+      "tr": "ÖZEL ÇIKARTMALAR @ ZEVILA",
+      "ja": "カスタムデカール @ ゼビラ",
+      "zh": "定制贴花认准泽威拉",
+      "ko": "커스텀 데칼 @ ZEVILA",
+      "tc": "自訂貼花 @ ZEVILA",
+      "th": "รูปลอกสั่งทำที่ ZEVILA"
+    },
+    "ennnd": true,
+    "mbrt": true,
+    "fbst": {
+      "a": 1756540800,
+      "e": 1756548000,
+      "n": 1756569600
+    },
+    "lqo66": {
+      "mt": [
+        "Survival",
+        "Alchemy",
+        "Extermination"
+      ],
+      "mv": [
+        "UnpoweredCapsules",
+        "EximusGrenadiers",
+        "GrowingIncursion"
+      ],
+      "c": [
+        [
+          "RegeneratingEnemies",
+          "Quicksand"
+        ],
+        [
+          "DrainingResiduals",
+          "ExplosiveCrawlers"
+        ],
+        [
+          "AntiMaterialWeapons",
+          "EMPBlackHole"
+        ]
+      ],
+      "fv": [
+        "Undersupplied",
+        "ShieldDelay",
+        "Exhaustion",
+        "DecayingFlesh"
+      ]
+    },
+    "hqo18": {
+      "mt": [
+        "EndlessCapture",
+        "Survival",
+        "Defense"
+      ],
+      "mv": [
+        "DoubleTroubleLegacyte",
+        "ContaminationZone",
+        "ChemicalNoise"
+      ],
+      "mf": [
+        9,
+        8,
+        8
+      ],
+      "c": [
+        [
+          "HostileOvergrowth",
+          "RegeneratingEnemies"
+        ],
+        [
+          "VoidAberration",
+          "Quicksand"
+        ],
+        [
+          "DrainingResiduals",
+          "PointBlank"
+        ]
+      ],
+      "fv": [
+        "OperatorLockout",
+        "OverSensitive",
+        "Starvation",
+        "ContactDamage"
+      ]
+    },
+    "dmegp": 1753284600,
+    "tcaz": 0,
+    "tces": true,
+    "sfn": 550,
+    "QTCCFloofCount": 0,
+    "QTCCFloofLimit": 40000
+  }
+}

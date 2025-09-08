@@ -13,9 +13,11 @@ pub enum CompressError {
 }
 
 pub async fn brotli_compress(data: String) -> Result<Vec<u8>, CompressError> {
-    let params = EncoderParams::default().size_hint(data.len()).text_mode();
-    let mut encoder =
-        BrotliEncoder::with_quality_and_params(data.as_bytes(), Level::Precise(9), params);
+    let params = EncoderParams::default()
+        .quality(Level::Precise(9))
+        .size_hint(data.len())
+        .text_mode();
+    let mut encoder = BrotliEncoder::with_params(data.as_bytes(), params);
     let mut compressed = Vec::new();
     encoder.read_to_end(&mut compressed).await?;
     Ok(compressed)

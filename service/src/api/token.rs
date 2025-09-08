@@ -15,7 +15,7 @@ pub(super) struct LoginCredential {
     password: String,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub(super) struct Claims {
     /// issuer
     pub(super) iss: String,
@@ -55,5 +55,46 @@ pub(super) async fn create_token(
         Ok(BizResponse::ok_with(json!({"token": token})).into_response())
     } else {
         Err(BizError::InvalidPassword)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use jsonwebtoken::{DecodingKey, Validation};
+
+    use super::*;
+
+    const SECRET_KEY: &str = "SECRET_KEY";
+
+    #[test]
+    fn test_jwt_issue() {
+        let token = jsonwebtoken::encode(
+            &Header::default(),
+            &Claims {
+                iss: "issuer".to_owned(),
+                sub: 1,
+                exp: chrono::Utc::now().timestamp() as usize + 3600,
+            },
+            &EncodingKey::from_secret(SECRET_KEY.as_bytes()),
+        );
+        assert!(token.is_ok());
+        println!("{}", token.unwrap());
+    }
+
+    #[test]
+    fn test_decode_token() {
+        let token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJpc3N1ZXIiLCJzdWIiOjEsImV4cCI6MTc1NTk0NTkzNH0.YbEf_18IHfRGp9hmeOAWuLvp3vrZD4jzcUAqxNk4XbM";
+        let res = jsonwebtoken::decode::<Claims>(
+            token,
+            &DecodingKey::from_secret(SECRET_KEY.as_bytes()),
+            &Validation::default(),
+        );
+
+        assert!(res.is_ok());
+        let claims = res.unwrap().claims;
+        assert_eq!(claims.iss, "issuer");
+        assert_eq!(claims.sub, 1);
+
+        dbg!(claims);
     }
 }
