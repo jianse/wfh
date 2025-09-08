@@ -489,6 +489,32 @@ pub struct EarthCycle {
     pub time_left: Duration,
 }
 
+// static CYCLE_DURATION: i64 = 8 * 60 * 60; // 8 hours
+impl EarthCycle {
+    pub fn from_time(t: DateTime<Utc>) -> Self {
+        // earth cycle(day + night) is 8 hours
+        // in seconds is 28800
+        // day and night are both 4 hours
+
+        let cycle_sec = t.timestamp() % 28800;
+        let is_day = cycle_sec < 14400;
+
+        let left_sec = 14400 - (cycle_sec % 14400);
+        let time_left = Duration::seconds(left_sec);
+        let expiry = t + time_left;
+        let activation = expiry - Duration::hours(4);
+
+        EarthCycle {
+            id: "earthCycle0".to_string(),
+            expiry,
+            activation,
+            is_day,
+            state: if is_day { "day" } else { "night" }.to_owned(),
+            time_left,
+        }
+    }
+}
+
 #[serde_as]
 #[derive(Deserialize, Serialize, Debug)]
 pub struct ConclaveChallenge {
@@ -733,9 +759,9 @@ pub struct AlertMission {
     #[serde(rename = "enemySpec")]
     pub enemy_spec: String,
     #[serde(rename = "advancedSpawners")]
-    pub advanced_spawners: Vec<()>,
+    pub advanced_spawners: Vec<String>,
     #[serde(rename = "requiredItems")]
-    pub required_items: Vec<()>,
+    pub required_items: Vec<String>,
     #[serde(rename = "levelAuras")]
     pub level_auras: Vec<()>,
 }
@@ -855,7 +881,7 @@ pub struct Event {
     #[serde(rename = "isCommunity", default = "bool_false")]
     pub is_community: bool,
     #[serde(rename = "regionDrops")]
-    pub region_drops: Vec<()>,
+    pub region_drops: Vec<String>,
     #[serde(rename = "archwingDrops")]
     pub archwing_drops: Vec<()>,
     pub metadata: Vec<()>,
