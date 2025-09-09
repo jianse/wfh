@@ -4,6 +4,7 @@ export interface WorldState {
   cetusCycle: {
     state: 'day' | 'night'
     expiry: string
+
   }
   vallisCycle: {
     state: 'cold' | 'warm'
@@ -120,6 +121,7 @@ export interface WorldState {
     node: string
     tooltip: string
     expiry: string
+    health: number
   }[]
   alerts: {
     id: string

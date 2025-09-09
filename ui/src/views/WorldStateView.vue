@@ -1,70 +1,117 @@
 <template>
-  <div class="flex flex-row gap-2 m-2 flex-wrap">
-    <div class="grid grid-cols-5 gap-2 w-full">
-      <pv-card class="min-w-4xs grow h-fit">
-        <template #title>夜灵平野</template>
-        <template #content>
-          {{ worldState?.cetusCycle.state === 'night' ? '夜晚' : '白天' }}
-          <p>
-            <CountDownTo
-              :time="worldState?.cetusCycle.expiry"
-              @hit-zero="fetchWorldState"
-            ></CountDownTo>
-          </p>
-        </template>
-      </pv-card>
-      <pv-card class="min-w-4xs grow h-fit">
-        <template #title>奥布山谷</template>
-        <template #content>
-          {{ worldState?.vallisCycle.state === 'cold' ? '寒冷' : '温暖' }}
-          <p>
-            <CountDownTo
-              :time="worldState?.vallisCycle.expiry"
-              @hit-zero="fetchWorldState"
-            ></CountDownTo>
-          </p>
-        </template>
-      </pv-card>
-      <pv-card class="min-w-4xs grow h-fit">
-        <template #title>魔胎之境</template>
-        <template #content>
-          {{ worldState?.cambionCycle.active }}
-          <p>
-            <CountDownTo
-              :time="worldState?.cambionCycle.expiry"
-              @hit-zero="fetchWorldState"
-            ></CountDownTo>
-          </p>
-        </template>
-      </pv-card>
-      <pv-card class="min-w-4xs grow h-fit">
-        <template #title>扎里曼号</template>
-        <template #content>
-          {{ worldState?.zarimanCycle.state }}
-          <p>
-            <CountDownTo
-              :time="worldState?.zarimanCycle.expiry"
-              @hit-zero="fetchWorldState"
-            ></CountDownTo>
-          </p>
-        </template>
-      </pv-card>
-      <pv-card class="min-w-4xs grow h-fit">
-        <template #title>地球</template>
-        <template #content>
-          {{ worldState?.earthCycle.state === 'night' ? '夜晚' : '白天' }}
-          <p>
-            <CountDownTo
-              :time="worldState?.earthCycle.expiry"
-              @hit-zero="fetchWorldState"
-            ></CountDownTo>
-          </p>
-        </template>
-      </pv-card>
-      <!-- </div> -->
+  <div class="flex flex-row place-content-around m-2">
+    <div class="w-[1080px] flex flex-col gap-2">
+      <div class="flex flex-row gap-2">
+        <pv-card class="min-w-4xs grow h-fit">
+          <template #title>夜灵平野</template>
+          <template #content>
+            {{ worldState?.cetusCycle.state === 'night' ? '夜晚' : '白天' }}
+            <p>
+              <CountDownTo
+                :time="worldState?.cetusCycle.expiry"
+                @hit-zero="cetusCycleChange"
+              ></CountDownTo
+              >结束
+            </p>
+          </template>
+        </pv-card>
+        <pv-card class="min-w-4xs grow h-fit">
+          <template #title>奥布山谷</template>
+          <template #content>
+            {{ worldState?.vallisCycle.state === 'cold' ? '寒冷' : '温暖' }}
+            <p>
+              <CountDownTo
+                :time="worldState?.vallisCycle.expiry"
+                @hit-zero="fetchWorldState"
+              ></CountDownTo
+              >结束
+            </p>
+          </template>
+        </pv-card>
+        <pv-card class="min-w-4xs grow h-fit">
+          <template #title>魔胎之境</template>
+          <template #content>
+            {{ worldState?.cambionCycle.active }}
+            <p>
+              <CountDownTo
+                :time="worldState?.cambionCycle.expiry"
+                @hit-zero="fetchWorldState"
+              ></CountDownTo
+              >结束
+            </p>
+          </template>
+        </pv-card>
+        <pv-card class="min-w-4xs grow h-fit">
+          <template #title>扎里曼号</template>
+          <template #content>
+            {{ worldState?.zarimanCycle.state }}
+            <p>
+              <CountDownTo
+                :time="worldState?.zarimanCycle.expiry"
+                @hit-zero="fetchWorldState"
+              ></CountDownTo
+              >结束
+            </p>
+          </template>
+        </pv-card>
+        <pv-card class="min-w-4xs grow h-fit">
+          <template #title>地球</template>
+          <template #content>
+            {{ worldState?.earthCycle.state === 'night' ? '夜晚' : '白天' }}
+            <p>
+              <CountDownTo
+                :time="worldState?.earthCycle.expiry"
+                @hit-zero="fetchWorldState"
+              ></CountDownTo
+              >结束
+            </p>
+          </template>
+        </pv-card>
+      </div>
 
-      <!-- <div class="grid grid-cols-5 flex-row gap-2 place-content-between w-full flex-wrap"> -->
-      <!-- 虚空裂缝 -->
+      <pv-card class="h-fit">
+        <template #title>活动</template>
+        <template #content>
+          <div class="flex flex-col gap-2">
+            <div v-for="event in worldState?.events" :key="event.id">
+              {{ event.description }} {{ event.node }} <CountDownTo :time="event.expiry" />结束
+
+              <div>{{ event.tooltip }}</div>
+              <pv-progress-bar
+                class="mt-1"
+                v-if="event.health !== undefined"
+                :value="event.health"
+                :max="100"
+              />
+            </div>
+          </div>
+
+          <!--  <code class="font-mono">
+            <pre>{{ worldState?.events }}</pre>
+          </code> -->
+        </template>
+      </pv-card>
+
+      <pv-card class="h-fit">
+        <template #title>警报</template>
+        <template #content>
+          <div class="flex flex-row gap-2 flex-wrap">
+            <div v-for="alert in worldState?.alerts" :key="alert.id">
+              {{ alert.mission.node }} {{ alert.mission.type }}
+              <p>{{ alert.mission.description }}</p>
+              <p><CountDownTo :time="alert.expiry" />结束</p>
+              <p>{{ alert.mission.reward.asString }}</p>
+
+              <!-- <div>{{ event.tooltip }}</div> -->
+            </div>
+          </div>
+
+          <!-- <code class="font-mono">
+          <pre>{{ worldState?.alerts[0] }}</pre>
+        </code> -->
+        </template>
+      </pv-card>
+
       <pv-card class="min-w-sm h-fit col-span-2">
         <template #title>虚空裂缝</template>
         <template #content>
@@ -185,50 +232,47 @@
         </pv-card>
       </div>
 
-      <div class="flex flex-col gap-2 flex-1">
-        <pv-card class="h-fit">
-          <template #title>虚空商人</template>
-          <template #content>
-            <div>{{ worldState?.voidTrader.active ? '已到来' : '未到来' }}</div>
-            <div>{{ worldState?.voidTrader.location }}</div>
-            <div v-if="worldState?.voidTrader.active">
-              <CountDownTo :time="worldState?.voidTrader.expiry"></CountDownTo> 离开
-            </div>
-            <div v-else>
-              <CountDownTo :time="worldState?.voidTrader.activation"></CountDownTo> 到达
-            </div>
-            <pv-data-table
-              v-if="worldState?.voidTrader.active"
-              :value="worldState?.voidTrader.inventory"
-              scrollable
-              scroll-height="250px"
-            >
-              <pv-column field="item" header="物品" style="width: 50%"></pv-column>
-              <pv-column field="ducats" header="杜卡德金币" style="width: 30%"></pv-column>
-              <pv-column field="credits" header="星币" style="width: 20%"></pv-column>
-            </pv-data-table>
-            <!-- {{ worldState?.voidTrader }} -->
-          </template>
-        </pv-card>
+      <pv-card class="h-fit">
+        <template #title>虚空商人</template>
+        <template #content>
+          <div>{{ worldState?.voidTrader.active ? '已到来' : '未到来' }}</div>
+          <div>{{ worldState?.voidTrader.location }}</div>
+          <div v-if="worldState?.voidTrader.active">
+            <CountDownTo :time="worldState?.voidTrader.expiry"></CountDownTo> 离开
+          </div>
+          <div v-else>
+            <CountDownTo :time="worldState?.voidTrader.activation"></CountDownTo> 到达
+          </div>
+          <pv-data-table
+            v-if="worldState?.voidTrader.active"
+            :value="worldState?.voidTrader.inventory"
+            scrollable
+            scroll-height="250px"
+          >
+            <pv-column field="item" header="物品" style="width: 50%"></pv-column>
+            <pv-column field="ducats" header="杜卡德金币" style="width: 30%"></pv-column>
+            <pv-column field="credits" header="星币" style="width: 20%"></pv-column>
+          </pv-data-table>
+          <!-- {{ worldState?.voidTrader }} -->
+        </template>
+      </pv-card>
 
-        <pv-card class="h-fit">
-          <template #title>圣装重生</template>
-          <template #content>
-            <p><CountDownTo :time="worldState?.vaultTrader.expiry" /> 轮换</p>
-            <!-- {{ worldState?.vaultTrader}} -->
-            <pv-data-table
-              v-if="worldState?.vaultTrader.active"
-              :value="worldState?.vaultTrader.inventory"
-              scrollable
-              scroll-height="250px"
-            >
-              <pv-column field="item" header="物品"></pv-column>
-              <pv-column field="ducats" header="御品阿耶精华" style="width: 30%"></pv-column>
-              <pv-column field="credits" header="阿耶精华" style="width: 25%"></pv-column>
-            </pv-data-table>
-          </template>
-        </pv-card>
-      </div>
+      <pv-card class="h-fit">
+        <template #title>圣装重生</template>
+        <template #content>
+          <p><CountDownTo :time="worldState?.vaultTrader.expiry" /> 轮换</p>
+          <!-- {{ worldState?.vaultTrader}} -->
+          <pv-data-table
+            v-if="worldState?.vaultTrader.active"
+            :value="worldState?.vaultTrader.inventory"
+          >
+            <pv-column field="item" header="物品"></pv-column>
+            <pv-column field="ducats" header="御品阿耶精华" style="width: 30%"></pv-column>
+            <pv-column field="credits" header="阿耶精华" style="width: 25%"></pv-column>
+          </pv-data-table>
+        </template>
+      </pv-card>
+
       <pv-card class="h-fit flex-1">
         <template #title>午夜电波</template>
         <template #content>
@@ -283,45 +327,9 @@
         </code> -->
         </template>
       </pv-card>
-
-      <pv-card class="h-fit">
-        <template #title>活动</template>
-        <template #content>
-          <div class="flex flex-col gap-2">
-            <div v-for="event in worldState?.events" :key="event.id">
-              {{ event.description }} {{ event.node }} <CountDownTo :time="event.expiry" />结束
-
-              <div>{{ event.tooltip }}</div>
-            </div>
-          </div>
-
-          <!-- <code class="font-mono">
-          <pre>{{ worldState?.events }}</pre>
-        </code> -->
-        </template>
-      </pv-card>
-
-      <pv-card class="h-fit">
-        <template #title>警报</template>
-        <template #content>
-          <div class="flex flex-col gap-2">
-            <div v-for="alert in worldState?.alerts" :key="alert.id">
-              {{ alert.mission.node }} {{ alert.mission.type }}
-              <p>{{ alert.mission.description }}</p>
-              <p><CountDownTo :time="alert.expiry" />结束</p>
-              <p>{{ alert.mission.reward.asString }}</p>
-
-              <!-- <div>{{ event.tooltip }}</div> -->
-            </div>
-          </div>
-
-          <!-- <code class="font-mono">
-          <pre>{{ worldState?.alerts[0] }}</pre>
-        </code> -->
-        </template>
-      </pv-card>
     </div>
   </div>
+
   <div class="fixed right-5 bottom-5 flex flex-row gap-2">
     <pv-button
       v-if="isAdmin"
@@ -348,6 +356,7 @@ import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
 import { useToast } from 'primevue/usetoast'
 import { computed, ref } from 'vue'
+import dayjs from 'dayjs'
 
 const worldState = ref<WorldState>()
 const loading = ref(false)
@@ -423,6 +432,24 @@ async function forceFetch() {
     }
   } finally {
     loading.value = false
+  }
+}
+
+function cetusCycleChange() {
+  if (!worldState.value) {
+    return
+  }
+  const now_state = worldState.value.cetusCycle.state
+  if (now_state == 'day') {
+    worldState.value.cetusCycle.state = 'night'
+    worldState.value.cetusCycle.expiry = dayjs(worldState.value.cetusCycle.expiry)
+      .add(50, 'minute')
+      .toISOString()
+  } else {
+    worldState.value.cetusCycle.state = 'day'
+    worldState.value.cetusCycle.expiry = dayjs(worldState.value.cetusCycle.expiry)
+      .add(100, 'minute')
+      .toISOString()
   }
 }
 
