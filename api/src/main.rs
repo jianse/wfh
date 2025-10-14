@@ -25,7 +25,7 @@ struct Opts {
     config: PathBuf,
 
     #[command(subcommand)]
-    op: Operation,
+    op: Option<Operation>,
 }
 
 #[derive(Subcommand, Debug)]
@@ -80,14 +80,21 @@ enum MigrateSubcommands {
 #[tokio::main]
 async fn main() -> Result<()> {
     let opts = Opts::parse();
+
     match opts.op {
-        Operation::Config { op } => run_config_command(op, opts.config)?,
-        Operation::Serve => {
+        Some(op) => match op {
+            Operation::Config { op } => run_config_command(op, opts.config)?,
+            Operation::Serve => {
+                register_config_path(opts.config);
+                service::serve().await?
+            }
+            Operation::Migrate { op } => run_migrate_command(op, opts.config).await?,
+            _ => todo!(),
+        },
+        None => {
             register_config_path(opts.config);
             service::serve().await?
         }
-        Operation::Migrate { op } => run_migrate_command(op, opts.config).await?,
-        _ => todo!(),
     };
     Ok(())
 }

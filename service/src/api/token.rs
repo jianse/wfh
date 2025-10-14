@@ -15,7 +15,7 @@ pub(super) struct LoginCredential {
     password: String,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub(super) struct Claims {
     /// issuer
     pub(super) iss: String,

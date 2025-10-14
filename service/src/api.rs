@@ -247,6 +247,9 @@ pub enum BizError {
 
     #[error("other error. {0}")]
     Custom(String),
+
+    #[error(transparent)]
+    IoError(#[from] std::io::Error),
 }
 impl BizError {
     pub fn custom<S: Display>(msg: S) -> Self {

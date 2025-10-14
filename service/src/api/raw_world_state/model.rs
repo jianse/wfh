@@ -437,6 +437,9 @@ pub struct ManifestItem {
 
     #[serde(rename = "RegularPrice")]
     pub regular_price: Option<u32>,
+
+    #[serde(rename = "Limit")]
+    pub limit: Option<u32>,
 }
 
 #[serde_as]
@@ -446,19 +449,27 @@ pub struct VoidTrader {
     #[serde(rename = "_id")]
     pub id: String,
 
+    /// 虚空商人出现的时间
     #[serde_as(deserialize_as = "Option<TryFromInto<Date>>")]
     #[serde(rename = "Activation")]
     pub activation: Option<DateTime<Utc>>,
 
+    /// 虚空商人离开的时间
     #[serde_as(deserialize_as = "Option<TryFromInto<Date>>")]
     #[serde(rename = "Expiry")]
     pub expiry: Option<DateTime<Utc>>,
 
+    /// always "Baro'Ki Teel"
     #[serde(rename = "Character")]
     pub character: String,
 
+    /// 虚空商人出现的节点，一般是中继站
     #[serde(rename = "Node")]
     pub node: String,
+
+    /// 虚空商人带的商品
+    #[serde(rename = "Manifest")]
+    pub manifest: Option<Vec<ManifestItem>>,
 }
 
 #[serde_as]
@@ -644,6 +655,12 @@ pub struct GlobalUpgrade {
     pub localize_tag: Option<String>,
     #[serde(rename = "LocalizeDescTag")]
     pub localize_desc_tag: Option<String>,
+
+    #[serde(rename = "Nodes")]
+    pub nodes: Option<Vec<String>>,
+
+    #[serde(rename = "ValidType")]
+    pub valid_type: Option<String>,
 }
 
 #[serde_as]
@@ -713,7 +730,7 @@ pub struct Job {
     // #[serde(rename = "rewards")]
     pub rewards: String,
     #[serde(rename = "masteryReq")]
-    pub mastery_req: u8,
+    pub mastery_req: Option<u8>,
     #[serde(rename = "minEnemyLevel")]
     pub min_enemy_level: u16,
     #[serde(rename = "maxEnemyLevel")]
@@ -727,6 +744,12 @@ pub struct Job {
 
     #[serde(rename = "locationTag")]
     pub location_tag: Option<String>,
+
+    #[serde(rename = "requiredItems")]
+    pub required_items: Option<Vec<String>>,
+
+    #[serde(rename = "useRequiredItemsAsMiscItemFee")]
+    pub use_required_items_as_misc_item_fee: Option<bool>,
 }
 
 #[serde_as]
@@ -873,9 +896,20 @@ pub struct MissionInfo {
     #[serde(rename = "requiredItems")]
     pub required_items: Option<Vec<String>>,
 
-    #[serde (rename = "consumeRequiredItems")]
+    #[serde(rename = "consumeRequiredItems")]
     pub consume_required_items: Option<bool>,
 
+    #[serde(rename = "goalTag")]
+    pub goal_tag: Option<String>,
+
+    #[serde(rename = "icon")]
+    pub icon: Option<String>,
+
+    #[serde(rename = "leadersAlwaysAllowed")]
+    pub leaders_always_allowed: Option<bool>,
+
+    #[serde(rename = "levelAuras")]
+    pub level_auras: Option<Vec<String>>,
 }
 
 #[serde_as]
@@ -998,7 +1032,6 @@ pub struct Goal {
     #[serde(rename = "MissionInfo")]
     pub mission_info: Option<MissionInfo>,
 
-
     #[serde(rename = "ScoreMaxTag")]
     pub score_max_tag: Option<String>,
 
@@ -1007,6 +1040,36 @@ pub struct Goal {
 
     #[serde(rename = "RegionDrops")]
     pub region_drops: Option<Vec<String>>,
+
+    #[serde(rename = "ContinuousHubEvent")]
+    pub continuous_hub_event: Option<ContinuousHubEvent>,
+
+    #[serde(rename = "InstructionalItem")]
+    pub instructional_item: Option<String>,
+
+    #[serde(rename = "RegionIdx")]
+    pub region_idx: Option<u32>,
+
+    #[serde(rename = "Transmission")]
+    pub transmission: Option<String>,
+}
+
+#[serde_as]
+#[derive(Debug, Deserialize, Clone)]
+pub struct ContinuousHubEvent {
+    #[serde(rename = "Transmissions")]
+    pub transmissions: Vec<String>,
+
+    #[serde_as(deserialize_as = "TryFromInto<Date>")]
+    #[serde(rename = "Activation")]
+    pub activation: DateTime<Utc>,
+
+    #[serde_as(deserialize_as = "TryFromInto<Date>")]
+    #[serde(rename = "Expiry")]
+    pub expiry: DateTime<Utc>,
+
+    #[serde(rename = "RepeatInterval")]
+    pub repeat_interval: Option<u32>,
 }
 
 // #[serde_as]
@@ -1017,6 +1080,9 @@ pub struct Reward {
     pub items: Option<Vec<String>>,
     #[serde(rename = "countedItems")]
     pub counted_items: Option<Vec<CountedItem>>,
+
+    #[serde(rename = "randomizedItems")]
+    pub randomized_items: Option<String>,
 }
 
 #[derive(Debug, Deserialize, Clone)]
@@ -1073,6 +1139,9 @@ pub struct Event {
 
     #[serde(rename = "EventLiveUrl")]
     pub event_live_url: Option<String>,
+
+    #[serde(rename = "GameOnly")]
+    pub game_only: Option<bool>,
 }
 
 #[derive(Debug, Deserialize, Clone)]
@@ -1101,15 +1170,24 @@ mod tests {
 
     #[test]
     fn test_decode_raw() -> eyre::Result<()> {
-        let file = std::fs::File::open("../ui/cache/ws_st_org-20250905.json")?;
-        let jd = &mut serde_json::Deserializer::from_reader(file);
-        let mut unused = BTreeSet::new();
-        let model: RawWorldState = serde_ignored::deserialize(jd, |path| {
-            unused.insert(path.to_string());
-        })?;
-        // let model = serde_json::from_reader::<_, RawWorldState>(file)?;
-        // dbg!(model);
-        dbg!(unused);
+        for entry in std::fs::read_dir("./tests/samples/full")? {
+            let entry = entry?;
+            let meta = entry.metadata()?;
+            // let file = entry.file();
+            if !meta.is_file() {
+                continue;
+            }
+            dbg!(entry.path());
+            let file = std::fs::File::open(entry.path())?;
+            let jd = &mut serde_json::Deserializer::from_reader(file);
+            let mut unused = BTreeSet::new();
+            let model: RawWorldState = serde_ignored::deserialize(jd, |path| {
+                unused.insert(path.to_string());
+            })?;
+            // let model = serde_json::from_reader::<_, RawWorldState>(file)?;
+            // dbg!(model);
+            dbg!(unused);
+        }
         Ok(())
     }
 }

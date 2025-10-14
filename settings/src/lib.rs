@@ -211,13 +211,14 @@ impl Display for LogLevel {
 #[serde(tag = "source")]
 pub enum UiSettings {
     /// embed in binary
+    #[default]
     #[serde(alias = "embed")]
     Embed,
     /// local dir
     #[serde(alias = "local")]
     Local { path: PathBuf },
     /// no ui just api
-    #[default]
+    // #[default]
     #[serde(alias = "none")]
     None,
 }

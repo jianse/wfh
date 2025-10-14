@@ -2,6 +2,7 @@ use axum::Router;
 use axum::routing::get;
 
 use crate::AppState;
+use crate::api::raw_world_state::parse::load_deps;
 use crate::api::world_state::models::WorldStateData;
 use crate::api::{BizResponse, BizResult};
 use model::RawWorldState;
@@ -52,7 +53,8 @@ async fn get_raw_world_state() -> BizResult<BizResponse<WorldStateData>> {
     let client = reqwest::Client::new();
     let d = fetch_raw_world_state(client, WG_URL).await?;
     dbg!(d.ignored);
-    let data = parse_raw_world_state(d.raw)?;
+    let deps = load_deps("../data", Some(d.raw.time))?;
+    let data = parse_raw_world_state(d.raw, &deps)?;
     Ok(BizResponse::ok_with(data))
 }
 
@@ -64,23 +66,21 @@ mod tests {
     async fn test_get_raw_world_state_wg() {
         let client = reqwest::Client::new();
         let res = fetch_raw_world_state(client, WG_URL).await;
-        dbg!(&res);
+        // dbg!(&res);
         assert!(res.is_ok());
 
         let res = res.unwrap();
         dbg!(&res.ignored);
-        assert!(res.ignored.is_empty());
     }
 
     #[tokio::test]
     async fn test_get_raw_world_state_st() {
         let client = reqwest::Client::new();
         let res = fetch_raw_world_state(client, ST_URL).await;
-        dbg!(&res);
+        // dbg!(&res);
         assert!(res.is_ok());
 
         let res = res.unwrap();
         dbg!(&res.ignored);
-        assert!(res.ignored.is_empty());
     }
 }

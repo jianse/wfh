@@ -729,7 +729,7 @@ pub struct Sortie {
 #[serde_as]
 #[derive(Deserialize, Serialize, Debug)]
 pub struct AlertMission {
-    pub description: String,
+    pub description: Option<String>,
     pub node: String,
     #[serde(rename = "nodeKey")]
     pub node_key: String,
@@ -883,7 +883,7 @@ pub struct Event {
     #[serde(rename = "regionDrops")]
     pub region_drops: Vec<String>,
     #[serde(rename = "archwingDrops")]
-    pub archwing_drops: Vec<()>,
+    pub archwing_drops: Vec<String>,
     pub metadata: Vec<()>,
     #[serde(rename = "completionBonuses")]
     pub completion_bonuses: Vec<()>,
@@ -921,7 +921,7 @@ pub struct EventReward {
     pub counted_items: Vec<CountedItem>,
 
     #[serde_as(deserialize_as = "DisplayFromStr")]
-    pub credits: i32,
+    pub credits: u32,
     #[serde(rename = "asString")]
     pub as_string: String,
     #[serde(rename = "itemString")]

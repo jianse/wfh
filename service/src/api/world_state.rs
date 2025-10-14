@@ -298,12 +298,14 @@ async fn rewrite_world_state(
             &replacements,
         );
 
-        rewrite_one(
-            &mut a.mission.description,
-            &mut warnings,
-            format!("{path}.mission.description"),
-            &replacements,
-        );
+        if let Some(d) = &mut a.mission.description {
+            rewrite_one(
+                d,
+                &mut warnings,
+                format!("{path}.mission.description"),
+                &replacements,
+            );
+        }
     });
 
     // daily deals
