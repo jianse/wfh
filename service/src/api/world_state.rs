@@ -629,6 +629,17 @@ pub async fn wf_world_state(state: AppState) -> Result<Box<WorldStateData>, BizE
     }
 }
 
+pub async fn clean_world_state_before(state: AppState, before: DateTime<Utc>) -> Result<(), DbErr> {
+    // let now = Utc::now();
+    // let before = now - Duration::days(7);
+    let rs = WorldState2::delete_many()
+        .filter(world_state2::Column::SyncTime.lt(before))
+        .exec(&state.conn)
+        .await?;
+    info!("deleted {} rows", rs.rows_affected);
+    Ok(())
+}
+
 /// logging get warframe world state error into db.
 async fn log_error(
     state: AppState,

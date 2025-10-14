@@ -1,12 +1,12 @@
 //! Background jobs
 
 use crate::AppState;
-use crate::api::world_state::get_nearest_expiry;
+use crate::api::world_state::{clean_world_state_before, get_nearest_expiry};
 use crate::api::world_state::{get_nearest_expiry_from_db, wf_world_state};
 use crate::api::{BizError, BizResult};
 
 use async_trait::async_trait;
-use chrono::{Local, Utc};
+use chrono::{Local, TimeDelta, Utc};
 use settings::{JobRetryPolicy, JobSettings};
 use std::cmp;
 use std::collections::HashMap;
@@ -209,6 +209,9 @@ impl Job for WgWorldStateJob {
 
     async fn job_body(&self) -> BizResult<Option<Duration>> {
         let res = wf_world_state(self.state.clone()).await?;
+
+        // clean old world state
+        clean_world_state_before(self.state.clone(), Utc::now() - TimeDelta::days(7)).await?;
 
         let nearest_expiry = get_nearest_expiry(&res);
 
