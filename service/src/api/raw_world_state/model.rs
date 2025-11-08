@@ -2,13 +2,13 @@
 
 use chrono::serde::ts_seconds;
 use chrono::{DateTime, Utc};
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use serde_with::{DefaultOnError, FromInto, TryFromInto, serde_as};
 use std::collections::HashMap;
 
 use super::helper::{Date, Oid};
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct RawWorldState {
     #[serde(rename = "WorldSeed")]
     pub world_seed: String,
@@ -121,7 +121,7 @@ pub struct RawWorldState {
     pub force_logout_version: u64,
 
     #[serde(rename = "FeaturedGuilds")]
-    pub featured_guilds: Vec<FeaturedGuild>,
+    pub featured_guilds: Option<Vec<FeaturedGuild>>,
 
     #[serde(rename = "SeasonInfo")]
     pub season_info: SeasonInfo,
@@ -131,10 +131,55 @@ pub struct RawWorldState {
 
     #[serde(rename = "Tmp")]
     pub tmp: String,
+
+    #[serde(rename = "SkuSales")]
+    pub sku_sales: Vec<()>,
+
+    #[serde(rename = "Conquests")]
+    pub conquests: Vec<Conquest>,
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
+pub struct Conquest {
+    #[serde_as(deserialize_as = "TryFromInto<Date>")]
+    #[serde(rename = "Activation")]
+    pub activation: DateTime<Utc>,
+
+    #[serde_as(deserialize_as = "TryFromInto<Date>")]
+    #[serde(rename = "Expiry")]
+    pub expiry: DateTime<Utc>,
+
+    #[serde(rename = "Type")]
+    pub r#type: String,
+
+    #[serde(rename = "Missions")]
+    pub missions: Vec<ConquestMission>,
+
+    #[serde(rename = "Variables")]
+    pub variables: Vec<String>,
+
+    #[serde(rename = "RandomSeed")]
+    pub random_seed: u64,
+}
+#[derive(Debug, Deserialize, Serialize, Clone)]
+pub struct ConquestMission {
+    pub faction: String,
+    #[serde(rename = "missionType")]
+    pub mission_type: String,
+    pub difficulties: Vec<Difficulty>,
+}
+
+#[derive(Debug, Deserialize, Serialize, Clone)]
+pub struct Difficulty {
+    #[serde(rename = "type")]
+    pub r#type: String,
+    pub deviation: String,
+    pub risks: Vec<String>,
+}
+
+#[serde_as]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct KnownCalendarSeason {
     #[serde_as(deserialize_as = "TryFromInto<Date>")]
     #[serde(rename = "Activation")]
@@ -161,14 +206,14 @@ pub struct KnownCalendarSeason {
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Day {
     pub day: u16,
     pub events: Vec<CalendarEvent>,
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct CalendarEvent {
     r#type: String,
     pub reward: Option<String>,
@@ -177,7 +222,7 @@ pub struct CalendarEvent {
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct SeasonInfo {
     #[serde_as(deserialize_as = "TryFromInto<Date>")]
     #[serde(rename = "Activation")]
@@ -204,7 +249,7 @@ pub struct SeasonInfo {
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Challenge {
     #[serde_as(deserialize_as = "FromInto<Oid>")]
     #[serde(rename = "_id")]
@@ -226,7 +271,7 @@ pub struct Challenge {
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct FeaturedGuild {
     #[serde_as(deserialize_as = "FromInto<Oid>")]
     #[serde(rename = "_id")]
@@ -254,7 +299,7 @@ pub struct FeaturedGuild {
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct EndlessXpChoice {
     #[serde(rename = "Category")]
     pub category: String,
@@ -263,7 +308,7 @@ pub struct EndlessXpChoice {
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct ConstructionProject {
     #[serde(rename = "Tag")]
     pub tag: String,
@@ -282,7 +327,7 @@ pub struct ConstructionProject {
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct PvpChallengeInstance {
     #[serde_as(deserialize_as = "FromInto<Oid>")]
     #[serde(rename = "_id")]
@@ -314,20 +359,20 @@ pub struct PvpChallengeInstance {
     pub category: String,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Param {
     pub n: String,
     pub v: u32,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct LibraryInfo {
     #[serde(rename = "LastCompletedTargetType")]
     pub last_completed_target_type: String,
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct DailyDeal {
     #[serde(rename = "StoreItem")]
     pub store_item: String,
@@ -353,14 +398,14 @@ pub struct DailyDeal {
     pub amount_sold: u32,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct PrimeAccessAvailability {
     #[serde(rename = "State")]
     pub state: String,
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct VoidStorm {
     #[serde_as(deserialize_as = "FromInto<Oid>")]
     #[serde(rename = "_id")]
@@ -381,7 +426,7 @@ pub struct VoidStorm {
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct PrimeVaultTrader {
     #[serde_as(deserialize_as = "FromInto<Oid>")]
     #[serde(rename = "_id")]
@@ -413,7 +458,7 @@ pub struct PrimeVaultTrader {
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct ScheduleInfo {
     #[serde_as(deserialize_as = "TryFromInto<Date>")]
     #[serde(rename = "Expiry")]
@@ -428,7 +473,7 @@ pub struct ScheduleInfo {
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct ManifestItem {
     #[serde(rename = "ItemType")]
     pub item_type: String,
@@ -443,7 +488,7 @@ pub struct ManifestItem {
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct VoidTrader {
     #[serde_as(deserialize_as = "FromInto<Oid>")]
     #[serde(rename = "_id")]
@@ -473,7 +518,7 @@ pub struct VoidTrader {
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct NodeOverride {
     #[serde_as(deserialize_as = "FromInto<Oid>")]
     #[serde(rename = "_id")]
@@ -510,7 +555,7 @@ pub struct NodeOverride {
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Invasion {
     #[serde_as(deserialize_as = "FromInto<Oid>")]
     #[serde(rename = "_id")]
@@ -550,7 +595,7 @@ pub struct Invasion {
     pub activation: DateTime<Utc>,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct InvasionMissionInfo {
     pub seed: i32,
     pub faction: String,
@@ -559,21 +604,21 @@ pub struct InvasionMissionInfo {
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct InGameMarket {
     #[serde(rename = "LandingPage")]
     pub landing_page: LandingPage,
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct LandingPage {
     #[serde(rename = "Categories")]
     pub categories: Vec<Category>,
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Category {
     #[serde(rename = "CategoryName")]
     pub category_name: String,
@@ -592,7 +637,7 @@ pub struct Category {
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct FlashSale {
     #[serde(rename = "TypeName")]
     pub type_name: String,
@@ -631,7 +676,7 @@ pub struct FlashSale {
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct GlobalUpgrade {
     #[serde_as(deserialize_as = "FromInto<Oid>")]
     #[serde(rename = "_id")]
@@ -664,7 +709,7 @@ pub struct GlobalUpgrade {
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct ActiveMission {
     #[serde_as(deserialize_as = "FromInto<Oid>")]
     #[serde(rename = "_id")]
@@ -696,7 +741,7 @@ pub struct ActiveMission {
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct SyndicateMission {
     #[serde_as(deserialize_as = "FromInto<Oid>")]
     #[serde(rename = "_id")]
@@ -723,7 +768,7 @@ pub struct SyndicateMission {
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Job {
     #[serde(rename = "jobType")]
     pub job_type: Option<String>,
@@ -753,7 +798,7 @@ pub struct Job {
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct LiteSortie {
     #[serde_as(deserialize_as = "FromInto<Oid>")]
     #[serde(rename = "_id")]
@@ -777,7 +822,7 @@ pub struct LiteSortie {
     pub missions: Vec<Mission>,
 }
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Mission {
     #[serde(rename = "missionType")]
     pub mission_type: String,
@@ -785,7 +830,7 @@ pub struct Mission {
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Sortie {
     #[serde_as(deserialize_as = "FromInto<Oid>")]
     #[serde(rename = "_id")]
@@ -816,7 +861,7 @@ pub struct Sortie {
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Variant {
     #[serde(rename = "missionType")]
     pub mission_type: String,
@@ -827,7 +872,7 @@ pub struct Variant {
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Alert {
     #[serde_as(deserialize_as = "FromInto<Oid>")]
     #[serde(rename = "_id")]
@@ -846,10 +891,13 @@ pub struct Alert {
 
     #[serde(rename = "Tag")]
     pub tag: String,
+
+    #[serde(rename = "ForceUnlock")]
+    pub force_unlock: Option<bool>,
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct MissionInfo {
     pub location: String,
 
@@ -910,10 +958,16 @@ pub struct MissionInfo {
 
     #[serde(rename = "levelAuras")]
     pub level_auras: Option<Vec<String>>,
+
+    #[serde(rename = "extraEnemySpec")]
+    pub extra_enemy_spec: Option<String>,
+
+    #[serde(rename = "maxWaveNum")]
+    pub max_wave_num: Option<u32>,
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Goal {
     #[serde_as(deserialize_as = "FromInto<Oid>")]
     #[serde(rename = "_id")]
@@ -950,7 +1004,7 @@ pub struct Goal {
     pub tag: String,
     #[serde_as(deserialize_as = "Option<Vec<FromInto<Oid>>>")]
     #[serde(rename = "UpgradeIds")]
-    pub upgrade_ids: Option<Vec<Oid>>,
+    pub upgrade_ids: Option<Vec<String>>,
 
     #[serde(rename = "Personal")]
     pub personal: Option<bool>,
@@ -1055,7 +1109,7 @@ pub struct Goal {
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct ContinuousHubEvent {
     #[serde(rename = "Transmissions")]
     pub transmissions: Vec<String>,
@@ -1073,7 +1127,7 @@ pub struct ContinuousHubEvent {
 }
 
 // #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Reward {
     pub credits: Option<u32>,
     pub xp: Option<u32>,
@@ -1085,7 +1139,7 @@ pub struct Reward {
     pub randomized_items: Option<String>,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct CountedItem {
     #[serde(rename = "ItemType")]
     pub item_type: String,
@@ -1094,7 +1148,7 @@ pub struct CountedItem {
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Event {
     #[serde_as(deserialize_as = "FromInto<Oid>")]
     #[serde(rename = "_id")]
@@ -1144,7 +1198,7 @@ pub struct Event {
     pub game_only: Option<bool>,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Link {
     #[serde(rename = "LanguageCode")]
     pub language_code: String,
@@ -1152,7 +1206,7 @@ pub struct Link {
     pub link: String,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Message {
     #[serde(rename = "LanguageCode")]
     pub language_code: String,
