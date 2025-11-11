@@ -30,6 +30,7 @@ async fn fetch_raw_world_state(http_client: &reqwest::Client, url: &str) -> BizR
         "fetch_raw_world_state time: {} ms.",
         time.elapsed().as_millis()
     );
+    info!("resp headers {:?}", resp.headers());
 
     let body = resp.text().await?;
     // dbg!(&body);
@@ -67,11 +68,8 @@ pub fn raw_world_state_routes() -> Router<AppState> {
 async fn get_raw_world_state(
     State(state): State<AppState>,
 ) -> BizResult<BizResponse<RawWorldState>> {
-    // let client = reqwest::Client::new();
     let d = fetch_raw_world_state(&state.http_client, WG_URL).await?;
     dbg!(d.ignored);
-    // let deps = load_deps("../data", Some(d.raw.time))?;
-    // let data = parse_raw_world_state(d.raw, &deps)?;
     Ok(BizResponse::ok_with(d.raw))
 }
 

@@ -39,6 +39,7 @@ pub struct WorldStateOut {
     pub data: Box<WorldStateData>,
 }
 
+#[derive(Debug)]
 pub struct WorldStateError {
     pub raw: Option<String>,
     // pub data: Option<WorldStateData>,
@@ -65,13 +66,13 @@ impl From<reqwest::Error> for WorldStateError {
     }
 }
 
-async fn get_world_state(state: AppState) -> Result<WorldStateOut, WorldStateError> {
+async fn get_world_state(http_client: &reqwest::Client) -> Result<WorldStateOut, WorldStateError> {
     // let mut res = WorldStateOut::default();
     let start = std::time::Instant::now();
 
     let url = build_url()?;
 
-    let resp = state.http_client.get(url).headers(headers()).send().await?;
+    let resp = http_client.get(url).headers(headers()).send().await?;
 
     debug!("{resp:?}");
     let raw = resp.text().await?;
@@ -611,7 +612,7 @@ async fn update_and_get(
 
 pub async fn wf_world_state(state: AppState) -> Result<Box<WorldStateData>, BizError> {
     let start = Instant::now();
-    let res = get_world_state(state.clone()).await;
+    let res = get_world_state(&state.http_client).await;
 
     match res {
         Ok(ws) => {
@@ -793,5 +794,23 @@ mod tests {
                 println!("file not found");
             }
         }
+    }
+
+    #[tokio::test]
+    async fn test_get_world_state() {
+        let client = reqwest::Client::new();
+        super::get_world_state(&client).await.unwrap();
+    }
+
+    #[test]
+    fn test_sign() {
+        let uuid = "f53402fe-2428-4c5f-8d62-3232be6d6af8";
+        let timestamp = "1762534007";
+        let u = format!(
+            "xjzj/xjzj20220330/index/ajax_get_worldState?uuid={uuid}&version=2&appid=10003&t={timestamp}"
+        );
+
+        let sign = md5::compute(u).encode_hex::<String>();
+        print!("{}", sign)
     }
 }

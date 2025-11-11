@@ -9,6 +9,7 @@ use chrono::DateTime;
 use error::Result;
 use reqwest::Client;
 use reqwest::header::LAST_MODIFIED;
+use serde::Serialize;
 use serde_json::json;
 use std::collections::HashMap;
 use std::path::{Path, PathBuf};
@@ -132,11 +133,11 @@ pub fn build_manifest_map(json: &serde_json::Value) -> Result<HashMap<String, St
     Ok(map)
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub struct ReIndex {
-    category: String,
-    prop: String,
-    index: usize,
+    pub category: String,
+    pub prop: String,
+    pub index: usize,
 }
 
 fn replace_lang_text(
@@ -758,7 +759,7 @@ fn process_recipes(
 pub type ReverseMap = HashMap<String, ReIndex>;
 pub type PublicExports = HashMap<String, serde_json::Value>;
 pub async fn fetch_transform_all(client: &Client) -> Result<(PublicExports, ReverseMap)> {
-    let mut fetcher = PubExportFetcher::new(client, "cache");
+    let mut fetcher = PubExportFetcher::new(client, "../cache");
     let mut pe = fetcher.fetch_all().await?;
 
     // Manifest contains all the images
@@ -767,7 +768,7 @@ pub async fn fetch_transform_all(client: &Client) -> Result<(PublicExports, Reve
 
     let mut reverse_map = HashMap::new();
 
-    let lang_holder = LangHolder::new(".")?;
+    let lang_holder = LangHolder::new("../lang")?;
 
     let resources = pe.get_mut("Resources").unwrap();
     process_resources(resources, &mf_kv, &lang_holder, &mut reverse_map)?;
@@ -821,9 +822,11 @@ mod tests {
     async fn test_fetch() -> eyre::Result<()> {
         init_logger();
         let client = reqwest::Client::new();
-        let (pe, _idx) = fetch_transform_all(&client).await?;
+        let (pe, idx) = fetch_transform_all(&client).await?;
 
-        save_all(&pe, "out")?;
+        save_all(&pe, "../out")?;
+
+        std::fs::write("../out/rindex.json", serde_json::to_string_pretty(&idx)?)?;
         Ok(())
     }
 

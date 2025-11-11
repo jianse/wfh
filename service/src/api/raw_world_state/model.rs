@@ -10,9 +10,11 @@ use super::helper::{Date, Oid};
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct RawWorldState {
+    /// a string that represents the seed of the world
     #[serde(rename = "WorldSeed")]
     pub world_seed: String,
 
+    /// version
     #[serde(rename = "Version")]
     pub version: i8,
 
@@ -29,33 +31,46 @@ pub struct RawWorldState {
     #[serde(rename = "Events")]
     pub events: Vec<Event>,
 
+    /// 活动 例如：热美亚
     #[serde(rename = "Goals")]
     pub goals: Vec<Goal>,
 
+    /// 战术警报 例如：莲的馈赠
     #[serde(rename = "Alerts")]
     pub alerts: Vec<Alert>,
 
+    /// 突击
     #[serde(rename = "Sorties")]
     pub sorties: Vec<Sortie>,
 
+    /// 执刑官猎杀
     #[serde(rename = "LiteSorties")]
     pub lite_sorties: Vec<LiteSortie>,
 
+    /// 集团任务
     #[serde(rename = "SyndicateMissions")]
     pub syndicate_missions: Vec<SyndicateMission>,
 
+    /// 虚空裂缝
     #[serde(rename = "ActiveMissions")]
     pub active_missions: Vec<ActiveMission>,
 
+    /// 全局加成
     #[serde(rename = "GlobalUpgrades")]
     pub global_upgrades: Vec<GlobalUpgrade>,
 
+    /// 特卖
     #[serde(rename = "FlashSales")]
     pub flash_sale: Vec<FlashSale>,
 
+    #[serde(rename = "SkuSales")]
+    pub sku_sales: Vec<()>,
+
+    /// 商城
     #[serde(rename = "InGameMarket")]
     pub in_game_market: InGameMarket,
 
+    /// 入侵
     #[serde(rename = "Invasions")]
     pub invasions: Vec<Invasion>,
 
@@ -65,12 +80,15 @@ pub struct RawWorldState {
     #[serde(rename = "NodeOverrides")]
     pub node_overrides: Vec<NodeOverride>,
 
+    /// 虚空商人
     #[serde(rename = "VoidTraders")]
     pub void_traders: Vec<VoidTrader>,
 
+    /// 圣装重生
     #[serde(rename = "PrimeVaultTraders")]
     pub prime_vault_traders: Vec<PrimeVaultTrader>,
 
+    /// 虚空风暴
     #[serde(rename = "VoidStorms")]
     pub void_storms: Vec<VoidStorm>,
 
@@ -83,9 +101,11 @@ pub struct RawWorldState {
     #[serde(rename = "PrimeTokenAvailability")]
     pub prime_token_availability: bool,
 
+    /// 日常特惠
     #[serde(rename = "DailyDeals")]
     pub daily_deals: Vec<DailyDeal>,
 
+    /// 每日结合目标
     #[serde(rename = "LibraryInfo")]
     pub library_info: LibraryInfo,
 
@@ -120,23 +140,24 @@ pub struct RawWorldState {
     #[serde(rename = "ForceLogoutVersion")]
     pub force_logout_version: u64,
 
-    #[serde(rename = "FeaturedGuilds")]
+    /// 特色道场
+    #[serde(rename = "FeaturedGuilds", skip_serializing_if = "Option::is_none")]
     pub featured_guilds: Option<Vec<FeaturedGuild>>,
 
+    /// 午夜电波
     #[serde(rename = "SeasonInfo")]
     pub season_info: SeasonInfo,
 
+    /// 1999日历
     #[serde(rename = "KnownCalendarSeasons")]
     pub known_calendar_seasons: Vec<KnownCalendarSeason>,
 
-    #[serde(rename = "Tmp")]
-    pub tmp: String,
-
-    #[serde(rename = "SkuSales")]
-    pub sku_sales: Vec<()>,
-
+    /// 科研
     #[serde(rename = "Conquests")]
     pub conquests: Vec<Conquest>,
+
+    #[serde(rename = "Tmp")]
+    pub tmp: String,
 }
 
 #[serde_as]
@@ -216,8 +237,11 @@ pub struct Day {
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct CalendarEvent {
     r#type: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub reward: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub upgrade: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub challenge: Option<String>,
 }
 
@@ -255,7 +279,7 @@ pub struct Challenge {
     #[serde(rename = "_id")]
     pub id: String,
 
-    #[serde(rename = "Daily")]
+    #[serde(rename = "Daily", skip_serializing_if = "Option::is_none")]
     pub daily: Option<bool>,
 
     #[serde_as(deserialize_as = "TryFromInto<Date>")]
@@ -282,19 +306,19 @@ pub struct FeaturedGuild {
     #[serde(rename = "Tier")]
     pub tier: u8,
     #[serde_as(deserialize_as = "Option<FromInto<Oid>>")]
-    #[serde(rename = "AllianceId")]
+    #[serde(rename = "AllianceId", skip_serializing_if = "Option::is_none")]
     pub alliance_id: Option<String>,
 
-    #[serde(rename = "Icon")]
+    #[serde(rename = "Icon", skip_serializing_if = "Option::is_none")]
     pub icon: Option<u8>,
 
-    #[serde(rename = "Emblem")]
+    #[serde(rename = "Emblem", skip_serializing_if = "Option::is_none")]
     pub emblem: Option<bool>,
 
-    #[serde(rename = "HiddenPlatforms")]
+    #[serde(rename = "HiddenPlatforms", skip_serializing_if = "Option::is_none")]
     pub hidden_platforms: Option<HashMap<String, bool>>,
 
-    #[serde(rename = "IconOverride")]
+    #[serde(rename = "IconOverride", skip_serializing_if = "Option::is_none")]
     pub icon_override: Option<u8>,
 }
 
@@ -333,7 +357,7 @@ pub struct PvpChallengeInstance {
     #[serde(rename = "_id")]
     pub id: String,
 
-    #[serde(rename = "challengeTypeRefID")]
+    #[serde(rename = "challengeTypeRefID", skip_serializing_if = "Option::is_none")]
     pub challenge_type_ref_id: Option<String>,
 
     #[serde_as(deserialize_as = "TryFromInto<Date>")]
@@ -465,10 +489,10 @@ pub struct ScheduleInfo {
     pub expiry: DateTime<Utc>,
 
     #[serde_as(deserialize_as = "Option<TryFromInto<Date>>")]
-    #[serde(rename = "PreviewHiddenUntil")]
+    #[serde(rename = "PreviewHiddenUntil", skip_serializing_if = "Option::is_none")]
     pub preview_hidden_until: Option<DateTime<Utc>>,
 
-    #[serde(rename = "FeaturedItem")]
+    #[serde(rename = "FeaturedItem", skip_serializing_if = "Option::is_none")]
     pub featured_item: Option<String>,
 }
 
@@ -477,13 +501,13 @@ pub struct ScheduleInfo {
 pub struct ManifestItem {
     #[serde(rename = "ItemType")]
     pub item_type: String,
-    #[serde(rename = "PrimePrice")]
+    #[serde(rename = "PrimePrice", skip_serializing_if = "Option::is_none")]
     pub prime_price: Option<u32>,
 
-    #[serde(rename = "RegularPrice")]
+    #[serde(rename = "RegularPrice", skip_serializing_if = "Option::is_none")]
     pub regular_price: Option<u32>,
 
-    #[serde(rename = "Limit")]
+    #[serde(rename = "Limit", skip_serializing_if = "Option::is_none")]
     pub limit: Option<u32>,
 }
 
@@ -496,12 +520,12 @@ pub struct VoidTrader {
 
     /// 虚空商人出现的时间
     #[serde_as(deserialize_as = "Option<TryFromInto<Date>>")]
-    #[serde(rename = "Activation")]
+    #[serde(rename = "Activation", skip_serializing_if = "Option::is_none")]
     pub activation: Option<DateTime<Utc>>,
 
     /// 虚空商人离开的时间
     #[serde_as(deserialize_as = "Option<TryFromInto<Date>>")]
-    #[serde(rename = "Expiry")]
+    #[serde(rename = "Expiry", skip_serializing_if = "Option::is_none")]
     pub expiry: Option<DateTime<Utc>>,
 
     /// always "Baro'Ki Teel"
@@ -513,7 +537,7 @@ pub struct VoidTrader {
     pub node: String,
 
     /// 虚空商人带的商品
-    #[serde(rename = "Manifest")]
+    #[serde(rename = "Manifest", skip_serializing_if = "Option::is_none")]
     pub manifest: Option<Vec<ManifestItem>>,
 }
 
@@ -525,32 +549,35 @@ pub struct NodeOverride {
     pub id: String,
     #[serde(rename = "Node")]
     pub node: String,
-    #[serde(rename = "Hide")]
+    #[serde(rename = "Hide", skip_serializing_if = "Option::is_none")]
     pub hide: Option<bool>,
-    #[serde(rename = "Seed")]
+    #[serde(rename = "Seed", skip_serializing_if = "Option::is_none")]
     pub seed: Option<u32>,
 
-    #[serde(rename = "LevelOverride")]
+    #[serde(rename = "LevelOverride", skip_serializing_if = "Option::is_none")]
     pub level_override: Option<String>,
 
     #[serde_as(deserialize_as = "Option<TryFromInto<Date>>")]
-    #[serde(rename = "Activation")]
+    #[serde(rename = "Activation", skip_serializing_if = "Option::is_none")]
     pub activation: Option<DateTime<Utc>>,
 
     #[serde_as(deserialize_as = "Option<TryFromInto<Date>>")]
-    #[serde(rename = "Expiry")]
+    #[serde(rename = "Expiry", skip_serializing_if = "Option::is_none")]
     pub expiry: Option<DateTime<Utc>>,
 
-    #[serde(rename = "CustomNpcEncounters")]
+    #[serde(
+        rename = "CustomNpcEncounters",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub custom_npc_encounters: Option<Vec<String>>,
 
-    #[serde(rename = "Faction")]
+    #[serde(rename = "Faction", skip_serializing_if = "Option::is_none")]
     pub faction: Option<String>,
 
-    #[serde(rename = "EnemySpec")]
+    #[serde(rename = "EnemySpec", skip_serializing_if = "Option::is_none")]
     pub enemy_spec: Option<String>,
 
-    #[serde(rename = "ExtraEnemySpec")]
+    #[serde(rename = "ExtraEnemySpec", skip_serializing_if = "Option::is_none")]
     pub extra_enemy_spec: Option<String>,
 }
 
@@ -581,7 +608,7 @@ pub struct Invasion {
     pub chain_id: String,
 
     #[serde_as(deserialize_as = "DefaultOnError")]
-    #[serde(rename = "AttackerReward")]
+    #[serde(rename = "AttackerReward", skip_serializing_if = "Option::is_none")]
     pub attacker_reward: Option<Reward>,
     #[serde(rename = "AttackerMissionInfo")]
     pub attacker_mission_info: InvasionMissionInfo,
@@ -599,7 +626,7 @@ pub struct Invasion {
 pub struct InvasionMissionInfo {
     pub seed: i32,
     pub faction: String,
-    #[serde(rename = "missionReward")]
+    #[serde(rename = "missionReward", skip_serializing_if = "Option::is_none")]
     pub mission_reward: Option<Vec<()>>,
 }
 
@@ -632,7 +659,7 @@ pub struct Category {
     #[serde(rename = "Items")]
     pub items: Vec<String>,
 
-    #[serde(rename = "AddToMenu")]
+    #[serde(rename = "AddToMenu", skip_serializing_if = "Option::is_none")]
     pub add_to_menu: Option<bool>,
 }
 
@@ -653,7 +680,7 @@ pub struct FlashSale {
     pub bogo_buy: f64,
     #[serde(rename = "BogoGet")]
     pub bogo_get: f64,
-    #[serde(rename = "UrlOverride")]
+    #[serde(rename = "UrlOverride", skip_serializing_if = "Option::is_none")]
     pub url_override: Option<String>,
     #[serde(rename = "PremiumOverride")]
     pub premium_override: f64,
@@ -668,10 +695,13 @@ pub struct FlashSale {
     pub end_date: DateTime<Utc>,
 
     #[serde_as(deserialize_as = "Option<TryFromInto<Date>>")]
-    #[serde(rename = "ProductExpiryOverride")]
+    #[serde(
+        rename = "ProductExpiryOverride",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub product_expiry_override: Option<DateTime<Utc>>,
 
-    #[serde(rename = "DailySaleGenerated")]
+    #[serde(rename = "DailySaleGenerated", skip_serializing_if = "Option::is_none")]
     pub daily_sale_generated: Option<bool>,
 }
 
@@ -696,15 +726,15 @@ pub struct GlobalUpgrade {
     pub operation_type: String,
     #[serde(rename = "Value")]
     pub value: f64,
-    #[serde(rename = "LocalizeTag")]
+    #[serde(rename = "LocalizeTag", skip_serializing_if = "Option::is_none")]
     pub localize_tag: Option<String>,
-    #[serde(rename = "LocalizeDescTag")]
+    #[serde(rename = "LocalizeDescTag", skip_serializing_if = "Option::is_none")]
     pub localize_desc_tag: Option<String>,
 
-    #[serde(rename = "Nodes")]
+    #[serde(rename = "Nodes", skip_serializing_if = "Option::is_none")]
     pub nodes: Option<Vec<String>>,
 
-    #[serde(rename = "ValidType")]
+    #[serde(rename = "ValidType", skip_serializing_if = "Option::is_none")]
     pub valid_type: Option<String>,
 }
 
@@ -736,7 +766,7 @@ pub struct ActiveMission {
     #[serde(rename = "Modifier")]
     pub modifier: String,
 
-    #[serde(rename = "Hard")]
+    #[serde(rename = "Hard", skip_serializing_if = "Option::is_none")]
     pub hard: Option<bool>,
 }
 
@@ -763,18 +793,18 @@ pub struct SyndicateMission {
     #[serde(rename = "Nodes")]
     pub nodes: Vec<String>,
 
-    #[serde(rename = "Jobs")]
+    #[serde(rename = "Jobs", skip_serializing_if = "Option::is_none")]
     pub jobs: Option<Vec<Job>>,
 }
 
 #[serde_as]
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Job {
-    #[serde(rename = "jobType")]
+    #[serde(rename = "jobType", skip_serializing_if = "Option::is_none")]
     pub job_type: Option<String>,
     // #[serde(rename = "rewards")]
     pub rewards: String,
-    #[serde(rename = "masteryReq")]
+    #[serde(rename = "masteryReq", skip_serializing_if = "Option::is_none")]
     pub mastery_req: Option<u8>,
     #[serde(rename = "minEnemyLevel")]
     pub min_enemy_level: u16,
@@ -782,18 +812,23 @@ pub struct Job {
     pub max_enemy_level: u16,
     #[serde(rename = "xpAmounts")]
     pub xp_amounts: Vec<u16>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub endless: Option<bool>,
 
-    #[serde(rename = "isVault")]
+    #[serde(rename = "isVault", skip_serializing_if = "Option::is_none")]
     pub is_vault: Option<bool>,
 
-    #[serde(rename = "locationTag")]
+    #[serde(rename = "locationTag", skip_serializing_if = "Option::is_none")]
     pub location_tag: Option<String>,
 
-    #[serde(rename = "requiredItems")]
+    #[serde(rename = "requiredItems", skip_serializing_if = "Option::is_none")]
     pub required_items: Option<Vec<String>>,
 
-    #[serde(rename = "useRequiredItemsAsMiscItemFee")]
+    #[serde(
+        rename = "useRequiredItemsAsMiscItemFee",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub use_required_items_as_misc_item_fee: Option<bool>,
 }
 
@@ -856,7 +891,7 @@ pub struct Sortie {
     #[serde(rename = "Variants")]
     pub variants: Vec<Variant>,
 
-    #[serde(rename = "Twitter")]
+    #[serde(rename = "Twitter", skip_serializing_if = "Option::is_none")]
     pub twitter: Option<bool>,
 }
 
@@ -892,7 +927,7 @@ pub struct Alert {
     #[serde(rename = "Tag")]
     pub tag: String,
 
-    #[serde(rename = "ForceUnlock")]
+    #[serde(rename = "ForceUnlock", skip_serializing_if = "Option::is_none")]
     pub force_unlock: Option<bool>,
 }
 
@@ -923,46 +958,53 @@ pub struct MissionInfo {
     #[serde(rename = "enemySpec")]
     pub enemy_spec: String,
 
-    #[serde(rename = "descText")]
+    #[serde(rename = "descText", skip_serializing_if = "Option::is_none")]
     pub desc_text: Option<String>,
 
     /// 曲翼任务
-    #[serde(rename = "archwingRequired")]
+    #[serde(rename = "archwingRequired", skip_serializing_if = "Option::is_none")]
     pub archwing_required: Option<bool>,
 
-    #[serde(rename = "vipAgent")]
+    #[serde(rename = "vipAgent", skip_serializing_if = "Option::is_none")]
     pub vip_agent: Option<String>,
 
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub nightmare: Option<bool>,
 
-    #[serde(rename = "isSharkwingMission")]
+    #[serde(rename = "isSharkwingMission", skip_serializing_if = "Option::is_none")]
     pub is_sharkwing_mission: Option<bool>,
 
-    #[serde(rename = "advancedSpawners")]
+    #[serde(rename = "advancedSpawners", skip_serializing_if = "Option::is_none")]
     pub advanced_spawners: Option<Vec<String>>,
 
-    #[serde(rename = "requiredItems")]
+    #[serde(rename = "requiredItems", skip_serializing_if = "Option::is_none")]
     pub required_items: Option<Vec<String>>,
 
-    #[serde(rename = "consumeRequiredItems")]
+    #[serde(
+        rename = "consumeRequiredItems",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub consume_required_items: Option<bool>,
 
-    #[serde(rename = "goalTag")]
+    #[serde(rename = "goalTag", skip_serializing_if = "Option::is_none")]
     pub goal_tag: Option<String>,
 
-    #[serde(rename = "icon")]
+    #[serde(rename = "icon", skip_serializing_if = "Option::is_none")]
     pub icon: Option<String>,
 
-    #[serde(rename = "leadersAlwaysAllowed")]
+    #[serde(
+        rename = "leadersAlwaysAllowed",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub leaders_always_allowed: Option<bool>,
 
-    #[serde(rename = "levelAuras")]
+    #[serde(rename = "levelAuras", skip_serializing_if = "Option::is_none")]
     pub level_auras: Option<Vec<String>>,
 
-    #[serde(rename = "extraEnemySpec")]
+    #[serde(rename = "extraEnemySpec", skip_serializing_if = "Option::is_none")]
     pub extra_enemy_spec: Option<String>,
 
-    #[serde(rename = "maxWaveNum")]
+    #[serde(rename = "maxWaveNum", skip_serializing_if = "Option::is_none")]
     pub max_wave_num: Option<u32>,
 }
 
@@ -981,130 +1023,151 @@ pub struct Goal {
     #[serde(rename = "Expiry")]
     pub expiry: DateTime<Utc>,
 
-    #[serde(rename = "Node")]
+    #[serde(rename = "Node", skip_serializing_if = "Option::is_none")]
     pub node: Option<String>,
 
-    #[serde(rename = "ScoreVar")]
+    #[serde(rename = "ScoreVar", skip_serializing_if = "Option::is_none")]
     pub score_var: Option<String>,
-    #[serde(rename = "ScoreLocTag")]
+
+    #[serde(rename = "ScoreLocTag", skip_serializing_if = "Option::is_none")]
     pub score_loc_tag: Option<String>,
-    #[serde(rename = "Count")]
+
+    #[serde(rename = "Count", skip_serializing_if = "Option::is_none")]
     pub count: Option<u32>,
-    #[serde(rename = "HealthPct")]
+
+    #[serde(rename = "HealthPct", skip_serializing_if = "Option::is_none")]
     pub health_pct: Option<f64>,
-    #[serde(rename = "Regions")]
+
+    #[serde(rename = "Regions", skip_serializing_if = "Option::is_none")]
     pub regions: Option<Vec<u32>>,
+
     #[serde(rename = "Desc")]
     pub desc: String,
-    #[serde(rename = "ToolTip")]
+
+    #[serde(rename = "ToolTip", skip_serializing_if = "Option::is_none")]
     pub tooltip: Option<String>,
-    #[serde(rename = "OptionalInMission")]
+
+    #[serde(rename = "OptionalInMission", skip_serializing_if = "Option::is_none")]
     pub optional_in_mission: Option<bool>,
+
     #[serde(rename = "Tag")]
     pub tag: String,
+
     #[serde_as(deserialize_as = "Option<Vec<FromInto<Oid>>>")]
-    #[serde(rename = "UpgradeIds")]
+    #[serde(rename = "UpgradeIds", skip_serializing_if = "Option::is_none")]
     pub upgrade_ids: Option<Vec<String>>,
 
-    #[serde(rename = "Personal")]
+    #[serde(rename = "Personal", skip_serializing_if = "Option::is_none")]
     pub personal: Option<bool>,
 
-    #[serde(rename = "Community")]
+    #[serde(rename = "Community", skip_serializing_if = "Option::is_none")]
     pub community: Option<bool>,
-    #[serde(rename = "Goal")]
+
+    #[serde(rename = "Goal", skip_serializing_if = "Option::is_none")]
     pub goal: Option<u32>,
-    #[serde(rename = "Reward")]
+
+    #[serde(rename = "Reward", skip_serializing_if = "Option::is_none")]
     pub reward: Option<Reward>,
 
-    #[serde(rename = "InterimGoals")]
+    #[serde(rename = "InterimGoals", skip_serializing_if = "Option::is_none")]
     pub interim_goals: Option<Vec<u32>>,
-    #[serde(rename = "InterimRewards")]
+
+    #[serde(rename = "InterimRewards", skip_serializing_if = "Option::is_none")]
     pub interim_rewards: Option<Vec<Reward>>,
 
-    #[serde(rename = "BonusGoal")]
+    #[serde(rename = "BonusGoal", skip_serializing_if = "Option::is_none")]
     pub bonus_goal: Option<u32>,
 
-    #[serde(rename = "BonusReward")]
+    #[serde(rename = "BonusReward", skip_serializing_if = "Option::is_none")]
     pub bonus_reward: Option<Reward>,
 
-    #[serde(rename = "Bounty")]
+    #[serde(rename = "Bounty", skip_serializing_if = "Option::is_none")]
     pub bounty: Option<bool>,
 
-    #[serde(rename = "ClampNodeScores")]
+    #[serde(rename = "ClampNodeScores", skip_serializing_if = "Option::is_none")]
     pub clamp_node_scores: Option<bool>,
 
-    #[serde(rename = "ConcurrentMissionKeyNames")]
+    #[serde(
+        rename = "ConcurrentMissionKeyNames",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub concurrent_mission_key_names: Option<Vec<String>>,
 
-    #[serde(rename = "ConcurrentNodeReqs")]
+    #[serde(rename = "ConcurrentNodeReqs", skip_serializing_if = "Option::is_none")]
     pub concurrent_node_reqs: Option<Vec<u32>>,
 
-    #[serde(rename = "ConcurrentNodes")]
+    #[serde(rename = "ConcurrentNodes", skip_serializing_if = "Option::is_none")]
     pub concurrent_nodes: Option<Vec<String>>,
 
-    #[serde(rename = "Faction")]
+    #[serde(rename = "Faction", skip_serializing_if = "Option::is_none")]
     pub faction: Option<String>,
 
-    #[serde(rename = "Icon")]
+    #[serde(rename = "Icon", skip_serializing_if = "Option::is_none")]
     pub icon: Option<String>,
 
-    #[serde(rename = "MissionKeyName")]
+    #[serde(rename = "MissionKeyName", skip_serializing_if = "Option::is_none")]
     pub mission_key_name: Option<String>,
 
-    #[serde(rename = "NightLevel")]
+    #[serde(rename = "NightLevel", skip_serializing_if = "Option::is_none")]
     pub night_level: Option<String>,
 
-    #[serde(rename = "Success")]
+    #[serde(rename = "Success", skip_serializing_if = "Option::is_none")]
     pub success: Option<u32>,
 
-    #[serde(rename = "JobAffiliationTag")]
+    #[serde(rename = "JobAffiliationTag", skip_serializing_if = "Option::is_none")]
     pub job_affiliation_tag: Option<String>,
 
     #[serde_as(deserialize_as = "Option<FromInto<Oid>>")]
-    #[serde(rename = "JobCurrentVersion")]
+    #[serde(rename = "JobCurrentVersion", skip_serializing_if = "Option::is_none")]
     pub job_current_version: Option<String>,
 
     #[serde_as(deserialize_as = "Option<FromInto<Oid>>")]
-    #[serde(rename = "JobPreviousVersion")]
+    #[serde(rename = "JobPreviousVersion", skip_serializing_if = "Option::is_none")]
     pub job_previous_version: Option<String>,
-    #[serde(rename = "Jobs")]
+
+    #[serde(rename = "Jobs", skip_serializing_if = "Option::is_none")]
     pub jobs: Option<Vec<Job>>,
-    #[serde(rename = "PreviousJobs")]
+
+    #[serde(rename = "PreviousJobs", skip_serializing_if = "Option::is_none")]
     pub previous_jobs: Option<Vec<Job>>,
-    #[serde(rename = "VictimNode")]
+
+    #[serde(rename = "VictimNode", skip_serializing_if = "Option::is_none")]
     pub victim_node: Option<String>,
 
-    #[serde(rename = "ArchwingDrops")]
+    #[serde(rename = "ArchwingDrops", skip_serializing_if = "Option::is_none")]
     pub archwing_drops: Option<Vec<String>>,
 
-    #[serde(rename = "Best")]
+    #[serde(rename = "Best", skip_serializing_if = "Option::is_none")]
     pub best: Option<bool>,
 
-    #[serde(rename = "Fomorian")]
+    #[serde(rename = "Fomorian", skip_serializing_if = "Option::is_none")]
     pub fomorian: Option<bool>,
 
-    #[serde(rename = "MissionInfo")]
+    #[serde(rename = "MissionInfo", skip_serializing_if = "Option::is_none")]
     pub mission_info: Option<MissionInfo>,
 
-    #[serde(rename = "ScoreMaxTag")]
+    #[serde(rename = "ScoreMaxTag", skip_serializing_if = "Option::is_none")]
     pub score_max_tag: Option<String>,
 
-    #[serde(rename = "ScoreTagBlocksGuildTierChanges")]
+    #[serde(
+        rename = "ScoreTagBlocksGuildTierChanges",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub score_tag_blocks_guild_tier_changes: Option<bool>,
 
-    #[serde(rename = "RegionDrops")]
+    #[serde(rename = "RegionDrops", skip_serializing_if = "Option::is_none")]
     pub region_drops: Option<Vec<String>>,
 
-    #[serde(rename = "ContinuousHubEvent")]
+    #[serde(rename = "ContinuousHubEvent", skip_serializing_if = "Option::is_none")]
     pub continuous_hub_event: Option<ContinuousHubEvent>,
 
-    #[serde(rename = "InstructionalItem")]
+    #[serde(rename = "InstructionalItem", skip_serializing_if = "Option::is_none")]
     pub instructional_item: Option<String>,
 
-    #[serde(rename = "RegionIdx")]
+    #[serde(rename = "RegionIdx", skip_serializing_if = "Option::is_none")]
     pub region_idx: Option<u32>,
 
-    #[serde(rename = "Transmission")]
+    #[serde(rename = "Transmission", skip_serializing_if = "Option::is_none")]
     pub transmission: Option<String>,
 }
 
@@ -1122,20 +1185,26 @@ pub struct ContinuousHubEvent {
     #[serde(rename = "Expiry")]
     pub expiry: DateTime<Utc>,
 
-    #[serde(rename = "RepeatInterval")]
+    #[serde(rename = "RepeatInterval", skip_serializing_if = "Option::is_none")]
     pub repeat_interval: Option<u32>,
 }
 
 // #[serde_as]
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Reward {
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub credits: Option<u32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub xp: Option<u32>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub items: Option<Vec<String>>,
-    #[serde(rename = "countedItems")]
+
+    #[serde(rename = "countedItems", skip_serializing_if = "Option::is_none")]
     pub counted_items: Option<Vec<CountedItem>>,
 
-    #[serde(rename = "randomizedItems")]
+    #[serde(rename = "randomizedItems", skip_serializing_if = "Option::is_none")]
     pub randomized_items: Option<String>,
 }
 
@@ -1143,6 +1212,7 @@ pub struct Reward {
 pub struct CountedItem {
     #[serde(rename = "ItemType")]
     pub item_type: String,
+
     #[serde(rename = "ItemCount")]
     pub item_count: u32,
 }
@@ -1153,6 +1223,7 @@ pub struct Event {
     #[serde_as(deserialize_as = "FromInto<Oid>")]
     #[serde(rename = "_id")]
     pub id: String,
+
     #[serde(rename = "Messages")]
     pub message: Vec<Message>,
 
@@ -1160,41 +1231,46 @@ pub struct Event {
     pub prop: String,
 
     #[serde_as(deserialize_as = "Option<TryFromInto<Date>>")]
-    #[serde(rename = "Date")]
+    #[serde(rename = "Date", skip_serializing_if = "Option::is_none")]
     pub date: Option<DateTime<Utc>>,
 
     #[serde_as(deserialize_as = "Option<TryFromInto<Date>>")]
-    #[serde(rename = "EventStartDate")]
+    #[serde(rename = "EventStartDate", skip_serializing_if = "Option::is_none")]
     pub event_start_date: Option<DateTime<Utc>>,
 
     #[serde_as(deserialize_as = "Option<TryFromInto<Date>>")]
-    #[serde(rename = "EventEndDate")]
+    #[serde(rename = "EventEndDate", skip_serializing_if = "Option::is_none")]
     pub event_end_date: Option<DateTime<Utc>>,
 
     #[serde(rename = "Priority")]
     pub priority: bool,
+
     #[serde(rename = "MobileOnly")]
     pub mobile_only: bool,
-    #[serde(rename = "Community")]
+
+    #[serde(rename = "Community", skip_serializing_if = "Option::is_none")]
     pub community: Option<bool>,
 
     /// icon name
-    #[serde(rename = "Icon")]
+    #[serde(rename = "Icon", skip_serializing_if = "Option::is_none")]
     pub icon: Option<String>,
 
-    #[serde(rename = "ImageUrl")]
+    #[serde(rename = "ImageUrl", skip_serializing_if = "Option::is_none")]
     pub image_url: Option<String>,
 
-    #[serde(rename = "HideEndDateModifier")]
+    #[serde(
+        rename = "HideEndDateModifier",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub hide_end_date_modifier: Option<bool>,
 
-    #[serde(rename = "Links")]
+    #[serde(rename = "Links", skip_serializing_if = "Option::is_none")]
     pub links: Option<Vec<Link>>,
 
-    #[serde(rename = "EventLiveUrl")]
+    #[serde(rename = "EventLiveUrl", skip_serializing_if = "Option::is_none")]
     pub event_live_url: Option<String>,
 
-    #[serde(rename = "GameOnly")]
+    #[serde(rename = "GameOnly", skip_serializing_if = "Option::is_none")]
     pub game_only: Option<bool>,
 }
 
@@ -1202,6 +1278,7 @@ pub struct Event {
 pub struct Link {
     #[serde(rename = "LanguageCode")]
     pub language_code: String,
+
     #[serde(rename = "Link")]
     pub link: String,
 }
