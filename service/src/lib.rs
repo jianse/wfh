@@ -92,7 +92,7 @@ pub async fn serve() -> Result<()> {
     match &settings.server.tls {
         None => {
             let listener =
-                TcpListener::bind((settings.server.host.to_owned(), settings.server.port)).await?;
+                TcpListener::bind((settings.server.addr.to_owned(), settings.server.port)).await?;
             info!("HTTP server listening on {}", listener.local_addr()?);
             // let rx3
             serve_app(listener, state.clone(), rx).await
@@ -101,13 +101,13 @@ pub async fn serve() -> Result<()> {
         Some(tls_opt) => {
             // setup http server
             let listener =
-                TcpListener::bind((settings.server.host.to_owned(), settings.server.port)).await?;
+                TcpListener::bind((settings.server.addr.to_owned(), settings.server.port)).await?;
             info!("HTTP server listening on {}", listener.local_addr()?);
 
             // setup https server
             let rustls_config = tls::rustls_server_config(&tls_opt.key, &tls_opt.cert);
             let tls_acceptor = TlsAcceptor::from(rustls_config);
-            let bind = (settings.server.host.to_owned(), tls_opt.port);
+            let bind = (settings.server.addr.to_owned(), tls_opt.port);
             let tcp_listener = TcpListener::bind(bind).await?;
             info!("HTTPS server listening on {}.", tcp_listener.local_addr()?);
             let tls_listener = TlsListener::new(tls_acceptor, tcp_listener);
@@ -126,6 +126,7 @@ pub async fn serve() -> Result<()> {
 async fn start_ctl_endpoint(tx: Sender<()>, rx: Receiver<()>) -> Result<()> {
     let listener = TcpListener::bind(("localhost", 54321)).await?;
     let app = control_router(tx);
+    info!("control endpoint started at http://localhost:54321");
     axum::serve(listener, app)
         .with_graceful_shutdown(shutdown_signal(rx))
         .await?;

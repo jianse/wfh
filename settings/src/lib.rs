@@ -227,8 +227,13 @@ pub enum UiSettings {
 pub struct ServerSettings {
     /// server host default is `localhost`
     pub host: String,
+
+    /// server address default is `127.0.0.1`
+    pub addr: String,
+
     /// server port default is `80`
     pub port: u16,
+
     /// settings about tls default is `None`
     /// witch mean do not use tls
     pub tls: Option<TlsSettings>,
@@ -251,6 +256,7 @@ impl Default for ServerSettings {
     fn default() -> Self {
         Self {
             host: "localhost".to_owned(),
+            addr: "127.0.0.1".to_owned(),
             port: 80,
             tls: None,
         }

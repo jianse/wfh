@@ -1,5 +1,5 @@
 use crate::error::Result;
-use log::trace;
+use tracing::trace;
 use std::collections::HashMap;
 use std::path::Path;
 
