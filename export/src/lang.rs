@@ -1,21 +1,18 @@
 use crate::error::Result;
-use tracing::trace;
 use std::collections::HashMap;
 use std::path::Path;
+use tracing::trace;
 
-pub(crate) struct LangHolder {
-    lang_map: HashMap<String, String>,
+pub(crate) struct LangHolder<'a> {
+    lang_map: &'a HashMap<String, String>,
     map_record: HashMap<String, HashMap<String, String>>,
 }
 
-impl LangHolder {
-    pub(crate) fn new<P: AsRef<Path>>(dir: P) -> Result<Self> {
-        let base_path = dir.as_ref();
-        let lang_file = base_path.join("lang.json");
-        let buf = std::fs::read(lang_file)?;
-        let lang_map = serde_json::from_slice(&buf)?;
-
-        let record_path = base_path.join("wire.json");
+impl<'a> LangHolder<'a> {
+    pub(crate) fn new<P: AsRef<Path>>(
+        record_path: P,
+        lang_map: &'a HashMap<String, String>,
+    ) -> Result<Self> {
         let buf = std::fs::read(record_path)?;
         let map_record = serde_json::from_slice(&buf)?;
 
@@ -35,5 +32,9 @@ impl LangHolder {
                 }
                 self.lang_map.get(k)
             })
+    }
+
+    pub(crate) fn get_raw(&self, text_key: &str) -> Option<&String> {
+        self.lang_map.get(text_key)
     }
 }

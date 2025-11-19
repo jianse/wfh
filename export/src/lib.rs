@@ -1,8 +1,9 @@
-mod error;
+pub mod error;
 mod json_ops;
 mod lang;
 
-use crate::json_ops::{get_array, get_array_mut, get_opt_str, get_str, set_value};
+use crate::error::ExportError;
+pub use crate::json_ops::*;
 use crate::lang::LangHolder;
 use async_compression::tokio::bufread::LzmaDecoder;
 use chrono::DateTime;
@@ -10,11 +11,11 @@ use error::Result;
 use reqwest::Client;
 use reqwest::header::LAST_MODIFIED;
 use serde::Serialize;
-use serde_json::json;
+use serde_json::{Value, json};
 use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 use tokio::io::AsyncReadExt;
-use tracing::{debug, info, trace};
+use tracing::{debug, info, trace, warn};
 
 pub struct PubExportFetcher<'c> {
     cache_dir: PathBuf,
@@ -153,7 +154,7 @@ fn replace_lang_text(
         }
         Some(prop_value) => {
             if prop_value.is_empty() {
-                trace!("{}({}) has empty {prop}", prop_value, unique_name);
+                trace!("{prop_value}({unique_name}) has empty {prop}");
             } else if let Some(text) = lang_holder.get(unique_name, prop) {
                 set_value(json, prop, json!(text))?;
             }
@@ -490,7 +491,7 @@ fn process_upgrades(
             for (idx, item) in descriptions.iter_mut().enumerate() {
                 let description = item.as_str().unwrap();
                 if description.is_empty() {
-                    trace!("{}({}) has empty description", description, unique_name);
+                    trace!(description, unique_name, "has empty description");
                 } else if let Some(text) =
                     lang_holder.get(&unique_name, &format!("description[{idx}]"))
                 {
@@ -656,6 +657,132 @@ fn process_sentinels(
     Ok(())
 }
 
+fn process_sortie_rewards(
+    json: &mut serde_json::Value,
+    mf: &HashMap<String, String>,
+    lang_holder: &LangHolder,
+    reverse_map: &mut HashMap<String, ReIndex>,
+) -> Result<()> {
+    let nightwave = get_mut(json, "ExportNightwave")?;
+
+    let challenges = get_array_mut(nightwave, "challenges")?;
+
+    for (idx, item) in challenges.iter_mut().enumerate() {
+        let unique_name = get_str(item, "uniqueName")?.to_string();
+        // add to reverse index map
+        reverse_map.insert(
+            unique_name.to_string(),
+            ReIndex {
+                category: "SortieRewards".to_string(),
+                prop: "ExportNightwave.challenges".to_string(),
+                index: idx,
+            },
+        );
+
+        // replace name with translations
+        replace_lang_text(item, lang_holder, &unique_name, "name")?;
+
+        // description
+        replace_lang_text(item, lang_holder, &unique_name, "description")?;
+
+        // add textureLocation field
+        if let Some(texture_location) = mf.get(&unique_name) {
+            set_value(item, "textureLocation", json!(texture_location))?;
+        } else {
+            info!("{} not found in manifest", unique_name);
+        }
+    }
+    info!("{} nightwave challenges processed", challenges.len());
+    Ok(())
+}
+
+/// find item in pe by unique name
+fn find_item<'a>(
+    reverse_map: &HashMap<String, ReIndex>,
+    pe: &'a HashMap<String, serde_json::Value>,
+    unique_name: &str,
+) -> Result<Option<&'a Value>> {
+    let idx = reverse_map.get(unique_name).or_else(|| {
+        let unique_name = unique_name.replace("/Lotus/StoreItems", "/Lotus");
+        reverse_map.get(&unique_name)
+    });
+
+    if let Some(idx) = idx
+        && let Some(cat) = pe.get(&idx.category)
+    {
+        let i = get_path(cat, &idx.prop)?;
+        let r = i.as_array().and_then(|a| a.get(idx.index));
+        return Ok(r);
+    }
+    Ok(None)
+}
+
+fn process_relic_arcane(
+    pe: &mut HashMap<String, serde_json::Value>,
+    mf: &HashMap<String, String>,
+    lang_holder: &LangHolder,
+    reverse_map: &mut HashMap<String, ReIndex>,
+) -> Result<()> {
+    let mut json = pe
+        .remove("RelicArcane")
+        .ok_or_else(|| ExportError::NoSuchExport("RelicArcane".to_owned()))?;
+
+    let relic_arcane = get_array_mut(&mut json, "ExportRelicArcane")?;
+
+    for (idx, item) in relic_arcane.iter_mut().enumerate() {
+        let unique_name = get_str(item, "uniqueName")?.to_string();
+
+        // add to reverse index map
+        reverse_map.insert(
+            unique_name.to_string(),
+            ReIndex {
+                category: "RelicArcane".to_string(),
+                prop: "ExportRelicArcane".to_string(),
+                index: idx,
+            },
+        );
+
+        // add textureLocation field
+        if let Some(texture_location) = mf.get(&unique_name) {
+            set_value(item, "textureLocation", json!(texture_location))?;
+        } else {
+            info!("{} not found in manifest", unique_name);
+        }
+
+        if unique_name.starts_with("/Lotus/Types/Game/Projections") {
+            // this is relic
+
+            // description
+            replace_lang_text(item, lang_holder, &unique_name, "description")?;
+
+            // relic rewards
+            let rewards = get_array_mut(item, "relicRewards")?;
+            for item in rewards.iter_mut() {
+                let reward_name = get_str(item, "rewardName")?.to_string();
+
+                // find from reverse index
+                if let Some(i) = find_item(reverse_map, pe, &reward_name)? {
+                    let name = i.get("name");
+                    if let Some(name) = name {
+                        set_value(item, "name", json!(name))?;
+                    } else {
+                        debug!("no name for {reward_name}");
+                    }
+                }
+            }
+        } else if unique_name.starts_with("/Lotus/Upgrades/CosmeticEnhancers") {
+            // this is arcane
+            // replace name with translations
+            replace_lang_text(item, lang_holder, &unique_name, "name")?;
+        } else {
+            warn!("unknown relic arcane type: {unique_name}")
+        }
+    }
+    info!("{} relic arcane processed", relic_arcane.len());
+    pe.insert("RelicArcane".to_string(), json);
+    Ok(())
+}
+
 fn process_regions(
     json: &mut serde_json::Value,
     lang_holder: &LangHolder,
@@ -678,6 +805,44 @@ fn process_regions(
         replace_lang_text(item, lang_holder, &unique_name, "name")?;
     }
     info!("{} regions processed", regions.len());
+    Ok(())
+}
+
+fn process_fusion_bundles(
+    json: &mut serde_json::Value,
+    mf: &HashMap<String, String>,
+    lang_holder: &LangHolder,
+    reverse_map: &mut HashMap<String, ReIndex>,
+) -> Result<()> {
+    let fusion_bundles = get_array_mut(json, "ExportFusionBundles")?;
+    for (idx, item) in fusion_bundles.iter_mut().enumerate() {
+        let unique_name = get_str(item, "uniqueName")?.to_string();
+        // add to reverse index map
+        reverse_map.insert(
+            unique_name.to_string(),
+            ReIndex {
+                category: "FusionBundles".to_string(),
+                prop: "ExportFusionBundles".to_string(),
+                index: idx,
+            },
+        );
+
+        // add name field
+        if let Some(name) = lang_holder.get_raw("/Lotus/Language/Items/FusionBundle") {
+            set_value(item, "name", json!(name))?;
+        }
+
+        // replace name with translations
+        replace_lang_text(item, lang_holder, &unique_name, "description")?;
+
+        // add textureLocation field
+        if let Some(texture_location) = mf.get(&unique_name) {
+            set_value(item, "textureLocation", json!(texture_location))?;
+        } else {
+            info!("{} not found in manifest", unique_name);
+        }
+    }
+    info!("{} fusion bundle processed", fusion_bundles.len());
     Ok(())
 }
 
@@ -758,53 +923,87 @@ fn process_recipes(
 
 pub type ReverseMap = HashMap<String, ReIndex>;
 pub type PublicExports = HashMap<String, serde_json::Value>;
-pub async fn fetch_transform_all(client: &Client) -> Result<(PublicExports, ReverseMap)> {
-    let mut fetcher = PubExportFetcher::new(client, "../cache");
-    let mut pe = fetcher.fetch_all().await?;
 
-    // Manifest contains all the images
-    let mf = pe.get("Manifest").unwrap();
-    let mf_kv = build_manifest_map(mf)?;
+pub struct PE<'c, 'l> {
+    cache_dir: PathBuf,
+    client: &'c Client,
+    wire_file: PathBuf,
+    lang_map: &'l HashMap<String, String>,
+}
+impl<'c, 'l> PE<'c, 'l> {
+    pub fn new<P1: AsRef<Path>, P2: AsRef<Path>>(
+        client: &'c Client,
+        cache_dir: P1,
+        wire_file: P2,
+        lang_map: &'l HashMap<String, String>,
+    ) -> Self {
+        PE {
+            client,
+            cache_dir: cache_dir.as_ref().to_path_buf(),
+            wire_file: wire_file.as_ref().to_path_buf(),
+            lang_map,
+        }
+    }
 
-    let mut reverse_map = HashMap::new();
+    pub async fn fetch_transform_all(&self) -> Result<(PublicExports, ReverseMap)> {
+        let mut fetcher = PubExportFetcher::new(self.client, &self.cache_dir);
+        let mut pe = fetcher.fetch_all().await?;
 
-    let lang_holder = LangHolder::new("../lang")?;
+        // Manifest contains all the images
+        let mf = pe.get("Manifest").unwrap();
+        let mf_kv = build_manifest_map(mf)?;
 
-    let resources = pe.get_mut("Resources").unwrap();
-    process_resources(resources, &mf_kv, &lang_holder, &mut reverse_map)?;
+        let mut reverse_map = HashMap::new();
 
-    let gear = pe.get_mut("Gear").unwrap();
-    process_gear(gear, &mf_kv, &lang_holder, &mut reverse_map)?;
+        let lang_holder = LangHolder::new(&self.wire_file, self.lang_map)?;
 
-    let customs = pe.get_mut("Customs").unwrap();
-    process_customs(customs, &mf_kv, &lang_holder, &mut reverse_map)?;
+        let customs = pe.get_mut("Customs").unwrap();
+        process_customs(customs, &mf_kv, &lang_holder, &mut reverse_map)?;
 
-    let warframes = pe.get_mut("Warframes").unwrap();
-    process_warframes(warframes, &mf_kv, &lang_holder, &mut reverse_map)?;
+        let drones = pe.get_mut("Drones").unwrap();
+        process_drones(drones, &mf_kv, &lang_holder, &mut reverse_map)?;
 
-    let weapons = pe.get_mut("Weapons").unwrap();
-    process_weapons(weapons, &mf_kv, &lang_holder, &mut reverse_map)?;
+        let flavour = pe.get_mut("Flavour").unwrap();
+        process_flavour(flavour, &mf_kv, &lang_holder, &mut reverse_map)?;
 
-    let upgrades = pe.get_mut("Upgrades").unwrap();
-    process_upgrades(upgrades, &mf_kv, &lang_holder, &mut reverse_map)?;
+        let fusion_bundles = pe.get_mut("FusionBundles").unwrap();
+        process_fusion_bundles(fusion_bundles, &mf_kv, &lang_holder, &mut reverse_map)?;
 
-    let keys = pe.get_mut("Keys").unwrap();
-    process_keys(keys, &mf_kv, &lang_holder, &mut reverse_map)?;
+        let gear = pe.get_mut("Gear").unwrap();
+        process_gear(gear, &mf_kv, &lang_holder, &mut reverse_map)?;
 
-    let drones = pe.get_mut("Drones").unwrap();
-    process_drones(drones, &mf_kv, &lang_holder, &mut reverse_map)?;
+        let keys = pe.get_mut("Keys").unwrap();
+        process_keys(keys, &mf_kv, &lang_holder, &mut reverse_map)?;
 
-    let sentinels = pe.get_mut("Sentinels").unwrap();
-    process_sentinels(sentinels, &mf_kv, &lang_holder, &mut reverse_map)?;
+        let regions = pe.get_mut("Regions").unwrap();
+        process_regions(regions, &lang_holder, &mut reverse_map)?;
 
-    let flavour = pe.get_mut("Flavour").unwrap();
-    process_flavour(flavour, &mf_kv, &lang_holder, &mut reverse_map)?;
+        let resources = pe.get_mut("Resources").unwrap();
+        process_resources(resources, &mf_kv, &lang_holder, &mut reverse_map)?;
 
-    process_recipes(&mut pe, &mf_kv, &mut reverse_map)?;
+        let sentinels = pe.get_mut("Sentinels").unwrap();
+        process_sentinels(sentinels, &mf_kv, &lang_holder, &mut reverse_map)?;
 
-    let regions = pe.get_mut("Regions").unwrap();
-    process_regions(regions, &lang_holder, &mut reverse_map)?;
-    Ok((pe, reverse_map))
+        // process sortieRewards
+        let sortie_rewards = pe.get_mut("SortieRewards").unwrap();
+        process_sortie_rewards(sortie_rewards, &mf_kv, &lang_holder, &mut reverse_map)?;
+
+        let upgrades = pe.get_mut("Upgrades").unwrap();
+        process_upgrades(upgrades, &mf_kv, &lang_holder, &mut reverse_map)?;
+
+        let warframes = pe.get_mut("Warframes").unwrap();
+        process_warframes(warframes, &mf_kv, &lang_holder, &mut reverse_map)?;
+
+        let weapons = pe.get_mut("Weapons").unwrap();
+        process_weapons(weapons, &mf_kv, &lang_holder, &mut reverse_map)?;
+
+        process_recipes(&mut pe, &mf_kv, &mut reverse_map)?;
+
+        // TODO: process relic arcane
+        process_relic_arcane(&mut pe, &mf_kv, &lang_holder, &mut reverse_map)?;
+
+        Ok((pe, reverse_map))
+    }
 }
 
 #[cfg(test)]
@@ -814,17 +1013,25 @@ mod tests {
 
     fn init_logger() {
         let _t = tracing_subscriber::fmt()
-            .with_max_level(tracing::Level::TRACE)
+            .with_max_level(tracing::Level::DEBUG)
             .try_init();
+    }
+
+    fn load_lang_map() -> eyre::Result<HashMap<String, String>> {
+        let lang_map = std::fs::read("../data/lang.json")?;
+        let lang_map: HashMap<String, String> = serde_json::from_slice(&lang_map)?;
+        Ok(lang_map)
     }
 
     #[tokio::test]
     async fn test_fetch() -> eyre::Result<()> {
         init_logger();
         let client = reqwest::Client::new();
-        let (pe, idx) = fetch_transform_all(&client).await?;
+        let lang_map = load_lang_map()?;
+        let pe = PE::new(&client, "../cache", "../data/wire.json", &lang_map);
+        let (data, idx) = pe.fetch_transform_all().await?;
 
-        save_all(&pe, "../out")?;
+        save_all(&data, "../out")?;
 
         std::fs::write("../out/rindex.json", serde_json::to_string_pretty(&idx)?)?;
         Ok(())

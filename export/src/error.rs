@@ -24,6 +24,9 @@ pub enum ExportError {
 
     #[error(transparent)]
     ParseDateTimeError(#[from] chrono::ParseError),
+
+    #[error("no export catgory {0} found")]
+    NoSuchExport(String),
 }
 
 pub(crate) type Result<T> = std::result::Result<T, ExportError>;
