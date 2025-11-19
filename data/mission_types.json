@@ -1,0 +1,74 @@
+[
+    {
+        "key": "MT_SURVIVAL",
+        "name": "生存"
+    },
+    {
+        "key": "MT_DEFENSE",
+        "name": "防御"
+    },
+    {
+        "key": "MT_MOBILE_DEFENSE",
+        "name": "移动防御"
+    },
+    {
+        "key": "MT_EXTERMINATION",
+        "name": "歼灭"
+    },
+    {
+        "key": "MT_RESCUE",
+        "name": "救援"
+    },
+    {
+        "key": "MT_CAPTURE",
+        "name": "捕获"
+    },
+    {
+        "key": "MT_INTEL",
+        "name": "间谍"
+    },
+    {
+        "key": "MT_ARTIFACT",
+        "name": "中断"
+    },
+    {
+        "key": "MT_TERRITORY",
+        "name": "拦截"
+    },
+    {
+        "key": "MT_ASSASSINATION",
+        "name": "刺杀"
+    },
+    {
+        "key": "MT_SABOTAGE",
+        "name": "破坏"
+    },
+    {
+        "key": "MT_CORRUPTION",
+        "name": "虚空洪流"
+    },
+    {
+        "key": "MT_VOID_CASCADE",
+        "name": "虚空覆涌"
+    },
+    {
+        "key": "MT_RETRIEVAL",
+        "name": "劫持"
+    },
+    {
+        "key": "MT_ALCHEMY",
+        "name": "元素转换"
+    },
+    {
+        "key": "MT_ASSAULT",
+        "name": "强袭"
+    },
+    {
+        "key": "MT_EXCAVATE",
+        "name": "挖掘"
+    },
+    {
+        "key":"MT_HIVE",
+        "name":"清巢"
+    }
+]

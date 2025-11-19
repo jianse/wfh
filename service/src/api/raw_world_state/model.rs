@@ -1,10 +1,12 @@
 #![allow(unused)]
 
 use chrono::serde::ts_seconds;
-use chrono::{DateTime, Utc};
+use chrono::{DateTime, TimeZone, Utc};
 use serde::{Deserialize, Serialize};
 use serde_with::{DefaultOnError, FromInto, TryFromInto, serde_as};
 use std::collections::HashMap;
+
+use crate::api::raw_world_state::parse::SteelPathStoreItem;
 
 use super::helper::{Date, Oid};
 
@@ -158,6 +160,27 @@ pub struct RawWorldState {
 
     #[serde(rename = "Tmp")]
     pub tmp: String,
+
+    /// this field is not part of raw api
+    /// but added by me
+    #[serde(rename = "SteelPath", skip_serializing_if = "Option::is_none")]
+    pub steel_path: Option<SteelPath>,
+}
+
+#[serde_as]
+#[derive(Debug, Deserialize, Serialize, Clone)]
+pub struct SteelPath {
+    #[serde_as(deserialize_as = "TryFromInto<Date>")]
+    #[serde(rename = "Activation")]
+    pub activation: DateTime<Utc>,
+
+    #[serde_as(deserialize_as = "TryFromInto<Date>")]
+    #[serde(rename = "Expiry")]
+    pub expiry: DateTime<Utc>,
+
+    pub current_reward: SteelPathStoreItem,
+
+    pub evergreen: Vec<SteelPathStoreItem>,
 }
 
 #[serde_as]
@@ -183,6 +206,7 @@ pub struct Conquest {
     #[serde(rename = "RandomSeed")]
     pub random_seed: u64,
 }
+
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct ConquestMission {
     pub faction: String,
@@ -401,6 +425,10 @@ pub struct DailyDeal {
     #[serde(rename = "StoreItem")]
     pub store_item: String,
 
+    /// added by me
+    #[serde(rename = "StoreItemName", skip_serializing_if = "Option::is_none")]
+    pub store_item_name: Option<String>,
+
     #[serde_as(deserialize_as = "TryFromInto<Date>")]
     #[serde(rename = "Activation")]
     pub activation: DateTime<Utc>,
@@ -411,13 +439,16 @@ pub struct DailyDeal {
 
     #[serde(rename = "Discount")]
     pub discount: f64,
+
     #[serde(rename = "OriginalPrice")]
     pub original_price: u32,
+
     #[serde(rename = "SalePrice")]
     pub sale_price: u32,
 
     #[serde(rename = "AmountTotal")]
     pub amount_total: u32,
+
     #[serde(rename = "AmountSold")]
     pub amount_sold: u32,
 }
@@ -447,6 +478,13 @@ pub struct VoidStorm {
 
     #[serde(rename = "ActiveMissionTier")]
     pub active_mission_tier: String,
+
+    #[serde(
+        rename = "MissionType",
+        default,
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub mission_type: Option<String>,
 }
 
 #[serde_as]
@@ -501,6 +539,11 @@ pub struct ScheduleInfo {
 pub struct ManifestItem {
     #[serde(rename = "ItemType")]
     pub item_type: String,
+
+    /// added by me
+    #[serde(rename = "ItemName", skip_serializing_if = "Option::is_none")]
+    pub item_name: Option<String>,
+
     #[serde(rename = "PrimePrice", skip_serializing_if = "Option::is_none")]
     pub prime_price: Option<u32>,
 
@@ -528,7 +571,7 @@ pub struct VoidTrader {
     #[serde(rename = "Expiry", skip_serializing_if = "Option::is_none")]
     pub expiry: Option<DateTime<Utc>>,
 
-    /// always "Baro'Ki Teel"
+    /// "Baro'Ki Teel", "EvilBaroWeek4"
     #[serde(rename = "Character")]
     pub character: String,
 
@@ -590,19 +633,25 @@ pub struct Invasion {
 
     #[serde(rename = "Faction")]
     pub faction: String,
+
     #[serde(rename = "DefenderFaction")]
     pub defender_faction: String,
 
     #[serde(rename = "Node")]
     pub node: String,
+
     #[serde(rename = "Count")]
     pub count: i32,
+
     #[serde(rename = "Goal")]
     pub goal: i32,
+
     #[serde(rename = "LocTag")]
     pub loc_tag: String,
+
     #[serde(rename = "Completed")]
     pub completed: bool,
+
     #[serde_as(deserialize_as = "FromInto<Oid>")]
     #[serde(rename = "ChainID")]
     pub chain_id: String,
@@ -610,10 +659,13 @@ pub struct Invasion {
     #[serde_as(deserialize_as = "DefaultOnError")]
     #[serde(rename = "AttackerReward", skip_serializing_if = "Option::is_none")]
     pub attacker_reward: Option<Reward>,
+
     #[serde(rename = "AttackerMissionInfo")]
     pub attacker_mission_info: InvasionMissionInfo,
+
     #[serde(rename = "DefenderReward")]
     pub defender_reward: Reward,
+
     #[serde(rename = "DefenderMissionInfo")]
     pub defender_mission_info: InvasionMissionInfo,
 
@@ -677,9 +729,11 @@ pub struct FlashSale {
     #[serde(rename = "Discount")]
     pub discount: f64,
     #[serde(rename = "BogoBuy")]
-    pub bogo_buy: f64,
+    pub bogo_buy: Option<f64>,
+
     #[serde(rename = "BogoGet")]
-    pub bogo_get: f64,
+    pub bogo_get: Option<f64>,
+
     #[serde(rename = "UrlOverride", skip_serializing_if = "Option::is_none")]
     pub url_override: Option<String>,
     #[serde(rename = "PremiumOverride")]
@@ -1201,6 +1255,10 @@ pub struct Reward {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub items: Option<Vec<String>>,
 
+    /// added by me
+    #[serde(rename = "itemNames", skip_serializing_if = "Option::is_none")]
+    pub item_names: Option<Vec<String>>,
+
     #[serde(rename = "countedItems", skip_serializing_if = "Option::is_none")]
     pub counted_items: Option<Vec<CountedItem>>,
 
@@ -1212,6 +1270,10 @@ pub struct Reward {
 pub struct CountedItem {
     #[serde(rename = "ItemType")]
     pub item_type: String,
+
+    /// added by me
+    #[serde(rename = "ItemName", skip_serializing_if = "Option::is_none")]
+    pub item_name: Option<String>,
 
     #[serde(rename = "ItemCount")]
     pub item_count: u32,

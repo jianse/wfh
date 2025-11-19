@@ -1,0 +1,30 @@
+[
+    {
+        "key": "FC_GRINEER",
+        "name": "克隆尼"
+    },
+    {
+        "key": "FC_CORPUS",
+        "name": "科普斯"
+    },
+    {
+        "key": "FC_INFESTATION",
+        "name": "感染者"
+    },
+    {
+        "key": "FC_SENTINEL",
+        "name": "灵煞"
+    },
+    {
+        "key": "FC_MITW",
+        "name": "低语者"
+    },
+    {
+        "key": "FC_TECHROT",
+        "name": "科腐者"
+    },
+    {
+        "key": "FC_SCALDRA",
+        "name": "炽蛇军"
+    }
+]

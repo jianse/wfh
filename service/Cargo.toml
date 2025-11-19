@@ -57,6 +57,7 @@ serde_path_to_error = { workspace = true }
 async-compression = { workspace = true, features = ["brotli", "tokio"] }
 async-trait = { workspace = true }
 serde_ignored = { workspace = true }
+export = { path = "../export" }
 
 
 [dev-dependencies]

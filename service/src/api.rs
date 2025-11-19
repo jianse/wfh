@@ -30,12 +30,15 @@ pub mod world_state;
 use settings::PwdHasherError;
 use token::create_token;
 
+pub(crate) use raw_world_state::parse::load_deps;
+
 // panic on startup should be fine
 static WHITE_LIST: Lazy<RegexSet> = Lazy::new(|| {
     RegexSet::new([
         "/translations/all",
         "/world_state/current",
         "/raw_world_state/current",
+        "/raw_world_state/st_pvt",
     ])
     .unwrap()
 });
@@ -250,7 +253,11 @@ pub enum BizError {
 
     #[error(transparent)]
     IoError(#[from] std::io::Error),
+
+    #[error(transparent)]
+    Export(#[from] export::error::ExportError),
 }
+
 impl BizError {
     pub fn custom<S: Display>(msg: S) -> Self {
         BizError::Custom(msg.to_string())
@@ -302,4 +309,16 @@ pub struct Page<T: Serialize> {
     pub page_size: u64,
     pub total: u64,
     pub items: Vec<T>,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[tokio::test]
+    async fn test_auth() {
+        fn assert_send_sync<T: Send + Sync + 'static>() {}
+
+        assert_send_sync::<BizError>();
+    }
 }

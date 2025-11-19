@@ -1,0 +1,195 @@
+{
+  "rotation": [
+    {
+      "unique_name": "/Lotus/Types/Recipes/Components/UmbraFormaBlueprint",
+      "name": "暗影塑形块设计图",
+      "count": 1,
+      "cost": 150
+    },
+    {
+      "unique_name": "/Lotus/Types/Items/MiscItems/Kuva",
+      "name": "50,000 赤毒",
+      "count": 50000,
+      "cost": 55
+    },
+    {
+      "unique_name": "/Lotus/Upgrades/Mods/Randomized/RawModularPistolRandomMod",
+      "name": "组合枪裂隙振幅晶体",
+      "count": 1,
+      "cost": 75
+    },
+    {
+      "unique_name": "/Lotus/Types/Items/MiscItems/Forma",
+      "name": "3x 塑形块",
+      "count": 3,
+      "cost": 75
+    },
+    {
+      "unique_name": "/Lotus/Upgrades/Mods/Randomized/RawModularMeleeRandomMod",
+      "name": "天工造武裂隙振幅晶体",
+      "count": 1,
+      "cost": 75
+    },
+    {
+      "unique_name": "/Endo",
+      "name": "30,000 内融核心",
+      "count": 30000,
+      "cost": 150
+    },
+    {
+      "unique_name": "/Lotus/Upgrades/Mods/Randomized/RawRifleRandomMod",
+      "name": "步枪裂隙振幅晶体",
+      "count": 1,
+      "cost": 75
+    },
+    {
+      "unique_name": "/Lotus/Upgrades/Mods/Randomized/RawShotgunRandomMod",
+      "name": "霰弹枪裂隙振幅晶体",
+      "count": 1,
+      "cost": 75
+    }
+  ],
+  "evergreen": [
+    {
+      "unique_name": "/Lotus/Types/Items/MiscItems/RivenIdentifier",
+      "name": "裂隙破解器",
+      "count": 1,
+      "cost": 20,
+      "week_limit": 1
+    },
+    {
+      "unique_name": "/Lotus/Types/Recipes/OperatorArmour/HardMode/OperatorTeshinArmsBlueprint",
+      "name": "军神护肩套装设计图",
+      "count": 1,
+      "cost": 15
+    },
+    {
+      "unique_name": "/Lotus/Types/Recipes/OperatorArmour/HardMode/OperatorTeshinBodyBlueprint",
+      "name": "军神胸甲套装设计图",
+      "count": 1,
+      "cost": 25
+    },
+    {
+      "unique_name": "/Lotus/Types/Recipes/OperatorArmour/HardMode/OperatorTeshinHeadBlueprint",
+      "name": "军神头盔套装设计图",
+      "count": 1,
+      "cost": 20
+    },
+    {
+      "unique_name": "/Lotus/Types/Recipes/OperatorArmour/HardMode/OperatorTeshinLegsBlueprint",
+      "name": "军神护胫套装设计图",
+      "count": 1,
+      "cost": 25
+    },
+    {
+      "unique_name": "/Lotus/Types/Items/MiscItems/Kuva",
+      "name": "10,000 赤毒",
+      "count": 10000,
+      "cost": 15,
+      "week_limit": 25
+    },
+    {
+      "unique_name": "/Lotus/Types/Items/MiscItems/WeaponPrimaryArcaneUnlocker",
+      "name": "主武器赋能槽连接器",
+      "count": 1,
+      "cost": 15
+    },
+    {
+      "unique_name": "/Lotus/Types/Items/MiscItems/WeaponSecondaryArcaneUnlocker",
+      "name": "副武器赋能槽连接器",
+      "count": 1,
+      "cost": 15
+    },
+    {
+      "unique_name": "",
+      "name": "遗物组合包",
+      "count": 1,
+      "cost": 15,
+      "week_limit": 1
+    },
+    {
+      "unique_name": "/Lotus/Types/Items/MiscItems/FormaStance",
+      "name": "架式塑形块",
+      "count": 1,
+      "cost": 10
+    },
+    {
+      "unique_name": "/Lotus/Upgrades/Skins/Effects/OrbsEphemera",
+      "name": "三轨幻纹",
+      "count": 1,
+      "cost": 3
+    },
+    {
+      "unique_name": "/Lotus/Upgrades/Skins/Effects/TatsuSkullEphemera",
+      "name": "颅骨幻纹",
+      "count": 1,
+      "cost": 85
+    },
+    {
+      "unique_name": "/Lotus/Upgrades/Mods/Shotgun/WeaponRecoilReductionMod",
+      "name": "制衡",
+      "count": 1,
+      "cost": 35
+    },
+    {
+      "unique_name": "/Lotus/Types/Items/ShipDecos/TeshinBobbleHead",
+      "name": "泰辛摇头娃娃",
+      "count": 1,
+      "cost": 35
+    },
+    {
+      "unique_name": "/Lotus/Types/StoreItems/AvatarImages/ImageGaussVED",
+      "name": "迅电驰影战斗姿态投影",
+      "count": 1,
+      "cost": 15
+    },
+    {
+      "unique_name": "/Lotus/Types/StoreItems/AvatarImages/ImageGrendelVED",
+      "name": "暴食者战斗姿态投影",
+      "count": 1,
+      "cost": 15
+    },
+    {
+      "unique_name": "/Lotus/Types/Items/PhotoBooth/2025FallUpdate/PhotoboothTheTeacherEarth",
+      "name": "《老师》地球场景",
+      "count": 1,
+      "cost": 50
+    },
+    {
+      "unique_name": "/Lotus/Types/Items/PhotoBooth/2025FallUpdate/PhotoboothTheTeacherDojo",
+      "name": "《老师》道场场景",
+      "count": 1,
+      "cost": 50
+    },
+    {
+      "unique_name": "/Lotus/Types/Items/PhotoBooth/2025FallUpdate/PhotoboothTheTeacherReactor",
+      "name": "《老师》反应堆场景",
+      "count": 1,
+      "cost": 50
+    },
+    {
+      "unique_name": "/Lotus/Types/Items/PhotoBooth/2025FallUpdate/PhotoboothTheTeacherShip",
+      "name": "《老师》飞船场景",
+      "count": 1,
+      "cost": 50
+    },
+    {
+      "unique_name": "/Lotus/Types/StoreItems/AvatarImages/AvatarImageProteaAction",
+      "name": "泊时灵械战斗姿态投影",
+      "count": 1,
+      "cost": 15
+    },
+    {
+      "unique_name": "/Lotus/Types/Items/ShipDecos/TeaSet",
+      "name": "奥罗金茶具",
+      "count": 1,
+      "cost": 15
+    },
+    {
+      "unique_name": "/Lotus/Types/StoreItems/AvatarImages/AvatarImageXakuAction",
+      "name": "虚空残响战斗姿态投影",
+      "count": 1,
+      "cost": 15
+    }
+  ]
+}

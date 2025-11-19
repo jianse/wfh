@@ -88,6 +88,13 @@ pub async fn serve() -> Result<()> {
     let job = JobRegistry::new(state.clone(), shutdown_signal(tx.subscribe()));
     tokio::task::spawn(job.start());
 
+    // load public export on startup
+    tokio::spawn({
+        let state = state.clone();
+        async move { api::load_deps("data", "cache", &state.http_client, false).await }
+    });
+    // api::load_deps("data", &state.http_client, false);
+
     // start other endpoints
     match &settings.server.tls {
         None => {

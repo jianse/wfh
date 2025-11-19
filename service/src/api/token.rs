@@ -83,11 +83,16 @@ mod tests {
 
     #[test]
     fn test_decode_token() {
+        // now we just want to make sure the token is valid
+        // so escape the expiration time validation
+        let mut validation = Validation::default();
+        validation.validate_exp = false;
+
         let token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJpc3N1ZXIiLCJzdWIiOjEsImV4cCI6MTc1NTk0NTkzNH0.YbEf_18IHfRGp9hmeOAWuLvp3vrZD4jzcUAqxNk4XbM";
         let res = jsonwebtoken::decode::<Claims>(
             token,
             &DecodingKey::from_secret(SECRET_KEY.as_bytes()),
-            &Validation::default(),
+            &validation,
         );
 
         assert!(res.is_ok());

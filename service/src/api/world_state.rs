@@ -724,6 +724,7 @@ mod tests {
 
     use super::*;
     #[tokio::test]
+    #[ignore = "the tencent world state api is not available now"]
     async fn test_get_world_state_url() -> eyre::Result<()> {
         let url = build_url()?;
         let resp = Client::builder()
@@ -797,6 +798,7 @@ mod tests {
     }
 
     #[tokio::test]
+    #[ignore = "the tencent world state api is not available now"]
     async fn test_get_world_state() {
         let client = reqwest::Client::new();
         super::get_world_state(&client).await.unwrap();

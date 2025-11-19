@@ -1,0 +1,28 @@
+{
+  "ExportRegions": [
+    {
+      "factionIndex": 2,
+      "masteryReq": 0,
+      "maxEnemyLevel": 0,
+      "minEnemyLevel": 0,
+      "missionIndex": 255,
+      "name": "殁世幽都",
+      "nodeType": 0,
+      "systemIndex": 16,
+      "systemName": "火卫二",
+      "uniqueName": "DeimosHub"
+    },
+    {
+      "factionIndex": 1,
+      "masteryReq": 0,
+      "maxEnemyLevel": 0,
+      "minEnemyLevel": 0,
+      "missionIndex": 255,
+      "name": "雅兰达中继站",
+      "nodeType": 0,
+      "systemIndex": 0,
+      "systemName": "水星",
+      "uniqueName": "MercuryHUB"
+    }
+  ]
+}
