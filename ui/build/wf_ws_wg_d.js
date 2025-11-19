@@ -2,15 +2,38 @@
 // https://content-zhpt.wf.qq.com/dynamic/worldState.php
 import fs from 'node:fs'
 
-const url = 'https://content-zhpt.wf.qq.com/dynamic/worldState.php'
+const now = new Date()
 
-const resp = await fetch(url)
+const timeStr = `${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}`
 
-console.log(resp)
+{
+  const url = 'https://content-zhpt.wf.qq.com/dynamic/worldState.php'
 
-const j = await resp.json()
+  const resp = await fetch(url)
 
-// console.log(j)
-j.Tmp1 = JSON.parse(j.Tmp)
+  console.log(resp.status)
 
-fs.writeFileSync('cache/ws_wg_org.json', JSON.stringify(j, null, 2))
+  const j = await resp.json()
+
+  // console.log(j)
+  j.Tmp1 = JSON.parse(j.Tmp)
+
+  fs.writeFileSync(`cache/ws_wg_org-${timeStr}.json`, JSON.stringify(j, null, 2))
+}
+// warframe stream server
+{
+  const url = 'https://content.warframe.com/dynamic/worldState.php'
+
+  const resp = await fetch(url)
+
+  console.log(resp.status)
+
+  const j = await resp.json()
+
+  // console.log(j)
+  j.Tmp1 = JSON.parse(j.Tmp)
+
+  fs.writeFileSync(`cache/ws_st_org-${timeStr}.json`, JSON.stringify(j, null, 2))
+}
+
+// https://content-zhpt.wf.qq.com/dynamic/getProfileViewingData.php?playerId=67ae4d713e435088ea09485d

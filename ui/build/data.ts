@@ -300,6 +300,8 @@ upgrades.ExportUpgrades.forEach((element, index) => {
   element.textureLocation = mf_kv.get(element.uniqueName)
 })
 
+// TODO: ExportAvionics ExportFocusUpgrades ExportModSet in upgrades
+
 // keys
 interface ExportKeys {
   ExportKeys: {

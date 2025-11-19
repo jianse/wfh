@@ -95,13 +95,12 @@ function toggleMenu(event: MouseEvent) {
   menu.value.toggle(event)
 }
 
-const tokenStore = useTokenStore()
-const userStore = useUserStore()
-
 onMounted(async () => {
-  if (tokenStore.token) {
+  const { token } = useTokenStore()
+  if (token) {
     const { data: cur_user } = await get_current_user()
-    userStore.setUser(cur_user)
+    const { setUser } = useUserStore()
+    setUser(cur_user)
   }
 })
 </script>
