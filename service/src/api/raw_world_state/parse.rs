@@ -145,7 +145,12 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
             trader.node = region.with_plant();
         };
 
-        // TODO: translate manifest
+        // translate manifest
+        if let Some(manifest) = trader.manifest.as_mut() {
+            for item in manifest.iter_mut() {
+                item.item_name = Some(deps.find_game_item(&item.item_type));
+            }
+        }
     }
 
     // prime traders
@@ -166,8 +171,12 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
 
     // night wave
     for challenge in raw.season_info.active_challenges.iter_mut() {
-        // TODO: add more info
-        challenge.challenge = deps.find_game_item(&challenge.challenge);
+        let c = deps.get_nightwave_challenge(&challenge.challenge);
+        if let Some(c) = c {
+            challenge.name = Some(c.name.clone());
+            challenge.description = Some(c.description.replace("|COUNT|", &c.required.to_string()));
+            challenge.xp = Some(c.standing);
+        }
     }
 
     // invasions
@@ -255,6 +264,7 @@ pub async fn load_deps<P1: AsRef<Path> + Display, P2: AsRef<Path> + Display>(
     let pe = PE::new(client, cache_dir, dir.join("wire.json"), &languages);
     let (pe_data, pe_index) = pe.fetch_transform_all().await?;
 
+    let nightwave_challenges = build_nw_challenges(&pe_data)?;
     {
         let mut deps = G_DEPS.write().await;
         *deps = Deps {
@@ -266,10 +276,29 @@ pub async fn load_deps<P1: AsRef<Path> + Display, P2: AsRef<Path> + Display>(
             sortie_bosses,
             pe_index,
             pe_data,
+            nightwave_challenges,
             is_initialized: true,
         };
     }
     Ok(())
+}
+
+fn build_nw_challenges(pe_data: &PublicExports) -> BizResult<NWChallenges> {
+    let nw_cs = pe_data
+        .get("SortieRewards")
+        .and_then(|sr| sr.get("ExportNightwave"))
+        .and_then(|nw| nw.get("challenges"));
+    if let Some(cs) = nw_cs {
+        let arr: Vec<NWChallenge> = serde_json::from_value(cs.clone())?;
+        let data = arr
+            .into_iter()
+            .map(|c| (c.unique_name.clone(), c))
+            .collect();
+        Ok(NWChallenges(data))
+    } else {
+        Ok(NWChallenges::default())
+    }
+    // todo!()
 }
 
 fn load_sortie_bosses<P: AsRef<Path>>(dir_path: P) -> BizResult<SortieBosses> {
@@ -378,11 +407,35 @@ pub struct SortieBoss {
     name: String,
 }
 
-#[derive(Debug, Default, Deserialize)]
+#[derive(Debug, Default)]
 pub struct SortieBosses(HashMap<String, SortieBoss>);
 
 impl Deref for SortieBosses {
     type Target = HashMap<String, SortieBoss>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+#[derive(Debug, Deserialize)]
+pub struct NWChallenge {
+    #[serde(rename = "uniqueName")]
+    unique_name: String,
+
+    name: String,
+
+    description: String,
+
+    required: u32,
+
+    standing: u32,
+}
+
+#[derive(Debug, Default)]
+pub struct NWChallenges(HashMap<String, NWChallenge>);
+impl Deref for NWChallenges {
+    type Target = HashMap<String, NWChallenge>;
 
     fn deref(&self) -> &Self::Target {
         &self.0
@@ -415,6 +468,10 @@ pub struct Deps {
     /// sortie bosses manually collected
     sortie_bosses: SortieBosses,
 
+    /// nightwave challenges
+    /// this field is extracted from `pe_data`
+    nightwave_challenges: NWChallenges,
+
     /// flag for initialization
     /// used to prevent reloading
     is_initialized: bool,
@@ -436,6 +493,15 @@ impl Deps {
     //     }
     //     n
     // }
+
+    pub fn get_nightwave_challenge(&self, key: &str) -> Option<&NWChallenge> {
+        self.nightwave_challenges.get(key)
+        // let sortie_rewards = self
+        //     .pe_data
+        //     .get("SortieRewards")
+        //     .and_then(|sr| sr.get("ExportNightwave"))
+        //     .and_then(|nw| nw.get("challenges"));
+    }
 
     pub fn get_mission_type(&self, key: &str) -> String {
         if let Some(mt) = self.mission_types.get(key) {

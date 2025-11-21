@@ -316,6 +316,18 @@ pub struct Challenge {
 
     #[serde(rename = "Challenge")]
     pub challenge: String,
+
+    /// challenge name, added by me
+    #[serde(rename = "Name", skip_serializing_if = "Option::is_none")]
+    pub name: Option<String>,
+
+    /// challenge description, added by me
+    #[serde(rename = "Desc", skip_serializing_if = "Option::is_none")]
+    pub description: Option<String>,
+
+    /// challenge xp, added by me
+    #[serde(rename = "Xp", skip_serializing_if = "Option::is_none")]
+    pub xp: Option<u32>,
 }
 
 #[serde_as]
