@@ -6,9 +6,7 @@
           <template #title>夜灵平野</template>
           <template #content>
             {{ cetusCycle.state }}
-            <p>
-              <CountDownTo :time="cetusCycle.expiry" @hit-zero="cetusCycleChange"></CountDownTo>切换
-            </p>
+            <p><CountDownTo :time="cetusCycle.expiry" @hit-zero="timeUp"></CountDownTo>切换</p>
           </template>
         </pv-card>
         <pv-card class="min-w-4xs grow h-fit">
@@ -115,7 +113,7 @@
                 <li v-for="fissure in normalFissures" :key="fissure._id">
                   {{ tierAsString(fissure.Modifier) }} {{ fissure.Node }} {{ fissure.MissionType }}
                   <br />
-                  <CountDownTo :time="fissure.Expiry"></CountDownTo>结束
+                  <CountDownTo :time="fissure.Expiry" @hit-zero="timeUp"></CountDownTo>结束
                 </li>
               </ul>
             </div>
@@ -125,7 +123,7 @@
                 <li v-for="fissure in hardFissures" :key="fissure._id">
                   {{ tierAsString(fissure.Modifier) }} {{ fissure.Node }} {{ fissure.MissionType }}
                   <br />
-                  <CountDownTo :time="fissure.Expiry"></CountDownTo>结束
+                  <CountDownTo :time="fissure.Expiry" @hit-zero="timeUp"></CountDownTo>结束
                 </li>
               </ul>
             </div>
@@ -136,7 +134,7 @@
                   {{ tierAsString(fissure.ActiveMissionTier) }} {{ fissure.Node }}
                   <!-- find mission type from node information -->
                   <br />
-                  <CountDownTo :time="fissure.Expiry"></CountDownTo>结束
+                  <CountDownTo :time="fissure.Expiry" @hit-zero="timeUp"></CountDownTo>结束
                 </li>
               </ul>
             </div>
@@ -172,6 +170,7 @@
           <template #title>执刑官猎杀</template>
           <template #content>
             <div v-for="hunt in rawWorldState?.LiteSorties" :key="hunt._id">
+              <h3 class="text-bold text-lg mb-1">BOSS: {{ hunt.BossName }}</h3>
               <p><CountDownTo :time="hunt.Expiry" />轮换</p>
               <ul>
                 <li v-for="(mission, index) in hunt.Missions" :key="index">
@@ -421,7 +420,7 @@ import { computed, ref } from 'vue'
 import dayjs from 'dayjs'
 import isBetween from 'dayjs/plugin/isBetween'
 import { useTimestamp } from '@vueuse/core'
-import { clone } from 'lodash'
+import { clone, throttle } from 'lodash'
 
 dayjs.extend(isBetween)
 
@@ -544,22 +543,9 @@ async function forceFetch() {
   }
 }
 
-function cetusCycleChange() {
-  if (!worldState.value) {
-    return
-  }
-  const now_state = worldState.value.cetusCycle.state
-  if (now_state == 'day') {
-    worldState.value.cetusCycle.state = 'night'
-    worldState.value.cetusCycle.expiry = dayjs(worldState.value.cetusCycle.expiry)
-      .add(50, 'minute')
-      .toISOString()
-  } else {
-    worldState.value.cetusCycle.state = 'day'
-    worldState.value.cetusCycle.expiry = dayjs(worldState.value.cetusCycle.expiry)
-      .add(100, 'minute')
-      .toISOString()
-  }
+const onTimeUp = throttle(fetchWorldState, 3000, { leading: false })
+function timeUp() {
+  onTimeUp()
 }
 
 function tierAsString(t: string): string {
@@ -597,7 +583,7 @@ function rewardAsString(reward: Reward): string {
     l.push(...reward.itemNames.map((i) => `${i}`))
   }
   if (reward.countedItems) {
-    l.push(...reward.countedItems.map((i) => `${i.ItemCount} X ${i.ItemName}`))
+    l.push(...reward.countedItems.map((i) => `${i.ItemCountSum} X ${i.ItemName}`))
   }
 
   return l.join(' + ')

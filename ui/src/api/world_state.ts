@@ -222,6 +222,7 @@ export interface RawWorldState {
     Reward: string
     Seed: number
     Boss: string
+    BossName: string
     Missions: {
       missionType: string
       node: string
@@ -316,6 +317,7 @@ export interface Reward {
     ItemType: string
     ItemName: string
     ItemCount: number
+    ItemCountSum: number
   }[]
   randomizedItems?: string
 }
