@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 use serde_with::{DefaultOnError, FromInto, TryFromInto, serde_as};
 use std::collections::HashMap;
 
-use crate::api::raw_world_state::parse::SteelPathStoreItem;
+use crate::api::raw_world_state::parse::{SentientOutpost, SteelPathStoreItem};
 
 use super::helper::{Date, Oid};
 
@@ -165,6 +165,14 @@ pub struct RawWorldState {
     /// but added by me
     #[serde(rename = "SteelPath", skip_serializing_if = "Option::is_none")]
     pub steel_path: Option<SteelPath>,
+
+    /// sentient outpost, add by me
+    #[serde(
+        rename = "SentientOutpost",
+        default,
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub sentient_outpost: Option<SentientOutpost>,
 }
 
 #[serde_as]

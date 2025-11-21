@@ -10,7 +10,7 @@ use std::{
 };
 
 use chrono::{DateTime, Days, Duration, TimeZone, Utc};
-use export::{PE, PublicExports, ReverseMap, get_opt_array, get_str, get_u64};
+use export::{PE, PublicExports, ReverseMap, get_opt_array, get_opt_u64, get_str, get_u64};
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
 use serde_with::{FromInto, TryFromInto, serde_as};
@@ -39,6 +39,47 @@ fn translate_reward(reward: &mut super::model::Reward, deps: &Deps) -> BizResult
         }
     }
     Ok(())
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct SentientOutpost {
+    pub activation: DateTime<Utc>,
+
+    pub expiry: DateTime<Utc>,
+
+    pub node: String,
+
+    pub node_name: Option<String>,
+
+    pub mission_type: Option<String>,
+}
+
+impl SentientOutpost {
+    fn new(node_code: u64, time: DateTime<Utc>, deps: &Deps) -> Self {
+        let offset = time.timestamp() % 1800;
+        let activation = time - Duration::seconds(offset);
+        let expiry = activation + Duration::minutes(30);
+        let node = format!("CrewBattleNode{node_code}");
+        // let  mut
+        if let Some(region) = deps.get_region(&node) {
+            Self {
+                activation,
+                expiry,
+                node,
+                node_name: Some(region.name.clone()),
+                mission_type: Some(region.mission_index.name().to_owned()),
+            }
+        } else {
+            Self {
+                activation,
+                expiry,
+                node,
+                node_name: None,
+                mission_type: None,
+            }
+        }
+        // todo!("123456")
+    }
 }
 
 /// add fields to raw world state.
@@ -111,7 +152,6 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
         daily_deal.store_item_name = Some(deps.find_game_item(&daily_deal.store_item));
     }
 
-    // TODO: add boss info and reward info
     // lite sortie
     for lite_sortie in raw.lite_sorties.iter_mut() {
         lite_sortie.boss_name = Some(deps.get_sortie_boss_name(&lite_sortie.boss));
@@ -122,9 +162,15 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
             };
             mission.mission_type = deps.get_mission_type(&mission.mission_type);
         }
+        // lite sortie rewards are bound to boss
+        // add them in front end should be good
     }
 
-    // TODO: add sentient outpost info
+    // add sentient outpost info
+    let tmp: serde_json::Value = serde_json::from_str(&raw.tmp)?;
+    if let Some(node_num) = get_opt_u64(&tmp, "sfn")? {
+        raw.sentient_outpost = Some(SentientOutpost::new(node_num, raw.time, &deps));
+    }
 
     // sorties
     for sortie in raw.sorties.iter_mut() {
@@ -189,7 +235,6 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
         if let Some(reward) = invasion.attacker_reward.as_mut() {
             translate_reward(reward, &deps)?;
         }
-        // if let Some(reward) = invasion.defender_reward.as_mut() {
 
         translate_reward(&mut invasion.defender_reward, &deps)?;
 
@@ -197,7 +242,6 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
             deps.get_faction(&invasion.attacker_mission_info.faction);
         invasion.defender_mission_info.faction =
             deps.get_faction(&invasion.defender_mission_info.faction);
-        // }
 
         // TODO: translate modifiers
     }

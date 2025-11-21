@@ -999,7 +999,7 @@ impl<'c, 'l> PE<'c, 'l> {
 
         process_recipes(&mut pe, &mf_kv, &mut reverse_map)?;
 
-        // TODO: process relic arcane
+        // process relic arcane
         process_relic_arcane(&mut pe, &mf_kv, &lang_holder, &mut reverse_map)?;
 
         Ok((pe, reverse_map))
