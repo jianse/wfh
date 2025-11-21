@@ -152,6 +152,13 @@ export async function get_raw_world_state() {
 }
 
 export interface RawWorldState {
+  SteelPath: {
+    Expiry: string
+    current_reward: {
+      name: string
+      cost: number
+    }
+  }
   Goals: {
     _id: string
     Desc: string
@@ -259,6 +266,9 @@ export interface RawWorldState {
       Expiry: string
       Daily?: boolean
       Challenge: string
+      Name: string
+      Desc: string
+      Xp: number
     }[]
   }
   Invasions: {

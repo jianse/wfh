@@ -146,10 +146,10 @@
         <pv-card class="h-fit">
           <template #title>钢铁之路每周</template>
           <template #content>
-            {{ worldState?.steelPath.currentReward.name }}
-            {{ worldState?.steelPath.currentReward.cost }}钢铁精华
+            {{ rawWorldState?.SteelPath.current_reward.name }}
+            {{ rawWorldState?.SteelPath.current_reward.cost }}钢铁精华
 
-            <p><CountDownTo :time="worldState?.steelPath.expiry" /> 轮换</p>
+            <p><CountDownTo :time="rawWorldState?.SteelPath.Expiry" /> 轮换</p>
             <!-- TODO:move steel path reward calc from backend to here -->
           </template>
         </pv-card>
@@ -290,12 +290,13 @@
       <pv-card class="h-fit flex-1">
         <template #title>午夜电波</template>
         <template #content>
-          <ul class="list-disc list-inside">
+          <ul class="list-disc list-outside ml-4">
             <li v-for="c in rawWorldState?.SeasonInfo.ActiveChallenges" :key="c._id">
               <p class="inline-flex place-content-between" style="width: calc(100% - 1rem)">
-                <span>{{ c.Challenge }} <span v-if="c.Daily">每日</span></span>
+                <span>{{ c.Name }} <span v-if="c.Daily">每日</span></span>
+                <span>{{ c.Xp }} </span>
               </p>
-
+              <p>{{ c.Desc }}</p>
               <p><CountDownTo :time="c.Expiry" />结束</p>
             </li>
           </ul>
