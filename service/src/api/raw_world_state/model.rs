@@ -907,6 +907,11 @@ pub struct LiteSortie {
     pub seed: u32,
     #[serde(rename = "Boss")]
     pub boss: String,
+
+    /// added by me
+    #[serde(rename = "BossName", skip_serializing_if = "Option::is_none")]
+    pub boss_name: Option<String>,
+
     #[serde(rename = "Missions")]
     pub missions: Vec<Mission>,
 }

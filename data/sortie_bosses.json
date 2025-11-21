@@ -1,0 +1,97 @@
+[
+    {
+        "unique_name": "SORTIE_BOSS_ALAD",
+        "name": "阿拉德五世",
+        "name_id": "/Lotus/Language/Bosses/BossAladV"
+    },
+    {
+        "unique_name": "SORTIE_BOSS_AMAR",
+        "name": "执刑官欺谋狼主",
+        "name_id": "/Lotus/Language/Narmer/ArchonAmar"
+    },
+    {
+        "unique_name": "SORTIE_BOSS_AMBULAS",
+        "name": "霸王恐鸟",
+        "name_id": "/Lotus/Language/Bosses/BossAmbulas"
+    },
+    {
+        "unique_name": "SORTIE_BOSS_BOREAL",
+        "name": "执刑官诡文枭主",
+        "name_id": "/Lotus/Language/Narmer/ArchonBoreal"
+    },
+    {
+        "unique_name": "SORTIE_BOSS_CORRUPTED_VOR",
+        "name": "",
+        "name_id": "/Lotus/Language/Game/VorTwo"
+    },
+    {
+        "unique_name": "SORTIE_BOSS_NEF",
+        "name": "奈富·安尤",
+        "name_id": "/Lotus/Language/Bosses/NefAnyoName"
+    },
+    {
+        "unique_name": "SORTIE_BOSS_HEK",
+        "name": "韦·海克委员",
+        "name_id": "/Lotus/Language/Bosses/BossCouncilorVayHek"
+    },
+    {
+        "unique_name": "SORTIE_BOSS_HYENA",
+        "name": "鬣狗群",
+        "name_id": "/Lotus/Language/Bosses/BossTheHyena"
+    },
+    {
+        "unique_name": "SORTIE_BOSS_INFALAD",
+        "name": "异融阿拉德五世",
+        "name_id": "/Lotus/Language/Bosses/BossInfestedAladV"
+    },
+    {
+        "unique_name": "SORTIE_BOSS_JACKAL",
+        "name": "豺狼",
+        "name_id": "/Lotus/Language/Bosses/BossTheJackal"
+    },
+    {
+        "unique_name": "SORTIE_BOSS_KELA",
+        "name": "凯拉·德塞姆",
+        "name_id": "/Lotus/Language/Bosses/BossKelaDeThaym"
+    },
+    {
+        "unique_name": "SORTIE_BOSS_KRIL",
+        "name": "莱希·克里尔中尉",
+        "name_id": "/Lotus/Language/Bosses/BossLieutenantLechKril"
+    },
+    {
+        "unique_name": "SORTIE_BOSS_LEPHANTIS",
+        "name": "雷凡魔像",
+        "name_id": "/Lotus/Language/Bosses/BossLephantis"
+    },
+    {
+        "unique_name": "SORTIE_BOSS_NIRA",
+        "name": "执刑官混沌蛇主",
+        "name_id": "/Lotus/Language/Narmer/ArchonNira"
+    },
+    {
+        "unique_name": "SORTIE_BOSS_PHORID",
+        "name": "异变狂獒",
+        "name_id": "/Lotus/Language/Bosses/BossPhorid"
+    },
+    {
+        "unique_name": "SORTIE_BOSS_RAPTOR",
+        "name": "猛禽",
+        "name_id": "/Lotus/Language/Bosses/BossTheRaptor"
+    },
+    {
+        "unique_name": "SORTIE_BOSS_RUK",
+        "name": "萨加斯·鲁克将军",
+        "name_id": "/Lotus/Language/Bosses/BossGeneralSargasRuk"
+    },
+    {
+        "unique_name": "SORTIE_BOSS_TYL",
+        "name": "泰尔·雷工",
+        "name_id": "/Lotus/Language/Bosses/BossTylRegor"
+    },
+    {
+        "unique_name": "SORTIE_BOSS_VOR",
+        "name": "沃尔上尉",
+        "name_id": "/Lotus/Language/Bosses/BossCaptainVor"
+    }
+]

@@ -3,6 +3,7 @@ use std::{
     fmt::Display,
     fs::{self, File},
     io::BufReader,
+    ops::Deref,
     path::Path,
     sync::LazyLock,
     time::Instant,
@@ -113,6 +114,7 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
     // TODO: add boss info and reward info
     // lite sortie
     for lite_sortie in raw.lite_sorties.iter_mut() {
+        lite_sortie.boss_name = Some(deps.get_sortie_boss_name(&lite_sortie.boss));
         for mission in lite_sortie.missions.iter_mut() {
             // mission.node
             if let Some(region) = deps.get_region(&mission.node) {
@@ -247,6 +249,9 @@ pub async fn load_deps<P1: AsRef<Path> + Display, P2: AsRef<Path> + Display>(
     let mission_types = load_mission_types(format!("{dir_path}/mission_types.json"))?;
     let regions = load_regions(&dir_path)?;
     let steel_path = load_steel_path(format!("{dir_path}/steel_path.json"))?;
+
+    let sortie_bosses = load_sortie_bosses(&dir_path)?;
+
     let pe = PE::new(client, cache_dir, dir.join("wire.json"), &languages);
     let (pe_data, pe_index) = pe.fetch_transform_all().await?;
 
@@ -258,12 +263,29 @@ pub async fn load_deps<P1: AsRef<Path> + Display, P2: AsRef<Path> + Display>(
             factions,
             languages,
             steel_path,
+            sortie_bosses,
             pe_index,
             pe_data,
             is_initialized: true,
         };
     }
     Ok(())
+}
+
+fn load_sortie_bosses<P: AsRef<Path>>(dir_path: P) -> BizResult<SortieBosses> {
+    let file = dir_path.as_ref().join("sortie_bosses.json");
+    if file.exists() {
+        let file = File::open(file)?;
+        let mut reader = BufReader::new(file);
+        let json: Vec<SortieBoss> = serde_json::from_reader(&mut reader)?;
+        let map = json
+            .into_iter()
+            .map(|k| (k.unique_name.clone(), k))
+            .collect();
+        Ok(SortieBosses(map))
+    } else {
+        Ok(SortieBosses::default())
+    }
 }
 
 fn load_mission_types<P: AsRef<Path>>(file: P) -> BizResult<HashMap<String, MissionType>> {
@@ -350,6 +372,23 @@ fn load_steel_path<P: AsRef<Path>>(file: P) -> BizResult<SteelPath> {
     }
 }
 
+#[derive(Debug, Deserialize)]
+pub struct SortieBoss {
+    unique_name: String,
+    name: String,
+}
+
+#[derive(Debug, Default, Deserialize)]
+pub struct SortieBosses(HashMap<String, SortieBoss>);
+
+impl Deref for SortieBosses {
+    type Target = HashMap<String, SortieBoss>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
 #[derive(Debug, Default)]
 pub struct Deps {
     /// Mission types
@@ -372,6 +411,9 @@ pub struct Deps {
 
     /// public exports
     pe_data: PublicExports,
+
+    /// sortie bosses manually collected
+    sortie_bosses: SortieBosses,
 
     /// flag for initialization
     /// used to prevent reloading
@@ -423,6 +465,17 @@ impl Deps {
         region
     }
 
+    /// Get a sortie boss name, return the key if no boss is found
+    pub fn get_sortie_boss_name(&self, key: &str) -> String {
+        if let Some(boss) = self.sortie_bosses.get(key) {
+            boss.name.clone()
+        } else {
+            info!("no sortie boss for {}", key);
+            key.to_owned()
+        }
+    }
+
+    /// Find a game item name by unique name
     pub fn find_game_item(&self, unique_name: &str) -> String {
         let rei = if let Some(idx) = self.pe_index.get(unique_name) {
             Some(idx)
@@ -444,6 +497,8 @@ impl Deps {
         unique_name.to_owned()
     }
 
+    /// Find a game item name by unique name
+    /// Currently only fusion bundles has count property
     pub fn find_game_item_counted(&self, unique_name: &str) -> (String, u32) {
         let rei = if let Some(idx) = self.pe_index.get(unique_name) {
             Some(idx)
