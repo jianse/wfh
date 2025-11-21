@@ -1277,6 +1277,10 @@ pub struct CountedItem {
 
     #[serde(rename = "ItemCount")]
     pub item_count: u32,
+
+    /// added by me
+    #[serde(rename = "ItemCountSum", skip_serializing_if = "Option::is_none")]
+    pub item_count_sum: Option<u32>,
 }
 
 #[serde_as]

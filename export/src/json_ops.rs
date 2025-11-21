@@ -107,3 +107,29 @@ pub fn set_value(obj: &mut serde_json::Value, key: &str, value: serde_json::Valu
 
     Ok(())
 }
+
+pub fn get_opt_u64(obj: &serde_json::Value, key: &str) -> Result<Option<u64>> {
+    let obj = obj
+        .as_object()
+        .ok_or(ExportError::JsonParse("not an object".to_string()))?;
+    let field = obj.get(key);
+    match field {
+        Some(field) => field
+            .as_u64()
+            .ok_or(ExportError::JsonParse("not a u64".to_string()))
+            .map(Some),
+        None => Ok(None),
+    }
+}
+
+pub fn get_u64(obj: &serde_json::Value, key: &str) -> Result<u64> {
+    let obj = obj
+        .as_object()
+        .ok_or(ExportError::JsonParse("not an object".to_string()))?;
+    let field = obj
+        .get(key)
+        .ok_or(ExportError::JsonParse(format!("key {} not found", key)))?;
+    field
+        .as_u64()
+        .ok_or(ExportError::JsonParse("not a u64".to_string()))
+}

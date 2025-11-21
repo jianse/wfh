@@ -491,6 +491,7 @@ pub struct EarthCycle {
 
 // static CYCLE_DURATION: i64 = 8 * 60 * 60; // 8 hours
 impl EarthCycle {
+    #[allow(unused)]
     pub fn from_time(t: DateTime<Utc>) -> Self {
         // earth cycle(day + night) is 8 hours
         // in seconds is 28800

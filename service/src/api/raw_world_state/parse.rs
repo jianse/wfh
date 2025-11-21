@@ -9,7 +9,7 @@ use std::{
 };
 
 use chrono::{DateTime, Days, Duration, TimeZone, Utc};
-use export::{PE, PublicExports, ReverseMap, get_opt_array, get_str};
+use export::{PE, PublicExports, ReverseMap, get_opt_array, get_str, get_u64};
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
 use serde_with::{FromInto, TryFromInto, serde_as};
@@ -32,7 +32,9 @@ fn translate_reward(reward: &mut super::model::Reward, deps: &Deps) -> BizResult
 
     if let Some(counted_items) = reward.counted_items.as_mut() {
         for item in counted_items.iter_mut() {
-            item.item_name = Some(deps.find_game_item(&item.item_type));
+            let (name, count) = deps.find_game_item_counted(&item.item_type);
+            item.item_name = Some(name);
+            item.item_count_sum = Some(count * item.item_count);
         }
     }
     Ok(())
@@ -76,7 +78,7 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
         if let Some(desc_text) = alert.mission_info.desc_text.as_mut() {
             *desc_text = deps.get_language(desc_text);
         }
-        // TODO: translate alert.mission_info.rewards
+        // translate alert.mission_info.rewards
         translate_reward(&mut alert.mission_info.mission_reward, &deps)?;
     }
 
@@ -441,6 +443,33 @@ impl Deps {
 
         unique_name.to_owned()
     }
+
+    pub fn find_game_item_counted(&self, unique_name: &str) -> (String, u32) {
+        let rei = if let Some(idx) = self.pe_index.get(unique_name) {
+            Some(idx)
+        } else {
+            let unique_name = unique_name.replace("/Lotus/StoreItems", "/Lotus");
+            self.pe_index.get(&unique_name)
+        };
+
+        if let Some(rei) = rei
+            && let Some(obj) = self.pe_data.get(&rei.category)
+            && let Some(arr) = get_opt_array(obj, &rei.prop).unwrap()
+            && let Some(item) = arr.get(rei.index)
+        {
+            let s = get_str(item, "name").unwrap();
+            // fusion bundle has a fusionPoints property
+            if unique_name.starts_with("/Lotus/Upgrades/Mods/FusionBundles") {
+                let count = get_u64(item, "fusionPoints").unwrap();
+                (s.to_owned(), count as u32)
+            } else {
+                (s.to_owned(), 1)
+            }
+        } else {
+            warn!(unique_name, "item not found!");
+            (unique_name.to_owned(), 1)
+        }
+    }
 }
 
 #[derive(Debug, Deserialize, Default)]
@@ -481,6 +510,7 @@ struct ExportRegions {
     regions: Vec<Region>,
 }
 
+#[allow(unused)]
 #[serde_as]
 #[derive(Debug, Deserialize)]
 pub struct Region {

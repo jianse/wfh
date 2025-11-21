@@ -4,6 +4,7 @@ use chrono::{DateTime, Utc};
 use serde::Deserialize;
 use thiserror::Error;
 
+#[allow(dead_code)]
 pub fn bool_false() -> bool {
     false
 }

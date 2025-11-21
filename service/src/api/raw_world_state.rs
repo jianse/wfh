@@ -3,7 +3,7 @@ use axum::routing::get;
 
 use crate::AppState;
 use crate::api::raw_world_state::parse::fill_raw_world_state;
-use crate::api::{BizResponse, BizResult};
+use crate::api::{BizResponse, BizResult, load_deps};
 use axum::extract::State;
 use model::RawWorldState;
 pub use model::*;
@@ -99,6 +99,7 @@ pub fn raw_world_state_routes() -> Router<AppState> {
 async fn get_raw_world_state(
     State(state): State<AppState>,
 ) -> BizResult<BizResponse<RawWorldState>> {
+    load_deps("data", "cache", &state.http_client, false).await?;
     let d = fetch_raw_world_state(&state.http_client, WG_URL).await?;
     debug!("{:?}", d.ignored);
     let mut raw = d.raw;
