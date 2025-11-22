@@ -15,6 +15,7 @@ declare module 'vue' {
     AntivirusMod: typeof import('./src/components/mods/Antivirus/AntivirusMod.vue')['default']
     ArchonMod: typeof import('./src/components/mods/Archon/ArchonMod.vue')['default']
     CommonMod: typeof import('./src/components/mods/CommonMod.vue')['default']
+    ConquestPanel: typeof import('./src/components/ConquestPanel.vue')['default']
     CountDownTo: typeof import('./src/components/CountDownTo.vue')['default']
     EmptyMod: typeof import('./src/components/mods/EmptyMod.vue')['default']
     EnergyAniIcon: typeof import('./src/components/EnergyAniIcon.vue')['default']

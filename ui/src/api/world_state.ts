@@ -152,6 +152,13 @@ export async function get_raw_world_state() {
 }
 
 export interface RawWorldState {
+  SentientOutpost: {
+    activation: string
+    expiry: string
+    node: string
+    node_name?: string
+    mission_type?: string
+  }
   SteelPath: {
     Expiry: string
     current_reward: {
@@ -293,22 +300,7 @@ export interface RawWorldState {
       faction: string
     }
   }[]
-  Conquests: {
-    Activation: string
-    Expiry: string
-    Type: string
-    Missions: {
-      faction: string
-      missionType: string
-      difficulties: {
-        type: string
-        deviation: string
-        risks: string[]
-      }[]
-    }[]
-    Variables: string[]
-    RandomSeed: number
-  }[]
+  Conquests: Conquest[]
   KnownCalendarSeasons: {
     Expiry: string
     Season: string
@@ -318,6 +310,26 @@ export interface RawWorldState {
     Choices: string[]
   }[]
 }
+
+export interface Conquest {
+  Activation: string
+  Expiry: string
+  Type: string
+  Missions: ConquestMission[]
+  Variables: string[]
+  RandomSeed: number
+}
+
+export interface ConquestMission {
+  faction: string
+  missionType: string
+  difficulties: {
+    type: 'CD_NORMAL' | 'CD_HARD'
+    deviation: string
+    risks: string[]
+  }[]
+}
+
 export interface Reward {
   credits?: number
   xp?: number

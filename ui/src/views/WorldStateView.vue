@@ -12,53 +12,29 @@
         <pv-card class="min-w-4xs grow h-fit">
           <template #title>奥布山谷</template>
           <template #content>
-            {{ worldState?.vallisCycle.state === 'cold' ? '寒冷' : '温暖' }}
-            <p>
-              <CountDownTo
-                :time="worldState?.vallisCycle.expiry"
-                @hit-zero="fetchWorldState"
-              ></CountDownTo
-              >结束
-            </p>
+            {{ vallisCycle.state }}
+            <p><CountDownTo :time="vallisCycle.expiry" @hit-zero="timeUp"></CountDownTo>结束</p>
           </template>
         </pv-card>
         <pv-card class="min-w-4xs grow h-fit">
           <template #title>魔胎之境</template>
           <template #content>
-            {{ worldState?.cambionCycle.active }}
-            <p>
-              <CountDownTo
-                :time="worldState?.cambionCycle.expiry"
-                @hit-zero="fetchWorldState"
-              ></CountDownTo
-              >结束
-            </p>
+            {{ cambionCycle.state }}
+            <p><CountDownTo :time="cambionCycle.expiry" @hit-zero="timeUp"></CountDownTo>结束</p>
           </template>
         </pv-card>
         <pv-card class="min-w-4xs grow h-fit">
           <template #title>扎里曼号</template>
           <template #content>
-            {{ worldState?.zarimanCycle.state }}
-            <p>
-              <CountDownTo
-                :time="worldState?.zarimanCycle.expiry"
-                @hit-zero="fetchWorldState"
-              ></CountDownTo
-              >结束
-            </p>
+            {{ zarimanCycle.state }}
+            <p><CountDownTo :time="zarimanCycle.expiry" @hit-zero="timeUp"></CountDownTo>结束</p>
           </template>
         </pv-card>
         <pv-card class="min-w-4xs grow h-fit">
           <template #title>地球</template>
           <template #content>
-            {{ worldState?.earthCycle.state === 'night' ? '夜晚' : '白天' }}
-            <p>
-              <CountDownTo
-                :time="worldState?.earthCycle.expiry"
-                @hit-zero="fetchWorldState"
-              ></CountDownTo
-              >结束
-            </p>
+            {{ earthCycle.state }}
+            <p><CountDownTo :time="earthCycle.expiry" @hit-zero="timeUp"></CountDownTo>结束</p>
           </template>
         </pv-card>
       </div>
@@ -97,7 +73,6 @@
               <p>{{ alert.MissionInfo.descText }}</p>
               <p><CountDownTo :time="alert.Expiry" />结束</p>
               <p>{{ rewardAsString(alert.MissionInfo.missionReward) }}</p>
-              <!-- TODO: show other rewards except credits -->
             </div>
           </div>
         </template>
@@ -184,10 +159,10 @@
         <pv-card class="h-fit">
           <template #title>灵煞异常</template>
           <template #content>
-            <p><CountDownTo :time="worldState?.sentientOutposts?.expiry" />轮换</p>
+            <p><CountDownTo :time="rawWorldState?.SentientOutpost.expiry" />轮换</p>
             <div>
-              {{ worldState?.sentientOutposts.mission.node }}
-              {{ worldState?.sentientOutposts.mission.type }}
+              {{ rawWorldState?.SentientOutpost.node_name || rawWorldState?.SentientOutpost.node }}
+              {{ rawWorldState?.SentientOutpost.mission_type }}
             </div>
             <!-- TODO: move sentient outposts info from backend to here -->
           </template>
@@ -301,8 +276,7 @@
             </li>
           </ul>
 
-          <!-- TODO: add nightwave description and rewards -->
-          <!-- maybe we can add nightwave level rewards also -->
+          <!-- TODO: maybe we can add nightwave level rewards also -->
         </template>
       </pv-card>
 
@@ -339,22 +313,8 @@
         <template #title>每周科研</template>
         <template #content>
           <div class="flex flex-row gap-2">
-            <div v-for="conquest in rawWorldState?.Conquests" :key="conquest.Type">
-              <p>{{ conquest.Type }}</p>
-              <CountDownTo :time="conquest.Expiry"></CountDownTo>轮换
-
-              <h3 class="mt-2 text-lg font-bold">任务</h3>
-              <div v-for="mission in conquest.Missions" :key="mission.faction">
-                <div>{{ mission.faction }}</div>
-                <div>{{ mission.missionType }}</div>
-              </div>
-
-              <h3 class="mt-2 text-lg font-bold">可选改造</h3>
-              <ul class="list-disc list-outside pl-4">
-                <li v-for="variable in conquest.Variables" :key="variable">
-                  {{ variable }}
-                </li>
-              </ul>
+            <div v-for="conquest in rawWorldState?.Conquests" :key="conquest.Type" class="flex-1">
+              <ConquestPanel :conquest="conquest"></ConquestPanel>
             </div>
           </div>
         </template>
@@ -406,14 +366,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {
-  get_raw_world_state,
-  get_world_state,
-  update_and_get,
-  type RawWorldState,
-  type Reward,
-  type WorldState,
-} from '@/api/world_state'
+import { get_raw_world_state, type RawWorldState, type Reward } from '@/api/world_state'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
 import { useToast } from 'primevue/usetoast'
@@ -425,7 +378,7 @@ import { clone, throttle } from 'lodash'
 
 dayjs.extend(isBetween)
 
-const worldState = ref<WorldState>()
+// const worldState = ref<WorldState>()
 const rawWorldState = ref<RawWorldState>()
 const loading = ref(false)
 const toast = useToast()
@@ -440,16 +393,14 @@ const cetusCycle = computed(() => {
 
     if (cetusMission) {
       const activation_time = dayjs(cetusMission.Activation)
-      const now = Date.now()
 
-      const overlap = ((now - activation_time.valueOf()) / 1000) % (150 * 60)
-      console.log(overlap)
-      const state = overlap < 100 * 60 ? '白昼' : '黑夜'
+      const overlap = (now.value - activation_time.valueOf()) % (150 * 60 * 1000)
+      const state = overlap < 100 * 60 * 1000 ? '白昼' : '黑夜'
       let expiry = ''
-      if (overlap < 100 * 60) {
-        expiry = dayjs(now).add(100, 'm').subtract(overlap, 's').toISOString()
+      if (overlap < 100 * 60 * 1000) {
+        expiry = dayjs(now.value).add(100, 'm').subtract(overlap, 'ms').toISOString()
       } else {
-        expiry = dayjs(now).add(150, 'm').subtract(overlap, 's').toISOString()
+        expiry = dayjs(now.value).add(150, 'm').subtract(overlap, 'ms').toISOString()
       }
       return {
         state,
@@ -464,6 +415,76 @@ const cetusCycle = computed(() => {
   }
 })
 
+const lStart = new Date('November 10, 2018 08:13:48 UTC')
+const loopTime = 1600000
+const warmTime = 400000
+const coldTime = loopTime - warmTime
+
+const vallisCycle = computed(() => {
+  const offset = (now.value - lStart.getUTCMilliseconds()) % loopTime
+  if (offset < coldTime) {
+    return {
+      state: '寒冷',
+      expiry: now.value - offset + coldTime,
+    }
+  } else {
+    return {
+      state: '温暖',
+      expiry: now.value - offset + loopTime,
+    }
+  }
+})
+
+const cambionCycle = computed(() => {
+  const { state, expiry } = earthCycle.value
+
+  return {
+    state: state === '白昼' ? '混乱' : '秩序',
+    expiry,
+  }
+})
+
+const corpusTimeMillis = 1655182800000
+const fullCycle = 18000000
+const stateMaximum = 9000000
+const zarimanCycle = computed(() => {
+  const offset = (now.value - corpusTimeMillis) % fullCycle
+  if (offset < stateMaximum) {
+    return {
+      state: '克隆尼',
+      expiry: now.value - offset + stateMaximum,
+    }
+  } else {
+    return {
+      state: '科普斯',
+      expiry: now.value - offset + fullCycle,
+    }
+  }
+})
+
+const earthCycle = computed(() => {
+  if (rawWorldState.value) {
+    const offset = (now.value / 1000) % (8 * 60 * 60) // 8 hours
+    if (offset < 4 * 60 * 60) {
+      const expiry = now.value - offset * 1000 + 4 * 60 * 60 * 1000
+      return {
+        state: '白天',
+        expiry,
+      }
+    } else {
+      const expiry = now.value - offset * 1000 + 8 * 60 * 60 * 1000
+      return {
+        state: '黑夜',
+        expiry,
+      }
+    }
+  }
+  return {
+    state: 'unknown',
+    expiry: '',
+  }
+})
+
 function tsBetween(t: number, a: string, b: string) {
   return dayjs(t).isBetween(dayjs(a), dayjs(b))
 }
@@ -471,12 +492,9 @@ function tsBetween(t: number, a: string, b: string) {
 async function fetchWorldState() {
   loading.value = true
   try {
-    const { data: data1 } = await get_raw_world_state()
-    console.log(data1)
-    rawWorldState.value = data1
-    const { data } = await get_world_state()
+    const { data } = await get_raw_world_state()
     if (data) {
-      worldState.value = data
+      rawWorldState.value = data
       toast.add({
         severity: 'success',
         summary: '更新成功',
@@ -527,21 +545,12 @@ const voidStorm = computed(() => {
 })
 
 async function forceFetch() {
-  loading.value = true
-  try {
-    const { data } = await update_and_get()
-    if (data) {
-      worldState.value = data
-      toast.add({
-        severity: 'success',
-        summary: '更新成功',
-        detail: '已强制更新世界状态数据',
-        life: 3000,
-      })
-    }
-  } finally {
-    loading.value = false
-  }
+  toast.add({
+    severity: 'warn',
+    summary: 'TODO',
+    detail: '强制更新世界状态数据暂未实现',
+    life: 3000,
+  })
 }
 
 const onTimeUp = throttle(fetchWorldState, 3000, { leading: false })
