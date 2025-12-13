@@ -173,6 +173,49 @@ pub struct RawWorldState {
         skip_serializing_if = "Option::is_none"
     )]
     pub sentient_outpost: Option<SentientOutpost>,
+
+    /// 沉沦之地
+    #[serde(rename = "Descents")]
+    pub descents: Vec<Descent>,
+}
+
+#[serde_as]
+#[derive(Debug, Deserialize, Serialize, Clone)]
+pub struct Descent {
+    #[serde_as(deserialize_as = "TryFromInto<Date>")]
+    #[serde(rename = "Activation")]
+    pub activation: DateTime<Utc>,
+
+    #[serde_as(deserialize_as = "TryFromInto<Date>")]
+    #[serde(rename = "Expiry")]
+    pub expiry: DateTime<Utc>,
+
+    #[serde(rename = "RandSeed")]
+    pub rand_seed: u64,
+
+    #[serde(rename = "Challenges")]
+    pub challenges: Vec<DescentChallenge>,
+}
+
+#[derive(Debug, Deserialize, Serialize, Clone)]
+pub struct DescentChallenge {
+    #[serde(rename = "Index")]
+    pub index: u8,
+
+    #[serde(rename = "Type")]
+    pub r#type: String,
+
+    #[serde(rename = "Challenge")]
+    pub challenge: String,
+
+    #[serde(rename = "Level")]
+    pub level: String,
+
+    #[serde(rename = "Specs")]
+    pub specs: Vec<String>,
+
+    #[serde(rename = "Auras")]
+    pub auras: Vec<String>,
 }
 
 #[serde_as]
@@ -738,28 +781,37 @@ pub struct Category {
 #[serde_as]
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct FlashSale {
+    // required
     #[serde(rename = "TypeName")]
     pub type_name: String,
-    #[serde(rename = "ShowInMarket")]
-    pub show_in_market: bool,
-    #[serde(rename = "HideFromMarket")]
-    pub hide_from_market: bool,
-    #[serde(rename = "SupporterPack")]
-    pub supporter_pack: bool,
-    #[serde(rename = "Discount")]
-    pub discount: f64,
-    #[serde(rename = "BogoBuy")]
+
+    #[serde(rename = "ShowInMarket", skip_serializing_if = "Option::is_none")]
+    pub show_in_market: Option<bool>,
+
+    #[serde(rename = "HideFromMarket", skip_serializing_if = "Option::is_none")]
+    pub hide_from_market: Option<bool>,
+
+    #[serde(rename = "SupporterPack", skip_serializing_if = "Option::is_none")]
+    pub supporter_pack: Option<bool>,
+
+    #[serde(rename = "Discount", skip_serializing_if = "Option::is_none")]
+    pub discount: Option<f64>,
+
+    #[serde(rename = "BogoBuy", skip_serializing_if = "Option::is_none")]
     pub bogo_buy: Option<f64>,
 
-    #[serde(rename = "BogoGet")]
+    #[serde(rename = "BogoGet", skip_serializing_if = "Option::is_none")]
     pub bogo_get: Option<f64>,
 
     #[serde(rename = "UrlOverride", skip_serializing_if = "Option::is_none")]
     pub url_override: Option<String>,
-    #[serde(rename = "PremiumOverride")]
-    pub premium_override: f64,
-    #[serde(rename = "RegularOverride")]
-    pub regular_override: f64,
+
+    #[serde(rename = "PremiumOverride", skip_serializing_if = "Option::is_none")]
+    pub premium_override: Option<f64>,
+
+    #[serde(rename = "RegularOverride", skip_serializing_if = "Option::is_none")]
+    pub regular_override: Option<f64>,
+
     #[serde_as(deserialize_as = "TryFromInto<Date>")]
     #[serde(rename = "StartDate")]
     pub start_date: DateTime<Utc>,
@@ -1386,7 +1438,7 @@ pub struct Message {
 #[cfg(test)]
 mod tests {
 
-    use std::collections::BTreeSet;
+    use std::{collections::BTreeSet, io::Seek, ptr::read};
 
     use super::*;
 
@@ -1401,14 +1453,25 @@ mod tests {
             }
             dbg!(entry.path());
             let file = std::fs::File::open(entry.path())?;
-            let jd = &mut serde_json::Deserializer::from_reader(file);
-            let mut unused = BTreeSet::new();
-            let model: RawWorldState = serde_ignored::deserialize(jd, |path| {
-                unused.insert(path.to_string());
-            })?;
-            // let model = serde_json::from_reader::<_, RawWorldState>(file)?;
-            // dbg!(model);
-            dbg!(unused);
+            let mut reader = std::io::BufReader::new(file);
+
+            let mut de = serde_json::Deserializer::from_reader(&mut reader);
+
+            let mut ignored_set = BTreeSet::new();
+            let res: Result<RawWorldState, _> = serde_ignored::deserialize(&mut de, |path| {
+                ignored_set.insert(path.to_string());
+            });
+
+            let raw = match res {
+                Ok(raw) => raw,
+                Err(_) => {
+                    reader.seek(std::io::SeekFrom::Start(0))?;
+                    let mut de = serde_json::Deserializer::from_reader(&mut reader);
+                    serde_path_to_error::deserialize(&mut de)?
+                }
+            };
+
+            dbg!(ignored_set);
         }
         Ok(())
     }
