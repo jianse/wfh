@@ -54,7 +54,6 @@ declare module 'vue' {
     PvSelect: typeof import('primevue/select')['default']
     PvSpeedDial: typeof import('primevue/speeddial')['default']
     PvTab: typeof import('primevue/tab')['default']
-    PvTablist: typeof import('primevue/tablist')['default']
     PvTabList: typeof import('primevue/tablist')['default']
     PvTabPanel: typeof import('primevue/tabpanel')['default']
     PvTabPanels: typeof import('primevue/tabpanels')['default']

@@ -65,24 +65,36 @@ export const useSyncStore = defineStore('sync', () => {
   }
 
   function setCategoryTotal(category: string, total: number) {
-    state.value[category].total = total
+    const cat = state.value[category]
+    if (cat) {
+      cat.total = total
+    }
     triggerRef(state)
   }
 
   function increaseCategoryCompleted(category: string) {
-    state.value[category].completed++
+    const cat = state.value[category]
+    if (cat) {
+      cat.completed++
+    }
     triggerRef(state)
   }
 
   function markCategoryDone(category: string) {
     const item = state.value[category]
+    if (!item) {
+      return
+    }
     item.phase = SyncPhase.DONE
     item.last_sync_time = new Date()
     triggerRef(state)
   }
 
   function increaseCategoryCompletedBy(category: string, amount: number) {
-    state.value[category].completed += amount
+    const cat = state.value[category]
+    if (cat) {
+      cat.completed += amount
+    }
     triggerRef(state)
   }
 

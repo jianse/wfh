@@ -28,6 +28,10 @@ function strToVNodes(v: string) {
     pos = pat.lastIndex
     const name = arr[1]
     // console.log(arr)
+    if (!name) {
+      console.log('invalid icon name', name)
+      continue
+    }
     if (arr[0] === '\r\n') {
       nodes.push(h('br'))
     } else if (name === 'ENERGY') {

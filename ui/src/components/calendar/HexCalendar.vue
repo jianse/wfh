@@ -59,7 +59,26 @@ const months = computed(() => {
     case 'CST_SUMMER':
       return []
     case 'CST_FALL':
-      return []
+      return [
+        {
+          name: '10',
+          dayOfMonth: 31,
+          startWeekDay: 5,
+          dayMat: calcDayMat(5 - props.offset, 31),
+        },
+        {
+          name: '11',
+          dayOfMonth: 30,
+          startWeekDay: 1,
+          dayMat: calcDayMat(1 - props.offset, 30),
+        },
+        {
+          name: '12',
+          dayOfMonth: 31,
+          startWeekDay: 3,
+          dayMat: calcDayMat(3 - props.offset, 31),
+        },
+      ]
     case 'CST_WINTER':
       return [
         {

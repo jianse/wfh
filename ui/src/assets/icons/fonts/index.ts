@@ -41,6 +41,7 @@ const map = new Map<string, string>([
   ['SECONDARY_FIRE', mw_d],
   ['SHIELD', shield],
   ['DT_SENTIENT', sentient],
+  ['DT_MAGNETIC', magnetic],
 ])
 
 export function findImageUrl(name: string): string {

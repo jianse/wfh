@@ -175,6 +175,8 @@ export interface RawWorldState {
     Community?: boolean
     Count?: number
     Goal?: number
+    Tag: string
+    HealthPct: number
   }[]
   Alerts: {
     _id: string

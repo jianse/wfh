@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-row place-content-around m-2">
-    <div class="w-[1080px] flex flex-col gap-2">
+    <div class="w-270 flex flex-col gap-2">
       <div class="flex flex-row gap-2">
         <pv-card class="min-w-4xs grow h-fit">
           <template #title>夜灵平野</template>
@@ -44,6 +44,7 @@
         <template #content>
           <div class="flex flex-col gap-2">
             <div v-for="event in rawWorldState?.Goals" :key="event._id">
+              <!-- {{ event }} -->
               {{ event.Desc }} {{ event.Node }} <CountDownTo :time="event.Expiry" />结束
 
               <div>{{ event.ToolTip }}</div>
@@ -54,6 +55,13 @@
                 v-if="event.Community"
                 :value="event.Count"
                 :max="event.Goal"
+              />
+
+              <!-- ghoul emergence has a health bar -->
+              <pv-progress-bar
+                class="mt-1"
+                v-if="event.Tag === 'GhoulEmergence'"
+                :value="event.HealthPct * 100"
               />
             </div>
           </div>
@@ -190,17 +198,17 @@
             <div v-if="tsBetween(now, voidTrader.Activation, voidTrader.Expiry)">
               <div>已到来</div>
               <div>{{ voidTrader.Node }}</div>
+              <div><CountDownTo :time="voidTrader.Expiry"></CountDownTo> 离开</div>
               <pv-data-table
                 v-if="true"
                 :value="voidTrader.Manifest"
                 scrollable
                 scroll-height="600px"
               >
-                <pv-column field="ItemType" header="物品" style="width: 50%"></pv-column>
+                <pv-column field="ItemName" header="物品" style="width: 50%"></pv-column>
                 <pv-column field="PrimePrice" header="杜卡德金币" style="width: 30%"></pv-column>
                 <pv-column field="RegularPrice" header="星币" style="width: 20%"></pv-column>
               </pv-data-table>
-              <div><CountDownTo :time="voidTrader.Expiry"></CountDownTo> 离开</div>
             </div>
             <div v-else>
               <div>未到来</div>
@@ -370,7 +378,7 @@ import { get_raw_world_state, type RawWorldState, type Reward } from '@/api/worl
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
 import { useToast } from 'primevue/usetoast'
-import { computed, ref } from 'vue'
+import { computed, onActivated, onDeactivated, ref } from 'vue'
 import dayjs from 'dayjs'
 import isBetween from 'dayjs/plugin/isBetween'
 import { useTimestamp } from '@vueuse/core'
@@ -382,6 +390,17 @@ dayjs.extend(isBetween)
 const rawWorldState = ref<RawWorldState>()
 const loading = ref(false)
 const toast = useToast()
+
+const fetchEnable = ref(true)
+
+onDeactivated(() => {
+  fetchEnable.value = false
+})
+
+onActivated(() => {
+  fetchEnable.value = true
+  onTimeUp()
+})
 
 const now = useTimestamp({ interval: 1000 })
 
@@ -490,6 +509,9 @@ function tsBetween(t: number, a: string, b: string) {
 }
 
 async function fetchWorldState() {
+  if (!fetchEnable.value) {
+    return
+  }
   loading.value = true
   try {
     const { data } = await get_raw_world_state()
