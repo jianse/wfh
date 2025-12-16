@@ -20,6 +20,7 @@ use migration::{Migrator, MigratorTrait};
 use sea_orm::{ConnectOptions, Database, DatabaseConnection};
 use settings::TlsSettings;
 use std::sync::Arc;
+use std::time::Duration;
 use tokio::net::TcpListener;
 use tokio::signal;
 use tokio::sync::broadcast::{self, Receiver, Sender};
@@ -75,7 +76,9 @@ pub async fn serve() -> Result<()> {
 
     Migrator::up(&conn, None).await?;
 
-    let http_client = reqwest::Client::new();
+    let http_client = reqwest::Client::builder()
+        .timeout(Duration::from_secs(5))
+        .build()?;
 
     let state = Arc::new(AppStateRaw { conn, http_client });
     let (tx, rx) = broadcast::channel::<()>(10);
@@ -91,7 +94,12 @@ pub async fn serve() -> Result<()> {
     // load public export on startup
     tokio::spawn({
         let state = state.clone();
-        async move { api::load_deps("data", "cache", &state.http_client, false).await }
+        async move {
+            let res = api::load_deps("data", "cache", &state.http_client, false).await;
+            if res.is_err() {
+                error!("failed to load dependencies: {}", res.unwrap_err());
+            }
+        }
     });
     // api::load_deps("data", &state.http_client, false);
 

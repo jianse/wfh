@@ -17,6 +17,9 @@ pub enum Error {
 
     #[error(transparent)]
     Biz(#[from] BizError),
+
+    #[error(transparent)]
+    HttpClient(#[from] reqwest::Error),
 }
 
 pub type Result<T> = std::result::Result<T, Error>;

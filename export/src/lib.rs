@@ -14,6 +14,7 @@ use serde::Serialize;
 use serde_json::{Value, json};
 use std::collections::HashMap;
 use std::path::{Path, PathBuf};
+use std::time::Duration;
 use tokio::io::AsyncReadExt;
 use tracing::{debug, info, trace, warn};
 
@@ -44,6 +45,7 @@ impl<'a> PubExportFetcher<'a> {
         let resp = self
             .client
             .get("https://origin.warframe.com/PublicExport/index_zh.txt.lzma")
+            .timeout(Duration::from_secs(10))
             .send()
             .await?;
 
@@ -77,6 +79,7 @@ impl<'a> PubExportFetcher<'a> {
                 "https://content.warframe.com/PublicExport/Manifest/{}",
                 part
             ))
+            .timeout(Duration::from_secs(20))
             .send()
             .await?;
 
@@ -88,6 +91,9 @@ impl<'a> PubExportFetcher<'a> {
     }
 
     fn write_cache(&self, part: &str, data: &serde_json::Value) -> Result<()> {
+        if !self.cache_dir.exists() {
+            std::fs::create_dir_all(&self.cache_dir)?;
+        }
         let path = self.cache_dir.join(part);
         std::fs::write(path, serde_json::to_string_pretty(&data)?)?;
         Ok(())
