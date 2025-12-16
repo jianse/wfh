@@ -4,10 +4,11 @@ use tracing::level_filters::LevelFilter;
 use tracing_appender::non_blocking::WorkerGuard;
 use tracing_appender::rolling::{daily, hourly, never};
 use tracing_subscriber::Registry;
+use tracing_subscriber::fmt::time::ChronoLocal;
 use tracing_subscriber::fmt::writer::BoxMakeWriter;
 use tracing_subscriber::layer::Layered;
 use tracing_subscriber::reload::{self, Handle};
-use tracing_subscriber::{EnvFilter, Layer, fmt::time::LocalTime};
+use tracing_subscriber::{EnvFilter, Layer};
 use tracing_subscriber::{fmt, layer::SubscriberExt, util::SubscriberInitExt};
 
 type BoxLayer<R> = Box<dyn Layer<R> + Send + Sync + 'static>;
@@ -18,11 +19,13 @@ type H1 = Handle<EnvFilter, Registry>;
 
 type H2 = Handle<Vec<BoxLayer<Reg2>>, Reg2>;
 
+const DT_FMT: &str = "%Y-%m-%dT%H:%M:%S%.9f%:z";
+
 pub fn bootstrap_logger() -> (H1, H2) {
     let inner = fmt::layer()
         .with_ansi(true)
         .with_line_number(true)
-        .with_timer(LocalTime::rfc_3339())
+        .with_timer(ChronoLocal::new(DT_FMT.to_owned()))
         .boxed();
 
     let (reload_filter, frh) = reload::Layer::new(EnvFilter::new("info"));
@@ -52,7 +55,7 @@ pub fn init_logger() -> Option<WorkerGuard> {
         .with_ansi(true)
         // .with_file(true)
         .with_line_number(true)
-        .with_timer(LocalTime::rfc_3339())
+        .with_timer(ChronoLocal::new(DT_FMT.to_owned()))
         .boxed();
 
     h2.modify(|layers| {
@@ -103,7 +106,7 @@ where
             .map_fmt_fields(|f| f)
             .with_ansi(false)
             .with_line_number(true)
-            .with_timer(LocalTime::rfc_3339())
+            .with_timer(ChronoLocal::new(DT_FMT.to_owned()))
             .with_writer(writer)
             .boxed();
 
