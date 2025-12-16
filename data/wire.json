@@ -883,6 +883,10 @@
         "name": "/Lotus/Language/Cosmetics/CrpSistersLName",
         "description": "/Lotus/Language/Cosmetics/CrpSistersDesc"
     },
+    "/Lotus/Upgrades/Skins/Armor/DaxFlaredArmor/DaxFlaredAArmor": {
+        "name": "/Lotus/Language/Armour/DaxFlaredArmourAName",
+        "description": "/Lotus/Language/Armour/DaxFlaredArmourDesc"
+    },
     "/Lotus/Upgrades/Skins/Armor/Daybreak/DaybreakArmourA": {
         "name": "/Lotus/Language/Cosmetics/DaybreakArmourAName",
         "description": "/Lotus/Language/Cosmetics/DaybreakArmourDesc"
@@ -1379,6 +1383,18 @@
         "name": "/Lotus/Language/Primes/GaussPrimeArmourLName",
         "description": "/Lotus/Language/Primes/GaussPrimeArmourDesc"
     },
+    "/Lotus/Upgrades/Skins/Armor/PrimeGyreArmor/PrimeGyreArmorA": {
+        "name": "/Lotus/Language/Primes/GyrePrimeArmourAName",
+        "description": "/Lotus/Language/Primes/GyrePrimeArmourDesc"
+    },
+    "/Lotus/Upgrades/Skins/Armor/PrimeGyreArmor/PrimeGyreArmorC": {
+        "name": "/Lotus/Language/Primes/GyrePrimeArmourCName",
+        "description": "/Lotus/Language/Primes/GyrePrimeArmourDesc"
+    },
+    "/Lotus/Upgrades/Skins/Armor/PrimeGyreArmor/PrimeGyreArmorL": {
+        "name": "/Lotus/Language/Primes/GyrePrimeArmourLName",
+        "description": "/Lotus/Language/Primes/GyrePrimeArmourDesc"
+    },
     "/Lotus/Upgrades/Skins/Armor/PrimeInarosArmor/PrimeInarosArmorA": {
         "name": "/Lotus/Language/Primes/InarosPrimeArmourAName",
         "description": "/Lotus/Language/Primes/InarosPrimeArmourDesc"
@@ -1863,6 +1879,90 @@
         "name": "/Lotus/Language/Cosmetics/SundialArmorLName",
         "description": "/Lotus/Language/Cosmetics/SundialArmorDesc"
     },
+    "/Lotus/Upgrades/Skins/Armor/TauRankMedal/TauPurpleHeartMedalC": {
+        "name": "/Lotus/Language/Armour/PurpleHeartMedalArmourCName",
+        "description": "/Lotus/Language/Armour/PurpleHeartMedalArmourCDesc"
+    },
+    "/Lotus/Upgrades/Skins/Armor/TauRankMedal/TauRankMedal10C": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/Challenge_Rank10C_Name",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauRankMedalDesc"
+    },
+    "/Lotus/Upgrades/Skins/Armor/TauRankMedal/TauRankMedal11C": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/Challenge_Rank11C_Name",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauRankMedalDesc"
+    },
+    "/Lotus/Upgrades/Skins/Armor/TauRankMedal/TauRankMedal12C": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/Challenge_Rank12C_Name",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauRankMedalDesc"
+    },
+    "/Lotus/Upgrades/Skins/Armor/TauRankMedal/TauRankMedal13C": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/Challenge_Rank13C_Name",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauRankMedalDesc"
+    },
+    "/Lotus/Upgrades/Skins/Armor/TauRankMedal/TauRankMedal14C": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/Challenge_Rank14C_Name",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauRankMedalDesc"
+    },
+    "/Lotus/Upgrades/Skins/Armor/TauRankMedal/TauRankMedal15C": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/Challenge_Rank15C_Name",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauRankMedalDesc"
+    },
+    "/Lotus/Upgrades/Skins/Armor/TauRankMedal/TauRankMedal16C": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/Challenge_Rank16C_Name",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauRankMedalDesc"
+    },
+    "/Lotus/Upgrades/Skins/Armor/TauRankMedal/TauRankMedal17C": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/Challenge_Rank17C_Name",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauRankMedalDesc"
+    },
+    "/Lotus/Upgrades/Skins/Armor/TauRankMedal/TauRankMedal18C": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/Challenge_Rank18C_Name",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauRankMedalDesc"
+    },
+    "/Lotus/Upgrades/Skins/Armor/TauRankMedal/TauRankMedal19C": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/Challenge_Rank19C_Name",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauRankMedalDesc"
+    },
+    "/Lotus/Upgrades/Skins/Armor/TauRankMedal/TauRankMedal1C": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/Challenge_Rank1C_Name",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauRankMedalDesc"
+    },
+    "/Lotus/Upgrades/Skins/Armor/TauRankMedal/TauRankMedal20C": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauRankMedal20Name",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauRankMedalDesc"
+    },
+    "/Lotus/Upgrades/Skins/Armor/TauRankMedal/TauRankMedal2C": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/Challenge_Rank2C_Name",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauRankMedalDesc"
+    },
+    "/Lotus/Upgrades/Skins/Armor/TauRankMedal/TauRankMedal3C": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/Challenge_Rank3C_Name",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauRankMedalDesc"
+    },
+    "/Lotus/Upgrades/Skins/Armor/TauRankMedal/TauRankMedal4C": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/Challenge_Rank4C_Name",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauRankMedalDesc"
+    },
+    "/Lotus/Upgrades/Skins/Armor/TauRankMedal/TauRankMedal5C": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/Challenge_Rank5C_Name",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauRankMedalDesc"
+    },
+    "/Lotus/Upgrades/Skins/Armor/TauRankMedal/TauRankMedal6C": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/Challenge_Rank6C_Name",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauRankMedalDesc"
+    },
+    "/Lotus/Upgrades/Skins/Armor/TauRankMedal/TauRankMedal7C": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/Challenge_Rank7C_Name",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauRankMedalDesc"
+    },
+    "/Lotus/Upgrades/Skins/Armor/TauRankMedal/TauRankMedal8C": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/Challenge_Rank8C_Name",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauRankMedalDesc"
+    },
+    "/Lotus/Upgrades/Skins/Armor/TauRankMedal/TauRankMedal9C": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/Challenge_Rank9C_Name",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauRankMedalDesc"
+    },
     "/Lotus/Upgrades/Skins/Armor/TennoCon2018Armor/TennoCon2018ArmorA": {
         "name": "/Lotus/Language/Cosmetics/Tennocon2018ArmorAName",
         "description": "/Lotus/Language/Cosmetics/Tennocon2018ArmorDesc"
@@ -1922,6 +2022,18 @@
     "/Lotus/Upgrades/Skins/Armor/TitaniaDeluxeArmor/TitaniaDeluxeArmorL": {
         "name": "/Lotus/Language/Cosmetics/TitaniaDeluxeArmourLName",
         "description": "/Lotus/Language/Cosmetics/TitaniaDeluxeArmourDesc"
+    },
+    "/Lotus/Upgrades/Skins/Armor/TnArmorCurve/SolsticeTnArmorCurveA": {
+        "name": "/Lotus/Language/Skins/WinterSolsticeNidinaASkinName",
+        "description": "/Lotus/Language/Skins/WinterSolsticeNidinaSkinDesc"
+    },
+    "/Lotus/Upgrades/Skins/Armor/TnArmorCurve/SolsticeTnArmorCurveC": {
+        "name": "/Lotus/Language/Skins/WinterSolsticeNidinaCSkinName",
+        "description": "/Lotus/Language/Skins/WinterSolsticeNidinaSkinDesc"
+    },
+    "/Lotus/Upgrades/Skins/Armor/TnArmorCurve/SolsticeTnArmorCurveL": {
+        "name": "/Lotus/Language/Skins/WinterSolsticeNidinaLSkinName",
+        "description": "/Lotus/Language/Skins/WinterSolsticeNidinaSkinDesc"
     },
     "/Lotus/Upgrades/Skins/Armor/TnArmorCurve/TnArmorCurveA": {
         "name": "/Lotus/Language/Cosmetics/TnCurveArmArmourName",
@@ -2195,6 +2307,10 @@
         "name": "/Lotus/Language/Skins/FrostVoidshellArmorName",
         "description": "/Lotus/Language/Skins/ChameleonSkinDesc"
     },
+    "/Lotus/Upgrades/Skins/Armor/WarframeDefaults/GyrePrimeArmArmor": {
+        "name": "/Lotus/Language/Primes/GyrePrimeDefaultArmourAName",
+        "description": "/Lotus/Language/Primes/GyrePrimeDefaultArmourDesc"
+    },
     "/Lotus/Upgrades/Skins/Armor/WarframeDefaults/HildrynPrimeChestArmor": {
         "name": "/Lotus/Language/Primes/HildrynPrimeDefaultArmourName",
         "description": "/Lotus/Language/Primes/HildrynPrimeDefaultArmourDesc"
@@ -2298,6 +2414,10 @@
     "/Lotus/Upgrades/Skins/Armor/WarframeDefaults/VoltPrimeArmArmor": {
         "name": "/Lotus/Language/Items/WarframeDefaultArmourVoltPrimeName",
         "description": "/Lotus/Language/Items/WarframeDefaultArmourVoltPrimeDesc"
+    },
+    "/Lotus/Upgrades/Skins/Armor/WarframeDefaults/VorunaDeluxeArmArmor": {
+        "name": "/Lotus/Language/Deluxe/VorunaDeluxeArmArmourName",
+        "description": "/Lotus/Language/Deluxe/VorunaDeluxeArmArmourDesc"
     },
     "/Lotus/Upgrades/Skins/Armor/WarframeDefaults/WerewolfArmArmor": {
         "name": "/Lotus/Language/Suits/WerewolfDefaultArmourAName",
@@ -3493,7 +3613,7 @@
     },
     "/Lotus/Upgrades/Skins/ConcreteFrame/SWQorvexSarcophagoHelmet": {
         "name": "/Lotus/Language/SteamWorkshop/SWQorvexSarcophagoAltHelmetName",
-        "description": "[?]"
+        "description": "/Lotus/Language/SteamWorkshop/SWQorvexSarcophagoAltHelmetDesc"
     },
     "/Lotus/Upgrades/Skins/Contests/LongGuns/VectisSharpshooter": {
         "name": "/Lotus/Language/Items/ContestVectisSharpshooterName",
@@ -3779,6 +3899,30 @@
         "name": "/Lotus/Language/SteamWorkshop/SWDagathYhavanHelmetName",
         "description": "/Lotus/Language/SteamWorkshop/SWDagathYhavanHelmetDesc"
     },
+    "/Lotus/Upgrades/Skins/Dax/DaxArchgunSkin": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/DaxArchgunSkinName",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/DaxArchgunSkinDesc"
+    },
+    "/Lotus/Upgrades/Skins/Dax/DaxBowSkin": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/DaxBowSkinName",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/DaxBowSkinDesc"
+    },
+    "/Lotus/Upgrades/Skins/Dax/DaxKatanaSkin": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/DaxKatanaSkinName",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/DaxKatanaSkinDesc"
+    },
+    "/Lotus/Upgrades/Skins/Dax/DaxKunaiSkin": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/DaxKunaiSkinName",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/DaxKunaiSkinDesc"
+    },
+    "/Lotus/Upgrades/Skins/Dax/DaxLeverRifleSkin": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/DaxLeverRifleSkinName",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/DaxLeverRifleSkinDesc"
+    },
+    "/Lotus/Upgrades/Skins/Dax/DaxMageStaffSkin": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/DaxMageStaffSkinName",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/DaxMageStaffSkinDesc"
+    },
     "/Lotus/Upgrades/Skins/Dazzle/BratonDazzleCamo": {
         "name": "/Lotus/Language/Items/DazzleCamoBratonName",
         "description": "/Lotus/Language/Items/DazzleCamoBratonDesc"
@@ -4038,6 +4182,34 @@
     "/Lotus/Upgrades/Skins/Deluxe/WukongDeluxeWhipSkin": {
         "name": "/Lotus/Language/Skins/WukongDeluxeWhipSkinName",
         "description": "/Lotus/Language/Skins/WukongDeluxeWhipSkinDesc"
+    },
+    "/Lotus/Upgrades/Skins/DemonFrame/DemonFrameAgileAnims": {
+        "name": "/Lotus/Language/Cosmetics/DemonFrameAgileAnims",
+        "description": "/Lotus/Language/Cosmetics/DemonFrameAgileAnimsDesc"
+    },
+    "/Lotus/Upgrades/Skins/DemonFrame/DemonFrameAltHelmet": {
+        "name": "/Lotus/Language/Suits/DemonFrameAltHelmetName",
+        "description": "/Lotus/Language/Suits/DemonFrameAltHelmetDesc"
+    },
+    "/Lotus/Upgrades/Skins/DemonFrame/DemonFrameHelmet": {
+        "name": "/Lotus/Language/Suits/DemonFrameHelmetName",
+        "description": "/Lotus/Language/Suits/DemonFrameHelmetDesc"
+    },
+    "/Lotus/Upgrades/Skins/DemonFrame/DemonFrameNobleAnims": {
+        "name": "/Lotus/Language/Cosmetics/DemonFrameNobleAnims",
+        "description": "/Lotus/Language/Cosmetics/DemonFrameNobleAnimsDesc"
+    },
+    "/Lotus/Upgrades/Skins/DemonFrame/DemonFrameSkin": {
+        "name": "/Lotus/Language/Suits/DemonFrameDefaultSkinName",
+        "description": "/Lotus/Language/Suits/DemonFrameDefaultSkinDesc"
+    },
+    "/Lotus/Upgrades/Skins/DemonFrame/GeminiDemonFrameAuxHat": {
+        "name": "/Lotus/Language/Skins/WF1999UrielAuxHatName",
+        "description": "/Lotus/Language/Skins/WF1999UrielAuxHatDesc"
+    },
+    "/Lotus/Upgrades/Skins/DemonFrame/GeminiDemonFrameSkin": {
+        "name": "/Lotus/Language/Skins/WF1999UrielSkinName",
+        "description": "/Lotus/Language/Skins/WF1999UrielSkinDesc"
     },
     "/Lotus/Upgrades/Skins/Devourer/DevourerAgileAnims": {
         "name": "/Lotus/Language/Items/DevourerAgileAnims",
@@ -4554,6 +4726,10 @@
     "/Lotus/Upgrades/Skins/Effects/VoltDeluxeRaijinEphemera": {
         "name": "/Lotus/Language/Cosmetics/VoltDeluxeRaijinEphemeraName",
         "description": "/Lotus/Language/Cosmetics/VoltDeluxeRaijinEphemeraDesc"
+    },
+    "/Lotus/Upgrades/Skins/Effects/VorunaDeluxeEphemera": {
+        "name": "/Lotus/Language/Deluxe/VorunaDeluxeEphemeraName",
+        "description": "/Lotus/Language/Deluxe/VorunaDeluxeEphemeraDesc"
     },
     "/Lotus/Upgrades/Skins/Effects/WebEphemera": {
         "name": "/Lotus/Language/Cosmetics/WebEphemeraName",
@@ -5591,6 +5767,14 @@
         "name": "/Lotus/Language/Cosmetics/GyreNobleAnims",
         "description": "/Lotus/Language/Cosmetics/GyreNobleAnimsDesc"
     },
+    "/Lotus/Upgrades/Skins/Gyre/GyrePrimeHelmet": {
+        "name": "/Lotus/Language/Primes/GyrePrimeHelmetName",
+        "description": "/Lotus/Language/Primes/GyrePrimeHelmetDesc"
+    },
+    "/Lotus/Upgrades/Skins/Gyre/GyrePrimeSkin": {
+        "name": "/Lotus/Language/Primes/GyrePrimeSkinName",
+        "description": "/Lotus/Language/Primes/GyrePrimeSkinDesc"
+    },
     "/Lotus/Upgrades/Skins/Gyre/GyreSkin": {
         "name": "/Lotus/Language/Skins/GyreSkinName",
         "description": "/Lotus/Language/Skins/GyreSkinDesc"
@@ -5847,9 +6031,9 @@
         "name": "/Lotus/Language/Items/HalloweenVastoName",
         "description": "/Lotus/Language/Items/HalloweenVastoDesc"
     },
-    "/Lotus/Upgrades/Skins/Halos/PrototypeRaidHalo": {
-        "name": "/Lotus/Language/Items/PrototypeRaidSekharaName",
-        "description": "/Lotus/Language/Items/PrototypeRaidSekharaDesc"
+    "/Lotus/Upgrades/Skins/Hammer/DaxHammerSkin": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/DaxHammerSkinName",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/DaxHammerSkinDesc"
     },
     "/Lotus/Upgrades/Skins/Hammer/GrnHammer": {
         "name": "/Lotus/Language/Items/GrineerHeavyHammerName",
@@ -7363,6 +7547,10 @@
         "name": "/Lotus/Language/Skins/NewWarLotusSkinName",
         "description": "/Lotus/Language/Skins/NewWarLotusSkinDesc"
     },
+    "/Lotus/Upgrades/Skins/Lotus/ScarredLotusSkin": {
+        "name": "/Lotus/Language/Skins/ScarredLotusSkinName",
+        "description": "/Lotus/Language/Skins/ScarredLotusSkinDesc"
+    },
     "/Lotus/Upgrades/Skins/Lotus/SentientLotusSkin": {
         "name": "/Lotus/Language/Skins/SentientLotusSkinName",
         "description": "/Lotus/Language/Skins/SentientLotusSkinDesc"
@@ -8715,6 +8903,10 @@
         "name": "/Lotus/Language/Items/OperatorEyepieceC",
         "description": "/Lotus/Language/Items/GenericOperatorAccessoryDescription"
     },
+    "/Lotus/Upgrades/Skins/Operator/Accessories/EyepieceOperatorGlassesSensei": {
+        "name": "/Lotus/Language/Operator/SenseiEyeGlassesName",
+        "description": "/Lotus/Language/Operator/SenseiEyeGlassesDesc"
+    },
     "/Lotus/Upgrades/Skins/Operator/Accessories/NightWaveEarPieceA": {
         "name": "/Lotus/Language/Operator/NightwaveEarpieceAName",
         "description": "/Lotus/Language/Operator/NightwaveEarpieceADesc"
@@ -8914,6 +9106,10 @@
     "/Lotus/Upgrades/Skins/Operator/Accessories/StalkerAccessoriesNose": {
         "name": "/Lotus/Language/Items/StalkerAccessoriesNoseName",
         "description": "/Lotus/Language/Items/StalkerAccessoriesNoseDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Accessories/TauBreathingShell": {
+        "name": "/Lotus/Language/Operator/TauBreathingShellName",
+        "description": "/Lotus/Language/Operator/TauBreathingShellDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/Accessories/TempleDots": {
         "name": "/Lotus/Language/Items/OperatorTempleDots",
@@ -9139,6 +9335,10 @@
         "name": "/Lotus/Language/Operator/TeshinArmourLegsName",
         "description": "/Lotus/Language/Operator/TeshinArmourDesc"
     },
+    "/Lotus/Upgrades/Skins/Operator/Beards/Beard001Cap": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Operator/DrifterBeardDesc"
+    },
     "/Lotus/Upgrades/Skins/Operator/Beards/BeardA": {
         "name": "[?]",
         "description": "/Lotus/Language/Operator/DrifterBeardDesc"
@@ -9154,6 +9354,14 @@
     "/Lotus/Upgrades/Skins/Operator/Beards/BeardN": {
         "name": "[?]",
         "description": "/Lotus/Language/Operator/DrifterBeardDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Bodies/FemaleBody": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/GenericSuitCustomizationDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Bodies/MaleBody": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/GenericSuitCustomizationDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitA": {
         "name": "/Lotus/Language/Items/OperatorBodySuitA",
@@ -9171,6 +9379,10 @@
         "name": "/Lotus/Language/Operator/BodySuitDrifterAthleticName",
         "description": "/Lotus/Language/Operator/DrifterAthleticDesc"
     },
+    "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitAdultB": {
+        "name": "/Lotus/Language/Operator/AdultBodysuitBName",
+        "description": "/Lotus/Language/Operator/AdultSuitDesc"
+    },
     "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitAdultC": {
         "name": "/Lotus/Language/Cosmetics/BodySuitAdultCName",
         "description": "/Lotus/Language/Cosmetics/BodySuitAdultDesc"
@@ -9178,6 +9390,10 @@
     "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitAdultChameleon": {
         "name": "/Lotus/Language/Operator/AdultChameleonArmourBodyName",
         "description": "/Lotus/Language/Operator/ChameleonArmourDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitAdultD": {
+        "name": "/Lotus/Language/Operator/AdultBodysuitDName",
+        "description": "/Lotus/Language/Operator/AdultSuitDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitAdultDaxA": {
         "name": "/Lotus/Language/Operator/DaxABodyDrifterName",
@@ -9217,7 +9433,15 @@
     },
     "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitAdultGrunge": {
         "name": "/Lotus/Language/Operator/BodySuitDrifterGrungeName",
-        "description": "/Lotus/Language/Operator/OperatorGrungeDesc"
+        "description": "/Lotus/Language/Operator/DrifterGrungeDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitAdultI": {
+        "name": "/Lotus/Language/Operator/AdultSmelterArmourBodyName",
+        "description": "/Lotus/Language/Operator/AdultSmelterArmourBodyDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitAdultInfested": {
+        "name": "/Lotus/Language/Operator/AdultBodysuitInfestedName",
+        "description": "/Lotus/Language/Operator/AdultBodysuitInfestedDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitAdultJ": {
         "name": "/Lotus/Language/Operator/AdultBodyJName",
@@ -9227,9 +9451,21 @@
         "name": "/Lotus/Language/Operator/AdultBodyKName",
         "description": "/Lotus/Language/Operator/AdultSuitKDesc"
     },
+    "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitAdultL": {
+        "name": "/Lotus/Language/Operator/AdultTechnomancerArmourBodyName",
+        "description": "/Lotus/Language/Operator/AdultTechnomancerArmourBodyDesc"
+    },
     "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitAdultM2022TennoCon": {
         "name": "/Lotus/Language/Operator/BodysuitM2022TennoConAdultName",
         "description": "/Lotus/Language/Operator/SuitM2022TennoConDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitAdultN": {
+        "name": "/Lotus/Language/Operator/AdultBodysuitNName",
+        "description": "/Lotus/Language/Operator/AdultSuitNDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitAdultNewC": {
+        "name": "/Lotus/Language/Operator/BodySuitAdultNewCName",
+        "description": "/Lotus/Language/Operator/AdultSuitDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitAdultNightSuit": {
         "name": "/Lotus/Language/Operator/NoraNightSuitAdultName",
@@ -9238,6 +9474,14 @@
     "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitAdultNovaEngineer": {
         "name": "/Lotus/Language/Cosmetics/NovaEngineerAdultBodyName",
         "description": "/Lotus/Language/Cosmetics/NovaEngineerBodyDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitAdultO": {
+        "name": "/Lotus/Language/Operator/AdultBodysuitOName",
+        "description": "/Lotus/Language/Operator/AdultSuitNDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitAdultOperatorDemonframe": {
+        "name": "/Lotus/Language/Operator/BodySuitDrifterDemonframeName",
+        "description": "/Lotus/Language/Operator/DrifterDemonframeDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitAdultOperatorDrifterGoth": {
         "name": "/Lotus/Language/Operator/BodySuitDrifterGothName",
@@ -9343,9 +9587,13 @@
         "name": "/Lotus/Language/Operator/BodysuitOName",
         "description": "/Lotus/Language/Operator/SuitODesc"
     },
+    "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitOperatorDemonframe": {
+        "name": "/Lotus/Language/Operator/BodySuitOperatorDemonframeName",
+        "description": "/Lotus/Language/Operator/OperatorDemonframeDesc"
+    },
     "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitOperatorDrifterGoth": {
-        "name": "/Lotus/Language/Operator/BodySuitOperatorGothName",
-        "description": "/Lotus/Language/Operator/OperatorGothDesc"
+        "name": "/Lotus/Language/Operator/BodySuitDrifterGothName",
+        "description": "/Lotus/Language/Operator/DrifterGothDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitOperatorLasrianA": {
         "name": "/Lotus/Language/Operator/BodySuitOperatorLasrianAName",
@@ -9361,7 +9609,7 @@
     },
     "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitOutfit2A": {
         "name": "/Lotus/Language/Operator/BodySuitOperatorDrifterBName",
-        "description": "/Lotus/Language/Operator/AdultDrifterBDesc"
+        "description": "/Lotus/Language/Operator/OperatorBDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitOutfit3A": {
         "name": "/Lotus/Language/Operator/BodySuitOperatorOutfit3AName",
@@ -9384,12 +9632,76 @@
         "description": "/Lotus/Language/Primes/SuitPrimeEDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitPrimeF": {
-        "name": "/Lotus/Language/Primes/OperatorBodySuitPrimeF",
+        "name": "/Lotus/Language/Primes/AdultBodySuitPrimeFName",
         "description": "/Lotus/Language/Primes/AdultPrimeSuitFDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/BodySuits/BodySuitZephyrDeluxe": {
         "name": "/Lotus/Language/Operator/BodysuitZephyrDeluxeName",
         "description": "/Lotus/Language/Operator/BodysuitZephyrDeluxeDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/EyeBrows/EyeBrowBA": {
+        "name": "/Lotus/Language/Cosmetics/EyeBrowBAName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/EyeBrows/EyeBrowBB": {
+        "name": "/Lotus/Language/Cosmetics/EyeBrowBBName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/EyeBrows/EyeBrowBC": {
+        "name": "/Lotus/Language/Cosmetics/EyeBrowBCName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/EyeBrows/EyeBrowBD": {
+        "name": "/Lotus/Language/Cosmetics/EyeBrowBDName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/EyeBrows/EyeBrowBE": {
+        "name": "/Lotus/Language/Cosmetics/EyeBrowBEName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/EyeBrows/EyeBrowBF": {
+        "name": "/Lotus/Language/Cosmetics/EyeBrowBFName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/EyeBrows/EyeBrowBG": {
+        "name": "/Lotus/Language/Cosmetics/EyeBrowBGName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/EyeBrows/EyeBrowBH": {
+        "name": "/Lotus/Language/Cosmetics/EyeBrowBHName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/EyeBrows/EyeBrowCA": {
+        "name": "/Lotus/Language/Cosmetics/EyeBrowCAName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/EyeBrows/EyeBrowCB": {
+        "name": "/Lotus/Language/Cosmetics/EyeBrowCBName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/EyeBrows/EyeBrowCC": {
+        "name": "/Lotus/Language/Cosmetics/EyeBrowCCName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/EyeBrows/EyeBrowCD": {
+        "name": "/Lotus/Language/Cosmetics/EyeBrowCDName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/EyeBrows/EyeBrowCE": {
+        "name": "/Lotus/Language/Cosmetics/EyeBrowCEName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/EyeBrows/EyeBrowCF": {
+        "name": "/Lotus/Language/Cosmetics/EyeBrowCFName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/EyeBrows/EyeBrowCG": {
+        "name": "/Lotus/Language/Cosmetics/EyeBrowCGName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/EyeBrows/EyeBrowCH": {
+        "name": "/Lotus/Language/Cosmetics/EyeBrowCHName",
+        "description": "[?]"
     },
     "/Lotus/Upgrades/Skins/Operator/FacialMarkings/FacialMarkingA": {
         "name": "/Lotus/Language/Operator/FacialMarkingsA",
@@ -9431,6 +9743,62 @@
         "name": "/Lotus/Language/Operator/FacialMarkingsJ",
         "description": "/Lotus/Language/Operator/GenericOperatorMarkingsDescription"
     },
+    "/Lotus/Upgrades/Skins/Operator/FacialMarkings/NewFacialMarkingA": {
+        "name": "/Lotus/Language/Operator/FacialMarkingsA",
+        "description": "/Lotus/Language/Operator/GenericOperatorMarkingsDescription"
+    },
+    "/Lotus/Upgrades/Skins/Operator/FacialMarkings/NewFacialMarkingB": {
+        "name": "/Lotus/Language/Operator/FacialMarkingsB",
+        "description": "/Lotus/Language/Operator/GenericOperatorMarkingsDescription"
+    },
+    "/Lotus/Upgrades/Skins/Operator/FacialMarkings/NewFacialMarkingC": {
+        "name": "/Lotus/Language/Operator/FacialMarkingsC",
+        "description": "/Lotus/Language/Operator/GenericOperatorMarkingsDescription"
+    },
+    "/Lotus/Upgrades/Skins/Operator/FacialMarkings/NewFacialMarkingD": {
+        "name": "/Lotus/Language/Operator/FacialMarkingsD",
+        "description": "/Lotus/Language/Operator/GenericOperatorMarkingsDescription"
+    },
+    "/Lotus/Upgrades/Skins/Operator/FacialMarkings/NewFacialMarkingE": {
+        "name": "/Lotus/Language/Operator/FacialMarkingsE",
+        "description": "/Lotus/Language/Operator/GenericOperatorMarkingsDescription"
+    },
+    "/Lotus/Upgrades/Skins/Operator/FacialMarkings/NewFacialMarkingF": {
+        "name": "/Lotus/Language/Operator/FacialMarkingsF",
+        "description": "/Lotus/Language/Operator/GenericOperatorMarkingsDescription"
+    },
+    "/Lotus/Upgrades/Skins/Operator/FacialMarkings/NewFacialMarkingG": {
+        "name": "/Lotus/Language/Operator/FacialMarkingsG",
+        "description": "/Lotus/Language/Operator/GenericOperatorMarkingsDescription"
+    },
+    "/Lotus/Upgrades/Skins/Operator/FacialMarkings/NewFacialMarkingH": {
+        "name": "/Lotus/Language/Operator/FacialMarkingsH",
+        "description": "/Lotus/Language/Operator/GenericOperatorMarkingsDescription"
+    },
+    "/Lotus/Upgrades/Skins/Operator/FacialMarkings/NewFacialMarkingI": {
+        "name": "/Lotus/Language/Operator/FacialMarkingsI",
+        "description": "/Lotus/Language/Operator/GenericOperatorMarkingsDescription"
+    },
+    "/Lotus/Upgrades/Skins/Operator/FacialMarkings/NewFacialMarkingJ": {
+        "name": "/Lotus/Language/Operator/FacialMarkingsJ",
+        "description": "/Lotus/Language/Operator/GenericOperatorMarkingsDescription"
+    },
+    "/Lotus/Upgrades/Skins/Operator/FacialMarkings/NewFacialMarkingK": {
+        "name": "/Lotus/Language/Operator/FacialMarkingsK",
+        "description": "/Lotus/Language/Operator/GenericOperatorMarkingsDescription"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Hair/Hair001Cap": {
+        "name": "/Lotus/Language/Cosmetics/Hair001Cap",
+        "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Hair/Hair002Cap": {
+        "name": "/Lotus/Language/Cosmetics/Hair002Cap",
+        "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Hair/Hair029RM": {
+        "name": "/Lotus/Language/Cosmetics/Hair029RM",
+        "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
+    },
     "/Lotus/Upgrades/Skins/Operator/Hair/Hair1999Excalibur": {
         "name": "/Lotus/Language/Cosmetics/Hair1999ExcaliburName",
         "description": "/Lotus/Language/Cosmetics/Hair1999ExcaliburDesc"
@@ -9438,6 +9806,10 @@
     "/Lotus/Upgrades/Skins/Operator/Hair/Hair1999Frost": {
         "name": "/Lotus/Language/Cosmetics/Hair1999FrostName",
         "description": "/Lotus/Language/Cosmetics/Hair1999FrostDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Hair/Hair1999Harrow": {
+        "name": "/Lotus/Language/Cosmetics/Hair1999HarrowName",
+        "description": "/Lotus/Language/Cosmetics/Hair1999HarrowDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/Hair/Hair1999Loid": {
         "name": "/Lotus/Language/Cosmetics/Hair1999LoidName",
@@ -9475,32 +9847,32 @@
         "name": "/Lotus/Language/Cosmetics/Hair1999TrinityName",
         "description": "/Lotus/Language/Cosmetics/Hair1999TrinityDesc"
     },
+    "/Lotus/Upgrades/Skins/Operator/Hair/Hair1999Uriel": {
+        "name": "/Lotus/Language/Cosmetics/Hair1999UrielName",
+        "description": "/Lotus/Language/Cosmetics/Hair1999UrielDesc"
+    },
     "/Lotus/Upgrades/Skins/Operator/Hair/Hair1999Volt": {
         "name": "/Lotus/Language/Cosmetics/Hair1999VoltName",
         "description": "/Lotus/Language/Cosmetics/Hair1999VoltDesc"
     },
+    "/Lotus/Upgrades/Skins/Operator/Hair/Hair1999Wisp": {
+        "name": "/Lotus/Language/Cosmetics/Hair1999WispName",
+        "description": "/Lotus/Language/Cosmetics/Hair1999WispDesc"
+    },
     "/Lotus/Upgrades/Skins/Operator/Hair/HairA": {
-        "name": "[?]",
+        "name": "/Lotus/Language/Cosmetics/HairA",
         "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
     },
     "/Lotus/Upgrades/Skins/Operator/Hair/HairAdultN": {
-        "name": "[?]",
-        "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
-    },
-    "/Lotus/Upgrades/Skins/Operator/Hair/HairAdultNightwave": {
-        "name": "[?]",
-        "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
-    },
-    "/Lotus/Upgrades/Skins/Operator/Hair/HairAdultNightwaveB": {
-        "name": "[?]",
+        "name": "/Lotus/Language/Cosmetics/HairAdultN",
         "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
     },
     "/Lotus/Upgrades/Skins/Operator/Hair/HairB": {
-        "name": "[?]",
+        "name": "/Lotus/Language/Cosmetics/HairB",
         "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
     },
     "/Lotus/Upgrades/Skins/Operator/Hair/HairC": {
-        "name": "[?]",
+        "name": "/Lotus/Language/Cosmetics/HairC",
         "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
     },
     "/Lotus/Upgrades/Skins/Operator/Hair/HairCaliberChicksJillian": {
@@ -9512,140 +9884,124 @@
         "description": "/Lotus/Language/Cosmetics/CaliberChicksLillianHairDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/Hair/HairD": {
-        "name": "[?]",
+        "name": "/Lotus/Language/Cosmetics/HairD",
         "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
     },
     "/Lotus/Upgrades/Skins/Operator/Hair/HairE": {
-        "name": "[?]",
+        "name": "/Lotus/Language/Cosmetics/HairE",
         "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
     },
     "/Lotus/Upgrades/Skins/Operator/Hair/HairG": {
-        "name": "[?]",
+        "name": "/Lotus/Language/Cosmetics/HairG",
         "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
     },
     "/Lotus/Upgrades/Skins/Operator/Hair/HairH": {
-        "name": "[?]",
+        "name": "/Lotus/Language/Cosmetics/HairH",
         "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
     },
     "/Lotus/Upgrades/Skins/Operator/Hair/HairI": {
-        "name": "[?]",
+        "name": "/Lotus/Language/Cosmetics/HairI",
         "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
     },
     "/Lotus/Upgrades/Skins/Operator/Hair/HairJ": {
-        "name": "[?]",
+        "name": "/Lotus/Language/Cosmetics/HairJ",
         "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
     },
     "/Lotus/Upgrades/Skins/Operator/Hair/HairK": {
-        "name": "[?]",
+        "name": "/Lotus/Language/Cosmetics/HairK",
         "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
     },
     "/Lotus/Upgrades/Skins/Operator/Hair/HairL": {
-        "name": "[?]",
+        "name": "/Lotus/Language/Cosmetics/HairL",
         "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
     },
     "/Lotus/Upgrades/Skins/Operator/Hair/HairM": {
-        "name": "[?]",
+        "name": "/Lotus/Language/Cosmetics/HairM",
         "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
     },
     "/Lotus/Upgrades/Skins/Operator/Hair/HairN": {
-        "name": "[?]",
+        "name": "/Lotus/Language/Cosmetics/HairN",
         "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
     },
     "/Lotus/Upgrades/Skins/Operator/Hair/HairO": {
-        "name": "[?]",
+        "name": "/Lotus/Language/Cosmetics/HairO",
         "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
     },
     "/Lotus/Upgrades/Skins/Operator/Hair/HairP": {
-        "name": "[?]",
-        "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
-    },
-    "/Lotus/Upgrades/Skins/Operator/Hair/HairRBun": {
-        "name": "[?]",
-        "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
-    },
-    "/Lotus/Upgrades/Skins/Operator/Hair/HairRBunBraid": {
-        "name": "[?]",
-        "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
-    },
-    "/Lotus/Upgrades/Skins/Operator/Hair/HairRPonytail": {
-        "name": "[?]",
-        "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
-    },
-    "/Lotus/Upgrades/Skins/Operator/Hair/HairS": {
-        "name": "[?]",
-        "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
-    },
-    "/Lotus/Upgrades/Skins/Operator/Hair/HairSLong": {
-        "name": "[?]",
-        "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
-    },
-    "/Lotus/Upgrades/Skins/Operator/Hair/HairSShort": {
-        "name": "[?]",
-        "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
-    },
-    "/Lotus/Upgrades/Skins/Operator/Hair/HairTBraid": {
-        "name": "[?]",
-        "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
-    },
-    "/Lotus/Upgrades/Skins/Operator/Hair/HairTBun": {
-        "name": "[?]",
-        "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
-    },
-    "/Lotus/Upgrades/Skins/Operator/Hair/HairTPonytail": {
-        "name": "[?]",
+        "name": "/Lotus/Language/Cosmetics/HairP",
         "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
     },
     "/Lotus/Upgrades/Skins/Operator/Hair/HairUOneBraid": {
-        "name": "[?]",
-        "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
-    },
-    "/Lotus/Upgrades/Skins/Operator/Hair/HairUThreeBraid": {
-        "name": "[?]",
-        "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
-    },
-    "/Lotus/Upgrades/Skins/Operator/Hair/HairUTwoBraid": {
-        "name": "[?]",
+        "name": "/Lotus/Language/Cosmetics/HairUOneBraid",
         "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
     },
     "/Lotus/Upgrades/Skins/Operator/Hair/HairVOne": {
-        "name": "[?]",
+        "name": "/Lotus/Language/Cosmetics/HairVOne",
         "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
     },
     "/Lotus/Upgrades/Skins/Operator/Hair/HairVThree": {
-        "name": "[?]",
+        "name": "/Lotus/Language/Cosmetics/HairVThree",
         "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
     },
     "/Lotus/Upgrades/Skins/Operator/Hair/HairVTwo": {
-        "name": "[?]",
-        "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
-    },
-    "/Lotus/Upgrades/Skins/Operator/Hair/HairWDreadShortTail": {
-        "name": "[?]",
-        "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
-    },
-    "/Lotus/Upgrades/Skins/Operator/Hair/HairWDreadTail": {
-        "name": "[?]",
-        "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
-    },
-    "/Lotus/Upgrades/Skins/Operator/Hair/HairWFuzzyBall": {
-        "name": "[?]",
-        "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
-    },
-    "/Lotus/Upgrades/Skins/Operator/Hair/HairXDreadShortTail": {
-        "name": "[?]",
-        "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
-    },
-    "/Lotus/Upgrades/Skins/Operator/Hair/HairXDreadTail": {
-        "name": "[?]",
-        "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
-    },
-    "/Lotus/Upgrades/Skins/Operator/Hair/HairXFuzzyBall": {
-        "name": "[?]",
+        "name": "/Lotus/Language/Cosmetics/HairVTwo",
         "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
     },
     "/Lotus/Upgrades/Skins/Operator/Hair/HairZ": {
-        "name": "[?]",
+        "name": "/Lotus/Language/Cosmetics/HairZ",
         "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Hair/HairZB": {
+        "name": "/Lotus/Language/Cosmetics/HairBase",
+        "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Hair/NewHairA": {
+        "name": "/Lotus/Language/Cosmetics/NewHairA",
+        "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Hair/NewHairB": {
+        "name": "/Lotus/Language/Cosmetics/NewHairB",
+        "description": "/Lotus/Language/Items/GenericOperatorHairDescription"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AdultAlbedoA": {
+        "name": "/Lotus/Language/Operator/AlbedoAName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AdultAlbedoB": {
+        "name": "/Lotus/Language/Operator/AlbedoBName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AdultAlbedoC": {
+        "name": "/Lotus/Language/Operator/AlbedoCName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AdultAlbedoD": {
+        "name": "/Lotus/Language/Operator/AlbedoDName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AdultAlbedoE": {
+        "name": "/Lotus/Language/Operator/AlbedoEName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AdultAlbedoF": {
+        "name": "/Lotus/Language/Operator/AlbedoFName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AdultAlbedoG": {
+        "name": "/Lotus/Language/Operator/AlbedoGName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AdultAlbedoH": {
+        "name": "/Lotus/Language/Operator/AlbedoHName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AdultAlbedoI": {
+        "name": "/Lotus/Language/Operator/AlbedoIName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AdultAlbedoJ": {
+        "name": "/Lotus/Language/Operator/AlbedoJName",
+        "description": "[?]"
     },
     "/Lotus/Upgrades/Skins/Operator/Heads/AdultFemaleHeadA": {
         "name": "[?]",
@@ -9699,6 +10055,50 @@
         "name": "[?]",
         "description": "/Lotus/Language/Items/GenericSuitCustomizationDesc"
     },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AdultHeadARemastered": {
+        "name": "/Lotus/Language/Cosmetics/NewHeadAName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AdultHeadBRemastered": {
+        "name": "/Lotus/Language/Cosmetics/NewHeadBName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AdultHeadCRemastered": {
+        "name": "/Lotus/Language/Cosmetics/NewHeadCName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AdultHeadDRemastered": {
+        "name": "/Lotus/Language/Cosmetics/NewHeadDName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AdultHeadERemastered": {
+        "name": "/Lotus/Language/Cosmetics/NewHeadEName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AdultHeadFRemastered": {
+        "name": "/Lotus/Language/Cosmetics/NewHeadFName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AdultHeadGRemastered": {
+        "name": "/Lotus/Language/Cosmetics/NewHeadGName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AdultHeadHRemastered": {
+        "name": "/Lotus/Language/Cosmetics/NewHeadHName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AdultHeadIRemastered": {
+        "name": "/Lotus/Language/Cosmetics/NewHeadIName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AdultHeadJRemastered": {
+        "name": "/Lotus/Language/Cosmetics/NewHeadJName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AdultLegacyAlbedo": {
+        "name": "/Lotus/Language/Operator/AdultLegacyAlbedoName",
+        "description": "[?]"
+    },
     "/Lotus/Upgrades/Skins/Operator/Heads/AdultMaleHeadA": {
         "name": "[?]",
         "description": "/Lotus/Language/Items/GenericSuitCustomizationDesc"
@@ -9751,6 +10151,62 @@
         "name": "[?]",
         "description": "/Lotus/Language/Items/GenericSuitCustomizationDesc"
     },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AlbedoA": {
+        "name": "/Lotus/Language/Operator/AlbedoAName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AlbedoB": {
+        "name": "/Lotus/Language/Operator/AlbedoBName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AlbedoC": {
+        "name": "/Lotus/Language/Operator/AlbedoCName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AlbedoD": {
+        "name": "/Lotus/Language/Operator/AlbedoDName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AlbedoE": {
+        "name": "/Lotus/Language/Operator/AlbedoEName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AlbedoF": {
+        "name": "/Lotus/Language/Operator/AlbedoFName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AlbedoG": {
+        "name": "/Lotus/Language/Operator/AlbedoGName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AlbedoH": {
+        "name": "/Lotus/Language/Operator/AlbedoHName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AlbedoI": {
+        "name": "/Lotus/Language/Operator/AlbedoIName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/AlbedoJ": {
+        "name": "/Lotus/Language/Operator/AlbedoJName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/ExtraAdultAlbedoA": {
+        "name": "/Lotus/Language/Operator/ExtraAlbedoAName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/ExtraAdultAlbedoB": {
+        "name": "/Lotus/Language/Operator/ExtraAlbedoBName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/ExtraAlbedoA": {
+        "name": "/Lotus/Language/Operator/ExtraAlbedoAName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/ExtraAlbedoB": {
+        "name": "/Lotus/Language/Operator/ExtraAlbedoBName",
+        "description": "[?]"
+    },
     "/Lotus/Upgrades/Skins/Operator/Heads/FemaleHeadA": {
         "name": "[?]",
         "description": "/Lotus/Language/Items/GenericSuitCustomizationDesc"
@@ -9802,6 +10258,50 @@
     "/Lotus/Upgrades/Skins/Operator/Heads/FemaleHeadM": {
         "name": "[?]",
         "description": "/Lotus/Language/Items/GenericSuitCustomizationDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/HeadARemastered": {
+        "name": "/Lotus/Language/Cosmetics/NewHeadAName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/HeadBRemastered": {
+        "name": "/Lotus/Language/Cosmetics/NewHeadBName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/HeadCRemastered": {
+        "name": "/Lotus/Language/Cosmetics/NewHeadCName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/HeadDRemastered": {
+        "name": "/Lotus/Language/Cosmetics/NewHeadDName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/HeadERemastered": {
+        "name": "/Lotus/Language/Cosmetics/NewHeadEName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/HeadFRemastered": {
+        "name": "/Lotus/Language/Cosmetics/NewHeadFName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/HeadGRemastered": {
+        "name": "/Lotus/Language/Cosmetics/NewHeadGName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/HeadHRemastered": {
+        "name": "/Lotus/Language/Cosmetics/NewHeadHName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/HeadIRemastered": {
+        "name": "/Lotus/Language/Cosmetics/NewHeadIName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/HeadJRemastered": {
+        "name": "/Lotus/Language/Cosmetics/NewHeadJName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Heads/LegacyAlbedo": {
+        "name": "/Lotus/Language/Operator/LegacyAlbedoName",
+        "description": "[?]"
     },
     "/Lotus/Upgrades/Skins/Operator/Heads/MaleHeadA": {
         "name": "[?]",
@@ -9867,6 +10367,10 @@
         "name": "/Lotus/Language/Operator/HoodDrifterArabicName",
         "description": "/Lotus/Language/Operator/DrifterArabicDesc"
     },
+    "/Lotus/Upgrades/Skins/Operator/Hoods/HoodAdultB": {
+        "name": "/Lotus/Language/Operator/AdultHoodBName",
+        "description": "/Lotus/Language/Operator/AdultHoodDesc"
+    },
     "/Lotus/Upgrades/Skins/Operator/Hoods/HoodAdultC": {
         "name": "/Lotus/Language/Cosmetics/HoodAdultCName",
         "description": "/Lotus/Language/Cosmetics/HoodAdultDesc"
@@ -9874,6 +10378,10 @@
     "/Lotus/Upgrades/Skins/Operator/Hoods/HoodAdultChameleon": {
         "name": "/Lotus/Language/Operator/AdultChameleonArmourHeadName",
         "description": "/Lotus/Language/Operator/ChameleonArmourDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Hoods/HoodAdultD": {
+        "name": "/Lotus/Language/Operator/AdultHoodDName",
+        "description": "/Lotus/Language/Operator/AdultHoodDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/Hoods/HoodAdultDaxA": {
         "name": "/Lotus/Language/Operator/DaxAHoodDrifterName",
@@ -9885,7 +10393,7 @@
     },
     "/Lotus/Upgrades/Skins/Operator/Hoods/HoodAdultDeluxeA": {
         "name": "/Lotus/Language/Operator/HoodZephyrDeluxeAdultName",
-        "description": "/Lotus/Language/Operator/DrifterHoodDesc"
+        "description": "/Lotus/Language/Operator/AdultHoodDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/Hoods/HoodAdultDexOutfit": {
         "name": "/Lotus/Language/Operator/HoodDrifterDexName",
@@ -9915,6 +10423,14 @@
         "name": "/Lotus/Language/Operator/HoodDrifterGrungeName",
         "description": "/Lotus/Language/Operator/DrifterGrungeDesc"
     },
+    "/Lotus/Upgrades/Skins/Operator/Hoods/HoodAdultI": {
+        "name": "/Lotus/Language/Operator/AdultSmelterArmourHeadName",
+        "description": "/Lotus/Language/Operator/AdultSmelterArmourBodyDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Hoods/HoodAdultInfested": {
+        "name": "/Lotus/Language/Operator/AdultHoodInfestedName",
+        "description": "/Lotus/Language/Operator/AdultHoodInfestedDesc"
+    },
     "/Lotus/Upgrades/Skins/Operator/Hoods/HoodAdultJ": {
         "name": "/Lotus/Language/Operator/AdultHoodJName",
         "description": "/Lotus/Language/Operator/AdultSuitJDesc"
@@ -9923,13 +10439,33 @@
         "name": "/Lotus/Language/Operator/AdultHoodKName",
         "description": "/Lotus/Language/Operator/AdultSuitKDesc"
     },
+    "/Lotus/Upgrades/Skins/Operator/Hoods/HoodAdultL": {
+        "name": "/Lotus/Language/Operator/AdultTechnomancerArmourHeadName",
+        "description": "/Lotus/Language/Operator/AdultTechnomancerArmourBodyDesc"
+    },
     "/Lotus/Upgrades/Skins/Operator/Hoods/HoodAdultM2022TennoCon": {
         "name": "/Lotus/Language/Operator/HoodM2022TennoConAdultName",
         "description": "/Lotus/Language/Operator/SuitM2022TennoConDesc"
     },
+    "/Lotus/Upgrades/Skins/Operator/Hoods/HoodAdultN": {
+        "name": "/Lotus/Language/Operator/AdultHoodNName",
+        "description": "/Lotus/Language/Operator/AdultSuitNDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Hoods/HoodAdultNewC": {
+        "name": "/Lotus/Language/Operator/HoodAdultNewCName",
+        "description": "/Lotus/Language/Operator/AdultHoodDesc"
+    },
     "/Lotus/Upgrades/Skins/Operator/Hoods/HoodAdultNovaEngineer": {
         "name": "/Lotus/Language/Cosmetics/NovaEngineerAdultHoodName",
         "description": "/Lotus/Language/Cosmetics/NovaEngineerHoodDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Hoods/HoodAdultO": {
+        "name": "/Lotus/Language/Operator/AdultHoodOName",
+        "description": "/Lotus/Language/Operator/AdultSuitNDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Hoods/HoodAdultOperatorDemonframe": {
+        "name": "/Lotus/Language/Operator/HoodDrifterDemonframeName",
+        "description": "/Lotus/Language/Operator/DrifterDemonframeDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/Hoods/HoodAdultOperatorDrifterGoth": {
         "name": "/Lotus/Language/Operator/HoodDrifterGothName",
@@ -10047,9 +10583,13 @@
         "name": "/Lotus/Language/Operator/HoodOName",
         "description": "/Lotus/Language/Operator/SuitODesc"
     },
+    "/Lotus/Upgrades/Skins/Operator/Hoods/HoodOperatorDemonframe": {
+        "name": "/Lotus/Language/Operator/HoodOperatorDemonframeName",
+        "description": "/Lotus/Language/Operator/OperatorDemonframeDesc"
+    },
     "/Lotus/Upgrades/Skins/Operator/Hoods/HoodOperatorDrifterGoth": {
-        "name": "/Lotus/Language/Operator/HoodOperatorGothName",
-        "description": "/Lotus/Language/Operator/OperatorGothDesc"
+        "name": "/Lotus/Language/Operator/HoodDrifterGothName",
+        "description": "/Lotus/Language/Operator/DrifterGothDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/Hoods/HoodOperatorLasrianA": {
         "name": "/Lotus/Language/Operator/HoodOperatorLasrianAName",
@@ -10131,6 +10671,10 @@
         "name": "/Lotus/Language/Operator/LeggingsDrifterAthleticName",
         "description": "/Lotus/Language/Operator/DrifterAthleticDesc"
     },
+    "/Lotus/Upgrades/Skins/Operator/Leggings/LeggingsAdultB": {
+        "name": "/Lotus/Language/Operator/AdultLeggingsBName",
+        "description": "/Lotus/Language/Operator/AdultLeggingsDesc"
+    },
     "/Lotus/Upgrades/Skins/Operator/Leggings/LeggingsAdultC": {
         "name": "/Lotus/Language/Cosmetics/LeggingsAdultCName",
         "description": "/Lotus/Language/Cosmetics/LeggingsAdultDesc"
@@ -10139,17 +10683,21 @@
         "name": "/Lotus/Language/Operator/AdultChameleonArmourLegsName",
         "description": "/Lotus/Language/Operator/ChameleonArmourDesc"
     },
+    "/Lotus/Upgrades/Skins/Operator/Leggings/LeggingsAdultD": {
+        "name": "/Lotus/Language/Operator/AdultLeggingsDName",
+        "description": "/Lotus/Language/Operator/AdultLeggingsDesc"
+    },
     "/Lotus/Upgrades/Skins/Operator/Leggings/LeggingsAdultDaxA": {
         "name": "/Lotus/Language/Operator/DaxALeggingsDrifterName",
         "description": "/Lotus/Language/Operator/DaxALeggingsDrifterDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/Leggings/LeggingsAdultDaxB": {
         "name": "/Lotus/Language/Operator/DaxBLeggingsDrifterName",
-        "description": "/Lotus/Language/Operator/DaxBLeggingsDesc"
+        "description": "/Lotus/Language/Operator/DaxBLeggingsDrifterDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/Leggings/LeggingsAdultDeluxeA": {
         "name": "/Lotus/Language/Operator/LeggingsZephyrDeluxeAdultName",
-        "description": "/Lotus/Language/Operator/DrifterLeggingsDesc"
+        "description": "/Lotus/Language/Operator/AdultLeggingsDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/Leggings/LeggingsAdultDexOutfit": {
         "name": "/Lotus/Language/Operator/LeggingsDrifterDexName",
@@ -10179,6 +10727,14 @@
         "name": "/Lotus/Language/Operator/LeggingsDrifterGrungeName",
         "description": "/Lotus/Language/Operator/DrifterGrungeDesc"
     },
+    "/Lotus/Upgrades/Skins/Operator/Leggings/LeggingsAdultI": {
+        "name": "/Lotus/Language/Operator/AdultSmelterArmourLegsName",
+        "description": "/Lotus/Language/Operator/AdultSmelterArmourBodyDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Leggings/LeggingsAdultInfested": {
+        "name": "/Lotus/Language/Operator/AdultLeggingsInfestedName",
+        "description": "/Lotus/Language/Operator/AdultLeggingsInfestedDesc"
+    },
     "/Lotus/Upgrades/Skins/Operator/Leggings/LeggingsAdultJ": {
         "name": "/Lotus/Language/Operator/AdultLeggingsJName",
         "description": "/Lotus/Language/Operator/AdultSuitJDesc"
@@ -10187,9 +10743,21 @@
         "name": "/Lotus/Language/Operator/AdultLeggingsKName",
         "description": "/Lotus/Language/Operator/AdultSuitKDesc"
     },
+    "/Lotus/Upgrades/Skins/Operator/Leggings/LeggingsAdultL": {
+        "name": "/Lotus/Language/Operator/AdultTechnomancerArmourLegsName",
+        "description": "/Lotus/Language/Operator/AdultTechnomancerArmourBodyDesc"
+    },
     "/Lotus/Upgrades/Skins/Operator/Leggings/LeggingsAdultM2022TennoCon": {
         "name": "/Lotus/Language/Operator/LeggingsM2022TennoConAdultName",
         "description": "/Lotus/Language/Operator/SuitM2022TennoConDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Leggings/LeggingsAdultN": {
+        "name": "/Lotus/Language/Operator/AdultLeggingsNName",
+        "description": "/Lotus/Language/Operator/AdultSuitNDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Leggings/LeggingsAdultNewC": {
+        "name": "/Lotus/Language/Operator/LeggingsAdultNewCName",
+        "description": "/Lotus/Language/Operator/AdultLeggingsDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/Leggings/LeggingsAdultNightSuit": {
         "name": "/Lotus/Language/Operator/NoraNightLeggingsAdultName",
@@ -10198,6 +10766,14 @@
     "/Lotus/Upgrades/Skins/Operator/Leggings/LeggingsAdultNovaEngineer": {
         "name": "/Lotus/Language/Cosmetics/NovaEngineerAdultLeggingsName",
         "description": "/Lotus/Language/Cosmetics/NovaEngineerLeggingsDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Leggings/LeggingsAdultO": {
+        "name": "/Lotus/Language/Operator/AdultLeggingsOName",
+        "description": "/Lotus/Language/Operator/AdultSuitNDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Leggings/LeggingsAdultOperatorDemonframe": {
+        "name": "/Lotus/Language/Operator/LeggingsDrifterDemonframeName",
+        "description": "/Lotus/Language/Operator/DrifterDemonframeDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/Leggings/LeggingsAdultOperatorDrifterGoth": {
         "name": "/Lotus/Language/Operator/LeggingsDrifterGothName",
@@ -10303,9 +10879,13 @@
         "name": "/Lotus/Language/Operator/LeggingsOName",
         "description": "/Lotus/Language/Operator/SuitODesc"
     },
+    "/Lotus/Upgrades/Skins/Operator/Leggings/LeggingsOperatorDemonframe": {
+        "name": "/Lotus/Language/Operator/LeggingsOperatorDemonframeName",
+        "description": "/Lotus/Language/Operator/OperatorDemonframeDesc"
+    },
     "/Lotus/Upgrades/Skins/Operator/Leggings/LeggingsOperatorDrifterGoth": {
-        "name": "/Lotus/Language/Operator/LeggingsOperatorGothName",
-        "description": "/Lotus/Language/Operator/OperatorGothDesc"
+        "name": "/Lotus/Language/Operator/LeggingsDrifterGothName",
+        "description": "/Lotus/Language/Operator/DrifterGothDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/Leggings/LeggingsOperatorLasrianA": {
         "name": "/Lotus/Language/Operator/LeggingsOperatorLasrianAName",
@@ -10351,6 +10931,86 @@
         "name": "/Lotus/Language/Operator/LeggingsZephyrDeluxeName",
         "description": "/Lotus/Language/Operator/LeggingsZephyrDeluxeDesc"
     },
+    "/Lotus/Upgrades/Skins/Operator/MakeupMasks/MaduraiMaskA": {
+        "name": "/Lotus/Language/Cosmetics/MaduraiMakeUpAName",
+        "description": "/Lotus/Language/Cosmetics/FocusSchoolFacePaintDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/MakeupMasks/MaduraiMaskB": {
+        "name": "/Lotus/Language/Cosmetics/MaduraiMakeUpBName",
+        "description": "/Lotus/Language/Cosmetics/FocusSchoolFacePaintDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/MakeupMasks/MakeupMaskA": {
+        "name": "/Lotus/Language/Cosmetics/MakeUpAName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/MakeupMasks/MakeupMaskB": {
+        "name": "/Lotus/Language/Cosmetics/MakeUpBName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/MakeupMasks/MakeupMaskC": {
+        "name": "/Lotus/Language/Cosmetics/MakeUpCName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/MakeupMasks/MakeupMaskD": {
+        "name": "/Lotus/Language/Cosmetics/MakeUpDName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/MakeupMasks/MakeupMaskE": {
+        "name": "/Lotus/Language/Cosmetics/MakeUpEName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/MakeupMasks/MakeupMaskF": {
+        "name": "/Lotus/Language/Cosmetics/MakeUpFName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/MakeupMasks/MakeupMaskG": {
+        "name": "/Lotus/Language/Cosmetics/MakeUpGName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/MakeupMasks/MakeupMaskH": {
+        "name": "/Lotus/Language/Cosmetics/MakeUpHName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/MakeupMasks/MakeupMaskI": {
+        "name": "/Lotus/Language/Cosmetics/MakeUpIName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/MakeupMasks/MakeupMaskJ": {
+        "name": "/Lotus/Language/Cosmetics/MakeUpJName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Operator/MakeupMasks/NaramonMaskA": {
+        "name": "/Lotus/Language/Cosmetics/NaramonMakeUpAName",
+        "description": "/Lotus/Language/Cosmetics/FocusSchoolFacePaintDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/MakeupMasks/NaramonMaskB": {
+        "name": "/Lotus/Language/Cosmetics/NaramonMakeUpBName",
+        "description": "/Lotus/Language/Cosmetics/FocusSchoolFacePaintDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/MakeupMasks/UnairuMaskA": {
+        "name": "/Lotus/Language/Cosmetics/UnairuMakeUpAName",
+        "description": "/Lotus/Language/Cosmetics/FocusSchoolFacePaintDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/MakeupMasks/UnairuMaskB": {
+        "name": "/Lotus/Language/Cosmetics/UnairuMakeUpBName",
+        "description": "/Lotus/Language/Cosmetics/FocusSchoolFacePaintDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/MakeupMasks/VazarinMaskA": {
+        "name": "/Lotus/Language/Cosmetics/VazarinMakeUpAName",
+        "description": "/Lotus/Language/Cosmetics/FocusSchoolFacePaintDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/MakeupMasks/VazarinMaskB": {
+        "name": "/Lotus/Language/Cosmetics/VazarinMakeUpBName",
+        "description": "/Lotus/Language/Cosmetics/FocusSchoolFacePaintDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/MakeupMasks/ZenurikMaskA": {
+        "name": "/Lotus/Language/Cosmetics/ZenurikMakeUpAName",
+        "description": "/Lotus/Language/Cosmetics/FocusSchoolFacePaintDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/MakeupMasks/ZenurikMaskB": {
+        "name": "/Lotus/Language/Cosmetics/ZenurikMakeUpBName",
+        "description": "/Lotus/Language/Cosmetics/FocusSchoolFacePaintDesc"
+    },
     "/Lotus/Upgrades/Skins/Operator/Skirts/HipSocketB": {
         "name": "/Lotus/Language/Items/OperatorHipSocketB",
         "description": "/Lotus/Language/Items/OperatorWaitbandDesc"
@@ -10362,6 +11022,10 @@
     "/Lotus/Upgrades/Skins/Operator/Skirts/SkirtAdultAthletic": {
         "name": "/Lotus/Language/Operator/SkirtDrifterAthleticName",
         "description": "/Lotus/Language/Operator/DrifterAthleticDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Skirts/SkirtAdultB": {
+        "name": "/Lotus/Language/Operator/AdultSkirtBName",
+        "description": "/Lotus/Language/Operator/AdultWaistbandDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/Skirts/SkirtAdultC": {
         "name": "/Lotus/Language/Cosmetics/SkirtAdultCName",
@@ -10402,6 +11066,18 @@
     "/Lotus/Upgrades/Skins/Operator/Skirts/SkirtAdultLasrianB": {
         "name": "/Lotus/Language/Operator/HipDrifterLasrianBName",
         "description": "/Lotus/Language/Operator/DrifterLasrianBDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Skirts/SkirtAdultN": {
+        "name": "/Lotus/Language/Operator/AdultSkirtNName",
+        "description": "/Lotus/Language/Operator/AdultSuitNDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Skirts/SkirtAdultO": {
+        "name": "/Lotus/Language/Operator/AdultSkirtOName",
+        "description": "/Lotus/Language/Operator/AdultSuitNDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Skirts/SkirtAdultOperatorDemonframe": {
+        "name": "/Lotus/Language/Operator/HipDrifterDemonframeName",
+        "description": "/Lotus/Language/Operator/DrifterDemonframeDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/Skirts/SkirtAdultPrimeB": {
         "name": "/Lotus/Language/Operator/AdultSkirtPrimeBName",
@@ -10471,6 +11147,10 @@
         "name": "/Lotus/Language/Operator/SkirtOName",
         "description": "/Lotus/Language/Operator/SuitODesc"
     },
+    "/Lotus/Upgrades/Skins/Operator/Skirts/SkirtOperatorDemonframe": {
+        "name": "/Lotus/Language/Operator/HipOperatorDemonframeName",
+        "description": "/Lotus/Language/Operator/OperatorDemonframeDesc"
+    },
     "/Lotus/Upgrades/Skins/Operator/Skirts/SkirtPrimeB": {
         "name": "/Lotus/Language/Operator/OperatorPrimeArmourHipName",
         "description": "/Lotus/Language/Operator/OperatorPrimeArmourHipDesc"
@@ -10492,8 +11172,12 @@
         "description": "/Lotus/Language/Operator/DrifterArabicDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesAdultAthletic": {
-        "name": "/Lotus/Language/Operator/SleevesDrifterAthleticName",
+        "name": "/Lotus/Language/Operator/SleevesOperatorAthleticName",
         "description": "/Lotus/Language/Operator/DrifterAthleticDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesAdultB": {
+        "name": "/Lotus/Language/Operator/AdultSleevesBName",
+        "description": "/Lotus/Language/Operator/AdultSleevesDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesAdultC": {
         "name": "/Lotus/Language/Cosmetics/SleevesAdultCName",
@@ -10502,6 +11186,10 @@
     "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesAdultChameleon": {
         "name": "/Lotus/Language/Operator/AdultChameleonArmourArmsName",
         "description": "/Lotus/Language/Operator/ChameleonArmourDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesAdultD": {
+        "name": "/Lotus/Language/Operator/AdultSleevesDName",
+        "description": "/Lotus/Language/Operator/AdultSleevesDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesAdultDaxA": {
         "name": "/Lotus/Language/Operator/DaxASleevesDrifterName",
@@ -10513,7 +11201,7 @@
     },
     "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesAdultDeluxeA": {
         "name": "/Lotus/Language/Operator/SleevesZephyrDeluxeAdultName",
-        "description": "/Lotus/Language/Operator/DrifterSleevesDesc"
+        "description": "/Lotus/Language/Operator/AdultSleevesDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesAdultDexOutfit": {
         "name": "/Lotus/Language/Operator/SleevesDrifterDexName",
@@ -10543,6 +11231,14 @@
         "name": "/Lotus/Language/Operator/SleevesDrifterGrungeName",
         "description": "/Lotus/Language/Operator/DrifterGrungeDesc"
     },
+    "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesAdultI": {
+        "name": "/Lotus/Language/Operator/AdultSmelterArmourArmsName",
+        "description": "/Lotus/Language/Operator/AdultSmelterArmourBodyDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesAdultInfested": {
+        "name": "/Lotus/Language/Operator/AdultSleevesInfestedName",
+        "description": "/Lotus/Language/Operator/AdultSleevesInfestedDesc"
+    },
     "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesAdultJ": {
         "name": "/Lotus/Language/Operator/AdultSleevesJName",
         "description": "/Lotus/Language/Operator/AdultSuitJDesc"
@@ -10551,9 +11247,21 @@
         "name": "/Lotus/Language/Operator/AdultSleevesKName",
         "description": "/Lotus/Language/Operator/AdultSuitKDesc"
     },
+    "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesAdultL": {
+        "name": "/Lotus/Language/Operator/AdultTechnomancerArmourArmsName",
+        "description": "/Lotus/Language/Operator/AdultTechnomancerArmourBodyDesc"
+    },
     "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesAdultM2022Tennocon": {
         "name": "/Lotus/Language/Operator/SleevesM2022TennoConAdultName",
         "description": "/Lotus/Language/Operator/SuitM2022TennoConDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesAdultN": {
+        "name": "/Lotus/Language/Operator/AdultSleevesNName",
+        "description": "/Lotus/Language/Operator/AdultSuitNDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesAdultNewC": {
+        "name": "/Lotus/Language/Operator/SleevesAdultNewCName",
+        "description": "/Lotus/Language/Operator/AdultSleevesDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesAdultNightSuit": {
         "name": "/Lotus/Language/Operator/NoraNightSleevesAdultName",
@@ -10562,6 +11270,14 @@
     "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesAdultNovaEngineer": {
         "name": "/Lotus/Language/Cosmetics/NovaEngineerAdultSleevesName",
         "description": "/Lotus/Language/Cosmetics/NovaEngineerSleevesDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesAdultO": {
+        "name": "/Lotus/Language/Operator/AdultSleevesOName",
+        "description": "/Lotus/Language/Operator/AdultSuitNDesc"
+    },
+    "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesAdultOperatorDemonframe": {
+        "name": "/Lotus/Language/Operator/SleevesDrifterDemonframeName",
+        "description": "/Lotus/Language/Operator/DrifterDemonframeDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesAdultOperatorDrifterGoth": {
         "name": "/Lotus/Language/Operator/SleevesDrifterGothName",
@@ -10667,9 +11383,13 @@
         "name": "/Lotus/Language/Operator/SleevesOName",
         "description": "/Lotus/Language/Operator/SuitODesc"
     },
+    "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesOperatorDemonframe": {
+        "name": "/Lotus/Language/Operator/SleevesOperatorDemonframeName",
+        "description": "/Lotus/Language/Operator/OperatorDemonframeDesc"
+    },
     "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesOperatorDrifterGoth": {
-        "name": "/Lotus/Language/Operator/SleevesOperatorGothName",
-        "description": "/Lotus/Language/Operator/OperatorGothDesc"
+        "name": "/Lotus/Language/Operator/SleevesDrifterGothName",
+        "description": "/Lotus/Language/Operator/DrifterGothDesc"
     },
     "/Lotus/Upgrades/Skins/Operator/Sleeves/SleevesOperatorLasrianA": {
         "name": "/Lotus/Language/Operator/SleevesOperatorLasrianAName",
@@ -11279,6 +11999,18 @@
         "name": "/Lotus/Language/Skins/HarrowDeluxeSkinName",
         "description": "/Lotus/Language/Skins/HarrowDeluxeSkinDesc"
     },
+    "/Lotus/Upgrades/Skins/Priest/HarrowGeminiAuxHat": {
+        "name": "/Lotus/Language/Skins/WF1999HarrowAuxHatName",
+        "description": "/Lotus/Language/Skins/WF1999HarrowAuxHatDesc"
+    },
+    "/Lotus/Upgrades/Skins/Priest/HarrowGeminiHelmetForHat": {
+        "name": "[?]",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/Skins/Priest/HarrowGeminiSkin": {
+        "name": "/Lotus/Language/Skins/WF1999HarrowSkinName",
+        "description": "/Lotus/Language/Skins/WF1999HarrowSkinDesc"
+    },
     "/Lotus/Upgrades/Skins/Priest/HarrowPrimeHelmet": {
         "name": "/Lotus/Language/Primes/HarrowPrimeHelmetName",
         "description": "/Lotus/Language/Primes/HarrowPrimeHelmetDesc"
@@ -11554,6 +12286,10 @@
     "/Lotus/Upgrades/Skins/Promo/Seasonal/TennobaumParis": {
         "name": "/Lotus/Language/Seasonal/TennobaumParisName",
         "description": "/Lotus/Language/Seasonal/TennobaumParisDesc"
+    },
+    "/Lotus/Upgrades/Skins/Promo/Seasonal/XmasGlaiveSkin": {
+        "name": "/Lotus/Language/Seasonal/XmasGlaiveSkinName",
+        "description": "/Lotus/Language/Seasonal/XmasGlaiveSkinDesc"
     },
     "/Lotus/Upgrades/Skins/Promo/Twitch/AkjagaraIridosSkin": {
         "name": "/Lotus/Language/Skins/AkjagaraIridosSkinName",
@@ -12627,6 +13363,14 @@
         "name": "/Lotus/Language/Seasonal/DOTD2025WolfScarfName",
         "description": "/Lotus/Language/Seasonal/DOTD2025WolfScarfDesc"
     },
+    "/Lotus/Upgrades/Skins/Scarves/DaxSquareCape": {
+        "name": "/Lotus/Language/Syandanas/DaxSquareCapeName",
+        "description": "/Lotus/Language/Syandanas/DaxSquareCapeDesc"
+    },
+    "/Lotus/Upgrades/Skins/Scarves/DaxTwoTailsCape": {
+        "name": "/Lotus/Language/Syandanas/DaxTwoTailsCapeName",
+        "description": "/Lotus/Language/Syandanas/DaxTwoTailsCapeDesc"
+    },
     "/Lotus/Upgrades/Skins/Scarves/DeimosSupporterFireFlyBlueScarf": {
         "name": "/Lotus/Language/Cosmetics/BayonettaFireflyBlueScarfName",
         "description": "/Lotus/Language/Cosmetics/BayonettaFireflyBlueScarfDesc"
@@ -12986,6 +13730,10 @@
     "/Lotus/Upgrades/Skins/Scarves/PrimeGrendelSyandana": {
         "name": "/Lotus/Language/Primes/GrendelPrimeSyandanaName",
         "description": "/Lotus/Language/Primes/GrendelPrimeSyandanaDesc"
+    },
+    "/Lotus/Upgrades/Skins/Scarves/PrimeGyreSyandana": {
+        "name": "/Lotus/Language/Primes/GyrePrimeSyandanaName",
+        "description": "/Lotus/Language/Primes/GyrePrimeSyandanaDesc"
     },
     "/Lotus/Upgrades/Skins/Scarves/PrimeInarosSyandana": {
         "name": "/Lotus/Language/Primes/InarosPrimeSyandanaName",
@@ -13547,6 +14295,10 @@
         "name": "/Lotus/Language/Cosmetics/TnLargeCapeTwitchName",
         "description": "/Lotus/Language/Cosmetics/TnLargeCapeTwitchDesc"
     },
+    "/Lotus/Upgrades/Skins/Scarves/TnLargeCapeWSolstice": {
+        "name": "/Lotus/Language/Skins/WinterSolsticeBrocaSkinName",
+        "description": "/Lotus/Language/Skins/WinterSolsticeBrocaSkinDesc"
+    },
     "/Lotus/Upgrades/Skins/Scarves/TnLargeCapeXbox": {
         "name": "/Lotus/Language/Cosmetics/TnLargeCapeXboxName",
         "description": "/Lotus/Language/Cosmetics/TnLargeCapeXboxDesc"
@@ -13642,6 +14394,10 @@
     "/Lotus/Upgrades/Skins/Scarves/VTHornSkullScarf": {
         "name": "/Lotus/Language/Items/VTHornSkullScarfName",
         "description": "/Lotus/Language/Items/VTHornSkullScarfDesc"
+    },
+    "/Lotus/Upgrades/Skins/Scarves/ValdurBackCape": {
+        "name": "/Lotus/Language/Syandanas/ValdurBackCapeName",
+        "description": "/Lotus/Language/Syandanas/ValdurBackCapeDesc"
     },
     "/Lotus/Upgrades/Skins/Scarves/VitamPrimeSyandana": {
         "name": "/Lotus/Language/Primes/VitamPrimeSyandanaName",
@@ -16971,6 +17727,10 @@
         "name": "/Lotus/Language/Skins/LasriaSkanaSwordSkinName",
         "description": "/Lotus/Language/Skins/LasriaSkanaSwordSkinDesc"
     },
+    "/Lotus/Upgrades/Skins/Weapons/Swords/SphereSwordSkin": {
+        "name": "/Lotus/Language/Skins/SphereSwordSkinName",
+        "description": "/Lotus/Language/Skins/SphereSwordSkinDesc"
+    },
     "/Lotus/Upgrades/Skins/Weapons/Throwable/TennoCon2024NinjaStarSkin": {
         "name": "/Lotus/Language/Skins/TennoCon2024NinjaStarSkinName",
         "description": "/Lotus/Language/Skins/TennoCon2024NinjaStarSkinDesc"
@@ -17018,6 +17778,18 @@
     "/Lotus/Upgrades/Skins/Werewolf/SWVorunaKuvaelDrahkaanislSkin": {
         "name": "/Lotus/Language/SteamWorkshop/SWVorunaKuvaelDrahkaanisSkinName",
         "description": "/Lotus/Language/SteamWorkshop/SWVorunaKuvaelDrahkaanisSkinDesc"
+    },
+    "/Lotus/Upgrades/Skins/Werewolf/VorunaDeluxeAxeSkin": {
+        "name": "/Lotus/Language/Skins/VorunaDeluxeAxeSkinName",
+        "description": "/Lotus/Language/Skins/VorunaDeluxeAxeSkinDesc"
+    },
+    "/Lotus/Upgrades/Skins/Werewolf/VorunaDeluxeHelmet": {
+        "name": "/Lotus/Language/Deluxe/VorunaDeluxeHelmetName",
+        "description": "/Lotus/Language/Deluxe/VorunaDeluxeHelmetDesc"
+    },
+    "/Lotus/Upgrades/Skins/Werewolf/VorunaDeluxeSkin": {
+        "name": "/Lotus/Language/Deluxe/VorunaDeluxeSkinName",
+        "description": "/Lotus/Language/Deluxe/VorunaDeluxeSkinDesc"
     },
     "/Lotus/Upgrades/Skins/Werewolf/VorunaDemionnaHelmet": {
         "name": "/Lotus/Language/SteamWorkshop/SWVorunaDemionnaHelmetName",
@@ -17079,6 +17851,10 @@
         "name": "/Lotus/Language/Skins/SolsticeLenzSkinName",
         "description": "/Lotus/Language/Skins/SolsticeLenzSkinDesc"
     },
+    "/Lotus/Upgrades/Skins/WinterSolstice/SolsticeQuassusSkin": {
+        "name": "/Lotus/Language/Seasonal/SolsticeQuassusSkinName",
+        "description": "/Lotus/Language/Seasonal/SolsticeQuassusSkinDesc"
+    },
     "/Lotus/Upgrades/Skins/WinterSolstice/SolsticeSkiajatiSkin": {
         "name": "/Lotus/Language/Skins/SolsticeSkiajatiSkinName",
         "description": "/Lotus/Language/Skins/SolsticeSkiajatiSkinDesc"
@@ -17086,6 +17862,14 @@
     "/Lotus/Upgrades/Skins/WinterSolstice/SolsticeTatsuSkin": {
         "name": "/Lotus/Language/Skins/SolsticeTatsuSkinName",
         "description": "/Lotus/Language/Skins/SolsticeTatsuSkinDesc"
+    },
+    "/Lotus/Upgrades/Skins/WinterSolstice/WinterSolsticeGammacorSkin": {
+        "name": "/Lotus/Language/Skins/WinterSolsticeGammacorSkinName",
+        "description": "/Lotus/Language/Skins/WinterSolsticeGammacorSkinDesc"
+    },
+    "/Lotus/Upgrades/Skins/WinterSolstice/WinterSolsticeLatron": {
+        "name": "/Lotus/Language/Skins/WinterSolsticeLatronSkinName",
+        "description": "/Lotus/Language/Skins/WinterSolsticeLatronSkinDesc"
     },
     "/Lotus/Upgrades/Skins/Wisp/DexWispHelmet": {
         "name": "/Lotus/Language/Skins/WispDexHelmetName",
@@ -17154,6 +17938,14 @@
     "/Lotus/Upgrades/Skins/Wisp/SWZamariuWispSkin": {
         "name": "/Lotus/Language/SteamWorkshop/SWWispZamariuSkinName",
         "description": "/Lotus/Language/SteamWorkshop/SWWispZamariuSkinDesc"
+    },
+    "/Lotus/Upgrades/Skins/Wisp/WF1999WispAuxHat": {
+        "name": "/Lotus/Language/Skins/WF1999WispAuxHatName",
+        "description": "/Lotus/Language/Skins/WF1999WispAuxHatDesc"
+    },
+    "/Lotus/Upgrades/Skins/Wisp/WF1999WispSkin": {
+        "name": "/Lotus/Language/Skins/WF1999WispSkinName",
+        "description": "/Lotus/Language/Skins/WF1999WispSkinDesc"
     },
     "/Lotus/Upgrades/Skins/Wisp/WispAgileAnims": {
         "name": "/Lotus/Language/Cosmetics/WispAgileAnims",
@@ -18891,6 +19683,14 @@
         "name": "/Lotus/Language/Emotes/LegendaryLettieEmoteName",
         "description": "/Lotus/Language/Emotes/LegendaryLettieEmoteDesc"
     },
+    "/Lotus/Types/Items/Emotes/LegendaryLyonEmote": {
+        "name": "/Lotus/Language/Emotes/LegendaryLyonEmoteName",
+        "description": "/Lotus/Language/Emotes/LegendaryLyonEmoteDesc"
+    },
+    "/Lotus/Types/Items/Emotes/LegendaryMarieEmote": {
+        "name": "/Lotus/Language/Emotes/LegendaryMarieEmoteName",
+        "description": "/Lotus/Language/Emotes/LegendaryMarieEmoteDesc"
+    },
     "/Lotus/Types/Items/Emotes/LegendaryMinervaEmote": {
         "name": "/Lotus/Language/Emotes/LegendaryMinervaEmoteName",
         "description": "/Lotus/Language/Emotes/LegendaryMinervaEmoteDesc"
@@ -18898,6 +19698,10 @@
     "/Lotus/Types/Items/Emotes/LegendaryQuincyEmote": {
         "name": "/Lotus/Language/Emotes/LegendaryQuincyEmoteName",
         "description": "/Lotus/Language/Emotes/LegendaryQuincyEmoteDesc"
+    },
+    "/Lotus/Types/Items/Emotes/LegendaryRoatheEmote": {
+        "name": "/Lotus/Language/Emotes/LegendaryRoatheEmoteName",
+        "description": "/Lotus/Language/Emotes/LegendaryRoatheEmoteDesc"
     },
     "/Lotus/Types/Items/Emotes/LegendaryVelimirEmote": {
         "name": "/Lotus/Language/Emotes/LegendaryVelimirEmoteName",
@@ -18998,6 +19802,442 @@
     "/Lotus/Types/Items/Events/TennoConRelay2025EarlyAccess": {
         "name": "/Lotus/Language/Events/TennoConRelayEarlyAccessName",
         "description": "/Lotus/Language/Events/TennoConRelay2025EarlyAccessDesc"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleArgon": {
+        "name": "/Lotus/Language/Titles/TitleArgonDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleAscarisPrime": {
+        "name": "/Lotus/Language/Titles/TitleAscarisPrimeDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleCitrine": {
+        "name": "/Lotus/Language/Titles/TitleCitrineDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleCoprun": {
+        "name": "/Lotus/Language/Titles/TitleCoprunDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleCreditsBig": {
+        "name": "/Lotus/Language/Titles/TitleCreditsBigDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleCreditsBigger": {
+        "name": "/Lotus/Language/Titles/TitleCreditsBiggerDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleCreditsBiggest": {
+        "name": "/Lotus/Language/Titles/TitleCreditsBiggestDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleDagath": {
+        "name": "/Lotus/Language/Titles/TitleDagathDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleDante": {
+        "name": "/Lotus/Language/Titles/TitleDanteDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleDebtBond": {
+        "name": "/Lotus/Language/Titles/TitleDebtBondDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleEchoVoca": {
+        "name": "/Lotus/Language/Titles/TitleEchoVocaDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleEntratiObols": {
+        "name": "/Lotus/Language/Titles/TitleEntratiObolsDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleFatherTokens": {
+        "name": "/Lotus/Language/Titles/TitleFatherTokensDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleFerrite": {
+        "name": "/Lotus/Language/Titles/TitleFerriteDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleGanglion": {
+        "name": "/Lotus/Language/Titles/TitleGanglionDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleHarrowChasisBlueprint": {
+        "name": "/Lotus/Language/Titles/TitleHarrowChasisBlueprintDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleHexenon": {
+        "name": "/Lotus/Language/Titles/TitleHexenonDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleIgnia": {
+        "name": "/Lotus/Language/Titles/TitleIgniaDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleJade": {
+        "name": "/Lotus/Language/Titles/TitleJadeDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleJuggernaut": {
+        "name": "/Lotus/Language/Titles/TitleJuggernautDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleKonzu": {
+        "name": "/Lotus/Language/Titles/TitleKonzuDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleKoumei": {
+        "name": "/Lotus/Language/Titles/TitleKoumeiDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleKullervo": {
+        "name": "/Lotus/Language/Titles/TitleKullervoDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleKuva": {
+        "name": "/Lotus/Language/Titles/TitleKuvaDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleLamentus": {
+        "name": "/Lotus/Language/Titles/TitleLamentusDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleLyoricBridge": {
+        "name": "/Lotus/Language/Titles/TitleLyoricBridgeDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleMaphica": {
+        "name": "/Lotus/Language/Titles/TitleMaphicaDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleMotherTokens": {
+        "name": "/Lotus/Language/Titles/TitleMotherTokensDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleNanoSpores": {
+        "name": "/Lotus/Language/Titles/TitleNanoSporesDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleNavCoordinates": {
+        "name": "/Lotus/Language/Titles/TitleNavCoordinatesDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleNokko": {
+        "name": "/Lotus/Language/Titles/TitleNokkoDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleOraxia": {
+        "name": "/Lotus/Language/Titles/TitleOraxiaDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleOrokinCell": {
+        "name": "/Lotus/Language/Titles/TitleOrokinCellDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleRailjack": {
+        "name": "/Lotus/Language/Titles/TitleRailjackDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleRivenSilvers": {
+        "name": "/Lotus/Language/Titles/TitleRivenSilversDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleSalvage": {
+        "name": "/Lotus/Language/Titles/TitleSalvageDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleSpectralDebris": {
+        "name": "/Lotus/Language/Titles/TitleSpectralDebrisDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleSteelEssence": {
+        "name": "/Lotus/Language/Titles/TitleSteelEssenceDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleTemple": {
+        "name": "/Lotus/Language/Titles/TitleTempleDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleThermalSludge": {
+        "name": "/Lotus/Language/Titles/TitleThermalSludgeDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleThraxPlasm": {
+        "name": "/Lotus/Language/Titles/TitleThraxPlasmDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleVoruna": {
+        "name": "/Lotus/Language/Titles/TitleVorunaDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleYaoShrub": {
+        "name": "/Lotus/Language/Titles/TitleYaoShrubDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RoatheTitles/TitleYareli": {
+        "name": "/Lotus/Language/Titles/TitleYareliDesc",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/AirHunterTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/ArcaneCollectorTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/ClemTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/CodaKillerTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/CompleteDescendiaHardcoreTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/CompleteDescendiaHarrowTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/CompleteDescendiaUrielTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/CompleteDescendiaWispTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/DateAmirTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/DateAoiTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/DateArthurTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/DateEleanorTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/DateLettieTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/DateLyonTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/DateMarieTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/DateQuincyTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/DateRoatheTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/DefendLyonTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/DefendMarieTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/DeveloperTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/FounderLvl1Title": {
+        "name": "/Lotus/Language/Titles/Founder1_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/FounderLvl2Title": {
+        "name": "/Lotus/Language/Titles/Founder2_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/FounderLvl3Title": {
+        "name": "/Lotus/Language/Titles/Founder3_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/FounderLvl4Title": {
+        "name": "/Lotus/Language/Titles/Founder4_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/HardFragmentedTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/HardTankTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/HotwiredTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/HunhullsKillerTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/JadeShadowsTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/JammerTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/KalymosTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/LichKillerTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/LotusEatersTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/LoverTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/MaduraiBowTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/MaduraiFocusHoarderTitle": {
+        "name": "/Lotus/Language/Titles/MaduraiBigSpender_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/MaxedRailjackTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/MedalRank13Title": {
+        "name": "/Lotus/Language/Titles/MedalRank13_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/MedalRank17Title": {
+        "name": "/Lotus/Language/Titles/MedalRank17_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/MedalRank1Title": {
+        "name": "/Lotus/Language/Titles/MedalRank1_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/MedalRank20Title": {
+        "name": "/Lotus/Language/Titles/MedalRank20_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/MedalRank5Title": {
+        "name": "/Lotus/Language/Titles/MedalRank5_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/MedalRank9Title": {
+        "name": "/Lotus/Language/Titles/MedalRank9_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/MinVelTogetherTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/MinesweeperTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/NaramonBladeTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/NaramonFocusHoarderTitle": {
+        "name": "/Lotus/Language/Titles/NaramonBigSpender_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/OldPeaceTeaserTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/OldPeaceTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/OraxiaPreyTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/RememberTogetherTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/SecondDreamTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/SentientFriendTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/SisterKillerTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/StickerConquestTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/TheNewWarTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/UnairuFocusHoarderTitle": {
+        "name": "/Lotus/Language/Titles/UnairuBigSpender_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/UnairuHammerTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/UrielConfessionTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/UrielKillerTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/ValorEventTitle": {
+        "name": "/Lotus/Language/Titles/ValorEvent_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/VazarinFocusHoarderTitle": {
+        "name": "/Lotus/Language/Titles/VazarinBigSpender_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/VazarinStaffTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/ZenurikFocusHoarderTitle": {
+        "name": "/Lotus/Language/Titles/ZenurikBigSpender_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
+    },
+    "/Lotus/Types/Items/Titles/ZenurikGrimoireTitle": {
+        "name": "/Lotus/Language/Titles/GenericTitle_MarketTitle",
+        "description": "/Lotus/Language/Titles/GenericTitle_MarketDescription"
     },
     "/Lotus/Types/Items/VideoWallBackdrops/ZarimanApartment/VideoWallBackDropE": {
         "name": "/Lotus/Language/Zariman/VideoWallBackDropE",
@@ -20125,7 +21365,7 @@
     },
     "/Lotus/Types/StoreItems/AvatarImages/FanChannel/AvatarImageMovemberBaruukBright": {
         "name": "/Lotus/Language/Glyphs/MovemberBaruukGlyphBrightName",
-        "description": "[?]"
+        "description": "/Lotus/Language/Glyphs/MovemberBaruukGlyphBrightDesc"
     },
     "/Lotus/Types/StoreItems/AvatarImages/FanChannel/AvatarImageMozetas": {
         "name": "/Lotus/Language/Glyphs/MozetasGlyphName",
@@ -21047,6 +22287,14 @@
         "name": "/Lotus/Language/Glyphs/AvatarGrendelPrimeDarkName",
         "description": "/Lotus/Language/Glyphs/AvatarGrendelPrimeDarkDesc"
     },
+    "/Lotus/Types/StoreItems/AvatarImages/Primes/ImageGyrePrimeBright": {
+        "name": "/Lotus/Language/Primes/AvatarGyrePrimeBrightName",
+        "description": "/Lotus/Language/Primes/AvatarGyrePrimeBrightDesc"
+    },
+    "/Lotus/Types/StoreItems/AvatarImages/Primes/ImageGyrePrimeDark": {
+        "name": "/Lotus/Language/Primes/AvatarGyrePrimeDarkName",
+        "description": "/Lotus/Language/Primes/AvatarGyrePrimeDarkDesc"
+    },
     "/Lotus/Types/StoreItems/AvatarImages/Primes/ImageHarrowPrimeBright": {
         "name": "/Lotus/Language/Primes/AvatarHarrowPrimeBrightName",
         "description": "/Lotus/Language/Primes/AvatarHarrowPrimeBrightDesc"
@@ -21647,6 +22895,22 @@
         "name": "/Lotus/Language/Glyphs/TitaniaDeluxeIIGlyphName",
         "description": "/Lotus/Language/Glyphs/TitaniaDeluxeIIGlyphDesc"
     },
+    "/Lotus/Types/StoreItems/AvatarImages/Warframes/ImageUrielAltBright": {
+        "name": "/Lotus/Language/Glyphs/AvatarUrielAltBrightName",
+        "description": "/Lotus/Language/Glyphs/AvatarUrielAltBrightDesc"
+    },
+    "/Lotus/Types/StoreItems/AvatarImages/Warframes/ImageUrielAltDark": {
+        "name": "/Lotus/Language/Glyphs/AvatarUrielAltDarkName",
+        "description": "/Lotus/Language/Glyphs/AvatarUrielAltDarkDesc"
+    },
+    "/Lotus/Types/StoreItems/AvatarImages/Warframes/ImageUrielBright": {
+        "name": "/Lotus/Language/Glyphs/AvatarUrielBrightName",
+        "description": "/Lotus/Language/Glyphs/AvatarUrielBrightDesc"
+    },
+    "/Lotus/Types/StoreItems/AvatarImages/Warframes/ImageUrielDark": {
+        "name": "/Lotus/Language/Glyphs/AvatarUrielDarkName",
+        "description": "/Lotus/Language/Glyphs/AvatarUrielDarkDesc"
+    },
     "/Lotus/Types/StoreItems/AvatarImages/Warframes/ImageValkyrDeluxeB": {
         "name": "/Lotus/Language/Glyphs/ValkyrDeluxeGlyphName",
         "description": "/Lotus/Language/Glyphs/ValkyrDeluxeGlyphDesc"
@@ -21670,6 +22934,10 @@
     "/Lotus/Types/StoreItems/AvatarImages/Warframes/ImageVorunaDark": {
         "name": "/Lotus/Language/Glyphs/AvatarVorunaDarkName",
         "description": "/Lotus/Language/Glyphs/AvatarVorunaDarkDesc"
+    },
+    "/Lotus/Types/StoreItems/AvatarImages/Warframes/ImageVorunaDeluxe": {
+        "name": "/Lotus/Language/Glyphs/AvatarVorunaDeluxeName",
+        "description": "/Lotus/Language/Glyphs/AvatarVorunaDeluxeDesc"
     },
     "/Lotus/Types/StoreItems/AvatarImages/Warframes/ImageWispDeluxe": {
         "name": "/Lotus/Language/Glyphs/AvatarWispDeluxeName",
@@ -22655,6 +23923,10 @@
         "name": "/Lotus/Language/Glyphs/LowPolyKubrowGlyphName",
         "description": "/Lotus/Language/Glyphs/LowPolyKubrowGlyphDesc"
     },
+    "/Lotus/Types/StoreItems/AvatarImages/AvatarImageLyonAllardMistletoeGlyph": {
+        "name": "/Lotus/Language/Glyphs/LyonAllardMistletoeGlyphName",
+        "description": "/Lotus/Language/Glyphs/LyonAllardMistletoeGlyphDesc"
+    },
     "/Lotus/Types/StoreItems/AvatarImages/AvatarImageMagAction": {
         "name": "/Lotus/Language/Items/MagActionGlyphName",
         "description": "/Lotus/Language/Glyphs/GenericGlyphDesc"
@@ -22666,6 +23938,10 @@
     "/Lotus/Types/StoreItems/AvatarImages/AvatarImageManInTheWallCommunity": {
         "name": "/Lotus/Language/Glyphs/ManInTheWallCommunityGlyphName",
         "description": "/Lotus/Language/Glyphs/ManInTheWallCommunityGlyphDesc"
+    },
+    "/Lotus/Types/StoreItems/AvatarImages/AvatarImageMarieLerouxMistletoeGlyph": {
+        "name": "/Lotus/Language/Glyphs/MarieLerouxMistletoeGlyphName",
+        "description": "/Lotus/Language/Glyphs/MarieLerouxMistletoeGlyphDesc"
     },
     "/Lotus/Types/StoreItems/AvatarImages/AvatarImageMesaEnamel": {
         "name": "/Lotus/Language/Items/MesaEnamelGlyphName",
@@ -22875,6 +24151,10 @@
         "name": "/Lotus/Language/Items/RhinoChibiGlyphName",
         "description": "/Lotus/Language/Glyphs/GenericGlyphDesc"
     },
+    "/Lotus/Types/StoreItems/AvatarImages/AvatarImageRoatheMistletoeGlyph": {
+        "name": "/Lotus/Language/Glyphs/RoatheMistletoeGlyphName",
+        "description": "/Lotus/Language/Glyphs/RoatheMistletoeGlyphDesc"
+    },
     "/Lotus/Types/StoreItems/AvatarImages/AvatarImageSarynAction": {
         "name": "/Lotus/Language/Items/SarynActionGlyphName",
         "description": "/Lotus/Language/Glyphs/GenericGlyphDesc"
@@ -22927,6 +24207,10 @@
         "name": "/Lotus/Language/Glyphs/TennoVIPGlyph2Name",
         "description": "/Lotus/Language/Glyphs/TennoVIPGlyphDesc"
     },
+    "/Lotus/Types/StoreItems/AvatarImages/AvatarImageTennobaumAdisGlyph": {
+        "name": "/Lotus/Language/Glyphs/TennobaumAdisGlyphName",
+        "description": "/Lotus/Language/Glyphs/TennobaumAdisGlyphDesc"
+    },
     "/Lotus/Types/StoreItems/AvatarImages/AvatarImageTennobaumAoi": {
         "name": "/Lotus/Language/Glyphs/TennobaumAoiGlyphName",
         "description": "/Lotus/Language/Glyphs/TennobaumAoiGlyphDesc"
@@ -22939,9 +24223,33 @@
         "name": "/Lotus/Language/Glyphs/TennobaumJadeGlyphName",
         "description": "/Lotus/Language/Glyphs/TennobaumJadeGlyphDesc"
     },
+    "/Lotus/Types/StoreItems/AvatarImages/AvatarImageTennobaumLyonGlyph": {
+        "name": "/Lotus/Language/Glyphs/TennobaumLyonGlyphName",
+        "description": "/Lotus/Language/Glyphs/TennobaumLyonGlyphDesc"
+    },
     "/Lotus/Types/StoreItems/AvatarImages/AvatarImageTennobaumManintheCookie": {
         "name": "/Lotus/Language/Glyphs/TennobaumManintheCookieGlyphName",
         "description": "/Lotus/Language/Glyphs/TennobaumManintheCookieGlyphDesc"
+    },
+    "/Lotus/Types/StoreItems/AvatarImages/AvatarImageTennobaumMarieGlyph": {
+        "name": "/Lotus/Language/Glyphs/TennobaumMarieGlyphName",
+        "description": "/Lotus/Language/Glyphs/TennobaumMarieGlyphDesc"
+    },
+    "/Lotus/Types/StoreItems/AvatarImages/AvatarImageTennobaumRoatheGlyph": {
+        "name": "/Lotus/Language/Glyphs/TennobaumRoatheGlyphName",
+        "description": "/Lotus/Language/Glyphs/TennobaumRoatheGlyphDesc"
+    },
+    "/Lotus/Types/StoreItems/AvatarImages/AvatarImageTennobaumSpodlingGlyph": {
+        "name": "/Lotus/Language/Glyphs/TennobaumSpodlingGlyphName",
+        "description": "/Lotus/Language/Glyphs/TennobaumSpodlingGlyphDesc"
+    },
+    "/Lotus/Types/StoreItems/AvatarImages/AvatarImageTennobaumTeshinGlyph": {
+        "name": "/Lotus/Language/Glyphs/TennobaumTeshinGlyphName",
+        "description": "/Lotus/Language/Glyphs/TennobaumTeshinGlyphDesc"
+    },
+    "/Lotus/Types/StoreItems/AvatarImages/AvatarImageTennobaumWorldSeederGlyph": {
+        "name": "/Lotus/Language/Glyphs/TennobaumWorldSeederGlyphName",
+        "description": "/Lotus/Language/Glyphs/TennobaumWorldSeederGlyphDesc"
     },
     "/Lotus/Types/StoreItems/AvatarImages/AvatarImageTeshinVed": {
         "name": "/Lotus/Language/Items/TeshinGlyphName",
@@ -25087,6 +26395,10 @@
         "name": "/Lotus/Language/Glyphs/NewWar2021GlyphName",
         "description": "/Lotus/Language/Glyphs/GenericGlyphDesc"
     },
+    "/Lotus/Types/StoreItems/AvatarImages/OldPeaceTeaserGlyph": {
+        "name": "/Lotus/Language/Glyphs/TheOldPeaceTeaserGlyphName",
+        "description": "/Lotus/Language/Glyphs/TheOldPeaceTeaserGlyphDesc"
+    },
     "/Lotus/Types/StoreItems/AvatarImages/RequiemFassGlyph": {
         "name": "/Lotus/Language/Glyphs/RequiemFassGlyphName",
         "description": "/Lotus/Language/Glyphs/GenericGlyphDesc"
@@ -25338,6 +26650,22 @@
     "/Lotus/Types/StoreItems/SuitCustomizations/Nemesis/ColourPickerKuvaLichTrickster": {
         "name": "/Lotus/Language/Cosmetics/ColorPickerKuvaLichTrickster",
         "description": "/Lotus/Language/Cosmetics/ColorPickerKuvaLichDesc"
+    },
+    "/Lotus/Types/StoreItems/SuitCustomizations/OperatorSkinTones/BaseTonesItem": {
+        "name": "/Lotus/Language/Operator/BaseSkinTonesName",
+        "description": "/Lotus/Language/Operator/BaseSkinTonesDesc"
+    },
+    "/Lotus/Types/StoreItems/SuitCustomizations/OperatorSkinTones/ExpandedLegacyTonesItem": {
+        "name": "/Lotus/Language/Operator/LegacyTonesItemName",
+        "description": "/Lotus/Language/Operator/LegacyTonesItemDesc"
+    },
+    "/Lotus/Types/StoreItems/SuitCustomizations/OperatorSkinTones/ExtraTonesItem": {
+        "name": "/Lotus/Language/Operator/ExtraSkinTonesName",
+        "description": "/Lotus/Language/Operator/ExtraSkinTonesDesc"
+    },
+    "/Lotus/Types/StoreItems/SuitCustomizations/OperatorSkinTones/LegacyTonesItem": {
+        "name": "/Lotus/Language/Operator/LegacyTonesItemName",
+        "description": "/Lotus/Language/Operator/LegacyTonesItemDesc"
     },
     "/Lotus/Types/StoreItems/SuitCustomizations/ColourPickerAccessibilityItemA": {
         "name": "/Lotus/Language/Cosmetics/ColourPickerAccessibilityName",
@@ -25690,6 +27018,14 @@
     "/Lotus/Upgrades/Skins/Decree/UnlockDecreeNoble": {
         "name": "/Lotus/Language/Items/DecreeNobleAnims",
         "description": "/Lotus/Language/Items/UnlockDecreeNobleDesc"
+    },
+    "/Lotus/Upgrades/Skins/DemonFrame/UnlockDemonFrameAgile": {
+        "name": "/Lotus/Language/Cosmetics/DemonFrameAgileAnims",
+        "description": "/Lotus/Language/Cosmetics/DemonFrameAgileAnimsDesc"
+    },
+    "/Lotus/Upgrades/Skins/DemonFrame/UnlockDemonFrameNoble": {
+        "name": "/Lotus/Language/Cosmetics/DemonFrameNobleAnims",
+        "description": "/Lotus/Language/Cosmetics/DemonFrameNobleAnimsDesc"
     },
     "/Lotus/Upgrades/Skins/Devourer/UnlockDevourerAgile": {
         "name": "/Lotus/Language/Items/DevourerAgileAnims",
@@ -26229,11 +27565,11 @@
     },
     "/Lotus/Upgrades/Skins/Nokko/UnlockNokkoAgile": {
         "name": "/Lotus/Language/Cosmetics/NokkoAgileAnims",
-        "description": "[?]"
+        "description": "/Lotus/Language/Cosmetics/UnlockNokkoAgileAnimsDesc"
     },
     "/Lotus/Upgrades/Skins/Nokko/UnlockNokkoNoble": {
         "name": "/Lotus/Language/Cosmetics/NokkoNobleAnims",
-        "description": "[?]"
+        "description": "/Lotus/Language/Cosmetics/UnlockNokkoNobleAnimsDesc"
     },
     "/Lotus/Upgrades/Skins/Odalisk/UnlockOdaliskAgile": {
         "name": "/Lotus/Language/Cosmetics/OdaliskAgileAnims",
@@ -27299,6 +28635,10 @@
         "name": "/Lotus/Language/G1Quests/SpyQuestTitle",
         "description": "/Lotus/Language/G1Quests/SpyQuestOverview"
     },
+    "/Lotus/Types/Keys/TauPrequel/TauPrequelQuestKeyChain": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauPrequelQuestName",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauPrequelQuestDesc"
+    },
     "/Lotus/Types/Keys/VorsPrize/VorsPrizeQuestKeyChain": {
         "name": "/Lotus/Language/G1Quests/VorsPrizeKeychain",
         "description": "/Lotus/Language/Archive/VorLore"
@@ -28109,6 +29449,27 @@
     },
     "SolNode858": {
         "name": "/Lotus/Language/1999Echoes/1999NodeI"
+    },
+    "SolNode250": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauNodeA"
+    },
+    "SolNode251": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauNodeB"
+    },
+    "SolNode252": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauNodeC"
+    },
+    "SolNode253": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauNodeD"
+    },
+    "SolNode254": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauNodeE"
+    },
+    "SolNode255": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/TauNodeF"
+    },
+    "SolNode256": {
+        "name": "/Lotus/Language/CircleOfHell/CoHProtoframeDevil"
     },
     "/Lotus/Types/Game/Projections/T5VoidProjectionImmortalDSilver": {
         "name": "[?]",
@@ -30206,6 +31567,38 @@
         "name": "[?]",
         "description": "/Lotus/Language/Items/ProjectionDescription"
     },
+    "/Lotus/Types/Game/Projections/T4VoidProjectionGyrePrimeBSilver": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T4VoidProjectionGyrePrimeBGold": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T4VoidProjectionGyrePrimeBPlatinum": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T4VoidProjectionGyrePrimeBBronze": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T4VoidProjectionGyrePrimeASilver": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T4VoidProjectionGyrePrimeAGold": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T4VoidProjectionGyrePrimeAPlatinum": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T4VoidProjectionGyrePrimeABronze": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
     "/Lotus/Types/Game/Projections/T4VoidProjectionGrendelPrimeDSilver": {
         "name": "[?]",
         "description": "/Lotus/Language/Items/ProjectionDescription"
@@ -31067,6 +32460,70 @@
         "description": "/Lotus/Language/Items/ProjectionDescription"
     },
     "/Lotus/Types/Game/Projections/T4VoidProjectionABronze": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T4VanguardVaultDSilver": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T4VanguardVaultDGold": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T4VanguardVaultDPlatinum": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T4VanguardVaultDBronze": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T4VanguardVaultCSilver": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T4VanguardVaultCGold": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T4VanguardVaultCPlatinum": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T4VanguardVaultCBronze": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T4VanguardVaultBSilver": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T4VanguardVaultBGold": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T4VanguardVaultBPlatinum": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T4VanguardVaultBBronze": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T4VanguardVaultASilver": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T4VanguardVaultAGold": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T4VanguardVaultAPlatinum": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T4VanguardVaultABronze": {
         "name": "[?]",
         "description": "/Lotus/Language/Items/ProjectionDescription"
     },
@@ -33003,6 +34460,86 @@
         "description": "/Lotus/Language/Items/ProjectionDescription"
     },
     "/Lotus/Types/Game/Projections/T3VoidProjectionHarrowNekrosVaultABronze": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T3VoidProjectionGyrePrimeESilver": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T3VoidProjectionGyrePrimeEGold": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T3VoidProjectionGyrePrimeEPlatinum": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T3VoidProjectionGyrePrimeEBronze": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T3VoidProjectionGyrePrimeDSilver": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T3VoidProjectionGyrePrimeDGold": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T3VoidProjectionGyrePrimeDPlatinum": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T3VoidProjectionGyrePrimeDBronze": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T3VoidProjectionGyrePrimeCSilver": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T3VoidProjectionGyrePrimeCGold": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T3VoidProjectionGyrePrimeCPlatinum": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T3VoidProjectionGyrePrimeCBronze": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T3VoidProjectionGyrePrimeBSilver": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T3VoidProjectionGyrePrimeBGold": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T3VoidProjectionGyrePrimeBPlatinum": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T3VoidProjectionGyrePrimeBBronze": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T3VoidProjectionGyrePrimeASilver": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T3VoidProjectionGyrePrimeAGold": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T3VoidProjectionGyrePrimeAPlatinum": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T3VoidProjectionGyrePrimeABronze": {
         "name": "[?]",
         "description": "/Lotus/Language/Items/ProjectionDescription"
     },
@@ -35691,6 +37228,102 @@
         "description": "/Lotus/Language/Items/ProjectionDescription"
     },
     "/Lotus/Types/Game/Projections/T2VoidProjectionHarrowNekrosVaultABronze": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T2VoidProjectionGyrePrimeFSilver": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T2VoidProjectionGyrePrimeFGold": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T2VoidProjectionGyrePrimeFPlatinum": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T2VoidProjectionGyrePrimeFBronze": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T2VoidProjectionGyrePrimeESilver": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T2VoidProjectionGyrePrimeEGold": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T2VoidProjectionGyrePrimeEPlatinum": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T2VoidProjectionGyrePrimeEBronze": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T2VoidProjectionGyrePrimeDSilver": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T2VoidProjectionGyrePrimeDGold": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T2VoidProjectionGyrePrimeDPlatinum": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T2VoidProjectionGyrePrimeDBronze": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T2VoidProjectionGyrePrimeCSilver": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T2VoidProjectionGyrePrimeCGold": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T2VoidProjectionGyrePrimeCPlatinum": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T2VoidProjectionGyrePrimeCBronze": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T2VoidProjectionGyrePrimeBSilver": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T2VoidProjectionGyrePrimeBGold": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T2VoidProjectionGyrePrimeBPlatinum": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T2VoidProjectionGyrePrimeBBronze": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T2VoidProjectionGyrePrimeASilver": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T2VoidProjectionGyrePrimeAGold": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T2VoidProjectionGyrePrimeAPlatinum": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T2VoidProjectionGyrePrimeABronze": {
         "name": "[?]",
         "description": "/Lotus/Language/Items/ProjectionDescription"
     },
@@ -38510,6 +40143,70 @@
         "name": "[?]",
         "description": "/Lotus/Language/Items/ProjectionDescription"
     },
+    "/Lotus/Types/Game/Projections/T1VoidProjectionGyrePrimeDSilver": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T1VoidProjectionGyrePrimeDGold": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T1VoidProjectionGyrePrimeDPlatinum": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T1VoidProjectionGyrePrimeDBronze": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T1VoidProjectionGyrePrimeCSilver": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T1VoidProjectionGyrePrimeCGold": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T1VoidProjectionGyrePrimeCPlatinum": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T1VoidProjectionGyrePrimeCBronze": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T1VoidProjectionGyrePrimeBSilver": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T1VoidProjectionGyrePrimeBGold": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T1VoidProjectionGyrePrimeBPlatinum": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T1VoidProjectionGyrePrimeBBronze": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T1VoidProjectionGyrePrimeASilver": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T1VoidProjectionGyrePrimeAGold": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T1VoidProjectionGyrePrimeAPlatinum": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
+    "/Lotus/Types/Game/Projections/T1VoidProjectionGyrePrimeABronze": {
+        "name": "[?]",
+        "description": "/Lotus/Language/Items/ProjectionDescription"
+    },
     "/Lotus/Types/Game/Projections/T1VoidProjectionGrendelPrimeESilver": {
         "name": "[?]",
         "description": "/Lotus/Language/Items/ProjectionDescription"
@@ -39530,6 +41227,10 @@
         "name": "/Lotus/Language/Items/MagneticProcResistName",
         "description": "[?]"
     },
+    "/Lotus/Upgrades/CosmeticEnhancers/Defensive/MaxDPSTakenForArmour": {
+        "name": "/Lotus/Language/Arcanes/MaxDPSTakenForArmourName",
+        "description": "[?]"
+    },
     "/Lotus/Upgrades/CosmeticEnhancers/Defensive/PoisonProcResist": {
         "name": "/Lotus/Language/Items/PoisonProcResistName",
         "description": "[?]"
@@ -39546,6 +41247,10 @@
         "name": "/Lotus/Language/Items/RadiationProcResistName",
         "description": "[?]"
     },
+    "/Lotus/Upgrades/CosmeticEnhancers/Defensive/ShieldMaxForAbilityStrength": {
+        "name": "/Lotus/Language/Arcanes/ShieldMaxForAbilityStrengthName",
+        "description": "[?]"
+    },
     "/Lotus/Upgrades/CosmeticEnhancers/Defensive/SlashProcResist": {
         "name": "/Lotus/Language/Items/SlashProcResistName",
         "description": "[?]"
@@ -39556,6 +41261,10 @@
     },
     "/Lotus/Upgrades/CosmeticEnhancers/Defensive/SpeedOnParry": {
         "name": "/Lotus/Language/Items/SpeedOnParryName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/CosmeticEnhancers/Defensive/StealDefensiveStatsOnRoll": {
+        "name": "/Lotus/Language/Arcanes/StealDefensiveStatsOnRollName",
         "description": "[?]"
     },
     "/Lotus/Upgrades/CosmeticEnhancers/Offensive/AbilityHeatProcsGiveCritChance": {
@@ -39620,6 +41329,10 @@
     },
     "/Lotus/Upgrades/CosmeticEnhancers/Offensive/CritDamageForPunctureStatus": {
         "name": "/Lotus/Language/1999/CritDamageForPunctureStatusName",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/CosmeticEnhancers/Offensive/DamageForBonusArmour": {
+        "name": "/Lotus/Language/Arcanes/DamageForBonusArmourName",
         "description": "[?]"
     },
     "/Lotus/Upgrades/CosmeticEnhancers/Offensive/DuplicateStatusOnKnock": {
@@ -39726,6 +41439,10 @@
         "name": "/Lotus/Language/Arcanes/CriticalChanceForComboName",
         "description": "[?]"
     },
+    "/Lotus/Upgrades/CosmeticEnhancers/Offensive/MultishotForMaxEnergy": {
+        "name": "/Lotus/Language/Arcanes/MultishotForMaxEnergyName",
+        "description": "[?]"
+    },
     "/Lotus/Upgrades/CosmeticEnhancers/Offensive/OperatorHeavyMeleeDamageOnTransference": {
         "name": "/Lotus/Language/Arcanes/OperatorHeavyMeleeDamageOnTransference",
         "description": "[?]"
@@ -39790,6 +41507,10 @@
         "name": "/Lotus/Language/Arcanes/PullEnemiesOnMeleeKillName",
         "description": "[?]"
     },
+    "/Lotus/Upgrades/CosmeticEnhancers/Offensive/RadialDamageOnMaxRadiationStackHit": {
+        "name": "/Lotus/Language/Arcanes/RadialDamageOnMaxRadiationStackHitName",
+        "description": "[?]"
+    },
     "/Lotus/Upgrades/CosmeticEnhancers/Offensive/ReplayLightCritHits": {
         "name": "/Lotus/Language/Arcanes/ReplayLightCritHitsName",
         "description": "[?]"
@@ -39832,6 +41553,10 @@
     },
     "/Lotus/Upgrades/CosmeticEnhancers/Offensive/ShotgunMultishotAndReloadSpeedOnCloseKill": {
         "name": "/Lotus/Language/Arcanes/ShotgunMultishotAndReloadSpeedOnCloseKill",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/CosmeticEnhancers/Offensive/SplitStatusProcsOnStackedStatusHit": {
+        "name": "/Lotus/Language/Arcanes/SplitStatusProcsOnStackedStatusHitName",
         "description": "[?]"
     },
     "/Lotus/Upgrades/CosmeticEnhancers/Offensive/StatusAndAmmoEfficiencyOnWeakpointHit": {
@@ -39966,6 +41691,10 @@
         "name": "/Lotus/Language/Arcanes/TetherMineOnDash",
         "description": "[?]"
     },
+    "/Lotus/Upgrades/CosmeticEnhancers/Utility/AbilityDurationOnCast": {
+        "name": "/Lotus/Language/Arcanes/AbilityDurationOnCastName",
+        "description": "[?]"
+    },
     "/Lotus/Upgrades/CosmeticEnhancers/Utility/AbilityRadiationProcsCreateUniversalOrbsOnKill": {
         "name": "/Lotus/Language/Arcanes/AbilityRadiationProcsCreateUniversalOrbsOnKillName",
         "description": "[?]"
@@ -39996,6 +41725,10 @@
     },
     "/Lotus/Upgrades/CosmeticEnhancers/Utility/ExtraProcOnProc": {
         "name": "/Lotus/Language/Upgrades/ExtraProcOnProc",
+        "description": "[?]"
+    },
+    "/Lotus/Upgrades/CosmeticEnhancers/Utility/FreezeEnemiesOnRoll": {
+        "name": "/Lotus/Language/Arcanes/FreezeEnemiesOnRollName",
         "description": "[?]"
     },
     "/Lotus/Upgrades/CosmeticEnhancers/Utility/GolemArcaneAimGlideOnHeadshot": {
@@ -40902,6 +42635,42 @@
         "name": "/Lotus/Language/Narmer/ArchonCrystalVioletMythicName",
         "description": "/Lotus/Language/Narmer/ArchonCrystalDesc"
     },
+    "/Lotus/Types/Gameplay/Tau/Resources/CoHResourceCommonItem": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/CoHResourceCommonItemName",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/CoHResourceCommonItemDesc"
+    },
+    "/Lotus/Types/Gameplay/Tau/Resources/CoHResourceRareItem": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/CoHResourceRareItemName",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/CoHResourceRareItemDesc"
+    },
+    "/Lotus/Types/Gameplay/Tau/Resources/TwelveBossResourceDactolystItem": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/TwelveBossResourceDactolystItemName",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/TwelveBossResourceDactolystItemDesc"
+    },
+    "/Lotus/Types/Gameplay/Tau/Resources/TwelveBossResourceHunhullusItem": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/TwelveBossResourceHunhullusItemName",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/TwelveBossResourceHunhullusItemDesc"
+    },
+    "/Lotus/Types/Gameplay/Tau/Resources/TwelveBossResourcePrimesItem": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/TwelveBossResourcePrimesItemName",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/TwelveBossResourcePrimesItemDesc"
+    },
+    "/Lotus/Types/Gameplay/Tau/Resources/TwelveResourceCommonItem": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/TwelveResourceCommonItemName",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/TwelveResourceCommonItemDesc"
+    },
+    "/Lotus/Types/Gameplay/Tau/Resources/TwelveResourceCurrencyItem": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/TwelveResourceCurrencyItemName",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/TwelveResourceCurrencyItemDesc"
+    },
+    "/Lotus/Types/Gameplay/Tau/Resources/TwelveResourceRareItem": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/TwelveResourceRareItemName",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/TwelveResourceRareItemDesc"
+    },
+    "/Lotus/Types/Gameplay/Tau/Resources/TwelveResourceUncommonItem": {
+        "name": "/Lotus/Language/TauPrequel/TauPrequelFinal/TwelveResourceUncommonItemName",
+        "description": "/Lotus/Language/TauPrequel/TauPrequelFinal/TwelveResourceUncommonItemDesc"
+    },
     "/Lotus/Types/Gameplay/Venus/Resources/ArachnoidCamperItem": {
         "name": "/Lotus/Language/SolarisVenus/ArachnoidPowerCoreCamper",
         "description": "/Lotus/Language/SolarisVenus/ArachnoidPowerCoreCamperDesc"
@@ -41017,6 +42786,10 @@
     "/Lotus/Types/Items/DangerRoom/DangerRoomTileDefault": {
         "name": "/Lotus/Language/CapturaScenes/DangerRoomTileDefault",
         "description": "/Lotus/Language/CapturaScenes/DangerRoomTileDefaultDesc"
+    },
+    "/Lotus/Types/Items/DangerRoom/DangerRoomTileDevilTowerUrielArena": {
+        "name": "/Lotus/Language/CapturaScenes/DangerRoomTileDevilTowerArena",
+        "description": "/Lotus/Language/CapturaScenes/DangerRoomTileDevilTowerArenaDesc"
     },
     "/Lotus/Types/Items/DangerRoom/DangerRoomTileDuviriDragonArena": {
         "name": "/Lotus/Language/CapturaScenes/DangerRoomTileDuviriDragonArenaName",
@@ -42786,6 +44559,66 @@
         "name": "/Lotus/Language/CapturaScenes/PhotoboothCorpusShipOrbitalStrike",
         "description": "/Lotus/Language/CapturaScenes/PhotoboothTileDesc"
     },
+    "/Lotus/Types/Items/MiscItems/PhotoboothTileDateLyonHarrowRedVeilTemple": {
+        "name": "/Lotus/Language/CapturaScenes/DateLyonHarrowsTemple",
+        "description": "[?]"
+    },
+    "/Lotus/Types/Items/MiscItems/PhotoboothTileDateLyonLuasPrey": {
+        "name": "/Lotus/Language/CapturaScenes/DateLyonLuaCirculus",
+        "description": "[?]"
+    },
+    "/Lotus/Types/Items/MiscItems/PhotoboothTileDateLyonUmbraShrine": {
+        "name": "/Lotus/Language/CapturaScenes/DateLyonUmbraShrine",
+        "description": "[?]"
+    },
+    "/Lotus/Types/Items/MiscItems/PhotoboothTileDateLyonWraithQuestVallaGlariosArena": {
+        "name": "/Lotus/Language/CapturaScenes/DateLyonColdBelow",
+        "description": "[?]"
+    },
+    "/Lotus/Types/Items/MiscItems/PhotoboothTileDateLyonZarParkHub": {
+        "name": "/Lotus/Language/CapturaScenes/DateLyonZarimanCrystalith",
+        "description": "[?]"
+    },
+    "/Lotus/Types/Items/MiscItems/PhotoboothTileDateMarieCapRoomNarrow": {
+        "name": "/Lotus/Language/CapturaScenes/DateMarieSanctumBureau",
+        "description": "/Lotus/Language/CapturaScenes/DateMarieSanctumBureauDesc"
+    },
+    "/Lotus/Types/Items/MiscItems/PhotoboothTileDateMarieCetusTown": {
+        "name": "/Lotus/Language/CapturaScenes/DateMarieCetusScene",
+        "description": "[?]"
+    },
+    "/Lotus/Types/Items/MiscItems/PhotoboothTileDateMarieDrifterCamp": {
+        "name": "/Lotus/Language/CapturaScenes/DateMarieDrifterCamp",
+        "description": "[?]"
+    },
+    "/Lotus/Types/Items/MiscItems/PhotoboothTileDateMarieDuviriIsleSignatureAmphitheatre": {
+        "name": "/Lotus/Language/CapturaScenes/DateMarieAmpitheater",
+        "description": "[?]"
+    },
+    "/Lotus/Types/Items/MiscItems/PhotoboothTileDateMarieVentKids": {
+        "name": "/Lotus/Language/CapturaScenes/DateMarieClubhouse",
+        "description": "[?]"
+    },
+    "/Lotus/Types/Items/MiscItems/PhotoboothTileDateRoatheDerelictHub": {
+        "name": "/Lotus/Language/CapturaScenes/DateRoatheOrokinDerelict",
+        "description": "[?]"
+    },
+    "/Lotus/Types/Items/MiscItems/PhotoboothTileDateRoatheDuviriThroneRoom": {
+        "name": "/Lotus/Language/CapturaScenes/DateRoatheThroneRoom",
+        "description": "[?]"
+    },
+    "/Lotus/Types/Items/MiscItems/PhotoboothTileDateRoatheSentientConTallJunctionOne": {
+        "name": "/Lotus/Language/CapturaScenes/DateRoatheSentientBalcony",
+        "description": "[?]"
+    },
+    "/Lotus/Types/Items/MiscItems/PhotoboothTileDateRoatheUmbraChamber": {
+        "name": "/Lotus/Language/CapturaScenes/DateRoatheLuaContainment",
+        "description": "[?]"
+    },
+    "/Lotus/Types/Items/MiscItems/PhotoboothTileDateRoatheZarParkA": {
+        "name": "/Lotus/Language/CapturaScenes/DateRoathePark",
+        "description": "[?]"
+    },
     "/Lotus/Types/Items/MiscItems/PhotoboothTileDeckTwelve": {
         "name": "/Lotus/Language/CapturaScenes/PhotoboothDeckTwelve",
         "description": "/Lotus/Language/CapturaScenes/PhotoboothTileDesc"
@@ -43080,6 +44913,14 @@
     },
     "/Lotus/Types/Items/MiscItems/PhotoboothTilePlayerShip": {
         "name": "/Lotus/Language/CapturaScenes/PhotoboothPlayerShip",
+        "description": "/Lotus/Language/CapturaScenes/PhotoboothTileDesc"
+    },
+    "/Lotus/Types/Items/MiscItems/PhotoboothTileProtoframeRoomHarrow": {
+        "name": "/Lotus/Language/CapturaScenes/PhotoboothTileProtoframeRoomHarrowName",
+        "description": "/Lotus/Language/CapturaScenes/PhotoboothTileDesc"
+    },
+    "/Lotus/Types/Items/MiscItems/PhotoboothTileProtoframeRoomWisp": {
+        "name": "/Lotus/Language/CapturaScenes/PhotoboothTileProtoframeRoomWispName",
         "description": "/Lotus/Language/CapturaScenes/PhotoboothTileDesc"
     },
     "/Lotus/Types/Items/MiscItems/PhotoboothTilePurgatory": {
@@ -43524,6 +45365,30 @@
     },
     "/Lotus/Types/Items/PhotoBooth/JadeShadows/PhotoboothTileStalkerCave": {
         "name": "/Lotus/Language/CapturaScenes/PhotoboothStalkerCave",
+        "description": "/Lotus/Language/CapturaScenes/PhotoboothTileDesc"
+    },
+    "/Lotus/Types/Items/PhotoBooth/TauOldPeace/PhotoboothTileTauOldPeaceCathedral1799ProtoframeRoom": {
+        "name": "/Lotus/Language/CapturaScenes/PhotoboothTauOldPeaceCathedral1799ProtoframeRoom",
+        "description": "/Lotus/Language/CapturaScenes/PhotoboothTileDesc"
+    },
+    "/Lotus/Types/Items/PhotoBooth/TauOldPeace/PhotoboothTileTauOldPeaceIntBoroOverlook": {
+        "name": "/Lotus/Language/CapturaScenes/PhotoboothTauOldPeaceIntBoroOverlook",
+        "description": "/Lotus/Language/CapturaScenes/PhotoboothTileDesc"
+    },
+    "/Lotus/Types/Items/PhotoBooth/TauOldPeace/PhotoboothTileTauOldPeaceIntMakvossCannon": {
+        "name": "/Lotus/Language/CapturaScenes/PhotoboothTauOldPeaceIntMakvossCannon",
+        "description": "/Lotus/Language/CapturaScenes/PhotoboothTileDesc"
+    },
+    "/Lotus/Types/Items/PhotoBooth/TauOldPeace/PhotoboothTileTauOldPeaceIntTerraformerEgg": {
+        "name": "/Lotus/Language/CapturaScenes/PhotoboothTauOldPeaceIntTerraformerEgg",
+        "description": "/Lotus/Language/CapturaScenes/PhotoboothTileDesc"
+    },
+    "/Lotus/Types/Items/PhotoBooth/TauOldPeace/PhotoboothTileTauOldPeaceObjLiminalBossArena": {
+        "name": "/Lotus/Language/CapturaScenes/PhotoboothTauOldPeaceObjLiminalBossArena",
+        "description": "/Lotus/Language/CapturaScenes/PhotoboothTileDesc"
+    },
+    "/Lotus/Types/Items/PhotoBooth/TauOldPeace/PhotoboothTileTauOldPeaceQuestFortTennadis": {
+        "name": "/Lotus/Language/CapturaScenes/PhotoboothTauOldPeaceQuestFortTennadis",
         "description": "/Lotus/Language/CapturaScenes/PhotoboothTileDesc"
     },
     "/Lotus/Types/Items/PhotoBooth/Vania/PhotoboothTileVaniaConAlleyValguma": {
@@ -44626,6 +46491,10 @@
         "name": "/Lotus/Language/ShipDecorations/Rank35TrophyName",
         "description": "/Lotus/Language/ShipDecorations/Rank35TrophyDesc"
     },
+    "/Lotus/Types/Items/ShipDecos/MasteryTrophies/Rank36Trophy": {
+        "name": "/Lotus/Language/ShipDecorations/Rank36TrophyName",
+        "description": "/Lotus/Language/ShipDecorations/Rank36TrophyDesc"
+    },
     "/Lotus/Types/Items/ShipDecos/NewWar/LisetPropBallasStaff": {
         "name": "/Lotus/Language/ShipDecorations/BallasStaffName",
         "description": "/Lotus/Language/ShipDecorations/BallasStaffDesc"
@@ -44804,7 +46673,7 @@
     },
     "/Lotus/Types/Items/ShipDecos/Plants/Nokko/LisetPropDUVxFernA": {
         "name": "/Lotus/Language/DojoDecosDuviri/DUVxFernAName",
-        "description": "[?]"
+        "description": "/Lotus/Language/DojoDecosDuviri/DUVxFernADesc"
     },
     "/Lotus/Types/Items/ShipDecos/Plants/Nokko/LisetPropDUVxFlowerGroupingB": {
         "name": "/Lotus/Language/DojoDecosDuviri/DUVxFlowerGroupingBName",
@@ -44891,8 +46760,8 @@
         "description": "/Lotus/Language/DojoDecosGrineer/GftPlantFernEDesc"
     },
     "/Lotus/Types/Items/ShipDecos/Plants/Nokko/LisetPropGftPlantLilyDayGrpA": {
-        "name": "/Lotus/Language/Plants/LisetPropGftPlantLilyDayGrpA",
-        "description": "/Lotus/Language/Plants/LisetPropGftPlantLilyDayGrpADesc"
+        "name": "/Lotus/Language/DojoDecosGrineer/GftPlantLilyDayGrpAName",
+        "description": "/Lotus/Language/DojoDecosGrineer/GftPlantLilyDayGrpADesc"
     },
     "/Lotus/Types/Items/ShipDecos/Plants/Nokko/LisetPropGftPlantLilyNightGrpA": {
         "name": "/Lotus/Language/DojoDecosGrineer/GftPlantLilyNightGrpAName",
@@ -45598,6 +47467,22 @@
         "name": "/Lotus/Language/Dojo/ZARxPrpPlanterWallMountedAName",
         "description": "/Lotus/Language/Dojo/ZARxPrpPlanterWallMountedADesc"
     },
+    "/Lotus/Types/Items/ShipDecos/Props/Seasonal/OrnamentDomestikDrone": {
+        "name": "/Lotus/Language/Seasonal/OrnamentDomestikDroneName",
+        "description": "/Lotus/Language/Seasonal/Ornament2025Desc"
+    },
+    "/Lotus/Types/Items/ShipDecos/Props/Seasonal/OrnamentEndosphere": {
+        "name": "/Lotus/Language/Seasonal/OrnamentEndosphereName",
+        "description": "/Lotus/Language/Seasonal/Ornament2025Desc"
+    },
+    "/Lotus/Types/Items/ShipDecos/Props/Seasonal/OrnamentGlaive": {
+        "name": "/Lotus/Language/Seasonal/OrnamentGlaiveName",
+        "description": "/Lotus/Language/Seasonal/Ornament2025Desc"
+    },
+    "/Lotus/Types/Items/ShipDecos/Props/Seasonal/OrnamentRelic": {
+        "name": "/Lotus/Language/Seasonal/OrnamentRelicName",
+        "description": "/Lotus/Language/Seasonal/Ornament2025Desc"
+    },
     "/Lotus/Types/Items/ShipDecos/Props/EvilBaroFloatingCandlesShipDeco": {
         "name": "/Lotus/Language/ShipDecorations/EvilBaroFloatingCandlesShipDecoName",
         "description": "/Lotus/Language/ShipDecorations/EvilBaroFloatingCandlesShipDecoDesc"
@@ -45661,6 +47546,86 @@
     "/Lotus/Types/Items/ShipDecos/Props/LisetPropOrbStone": {
         "name": "/Lotus/Language/Props/LisetPropOrbStone",
         "description": "/Lotus/Language/Props/LisetPropOrbStoneDesc"
+    },
+    "/Lotus/Types/Items/ShipDecos/Props/LisetPropRoatheThrone": {
+        "name": "/Lotus/Language/ShipDecorations/LisetPropRoatheThroneName",
+        "description": "/Lotus/Language/ShipDecorations/LisetPropRoatheThroneDesc"
+    },
+    "/Lotus/Types/Items/ShipDecos/Tau/LisetPropMetalLotus1mPatch": {
+        "name": "/Lotus/Language/ShipDecorations/LisetPropMetalLotus1mPatchName",
+        "description": "/Lotus/Language/ShipDecorations/LisetPropMetalLotus1mPatchDesc"
+    },
+    "/Lotus/Types/Items/ShipDecos/Tau/LisetPropMetalLotus2mPatch": {
+        "name": "/Lotus/Language/ShipDecorations/LisetPropMetalLotus2mPatchName",
+        "description": "/Lotus/Language/ShipDecorations/LisetPropMetalLotus2mPatchDesc"
+    },
+    "/Lotus/Types/Items/ShipDecos/Tau/LisetPropMetalLotusSingle": {
+        "name": "/Lotus/Language/ShipDecorations/LisetPropMetalLotusSingleName",
+        "description": "/Lotus/Language/ShipDecorations/LisetPropMetalLotusSingleDesc"
+    },
+    "/Lotus/Types/Items/ShipDecos/Tau/LisetPropORKxLabTableGenericPropG": {
+        "name": "/Lotus/Language/ShipDecorations/LisetPropORKxLabTableGenericPropGName",
+        "description": "/Lotus/Language/ShipDecorations/LisetPropORKxLabTableGenericPropGDesc"
+    },
+    "/Lotus/Types/Items/ShipDecos/Tau/LisetPropORKxLabTableGenericPropI": {
+        "name": "/Lotus/Language/ShipDecorations/LisetPropORKxLabTableGenericPropIName",
+        "description": "/Lotus/Language/ShipDecorations/LisetPropORKxLabTableGenericPropIDesc"
+    },
+    "/Lotus/Types/Items/ShipDecos/Tau/LisetPropOroTechPieceB": {
+        "name": "/Lotus/Language/ShipDecorations/LisetPropOroTechPieceBName",
+        "description": "/Lotus/Language/ShipDecorations/LisetPropOroTechPieceBDesc"
+    },
+    "/Lotus/Types/Items/ShipDecos/Tau/LisetPropOroTechPieceE": {
+        "name": "/Lotus/Language/ShipDecorations/LisetPropOroTechPieceEName",
+        "description": "/Lotus/Language/ShipDecorations/LisetPropOroTechPieceEDesc"
+    },
+    "/Lotus/Types/Items/ShipDecos/Tau/LisetPropOroTechPieceG": {
+        "name": "/Lotus/Language/ShipDecorations/LisetPropOroTechPieceGName",
+        "description": "/Lotus/Language/ShipDecorations/LisetPropOroTechPieceGDesc"
+    },
+    "/Lotus/Types/Items/ShipDecos/Tau/LisetPropOrokinProbA": {
+        "name": "/Lotus/Language/ShipDecorations/LisetPropOrokinProbAName",
+        "description": "/Lotus/Language/ShipDecorations/LisetPropOrokinProbADesc"
+    },
+    "/Lotus/Types/Items/ShipDecos/Tau/LisetPropSTMxGrnMedicalStretcherA": {
+        "name": "/Lotus/Language/ShipDecorations/LisetPropSTMxGrnMedicalStretcherAName",
+        "description": "/Lotus/Language/ShipDecorations/LisetPropSTMxGrnMedicalStretcherADesc"
+    },
+    "/Lotus/Types/Items/ShipDecos/Tau/LisetPropSTMxGrnStorageCrateC": {
+        "name": "/Lotus/Language/ShipDecorations/LisetPropSTMxGrnStorageCrateCName",
+        "description": "/Lotus/Language/ShipDecorations/LisetPropSTMxGrnStorageCrateCDesc"
+    },
+    "/Lotus/Types/Items/ShipDecos/Tau/LisetPropSTMxGrnStorageDrumAS": {
+        "name": "/Lotus/Language/ShipDecorations/LisetPropSTMxGrnStorageDrumASName",
+        "description": "/Lotus/Language/ShipDecorations/LisetPropSTMxGrnStorageDrumASDesc"
+    },
+    "/Lotus/Types/Items/ShipDecos/Tau/LisetPropSTMxGrnTankTrapA": {
+        "name": "/Lotus/Language/ShipDecorations/LisetPropSTMxGrnTankTrapAName",
+        "description": "/Lotus/Language/ShipDecorations/LisetPropSTMxGrnTankTrapADesc"
+    },
+    "/Lotus/Types/Items/ShipDecos/Tau/LisetPropSTMxOroOrbStationCalRoomDeskA": {
+        "name": "/Lotus/Language/ShipDecorations/LisetPropSTMxOroOrbStationCalRoomDeskAName",
+        "description": "/Lotus/Language/ShipDecorations/LisetPropSTMxOroOrbStationCalRoomDeskADesc"
+    },
+    "/Lotus/Types/Items/ShipDecos/Tau/LisetPropSTMxOroOrbStationCalRoomDeskB": {
+        "name": "/Lotus/Language/ShipDecorations/LisetPropSTMxOroOrbStationCalRoomDeskBName",
+        "description": "/Lotus/Language/ShipDecorations/LisetPropSTMxOroOrbStationCalRoomDeskBDesc"
+    },
+    "/Lotus/Types/Items/ShipDecos/Tau/LisetPropSTMxOroPedestal": {
+        "name": "/Lotus/Language/ShipDecorations/LisetPropSTMxOroPedestalName",
+        "description": "/Lotus/Language/ShipDecorations/LisetPropSTMxOroPedestalDesc"
+    },
+    "/Lotus/Types/Items/ShipDecos/Tau/LisetPropSTMxOroQuillPenSet": {
+        "name": "/Lotus/Language/ShipDecorations/LisetPropSTMxOroQuillPenSetName",
+        "description": "/Lotus/Language/ShipDecorations/LisetPropSTMxOroQuillPenSetDesc"
+    },
+    "/Lotus/Types/Items/ShipDecos/Tau/LisetPropSTMxSntTrooperEffigyA": {
+        "name": "/Lotus/Language/ShipDecorations/LisetPropSTMxSntTrooperEffigyAName",
+        "description": "/Lotus/Language/ShipDecorations/LisetPropSTMxSntTrooperEffigyADesc"
+    },
+    "/Lotus/Types/Items/ShipDecos/Tau/LisetPropSTMxSntTrooperEffigyB": {
+        "name": "/Lotus/Language/ShipDecorations/LisetPropSTMxSntTrooperEffigyBName",
+        "description": "/Lotus/Language/ShipDecorations/LisetPropSTMxSntTrooperEffigyBDesc"
     },
     "/Lotus/Types/Items/ShipDecos/Venus/ClemTennobaumDisplay": {
         "name": "/Lotus/Language/ShipDecorations/ClemTennobaumDisplayName",
@@ -46873,6 +48838,18 @@
     "/Lotus/Types/Items/ShipDecos/Community10YearRoyalPratDisplay": {
         "name": "/Lotus/Language/ShipDecorations/Community10YearRoyalPratName",
         "description": "/Lotus/Language/ShipDecorations/Community10YearRoyalPratDesc"
+    },
+    "/Lotus/Types/Items/ShipDecos/CommunityLyonDisplay": {
+        "name": "/Lotus/Language/ShipDecorations/CommunityLyonDisplayName",
+        "description": "/Lotus/Language/ShipDecorations/CommunityLyonDisplayDesc"
+    },
+    "/Lotus/Types/Items/ShipDecos/CommunityMarieDisplay": {
+        "name": "/Lotus/Language/ShipDecorations/CommunityMarieDisplayName",
+        "description": "/Lotus/Language/ShipDecorations/CommunityMarieDisplayDesc"
+    },
+    "/Lotus/Types/Items/ShipDecos/CommunityRoatheDisplay": {
+        "name": "/Lotus/Language/ShipDecorations/CommunityRoatheDisplayName",
+        "description": "/Lotus/Language/ShipDecorations/CommunityRoatheDisplayDesc"
     },
     "/Lotus/Types/Items/ShipDecos/ConclaveConsolePlayerShipItem": {
         "name": "/Lotus/Language/ShipDecorations/ConclaveConsoleItemName",
@@ -48586,6 +50563,10 @@
         "name": "/Lotus/Language/Tarot/TarotCardTitaniaName",
         "description": "/Lotus/Language/Tarot/TarotCardTitaniaDesc"
     },
+    "/Lotus/Types/Items/ShipDecos/TarotCardUriel": {
+        "name": "/Lotus/Language/Tarot/TarotCardUrielName",
+        "description": "/Lotus/Language/Tarot/TarotCardUrielDesc"
+    },
     "/Lotus/Types/Items/ShipDecos/TarotCardValkyrHeirloom": {
         "name": "/Lotus/Language/Heirloom/TarotCardValkyrHeirloomName",
         "description": "/Lotus/Language/Heirloom/TarotCardValkyrHeirloomDesc"
@@ -48893,6 +50874,10 @@
     "/Lotus/Types/Items/ShipDecos/ValkyrPrimeBobbleHead": {
         "name": "/Lotus/Language/ShipDecorations/BobbleheadValkyrPrimeName",
         "description": "/Lotus/Language/ShipDecorations/BobbleheadValkyrPrimeDesc"
+    },
+    "/Lotus/Types/Items/ShipDecos/VanguardCommunityPortrait": {
+        "name": "/Lotus/Language/ShipDecorations/CommunityVanguardProtraitName",
+        "description": "/Lotus/Language/ShipDecorations/CommunityVanguardProtraitDesc"
     },
     "/Lotus/Types/Items/ShipDecos/VaubanBobbleHead": {
         "name": "/Lotus/Language/ShipDecorations/BobbleheadVaubanName",
@@ -49573,6 +51558,10 @@
     "/Lotus/Types/Items/SongItems/TheSacrificeLoginSongItem": {
         "name": "/Lotus/Language/Fragments/TheSacrificeLoginSongName",
         "description": "/Lotus/Language/Fragments/TheSacrificeLoginSongDesc"
+    },
+    "/Lotus/Types/Items/SongItems/TheTeacherSongItem": {
+        "name": "/Lotus/Language/OldPeace/TheTeacherSongName",
+        "description": "/Lotus/Language/OldPeace/TheTeacherSongDesc"
     },
     "/Lotus/Types/Items/SongItems/VaubanPrimeSongItem": {
         "name": "/Lotus/Language/Fragments/VaubanPrimeSongName",
@@ -50354,6 +52343,18 @@
         "name": "/Lotus/Language/Suits/GyreHelmetComponentName",
         "description": "/Lotus/Language/Suits/GyreHelmetComponentDesc"
     },
+    "/Lotus/Types/Recipes/WarframeRecipes/GyrePrimeChassisComponent": {
+        "name": "/Lotus/Language/Primes/CraftingComponent_GyrePrimeChassisName",
+        "description": "/Lotus/Language/Primes/CraftingComponent_GyrePrimeChassisDesc"
+    },
+    "/Lotus/Types/Recipes/WarframeRecipes/GyrePrimeHelmetComponent": {
+        "name": "/Lotus/Language/Primes/CraftingComponent_GyrePrimeHelmetName",
+        "description": "/Lotus/Language/Primes/CraftingComponent_GyrePrimeHelmetDesc"
+    },
+    "/Lotus/Types/Recipes/WarframeRecipes/GyrePrimeSystemsComponent": {
+        "name": "/Lotus/Language/Primes/CraftingComponent_GyrePrimeSystemsName",
+        "description": "/Lotus/Language/Primes/CraftingComponent_GyrePrimeSystemsDesc"
+    },
     "/Lotus/Types/Recipes/WarframeRecipes/GyreSystemsComponent": {
         "name": "/Lotus/Language/Suits/GyreSystemsComponentName",
         "description": "/Lotus/Language/Suits/GyreSystemsComponentDesc"
@@ -51078,6 +53079,18 @@
         "name": "/Lotus/Language/Menu/CraftingComponent_TrinitySystemsName",
         "description": "/Lotus/Language/Menu/CraftingComponent_TrinitySystemsDesc"
     },
+    "/Lotus/Types/Recipes/WarframeRecipes/UrielChassisComponent": {
+        "name": "/Lotus/Language/WarframeCrafting/CraftingComponent_UrielChassisName",
+        "description": "/Lotus/Language/WarframeCrafting/CraftingComponent_UrielChassisDesc"
+    },
+    "/Lotus/Types/Recipes/WarframeRecipes/UrielHelmetComponent": {
+        "name": "/Lotus/Language/WarframeCrafting/CraftingComponent_UrielHelmetName",
+        "description": "/Lotus/Language/WarframeCrafting/CraftingComponent_UrielHelmetDesc"
+    },
+    "/Lotus/Types/Recipes/WarframeRecipes/UrielSystemsComponent": {
+        "name": "/Lotus/Language/WarframeCrafting/CraftingComponent_UrielSystemsName",
+        "description": "/Lotus/Language/WarframeCrafting/CraftingComponent_UrielSystemsDesc"
+    },
     "/Lotus/Types/Recipes/WarframeRecipes/VOLTChassisComponent": {
         "name": "/Lotus/Language/Menu/CraftingComponent_VoltChassisName",
         "description": "/Lotus/Language/Menu/CraftingComponent_VoltChassisDesc"
@@ -51356,6 +53369,18 @@
     },
     "/Lotus/Types/Recipes/Weapons/WeaponParts/AkvastoPrimeLink": {
         "name": "/Lotus/Language/Primes/CraftingComponent_AkvastoPrimeLink",
+        "description": "/Lotus/Language/CraftingComponents/PrimeWeaponCraftingComponentDesc"
+    },
+    "/Lotus/Types/Recipes/Weapons/WeaponParts/AlternoxPrimeBarrel": {
+        "name": "/Lotus/Language/Primes/CraftingComponent_AlternoxPrimeBarrel",
+        "description": "/Lotus/Language/CraftingComponents/PrimeWeaponCraftingComponentDesc"
+    },
+    "/Lotus/Types/Recipes/Weapons/WeaponParts/AlternoxPrimeReceiver": {
+        "name": "/Lotus/Language/Primes/CraftingComponent_AlternoxPrimeReceiver",
+        "description": "/Lotus/Language/CraftingComponents/PrimeWeaponCraftingComponentDesc"
+    },
+    "/Lotus/Types/Recipes/Weapons/WeaponParts/AlternoxPrimeStock": {
+        "name": "/Lotus/Language/Primes/CraftingComponent_AlternoxPrimeStock",
         "description": "/Lotus/Language/CraftingComponents/PrimeWeaponCraftingComponentDesc"
     },
     "/Lotus/Types/Recipes/Weapons/WeaponParts/AnkyrosPrimeBlade": {
@@ -51838,6 +53863,14 @@
         "name": "/Lotus/Language/Menu/CraftingComponent_FuraxWraithRightGauntlet",
         "description": "/Lotus/Language/CraftingComponents/NonPrimeWeaponCraftingComponentDesc"
     },
+    "/Lotus/Types/Recipes/Weapons/WeaponParts/GalariakPrimeBlade": {
+        "name": "/Lotus/Language/Primes/CraftingComponent_GalariakPrimeBlade",
+        "description": "/Lotus/Language/CraftingComponents/PrimeWeaponCraftingComponentDesc"
+    },
+    "/Lotus/Types/Recipes/Weapons/WeaponParts/GalariakPrimeHandle": {
+        "name": "/Lotus/Language/Primes/CraftingComponent_GalariakPrimeHandle",
+        "description": "/Lotus/Language/CraftingComponents/PrimeWeaponCraftingComponentDesc"
+    },
     "/Lotus/Types/Recipes/Weapons/WeaponParts/GlaivePrimeBlade": {
         "name": "/Lotus/Language/Menu/CraftingComponent_GlaivePrimeBlade",
         "description": "/Lotus/Language/CraftingComponents/PrimeWeaponCraftingComponentDesc"
@@ -52020,6 +54053,14 @@
     },
     "/Lotus/Types/Recipes/Weapons/WeaponParts/KarystPrimeHandle": {
         "name": "/Lotus/Language/Primes/CraftingComponent_KarystPrimeHandle",
+        "description": "/Lotus/Language/CraftingComponents/PrimeWeaponCraftingComponentDesc"
+    },
+    "/Lotus/Types/Recipes/Weapons/WeaponParts/KestrelPrimeBlade": {
+        "name": "/Lotus/Language/Primes/CraftingComponent_KestrelPrimeBlade",
+        "description": "/Lotus/Language/CraftingComponents/PrimeWeaponCraftingComponentDesc"
+    },
+    "/Lotus/Types/Recipes/Weapons/WeaponParts/KestrelPrimeGrip": {
+        "name": "/Lotus/Language/Primes/CraftingComponent_KestrelPrimeGrip",
         "description": "/Lotus/Language/CraftingComponents/PrimeWeaponCraftingComponentDesc"
     },
     "/Lotus/Types/Recipes/Weapons/WeaponParts/KnellPrimeBarrel": {
@@ -52610,6 +54651,18 @@
         "name": "/Lotus/Language/Primes/CraftingComponent_RubicoPrimeStock",
         "description": "/Lotus/Language/CraftingComponents/PrimeWeaponCraftingComponentDesc"
     },
+    "/Lotus/Types/Recipes/Weapons/WeaponParts/SagekPrimeBarrel": {
+        "name": "/Lotus/Language/Primes/CraftingComponent_SagekPrimeBarrel",
+        "description": "/Lotus/Language/CraftingComponents/PrimeWeaponCraftingComponentDesc"
+    },
+    "/Lotus/Types/Recipes/Weapons/WeaponParts/SagekPrimeReceiver": {
+        "name": "/Lotus/Language/Primes/CraftingComponent_SagekPrimeReceiver",
+        "description": "/Lotus/Language/CraftingComponents/PrimeWeaponCraftingComponentDesc"
+    },
+    "/Lotus/Types/Recipes/Weapons/WeaponParts/SagekPrimeStock": {
+        "name": "/Lotus/Language/Primes/CraftingComponent_SagekPrimeStock",
+        "description": "/Lotus/Language/CraftingComponents/PrimeWeaponCraftingComponentDesc"
+    },
     "/Lotus/Types/Recipes/Weapons/WeaponParts/ScourgePrimeBarrel": {
         "name": "/Lotus/Language/Primes/CraftingComponent_ScourgePrimeBarrel",
         "description": "/Lotus/Language/CraftingComponents/PrimeWeaponCraftingComponentDesc"
@@ -53005,6 +55058,22 @@
     "/Lotus/Types/Recipes/Weapons/WeaponParts/VentoPrimeHandle": {
         "name": "/Lotus/Language/Primes/CraftingComponent_VentoPrimeHandle",
         "description": "/Lotus/Language/CraftingComponents/PrimeWeaponCraftingComponentDesc"
+    },
+    "/Lotus/Types/Recipes/Weapons/WeaponParts/VinquibusBarrel": {
+        "name": "/Lotus/Language/CraftingComponents/CraftingComponent_VinquibusBarrelName",
+        "description": "/Lotus/Language/CraftingComponents/NonPrimeWeaponCraftingComponentDesc"
+    },
+    "/Lotus/Types/Recipes/Weapons/WeaponParts/VinquibusBlade": {
+        "name": "/Lotus/Language/CraftingComponents/CraftingComponent_VinquibusBladeName",
+        "description": "/Lotus/Language/CraftingComponents/NonPrimeWeaponCraftingComponentDesc"
+    },
+    "/Lotus/Types/Recipes/Weapons/WeaponParts/VinquibusReceiver": {
+        "name": "/Lotus/Language/CraftingComponents/CraftingComponent_VinquibusReceiverName",
+        "description": "/Lotus/Language/CraftingComponents/NonPrimeWeaponCraftingComponentDesc"
+    },
+    "/Lotus/Types/Recipes/Weapons/WeaponParts/VinquibusStock": {
+        "name": "/Lotus/Language/CraftingComponents/CraftingComponent_VinquibusStockName",
+        "description": "/Lotus/Language/CraftingComponents/NonPrimeWeaponCraftingComponentDesc"
     },
     "/Lotus/Types/Recipes/Weapons/WeaponParts/VolnusPrimeHandle": {
         "name": "/Lotus/Language/Primes/CraftingComponent_VolnusPrimeHandle",
@@ -54456,6 +56525,10 @@
         "name": "/Lotus/Language/Items/ClawStanceA",
         "description[0]": "/Lotus/Language/Items/ClawStanceADesc"
     },
+    "/Lotus/Weapons/Tenno/Melee/MeleeTrees/BayonetCmbOneMeleeTree": {
+        "name": "/Lotus/Language/Mods/BayonetCmbOneMeleeTreeName",
+        "description[0]": "/Lotus/Language/Mods/BayonetCmbOneMeleeTreeDesc"
+    },
     "/Lotus/Weapons/Tenno/Melee/MeleeTrees/AxeCmbTwoMeleeTree": {
         "name": "/Lotus/Language/Items/AxeStanceB",
         "description[0]": "/Lotus/Language/Items/AxeStanceBDesc"
@@ -55294,6 +57367,9 @@
     },
     "/Lotus/Upgrades/Mods/Sentinel/Kubrow/DualStat/KubrowPoisonEventMeleeMod": {
         "name": "/Lotus/Language/Items/KubrowDualPoisonMod"
+    },
+    "/Lotus/Upgrades/Mods/Sentinel/Kubrow/DualStat/KubrowMagneticEventMeleeMod": {
+        "name": "/Lotus/Language/Pets/KubrowMagneticEventMeleeModName"
     },
     "/Lotus/Upgrades/Mods/Sentinel/Kubrow/DualStat/KubrowIceEventMeleeMod": {
         "name": "/Lotus/Language/Items/KubrowDualIceMod"
@@ -56703,6 +58779,9 @@
     "/Lotus/Upgrades/Mods/Melee/DualStat/PoisonEventMeleeMod": {
         "name": "/Lotus/Language/Items/PoisonEventMeleeMod"
     },
+    "/Lotus/Upgrades/Mods/Melee/DualStat/MagneticAttackSpeedMeleeMod": {
+        "name": "/Lotus/Language/Upgrades/MagneticAttackSpeedMeleeMod"
+    },
     "/Lotus/Upgrades/Mods/Melee/DualStat/IceEventMeleeMod": {
         "name": "/Lotus/Language/Items/IceEventMeleeMod"
     },
@@ -57273,6 +59352,66 @@
     },
     "/Lotus/Upgrades/Mods/Archwing/Expert/ArchwingSuitAbilityStrengthModExpert": {
         "name": "/Lotus/Language/Items/ArchwingSuitAbilityStrengthModExpert"
+    },
+    "/Lotus/Upgrades/Mods/Antiques/WeaponDamageSchools": {
+        "name": "/Lotus/Language/Upgrades/AntiqueWeaponDamageSchools"
+    },
+    "/Lotus/Upgrades/Mods/Antiques/VoidSlingEfficiency": {
+        "name": "/Lotus/Language/Upgrades/AntiqueVoidSlingEfficiency"
+    },
+    "/Lotus/Upgrades/Mods/Antiques/VoidSlingCrateBreaker": {
+        "name": "/Lotus/Language/Upgrades/AntiqueVoidSlingCrateBreaker"
+    },
+    "/Lotus/Upgrades/Mods/Antiques/UltimateInitialChargeSchools": {
+        "name": "/Lotus/Language/Upgrades/AntiqueUltimateInitialChargeSchools"
+    },
+    "/Lotus/Upgrades/Mods/Antiques/SuperSpeedSchools": {
+        "name": "/Lotus/Language/Upgrades/AntiqueSuperSpeedSchools"
+    },
+    "/Lotus/Upgrades/Mods/Antiques/ShieldSchool": {
+        "name": "/Lotus/Language/Upgrades/AntiqueShieldSchool"
+    },
+    "/Lotus/Upgrades/Mods/Antiques/ReduceDeathEffect": {
+        "name": "/Lotus/Language/Upgrades/AntiqueReduceDeathEffect"
+    },
+    "/Lotus/Upgrades/Mods/Antiques/ProcChanceSchool": {
+        "name": "/Lotus/Language/Upgrades/AntiqueProcChanceSchool"
+    },
+    "/Lotus/Upgrades/Mods/Antiques/Multishot": {
+        "name": "/Lotus/Language/Upgrades/AntiqueMultishot"
+    },
+    "/Lotus/Upgrades/Mods/Antiques/JumpHeight": {
+        "name": "/Lotus/Language/Upgrades/AntiqueJumpHeight"
+    },
+    "/Lotus/Upgrades/Mods/Antiques/HealthMax": {
+        "name": "/Lotus/Language/Upgrades/AntiqueHealthMax"
+    },
+    "/Lotus/Upgrades/Mods/Antiques/HealthAndShieldSchools": {
+        "name": "/Lotus/Language/Upgrades/AntiqueHealthAndShieldSchools"
+    },
+    "/Lotus/Upgrades/Mods/Antiques/Ghostwalk": {
+        "name": "/Lotus/Language/Upgrades/AntiqueGhostwalk"
+    },
+    "/Lotus/Upgrades/Mods/Antiques/FireRateAndEfficiency": {
+        "name": "/Lotus/Language/Upgrades/AntiqueFireRateAndEfficiency"
+    },
+    "/Lotus/Upgrades/Mods/Antiques/EnterVoidModeOnKnockdown": {
+        "name": "/Lotus/Language/Upgrades/AntiqueEnterVoidModeOnKnockdown"
+    },
+    "/Lotus/Upgrades/Mods/Antiques/DashDistanceSchools": {
+        "name": "/Lotus/Language/Upgrades/AntiqueDashDistanceSchools"
+    },
+    "/Lotus/Upgrades/Mods/Antiques/DamageWhileInvisible": {
+        "name": "/Lotus/Language/Upgrades/AntiqueDamageWhileInvisible"
+    },
+    "/Lotus/Upgrades/Mods/Antiques/CritChanceSchool": {
+        "name": "/Lotus/Language/Upgrades/AntiqueCritChanceSchool"
+    },
+    "/Lotus/Upgrades/Mods/Antiques/AntiqueArmour": {
+        "name": "/Lotus/Language/Upgrades/AntiqueArmour"
+    },
+    "/Lotus/Upgrades/Mods/Antiques/AmmoSchool": {
+        "name": "/Lotus/Language/Upgrades/AntiqueAmmoSchool"
     },
     "/Lotus/Upgrades/Grimoire/XataStrikeMod": {
         "name": "/Lotus/Language/Mods/XataStrike"
@@ -58317,6 +60456,9 @@
         "name": "/Lotus/Language/Mods/TennokaiBaseModName",
         "description[0]": "/Lotus/Language/Mods/TennokaiBaseModDesc"
     },
+    "/Lotus/Upgrades/Mods/Antiques/SampleAntiqueUpgrade": {
+        "name": "[?]"
+    },
     "/Lotus/Upgrades/Mods/Hoverboard/HBFireWorksMod": {
         "name": "/Lotus/Language/Hoverboards/HoverboardFireworksMod"
     },
@@ -59053,6 +61195,10 @@
     "/Lotus/Upgrades/Mods/Warframe/AvatarDamageResistanceStun": {
         "name": "/Lotus/Language/Items/WarframeModDmgResistanceStun"
     },
+    "/Lotus/Upgrades/Tau/HealthPickupGivesArmourMax": {
+        "name": "/Lotus/Language/Mods/HealthPickupGivesArmourMod",
+        "description[0]": "/Lotus/Language/Mods/HealthPickupGivesArmourModDesc"
+    },
     "/Lotus/Weapons/CrewShip/ElectricTether/ElectricTetherInnateDamageRandomMod": {
         "name": "/Lotus/Language/Items/EmptyArtifact"
     },
@@ -59385,6 +61531,21 @@
     "/Lotus/Upgrades/Focus/Attack/Stats/RegenAmmoFocusUpgrade": {
         "name": "/Lotus/Language/Focus/FocusAttackRegenAmmoName"
     },
+    "/Lotus/Upgrades/Focus/Attack/Ultimate/AttackUltimateCooldownUpgrade": {
+        "name": "/Lotus/Language/Focus/SurgingStormName"
+    },
+    "/Lotus/Upgrades/Focus/Attack/Ultimate/AttackUltimateDoubleUpgrade": {
+        "name": "/Lotus/Language/Focus/AttackUltimateDoubleUpgradeName"
+    },
+    "/Lotus/Upgrades/Focus/Attack/Ultimate/AttackUltimateRadiusUpgrade": {
+        "name": "/Lotus/Language/Focus/ThunderClapName"
+    },
+    "/Lotus/Upgrades/Focus/Attack/Ultimate/AttackUltimateStrengthUpgrade": {
+        "name": "/Lotus/Language/Focus/AttackUltimateStrengthUpgradeName"
+    },
+    "/Lotus/Upgrades/Focus/Attack/Ultimate/AttackUltimateUpgrade": {
+        "name": "/Lotus/Language/Focus/MaduraiUltimateName"
+    },
     "/Lotus/Upgrades/Focus/Defense/Active/BlastAllyShieldFocusUpgrade": {
         "name": "/Lotus/Language/Focus/FocusDefenseBlastAllyShieldName"
     },
@@ -59426,6 +61587,21 @@
     },
     "/Lotus/Upgrades/Focus/Defense/Stats/HealthRegenFocusUpgrade": {
         "name": "/Lotus/Language/Focus/FocusDefenseHealthRegenName"
+    },
+    "/Lotus/Upgrades/Focus/Defense/Ultimate/DefenseUltimateDurationUpgrade": {
+        "name": "/Lotus/Language/Focus/DefenseUltimateDurationUpgradeName"
+    },
+    "/Lotus/Upgrades/Focus/Defense/Ultimate/DefenseUltimateElementalUpgrade": {
+        "name": "/Lotus/Language/Focus/DefenseUltimateElementalUpgradeName"
+    },
+    "/Lotus/Upgrades/Focus/Defense/Ultimate/DefenseUltimateHealUpgrade": {
+        "name": "/Lotus/Language/Focus/DefenseUltimateHealUpgradeName"
+    },
+    "/Lotus/Upgrades/Focus/Defense/Ultimate/DefenseUltimateProcVulnUpgrade": {
+        "name": "/Lotus/Language/Focus/DefenseUltimateProcVulnUpgradeName"
+    },
+    "/Lotus/Upgrades/Focus/Defense/Ultimate/DefenseUltimateUpgrade": {
+        "name": "/Lotus/Language/Focus/DefenseUltimateName"
     },
     "/Lotus/Upgrades/Focus/Power/Active/BlastBurstFocusUpgrade": {
         "name": "/Lotus/Language/Focus/FocusPowerBlastBurstName"
@@ -59469,6 +61645,21 @@
     "/Lotus/Upgrades/Focus/Power/Stats/EnergyRestoreFocusUpgrade": {
         "name": "/Lotus/Language/Focus/FocusPowerEnergyRestoreName"
     },
+    "/Lotus/Upgrades/Focus/Power/Ultimate/PowerUltimateBlindUpgrade": {
+        "name": "/Lotus/Language/Focus/PowerUltimateBlindUpgradeName"
+    },
+    "/Lotus/Upgrades/Focus/Power/Ultimate/PowerUltimateBuffUpgrade": {
+        "name": "/Lotus/Language/Focus/PowerUltimateBuffUpgradeName"
+    },
+    "/Lotus/Upgrades/Focus/Power/Ultimate/PowerUltimateChainUpgrade": {
+        "name": "/Lotus/Language/Focus/PowerUltimateChainUpgradeName"
+    },
+    "/Lotus/Upgrades/Focus/Power/Ultimate/PowerUltimateNumberUpgrade": {
+        "name": "/Lotus/Language/Focus/PowerUltimateNumberUpgradeName"
+    },
+    "/Lotus/Upgrades/Focus/Power/Ultimate/PowerUltimateUpgrade": {
+        "name": "/Lotus/Language/Focus/PowerUltimateName"
+    },
     "/Lotus/Upgrades/Focus/Tactic/Active/BlastConfuseFocusUpgrade": {
         "name": "/Lotus/Language/Focus/FocusTacticBlastConfuseName"
     },
@@ -59507,6 +61698,21 @@
     },
     "/Lotus/Upgrades/Focus/Tactic/Active/SlamComboFocusUpgrade": {
         "name": "/Lotus/Language/Focus/FocusTacticActiveSlamComboName"
+    },
+    "/Lotus/Upgrades/Focus/Tactic/Active/TacticUltimateDoubleUpgrade": {
+        "name": "/Lotus/Language/Focus/TacticUltimateDoubleUpgradeName"
+    },
+    "/Lotus/Upgrades/Focus/Tactic/Active/TacticUltimateNumberUpgrade": {
+        "name": "/Lotus/Language/Focus/TacticUltimateNumberUpgradeName"
+    },
+    "/Lotus/Upgrades/Focus/Tactic/Active/TacticUltimateRangeUpgrade": {
+        "name": "/Lotus/Language/Focus/TacticUltimateRangeUpgradeName"
+    },
+    "/Lotus/Upgrades/Focus/Tactic/Active/TacticUltimateSizeUpgrade": {
+        "name": "/Lotus/Language/Focus/TacticUltimateSizeUpgradeName"
+    },
+    "/Lotus/Upgrades/Focus/Tactic/Active/TacticUltimateUpgrade": {
+        "name": "/Lotus/Language/Focus/TacticUltimateName"
     },
     "/Lotus/Upgrades/Focus/Tactic/Residual/MeleeComboFocusUpgrade": {
         "name": "/Lotus/Language/Focus/FocusTacticMeleeComboName"
@@ -59576,6 +61782,21 @@
     },
     "/Lotus/Upgrades/Focus/Ward/Stats/BlastRadiusFocusUpgrade": {
         "name": "/Lotus/Language/Focus/FocusWardBlastRadiusName"
+    },
+    "/Lotus/Upgrades/Focus/Ward/Ultimate/WardUltimateArmorUpgrade": {
+        "name": "/Lotus/Language/Focus/WardUltimateArmorUpgradeName"
+    },
+    "/Lotus/Upgrades/Focus/Ward/Ultimate/WardUltimateChanceUpgrade": {
+        "name": "/Lotus/Language/Focus/WardUltimateChanceUpgradeName"
+    },
+    "/Lotus/Upgrades/Focus/Ward/Ultimate/WardUltimateRadiusUpgrade": {
+        "name": "/Lotus/Language/Focus/WardUltimateRadiusUpgradeName"
+    },
+    "/Lotus/Upgrades/Focus/Ward/Ultimate/WardUltimateSlamUpgrade": {
+        "name": "/Lotus/Language/Focus/WardUltimateSlamUpgradeName"
+    },
+    "/Lotus/Upgrades/Focus/Ward/Ultimate/WardUltimateUpgrade": {
+        "name": "/Lotus/Language/Focus/WardUltimateName"
     },
     "/Lotus/Powersuits/Archwing/SupportJetPack/SupportJetPack": {
         "name": "/Lotus/Language/Items/SupportArchwingName",
@@ -60589,9 +62810,9 @@
         "name": "/Lotus/Language/Suits/MirageName",
         "description": "/Lotus/Language/Suits/MirageDesc"
     },
-    "/Lotus/Powersuits/Gyre/Gyre": {
-        "name": "/Lotus/Language/Suits/GyreFrameName",
-        "description": "/Lotus/Language/Suits/GyreFrameDesc"
+    "/Lotus/Powersuits/Gyre/GyrePrime": {
+        "name": "/Lotus/Language/Primes/GyrePrimeSuitName",
+        "description": "/Lotus/Language/Primes/GyrePrimeSuitDesc"
     },
     "/Lotus/Powersuits/PowersuitAbilities/GyrePulseAbility": {
         "abilityName": "/Lotus/Language/Suits/GyrePulseAbilityName",
@@ -60608,6 +62829,10 @@
     "/Lotus/Powersuits/PowersuitAbilities/GyreOverchargedAbility": {
         "abilityName": "/Lotus/Language/Suits/GyreOverchargedAbilityName",
         "description": "/Lotus/Language/Suits/GyreOverchargedAbilityDescription"
+    },
+    "/Lotus/Powersuits/Gyre/Gyre": {
+        "name": "/Lotus/Language/Suits/GyreFrameName",
+        "description": "/Lotus/Language/Suits/GyreFrameDesc"
     },
     "/Lotus/Powersuits/Glass/Glass": {
         "name": "/Lotus/Language/Suits/GlassName",
@@ -60860,6 +63085,26 @@
     "/Lotus/Powersuits/Devourer/Devourer": {
         "name": "/Lotus/Language/Suits/DevourerName",
         "description": "/Lotus/Language/Suits/DevourerDesc"
+    },
+    "/Lotus/Powersuits/DemonFrame/DemonFrame": {
+        "name": "/Lotus/Language/Suits/DemonFrameName",
+        "description": "/Lotus/Language/Suits/DemonFrameDesc"
+    },
+    "/Lotus/Powersuits/PowersuitAbilities/DemonFrameFireBallAbility": {
+        "abilityName": "/Lotus/Language/Suits/DemonFrameInfernalisAbilityName",
+        "description": "/Lotus/Language/Suits/DemonFrameInfernalisAbilityDesc"
+    },
+    "/Lotus/Powersuits/PowersuitAbilities/DemonFrameHealAbility": {
+        "abilityName": "/Lotus/Language/Suits/DemonFrameRemediumAbilityName",
+        "description": "/Lotus/Language/Suits/DemonFrameRemediumAbilityDesc"
+    },
+    "/Lotus/Powersuits/PowersuitAbilities/DemonFrameCloneAbility": {
+        "abilityName": "/Lotus/Language/Suits/DemonFrameDemoniumAbilityName",
+        "description": "/Lotus/Language/Suits/DemonFrameDemoniumAbilityDesc"
+    },
+    "/Lotus/Powersuits/PowersuitAbilities/DemonFrameBrimstoneAbility": {
+        "abilityName": "/Lotus/Language/Suits/DemonFrameBrimstoneName",
+        "description": "/Lotus/Language/Suits/DemonFrameBrimstoneDesc"
     },
     "/Lotus/Powersuits/Dagath/Dagath": {
         "name": "/Lotus/Language/Suits/DagathSuitName",
@@ -61627,7 +63872,7 @@
     },
     "/Lotus/Weapons/Tenno/Melee/SwordsAndBoards/DaxDuviriMaceShieldWeapon": {
         "name": "/Lotus/Language/Weapons/DaxMaceShieldName",
-        "description": "/Lotus/Language/Weapons/DaxMaceShieldDesc"
+        "description": "/Lotus/Language/Weapons/DaxWarframeMaceShieldDesc"
     },
     "/Lotus/Weapons/Tenno/Melee/SwordsAndBoards/SundialSwordBoard/SundialBoardSword": {
         "name": "/Lotus/Language/Weapons/SundialBoardSwordName",
@@ -62009,6 +64254,10 @@
         "name": "/Lotus/Language/Weapons/TeshinGlaiveName",
         "description": "/Lotus/Language/Weapons/TeshinGlaiveDesc"
     },
+    "/Lotus/Weapons/Tenno/Melee/Glaives/PrimeKestrel/PrimeKestrel": {
+        "name": "/Lotus/Language/Primes/PrimeKestrelName",
+        "description": "/Lotus/Language/Primes/PrimeKestrelDesc"
+    },
     "/Lotus/Weapons/Tenno/Melee/Glaives/PrimeGlaive/PrimeGlaiveWeapon": {
         "name": "/Lotus/Language/Items/PrimeGlaiveName",
         "description": "/Lotus/Language/Items/PrimeGlaiveDesc"
@@ -62305,6 +64554,10 @@
         "name": "/Lotus/Language/Weapons/PrimeAstillaName",
         "description": "/Lotus/Language/Weapons/PrimeAstillaDesc"
     },
+    "/Lotus/Weapons/Tenno/LongGuns/PrimeAlternox/PrimeAlternoxWeapon": {
+        "name": "/Lotus/Language/Primes/PrimeAlternoxWeaponName",
+        "description": "/Lotus/Language/Primes/PrimeAlternoxWeaponDesc"
+    },
     "/Lotus/Weapons/Tenno/LongGuns/PrimeAcceltra/PrimeAcceltraWeapon": {
         "name": "/Lotus/Language/Primes/PrimeAcceltraName",
         "description": "/Lotus/Language/Primes/PrimeAcceltraDesc"
@@ -62400,6 +64653,10 @@
     "/Lotus/Weapons/Tenno/Bows/AntlerBow/AntlerBow": {
         "name": "/Lotus/Language/Items/AntlerBowName",
         "description": "/Lotus/Language/Items/AntlerBowDesc"
+    },
+    "/Lotus/Weapons/Tenno/Bayonet/TnBayonetRifleWeapon": {
+        "name": "/Lotus/Language/Weapons/TnBayonetWeaponName",
+        "description": "/Lotus/Language/Weapons/TnBayonetWeaponDesc"
     },
     "/Lotus/Weapons/Tenno/Archwing/Primary/TnShieldframeArchGun/TnShieldFrameArchGun": {
         "name": "/Lotus/Language/Weapons/TnShieldFameArchGunName",
@@ -62885,6 +65142,10 @@
         "name": "/Lotus/Language/Weapons/GrnQueenGuardDualPistolsName",
         "description": "/Lotus/Language/Weapons/GrnQueenGuardDualPistolsDesc"
     },
+    "/Lotus/Weapons/Grineer/Pistols/GrnOrokinPistol/GrnOrokinPistol": {
+        "name": "/Lotus/Language/Weapons/GrnOrokinPistolName",
+        "description": "/Lotus/Language/Weapons/GrnOrokinPistolDesc"
+    },
     "/Lotus/Weapons/Grineer/Pistols/GrnKohmPistol/GrnKohmPistol": {
         "name": "/Lotus/Language/Items/GrnWindUpPistolName",
         "description": "/Lotus/Language/Items/GrnWindUpPistolDesc"
@@ -62920,6 +65181,10 @@
     "/Lotus/Weapons/Grineer/Melee/Tonfa/GrnChainSawTonfa/GrnChainSawTonfaWeapon": {
         "name": "/Lotus/Language/Weapons/GrnChainSawTonfaName",
         "description": "/Lotus/Language/Weapons/GrnChainSawTonfaDesc"
+    },
+    "/Lotus/Weapons/Grineer/Melee/Scythe/GrnDrillScythe/GrnDrillScythe": {
+        "name": "/Lotus/Language/Weapons/GrnDrillScytheName",
+        "description": "/Lotus/Language/Weapons/GrnDrillScytheDesc"
     },
     "/Lotus/Weapons/Grineer/Melee/GunBlade/GrnGunBlade/GrnGunblade": {
         "name": "/Lotus/Language/Weapons/GrnGunbladeName",

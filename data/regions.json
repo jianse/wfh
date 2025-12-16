@@ -3131,6 +3131,90 @@
       "systemIndex": 23,
       "systemName": "霍瓦尼亚",
       "uniqueName": "SolNode858"
+    },
+    {
+      "factionIndex": 3,
+      "masteryReq": 0,
+      "maxEnemyLevel": 70,
+      "minEnemyLevel": 65,
+      "missionIndex": 44,
+      "name": "回忆：英魂统使",
+      "nodeType": 0,
+      "systemIndex": 24,
+      "systemName": "深溯池，火卫二",
+      "uniqueName": "SolNode250"
+    },
+    {
+      "factionIndex": 3,
+      "masteryReq": 0,
+      "maxEnemyLevel": 70,
+      "minEnemyLevel": 65,
+      "missionIndex": 44,
+      "name": "回忆：指节使",
+      "nodeType": 0,
+      "systemIndex": 24,
+      "systemName": "深溯池，火卫二",
+      "uniqueName": "SolNode251"
+    },
+    {
+      "factionIndex": 3,
+      "masteryReq": 0,
+      "maxEnemyLevel": 70,
+      "minEnemyLevel": 65,
+      "missionIndex": 44,
+      "name": "回忆：先锋",
+      "nodeType": 0,
+      "systemIndex": 24,
+      "systemName": "深溯池，火卫二",
+      "uniqueName": "SolNode252"
+    },
+    {
+      "factionIndex": 3,
+      "masteryReq": 0,
+      "maxEnemyLevel": 65,
+      "minEnemyLevel": 65,
+      "missionIndex": 43,
+      "name": "下降",
+      "nodeType": 0,
+      "systemIndex": 24,
+      "systemName": "深溯池，火卫二",
+      "uniqueName": "SolNode253"
+    },
+    {
+      "factionIndex": 3,
+      "masteryReq": 0,
+      "maxEnemyLevel": 72,
+      "minEnemyLevel": 72,
+      "missionIndex": 43,
+      "name": "从玛丽的圣所沉降",
+      "nodeType": 0,
+      "systemIndex": 24,
+      "systemName": "深溯池，火卫二",
+      "uniqueName": "SolNode254"
+    },
+    {
+      "factionIndex": 3,
+      "masteryReq": 0,
+      "maxEnemyLevel": 79,
+      "minEnemyLevel": 79,
+      "missionIndex": 43,
+      "name": "从里昂的圣所沉降",
+      "nodeType": 0,
+      "systemIndex": 24,
+      "systemName": "深溯池，火卫二",
+      "uniqueName": "SolNode255"
+    },
+    {
+      "factionIndex": 3,
+      "masteryReq": 0,
+      "maxEnemyLevel": 86,
+      "minEnemyLevel": 86,
+      "missionIndex": 43,
+      "name": "罗瑟的遗忘",
+      "nodeType": 0,
+      "systemIndex": 24,
+      "systemName": "深溯池，火卫二",
+      "uniqueName": "SolNode256"
     }
   ]
 }

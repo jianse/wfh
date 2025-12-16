@@ -1,0 +1,26 @@
+[
+    {
+        "unique_name": "/Lotus/Types/BoosterPacks/BaroTreasureBox",
+        "name": "虚空秘宝"
+    },
+    {
+        "unique_name": "/Lotus/Types/StoreItems/AvatarImages/WeGameFanFest/AvatarImageHamsterXaku",
+        "name": "虚空残响仓鼠伪装投影",
+        "description": "装扮成可爱仓鼠的虚空残响投影"
+    },
+    {
+        "unique_name": "/Lotus/Types/StoreItems/AvatarImages/WeGameFanFest/AvatarImageHamsterLavos",
+        "name": "无限术士仓鼠伪装投影",
+        "description": "装扮成可爱仓鼠的无限术士投影"
+    },
+    {
+        "unique_name": "/Lotus/Types/StoreItems/AvatarImages/WeGameFanFest/AvatarImageElementCaliban",
+        "name": "卡利班源身元素投影",
+        "description": "一个卡利班战甲的投影，展现了卡利班对应的源身元素。"
+    },
+    {
+        "unique_name":"/Lotus/Types/StoreItems/AvatarImages/WeGameFanFest/AvatarImageElementProtea",
+        "name":"泊时灵械源身元素投影",
+        "description":"一个泊时灵械战甲的投影，展现了泊时灵械对应的源身元素。"
+    }
+]

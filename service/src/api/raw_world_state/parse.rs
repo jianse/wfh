@@ -13,7 +13,7 @@ use chrono::{DateTime, Days, Duration, TimeZone, Utc};
 use export::{PE, PublicExports, ReverseMap, get_opt_array, get_opt_u64, get_str, get_u64};
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
-use serde_with::{FromInto, TryFromInto, serde_as};
+use serde_with::{TryFromInto, serde_as};
 use tokio::sync::{Mutex, RwLock};
 use tracing::{info, warn};
 
@@ -67,7 +67,7 @@ impl SentientOutpost {
                 expiry,
                 node,
                 node_name: Some(region.name.clone()),
-                mission_type: Some(region.mission_index.name().to_owned()),
+                mission_type: Some(deps.get_mission_type_by_id(region.mission_index)),
             }
         } else {
             Self {
@@ -115,7 +115,8 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
         };
 
         // alert.mission_info.mission_type
-        alert.mission_info.mission_type = deps.get_mission_type(&alert.mission_info.mission_type);
+        alert.mission_info.mission_type =
+            deps.get_mission_type_by_tag(&alert.mission_info.mission_type);
 
         if let Some(desc_text) = alert.mission_info.desc_text.as_mut() {
             *desc_text = deps.get_language(desc_text);
@@ -132,7 +133,7 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
         };
 
         // mission.mission_type
-        mission.mission_type = deps.get_mission_type(&mission.mission_type);
+        mission.mission_type = deps.get_mission_type_by_tag(&mission.mission_type);
     }
 
     // void storm
@@ -140,7 +141,7 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
         // void_storm.node
         if let Some(region) = deps.get_region(&void_storm.node) {
             void_storm.node = region.with_plant();
-            void_storm.mission_type = Some(region.mission_index.name().to_owned())
+            void_storm.mission_type = Some(deps.get_mission_type_by_id(region.mission_index))
         };
     }
 
@@ -160,7 +161,7 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
             if let Some(region) = deps.get_region(&mission.node) {
                 mission.node = region.with_plant();
             };
-            mission.mission_type = deps.get_mission_type(&mission.mission_type);
+            mission.mission_type = deps.get_mission_type_by_tag(&mission.mission_type);
         }
         // lite sortie rewards are bound to boss
         // add them in front end should be good
@@ -178,7 +179,7 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
             if let Some(region) = deps.get_region(&variant.node) {
                 variant.node = region.with_plant();
             };
-            variant.mission_type = deps.get_mission_type(&variant.mission_type);
+            variant.mission_type = deps.get_mission_type_by_tag(&variant.mission_type);
 
             // TODO: translate modifiers
         }
@@ -246,6 +247,14 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
         // TODO: translate modifiers
     }
 
+    // conquests
+    for conquest in raw.conquests.iter_mut() {
+        for m in conquest.missions.iter_mut() {
+            m.mission_type = deps.get_mission_type_by_tag(&m.mission_type);
+            m.faction = deps.get_faction(&m.faction);
+        }
+    }
+
     info!("fill_raw_world_state took {:?}", instant.elapsed());
     Ok(())
 }
@@ -273,6 +282,52 @@ pub fn from_time(t: DateTime<Utc>, deps: &Deps) -> super::model::SteelPath {
     }
 }
 
+#[derive(Debug, Deserialize)]
+pub struct Bundle {
+    pub name: Option<String>,
+    pub description: Option<String>,
+    // icon: Vec<String>,
+}
+
+/// loads wf bundle data from local.
+/// the data is borrowed from https://raw.githubusercontent.com/calamity-inc/warframe-public-export-plus/refs/heads/senpai/ExportBundles.json
+pub fn load_bundles<P: AsRef<Path>>(dir_path: P) -> BizResult<HashMap<String, Bundle>> {
+    let file = dir_path.as_ref().join("ExportBundles.json");
+    if file.exists() {
+        let json = std::fs::read_to_string(file)?;
+        let bundles: HashMap<String, Bundle> = serde_json::from_str(&json)?;
+        Ok(bundles)
+    } else {
+        Ok(HashMap::new())
+    }
+
+    // todo!("load_bundles")
+}
+
+#[allow(unused)]
+#[derive(Debug, Deserialize)]
+pub struct OtherItem {
+    pub unique_name: String,
+    pub name: String,
+    pub description: Option<String>,
+}
+
+/// other items for wegame wf
+pub fn load_others<P: AsRef<Path>>(dir_path: P) -> BizResult<HashMap<String, OtherItem>> {
+    let file = dir_path.as_ref().join("others.json");
+    if file.exists() {
+        let json = std::fs::read_to_string(file)?;
+        let others: Vec<OtherItem> = serde_json::from_str(&json)?;
+        let res = others
+            .into_iter()
+            .map(|o| (o.unique_name.clone(), o))
+            .collect();
+        Ok(res)
+    } else {
+        Ok(HashMap::new())
+    }
+}
+
 pub async fn load_deps<P1: AsRef<Path> + Display, P2: AsRef<Path> + Display>(
     dir_path: P1,
     cache_dir: P2,
@@ -297,13 +352,23 @@ pub async fn load_deps<P1: AsRef<Path> + Display, P2: AsRef<Path> + Display>(
 
     let dir = dir_path.as_ref();
 
-    let languages = load_languages(format!("{dir_path}/lang.json"))?;
+    let languages = load_languages(&dir_path)?;
     let factions = load_factions(format!("{dir_path}/factions.json"))?;
     let mission_types = load_mission_types(format!("{dir_path}/mission_types.json"))?;
-    let regions = load_regions(&dir_path)?;
+
+    let mut regions = load_regions(&dir_path)?;
+    let regions_ex = load_regions_ex(&dir_path, &languages)?;
+    regions.extend(regions_ex);
+
     let steel_path = load_steel_path(format!("{dir_path}/steel_path.json"))?;
 
     let sortie_bosses = load_sortie_bosses(&dir_path)?;
+
+    let bundles = load_bundles(&dir_path)?;
+
+    let others = load_others(&dir_path)?;
+
+    let flavour_ex = load_flavour_ex(&dir_path)?;
 
     let pe = PE::new(client, cache_dir, dir.join("wire.json"), &languages);
     let (pe_data, pe_index) = pe.fetch_transform_all().await?;
@@ -321,6 +386,9 @@ pub async fn load_deps<P1: AsRef<Path> + Display, P2: AsRef<Path> + Display>(
             pe_index,
             pe_data,
             nightwave_challenges,
+            bundles,
+            others,
+            flavour_ex,
             is_initialized: true,
         };
     }
@@ -345,6 +413,27 @@ fn build_nw_challenges(pe_data: &PublicExports) -> BizResult<NWChallenges> {
     // todo!()
 }
 
+#[allow(unused)]
+#[derive(Debug, Deserialize)]
+pub struct FlavourEx {
+    pub name: String,
+    pub description: String,
+}
+
+/// flavour not included in public exports
+fn load_flavour_ex<P: AsRef<Path>>(dir_path: P) -> BizResult<HashMap<String, FlavourEx>> {
+    let file = dir_path.as_ref().join("flavour_ex.json");
+
+    if file.exists() {
+        let file = File::open(file)?;
+        let mut reader = BufReader::new(file);
+        let json: HashMap<String, FlavourEx> = serde_json::from_reader(&mut reader)?;
+        Ok(json)
+    } else {
+        Ok(HashMap::new())
+    }
+}
+
 fn load_sortie_bosses<P: AsRef<Path>>(dir_path: P) -> BizResult<SortieBosses> {
     let file = dir_path.as_ref().join("sortie_bosses.json");
     if file.exists() {
@@ -361,17 +450,17 @@ fn load_sortie_bosses<P: AsRef<Path>>(dir_path: P) -> BizResult<SortieBosses> {
     }
 }
 
-fn load_mission_types<P: AsRef<Path>>(file: P) -> BizResult<HashMap<String, MissionType>> {
+fn load_mission_types<P: AsRef<Path>>(file: P) -> BizResult<MissionTypes> {
     // dbg!(std::path::absolute(&file));
     if fs::exists(&file)? {
         let mut file = File::open(file)?;
         let mut reader = BufReader::new(&mut file);
         let res: Vec<MissionType> = serde_json::from_reader(&mut reader)?;
-        let res = res.into_iter().map(|k| (k.key.clone(), k)).collect();
-        Ok(res)
+        Ok(MissionTypes::new(res))
+        // Ok(res)
     } else {
         info!("no mission_types.json found, using default");
-        Ok(HashMap::new())
+        Ok(MissionTypes::default())
     }
 }
 
@@ -390,7 +479,7 @@ fn load_factions<P: AsRef<Path>>(file: P) -> BizResult<HashMap<String, FactionIn
 }
 
 fn load_regions<P: AsRef<Path>>(dir: P) -> BizResult<HashMap<String, Region>> {
-    let mut res = HashMap::new();
+    // let mut res = HashMap::new();
 
     // regions from public export
     let regions_file = dir.as_ref().join("regions.json");
@@ -398,39 +487,57 @@ fn load_regions<P: AsRef<Path>>(dir: P) -> BizResult<HashMap<String, Region>> {
         let mut file = File::open(regions_file)?;
         let mut reader = BufReader::new(&mut file);
         let json: ExportRegions = serde_json::from_reader(&mut reader)?;
-        let iter = json.regions.into_iter().map(|k| (k.unique_name.clone(), k));
-        res.extend(iter);
+        let res = json
+            .regions
+            .into_iter()
+            .map(|k| (k.unique_name.clone(), k))
+            .collect();
+        Ok(res)
     } else {
         info!("no regions.json found!");
+        Ok(HashMap::new())
     }
+}
 
-    // regions that not included in public export
-    // we add them manually
+//  regions that not included in public export
+// see https://raw.githubusercontent.com/calamity-inc/warframe-public-export-plus/refs/heads/senpai/ExportRegions.json
+// but we did some changes
+fn load_regions_ex<P: AsRef<Path>>(
+    dir: P,
+    lang_map: &HashMap<String, String>,
+) -> BizResult<HashMap<String, Region>> {
     let ex_file = dir.as_ref().join("regions_ex.json");
     if fs::exists(&ex_file)? {
         let mut file = File::open(ex_file)?;
         let mut reader = BufReader::new(&mut file);
-        let json: ExportRegions = serde_json::from_reader(&mut reader)?;
-        let iter = json.regions.into_iter().map(|k| (k.unique_name.clone(), k));
-        res.extend(iter);
+        let mut json: HashMap<String, Region> = serde_json::from_reader(&mut reader)?;
+        for e in json.values_mut() {
+            e.name = lang_map.get(&e.name).unwrap_or(&e.name).to_string();
+            e.system_name = lang_map
+                .get(&e.system_name)
+                .unwrap_or(&e.system_name)
+                .to_string();
+        }
+        Ok(json)
     } else {
         info!("no regions_ex.json found!");
+        Ok(HashMap::new())
     }
-    Ok(res)
+    // Ok(res)
 }
-fn load_languages<P: AsRef<Path>>(file: P) -> BizResult<HashMap<String, String>> {
-    // dbg!(std::path::absolute(&file));
+
+fn load_languages<P: AsRef<Path>>(dir: P) -> BizResult<HashMap<String, String>> {
+    let file = dir.as_ref().join("lang.json");
+
     if fs::exists(&file)? {
         let mut file = File::open(file)?;
         let mut reader = BufReader::new(&mut file);
         let res: HashMap<String, String> = serde_json::from_reader(&mut reader)?;
         Ok(res)
     } else {
-        info!("no languages.json found, using default");
+        info!("no lang.json found, using default");
         Ok(HashMap::new())
     }
-
-    // let mut result = HashMap::new();
 }
 
 fn load_steel_path<P: AsRef<Path>>(file: P) -> BizResult<SteelPath> {
@@ -489,7 +596,7 @@ impl Deref for NWChallenges {
 #[derive(Debug, Default)]
 pub struct Deps {
     /// Mission types
-    mission_types: HashMap<String, MissionType>,
+    mission_types: MissionTypes,
 
     /// Factions
     factions: HashMap<String, FactionInfo>,
@@ -516,6 +623,13 @@ pub struct Deps {
     /// this field is extracted from `pe_data`
     nightwave_challenges: NWChallenges,
 
+    /// bundles in game
+    bundles: HashMap<String, Bundle>,
+
+    others: HashMap<String, OtherItem>,
+
+    flavour_ex: HashMap<String, FlavourEx>,
+
     /// flag for initialization
     /// used to prevent reloading
     is_initialized: bool,
@@ -530,29 +644,29 @@ impl Deps {
         })
     }
 
-    // pub fn get_node_info(&self, key: &str) -> Option<&NodeInfo> {
-    //     let n = self.nodes.get(key);
-    //     if n.is_none() {
-    //         info!("no node info for {}", key);
-    //     }
-    //     n
-    // }
-
     pub fn get_nightwave_challenge(&self, key: &str) -> Option<&NWChallenge> {
         self.nightwave_challenges.get(key)
-        // let sortie_rewards = self
-        //     .pe_data
-        //     .get("SortieRewards")
-        //     .and_then(|sr| sr.get("ExportNightwave"))
-        //     .and_then(|nw| nw.get("challenges"));
     }
 
-    pub fn get_mission_type(&self, key: &str) -> String {
-        if let Some(mt) = self.mission_types.get(key) {
-            mt.name.clone()
+    pub fn get_mission_type_by_tag(&self, key: &str) -> String {
+        if let Some(mt) = self.mission_types.by_tag(key)
+            && let Some(name) = mt.name.as_ref()
+        {
+            // name.clone()
+            self.get_language(name)
         } else {
             info!("no mission type for {}", key);
             key.to_owned()
+        }
+    }
+
+    pub fn get_mission_type_by_id(&self, id: u8) -> String {
+        if let Some(mt) = self.mission_types.by_id(id)
+            && let Some(name) = mt.name.as_ref()
+        {
+            self.get_language(name)
+        } else {
+            "Unknown".to_owned()
         }
     }
 
@@ -585,14 +699,40 @@ impl Deps {
         }
     }
 
+    fn find_bundle(&self, unique_name: &str) -> Option<Bundle> {
+        self.bundles.get(unique_name).map(|b| Bundle {
+            name: b.name.clone().map(|n| self.get_language(&n)),
+            description: b.description.clone().map(|d| self.get_language(&d)),
+        })
+    }
+
     /// Find a game item name by unique name
     pub fn find_game_item(&self, unique_name: &str) -> String {
-        let rei = if let Some(idx) = self.pe_index.get(unique_name) {
-            Some(idx)
+        let unique_name = if unique_name.starts_with("/Lotus/StoreItems") {
+            unique_name.replace("/Lotus/StoreItems", "/Lotus")
         } else {
-            let unique_name = unique_name.replace("/Lotus/StoreItems", "/Lotus");
-            self.pe_index.get(&unique_name)
+            unique_name.to_owned()
         };
+
+        if let Some(f) = self.flavour_ex.get(&unique_name) {
+            return self.get_language(&f.name);
+        }
+
+        if let Some(o) = self.others.get(&unique_name) {
+            return o.name.clone();
+        }
+
+        // find in bundle first
+        if let Some(b) = self.find_bundle(&unique_name) {
+            // return b.name;
+            if let Some(n) = b.name {
+                return n;
+            }
+            warn!("bundle name not found for {}", unique_name);
+            return unique_name;
+        }
+
+        let rei = self.pe_index.get(&unique_name);
 
         if let Some(rei) = rei
             && let Some(obj) = self.pe_data.get(&rei.category)
@@ -604,7 +744,7 @@ impl Deps {
         }
         warn!(unique_name, "item not found!");
 
-        unique_name.to_owned()
+        unique_name
     }
 
     /// Find a game item name by unique name
@@ -662,14 +802,6 @@ struct FactionInfo {
 }
 
 #[derive(Debug, Deserialize)]
-struct MissionType {
-    /// 任务类型内部唯一标识
-    key: String,
-    /// 任务类型名称
-    name: String,
-}
-
-#[derive(Debug, Deserialize)]
 struct ExportRegions {
     #[serde(rename = "ExportRegions")]
     regions: Vec<Region>,
@@ -697,11 +829,10 @@ pub struct Region {
     #[serde(rename = "masteryReq")]
     mastery_req: u8,
 
-    #[serde_as(as = "FromInto<u8>")]
     #[serde(rename = "missionIndex")]
-    mission_index: MissionIndex,
+    mission_index: u8,
     #[serde_as(as = "TryFromInto<u8>")]
-    #[serde(rename = "factionIndex")]
+    #[serde(rename = "factionIndex", default = "Default::default")]
     faction_index: FactionIndex,
     #[serde(rename = "minEnemyLevel")]
     min_enemy_level: u32,
@@ -718,188 +849,44 @@ impl Region {
     }
 }
 
-#[derive(Debug)]
-pub enum MissionIndex {
-    Assassination,
-    Exterminate,
-    Survival,
-    Rescue,
-    Sabotage,
-    Capture,
-    Spy,
-    Defense,
-    MobileDefense,
-    Interception,
-    Hijack,
-    HiveSabotage,
-    Excavation,
-    InfestedSalvage,
-    Rathuum,
-    Pursuit,
-    Rush,
-    Assault,
-    Defection,
-    Landscape,
-    TheCircuit,
-    Disruption,
-    VoidFlood,
-    VoidCascade,
-    VoidArmageddon,
-    Alchemy,
-    LegacyteHarvest,
-    SharineDefense,
-    Faceoff,
-    None,
-    Unknown(u8),
+#[derive(Debug, Deserialize, Clone)]
+pub struct MissionType {
+    id: u8,
+    tag: String,
+    name: Option<String>,
 }
 
-impl From<MissionIndex> for u8 {
-    fn from(value: MissionIndex) -> Self {
-        match value {
-            MissionIndex::Assassination => 0,
-            MissionIndex::Exterminate => 1,
-            MissionIndex::Survival => 2,
-            MissionIndex::Rescue => 3,
-            MissionIndex::Sabotage => 4,
-            MissionIndex::Capture => 5,
-            MissionIndex::Spy => 7,
-            MissionIndex::Defense => 8,
-            MissionIndex::MobileDefense => 9,
-            MissionIndex::Interception => 13,
-            MissionIndex::Hijack => 14,
-            MissionIndex::HiveSabotage => 15,
-            MissionIndex::Excavation => 17,
-            MissionIndex::InfestedSalvage => 21,
-            MissionIndex::Rathuum => 22,
-            MissionIndex::Pursuit => 24,
-            MissionIndex::Rush => 25,
-            MissionIndex::Assault => 26,
-            MissionIndex::Defection => 27,
-            MissionIndex::Landscape => 28,
-            MissionIndex::TheCircuit => 31,
-            MissionIndex::Disruption => 33,
-            MissionIndex::VoidFlood => 34,
-            MissionIndex::VoidCascade => 35,
-            MissionIndex::VoidArmageddon => 36,
-            MissionIndex::Alchemy => 38,
-            MissionIndex::LegacyteHarvest => 40,
-            MissionIndex::SharineDefense => 41,
-            MissionIndex::Faceoff => 42,
-            MissionIndex::None => 255,
-            MissionIndex::Unknown(v) => v,
-        }
-    }
+#[derive(Debug, Default)]
+pub struct MissionTypes {
+    pub mission_types: Vec<MissionType>,
+    pub id_index: HashMap<u8, usize>,
+    pub tag_index: HashMap<String, usize>,
 }
-
-impl From<u8> for MissionIndex {
-    fn from(value: u8) -> Self {
-        match value {
-            0 => MissionIndex::Assassination,
-            1 => MissionIndex::Exterminate,
-            2 => MissionIndex::Survival,
-            3 => MissionIndex::Rescue,
-            4 => MissionIndex::Sabotage,
-            5 => MissionIndex::Capture,
-            7 => MissionIndex::Spy,
-            8 => MissionIndex::Defense,
-            9 => MissionIndex::MobileDefense,
-            13 => MissionIndex::Interception,
-            14 => MissionIndex::Hijack,
-            15 => MissionIndex::HiveSabotage,
-            17 => MissionIndex::Excavation,
-            21 => MissionIndex::InfestedSalvage,
-            22 => MissionIndex::Rathuum,
-            24 => MissionIndex::Pursuit,
-            25 => MissionIndex::Rush,
-            26 => MissionIndex::Assault,
-            27 => MissionIndex::Defection,
-            28 => MissionIndex::Landscape,
-            31 => MissionIndex::TheCircuit,
-            33 => MissionIndex::Disruption,
-            34 => MissionIndex::VoidFlood,
-            35 => MissionIndex::VoidCascade,
-            36 => MissionIndex::VoidArmageddon,
-            38 => MissionIndex::Alchemy,
-            40 => MissionIndex::LegacyteHarvest,
-            41 => MissionIndex::SharineDefense,
-            42 => MissionIndex::Faceoff,
-            255 => MissionIndex::None,
-            _ => MissionIndex::Unknown(value),
-        }
-    }
-}
-
-impl MissionIndex {
-    pub fn key(&self) -> &'static str {
-        match self {
-            MissionIndex::Assassination => "MT_ASSASSINATION",
-            MissionIndex::Exterminate => "MT_EXTERMINATION",
-            MissionIndex::Survival => "MT_SURVIVAL",
-            MissionIndex::Rescue => "MT_RESCUE",
-            MissionIndex::Sabotage => "MT_SABOTAGE",
-            MissionIndex::Capture => "MT_CAPTURE",
-            MissionIndex::Spy => "MT_INTEL",
-            MissionIndex::Defense => "MT_DEFENSE",
-            MissionIndex::MobileDefense => "MT_MOBILE_DEFENSE",
-            MissionIndex::Interception => "MT_TERRITORY",
-            MissionIndex::Hijack => "MT_RETRIEVAL",
-            MissionIndex::HiveSabotage => "MT_HIVE",
-            MissionIndex::Excavation => "MT_EXCAVATE",
-            MissionIndex::InfestedSalvage => "MT_PURIFY",
-            MissionIndex::Rathuum => "MT_ARENA",
-            MissionIndex::Pursuit => todo!(),
-            MissionIndex::Rush => "MT_RACE",
-            MissionIndex::Assault => "MT_ASSAULT",
-            MissionIndex::Defection => "MT_EVACUATION",
-            MissionIndex::Landscape => "MT_LANDSCAPE",
-            MissionIndex::TheCircuit => todo!(),
-            MissionIndex::Disruption => "MT_ARTIFACT",
-            MissionIndex::VoidFlood => "MT_CORRUPTION",
-            MissionIndex::VoidCascade => "MT_VOID_CASCADE",
-            MissionIndex::VoidArmageddon => "MT_ARMAGEDDON",
-            MissionIndex::Alchemy => "MT_ALCHEMY",
-            MissionIndex::LegacyteHarvest => "MT_ENDLESS_CAPTURE",
-            MissionIndex::SharineDefense => todo!(),
-            MissionIndex::Faceoff => todo!(),
-            MissionIndex::None => todo!(),
-            MissionIndex::Unknown(_) => "MT_UNKNOWN",
+impl MissionTypes {
+    pub fn new(mission_types: Vec<MissionType>) -> Self {
+        let index = mission_types
+            .iter()
+            .enumerate()
+            .map(|(i, m)| (m.id, i))
+            .collect::<HashMap<_, _>>();
+        let tag_index = mission_types
+            .iter()
+            .enumerate()
+            .map(|(i, m)| (m.tag.clone(), i))
+            .collect::<HashMap<_, _>>();
+        MissionTypes {
+            mission_types,
+            id_index: index,
+            tag_index,
         }
     }
 
-    pub fn name(&self) -> &'static str {
-        match self {
-            MissionIndex::Assassination => "刺杀",
-            MissionIndex::Exterminate => "歼灭",
-            MissionIndex::Survival => "生存",
-            MissionIndex::Rescue => "救援",
-            MissionIndex::Sabotage => "破坏",
-            MissionIndex::Capture => "捕获",
-            MissionIndex::Spy => "间谍",
-            MissionIndex::Defense => "防御",
-            MissionIndex::MobileDefense => "移动防御",
-            MissionIndex::Interception => "拦截",
-            MissionIndex::Hijack => "劫持",
-            MissionIndex::HiveSabotage => "清巢",
-            MissionIndex::Excavation => "挖掘",
-            MissionIndex::InfestedSalvage => "异变回收",
-            MissionIndex::Rathuum => "竞技场",
-            MissionIndex::Pursuit => "追击",
-            MissionIndex::Rush => "突袭",
-            MissionIndex::Assault => "强袭",
-            MissionIndex::Defection => "叛逃",
-            MissionIndex::Landscape => "开放地形",
-            MissionIndex::TheCircuit => "无尽回廊",
-            MissionIndex::Disruption => "中断",
-            MissionIndex::VoidFlood => "虚空洪流",
-            MissionIndex::VoidCascade => "虚空覆涌",
-            MissionIndex::VoidArmageddon => "虚空决战",
-            MissionIndex::Alchemy => "元素转换",
-            MissionIndex::LegacyteHarvest => "传承种收割",
-            MissionIndex::SharineDefense => "祈运坛防御",
-            MissionIndex::Faceoff => "小队对战",
-            MissionIndex::None => "中继站",
-            MissionIndex::Unknown(_) => "未知",
-        }
+    pub fn by_id(&self, id: u8) -> Option<&MissionType> {
+        self.id_index.get(&id).map(|i| &self.mission_types[*i])
+    }
+
+    pub fn by_tag(&self, tag: &str) -> Option<&MissionType> {
+        self.tag_index.get(tag).map(|i| &self.mission_types[*i])
     }
 }
 
@@ -907,7 +894,12 @@ impl MissionIndex {
 #[repr(u8)]
 pub enum NodeType {
     Normal = 0,
+    Arena,
+    Pvp = 2,
+    Hub = 3,
     DarkSector = 4,
+    Room = 6,
+    Junction = 7,
 }
 
 impl From<NodeType> for u8 {
@@ -931,13 +923,18 @@ impl TryFrom<u8> for NodeType {
     fn try_from(value: u8) -> Result<Self, Self::Error> {
         match value {
             0 => Ok(NodeType::Normal),
+            1 => Ok(NodeType::Arena),
+            2 => Ok(NodeType::Pvp),
+            3 => Ok(NodeType::Hub),
             4 => Ok(NodeType::DarkSector),
+            6 => Ok(NodeType::Room),
+            7 => Ok(NodeType::Junction),
             _ => Err(ParseNodeTypeError(value)),
         }
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
 #[repr(u8)]
 pub enum FactionIndex {
     /// 克隆尼 0
@@ -947,17 +944,24 @@ pub enum FactionIndex {
     /// 感染者 2
     Infasted,
     /// 堕落者 3
-    Corrupted,
+    Orokin,
+    /// 血色面纱 4
+    RedVeil,
+
     /// 灵煞 5
-    Sentient = 5,
+    Sentient,
+    /// 合一众 6
+    Narmer,
     /// 低语者 7
-    TheMurmur = 7,
+    TheMurmur,
     /// 炽蛇军 8
     Scaldra,
     /// 科腐者 9
     Techrot,
     /// 禁卫 10 仅在双衍王境中出现
-    Orokin,
+    Duviri,
+    #[default]
+    Unknown = 255,
 }
 
 impl From<FactionIndex> for u8 {
@@ -982,12 +986,14 @@ impl TryFrom<u8> for FactionIndex {
             0 => Ok(FactionIndex::Grineer),
             1 => Ok(FactionIndex::Corpus),
             2 => Ok(FactionIndex::Infasted),
-            3 => Ok(FactionIndex::Corrupted),
+            3 => Ok(FactionIndex::Orokin),
+            4 => Ok(FactionIndex::RedVeil),
             5 => Ok(FactionIndex::Sentient),
+            6 => Ok(FactionIndex::Narmer),
             7 => Ok(FactionIndex::TheMurmur),
             8 => Ok(FactionIndex::Scaldra),
             9 => Ok(FactionIndex::Techrot),
-            10 => Ok(FactionIndex::Orokin),
+            10 => Ok(FactionIndex::Duviri),
             _ => Err(ParseFactionError(value)),
         }
     }

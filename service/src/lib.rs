@@ -96,8 +96,8 @@ pub async fn serve() -> Result<()> {
         let state = state.clone();
         async move {
             let res = api::load_deps("data", "cache", &state.http_client, false).await;
-            if res.is_err() {
-                error!("failed to load dependencies: {}", res.unwrap_err());
+            if let Err(err) = res {
+                error!("failed to load dependencies: {}", err);
             }
         }
     });
