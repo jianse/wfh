@@ -299,19 +299,22 @@
             <p>{{ invasion.Node }}</p>
 
             <div class="flex flex-row place-content-between">
-              <div class="flex flex-col">
+              <div class="flex flex-col flex-1">
                 <div>{{ invasion.DefenderMissionInfo.faction }}</div>
                 <div>{{ rewardAsString(invasion.AttackerReward) }}</div>
               </div>
-              <div class="flex flex-col items-end">
+              <!-- {{ invasion.Count }} -->
+              <div class="text-center flex-1">
+                {{ Math.abs(invasion.Count) }} / {{ invasion.Goal }}
+              </div>
+              <div class="flex flex-col items-end flex-1">
                 <div class="w-fit">{{ invasion.AttackerMissionInfo.faction }}</div>
                 <div class="w-fit">{{ rewardAsString(invasion.DefenderReward) }}</div>
               </div>
             </div>
 
-            <pv-progress-bar :value="70">
-              {{ Math.abs(invasion.Count) }} / {{ invasion.Goal }}</pv-progress-bar
-            >
+            <pv-progress-bar :value="calcInvasionProgress(invasion)" />
+
             <!-- TODO: update progress calc here -->
           </div>
         </template>
@@ -374,7 +377,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import { get_raw_world_state, type RawWorldState, type Reward } from '@/api/world_state'
+import {
+  get_raw_world_state,
+  type Invasion,
+  type RawWorldState,
+  type Reward,
+} from '@/api/world_state'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
 import { useToast } from 'primevue/usetoast'
@@ -623,4 +631,11 @@ function rewardAsString(reward: Reward): string {
 }
 
 const { isAdmin } = storeToRefs(useUserStore())
+
+function calcInvasionProgress(invasion: Invasion): number {
+  const vsInfestation = invasion.AttackerMissionInfo.faction === '感染者'
+  const pct = (1 + invasion.Count / invasion.Goal) * (vsInfestation ? 100 : 50)
+
+  return Math.min(100, Math.max(0, Math.round(pct)))
+}
 </script>

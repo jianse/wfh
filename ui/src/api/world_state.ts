@@ -280,28 +280,7 @@ export interface RawWorldState {
       Xp: number
     }[]
   }
-  Invasions: {
-    _id: string
-    Activation: string
-    Faction: string
-    DefenderFaction: string
-    Node: string
-    Count: number
-    Goal: number
-    LocTag: string
-    Completed: boolean
-    ChainID: string
-    AttackerReward: Reward
-    AttackerMissionInfo: {
-      seed: number
-      faction: string
-    }
-    DefenderReward: Reward
-    DefenderMissionInfo: {
-      seed: number
-      faction: string
-    }
-  }[]
+  Invasions: Invasion[]
   Conquests: Conquest[]
   KnownCalendarSeasons: {
     Expiry: string
@@ -350,4 +329,27 @@ interface PVItem {
   ItemType: string
   PrimePrice?: number
   RegularPrice?: number
+}
+
+export interface Invasion {
+  _id: string
+  Activation: string
+  Faction: string
+  DefenderFaction: string
+  Node: string
+  Count: number
+  Goal: number
+  LocTag: string
+  Completed: boolean
+  ChainID: string
+  AttackerReward: Reward
+  AttackerMissionInfo: {
+    seed: number
+    faction: string
+  }
+  DefenderReward: Reward
+  DefenderMissionInfo: {
+    seed: number
+    faction: string
+  }
 }
