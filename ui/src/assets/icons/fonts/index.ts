@@ -18,6 +18,9 @@ import energy from './Energy_d.png'
 import mw_d from './MouseWheelButton_d.png'
 import shield from './HildrynEnergyShield.png'
 import sentient from './Sentient_d.png'
+import shardRedSimple from './ArchonAmarIcon.png'
+import shardBlueSimple from './ArchonBorealIcon.png'
+import shardYellowSimple from './ArchonNiraIcon.png'
 
 // TODO: AFFINITY_SHARE
 const map = new Map<string, string>([
@@ -42,6 +45,10 @@ const map = new Map<string, string>([
   ['SHIELD', shield],
   ['DT_SENTIENT', sentient],
   ['DT_MAGNETIC', magnetic],
+  ['SHARD_RED_SIMPLE',shardRedSimple ],
+  ['SHARD_BLUE_SIMPLE',shardBlueSimple],
+  ['SHARD_YELLOW_SIMPLE',shardYellowSimple],
+
 ])
 
 export function findImageUrl(name: string): string {

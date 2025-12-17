@@ -80,7 +80,7 @@
               {{ alert.MissionInfo.location }} {{ alert.MissionInfo.missionType }}
               <p>{{ alert.MissionInfo.descText }}</p>
               <p><CountDownTo :time="alert.Expiry" />结束</p>
-              <p>{{ rewardAsString(alert.MissionInfo.missionReward) }}</p>
+              <StringWithIcon :text="rewardAsString(alert.MissionInfo.missionReward)" />
             </div>
           </div>
         </template>
@@ -164,7 +164,7 @@
           </template>
         </pv-card>
 
-        <pv-card class="h-fit">
+        <pv-card class="h-fit" v-if="rawWorldState?.SentientOutpost">
           <template #title>灵煞异常</template>
           <template #content>
             <p><CountDownTo :time="rawWorldState?.SentientOutpost.expiry" />轮换</p>
@@ -383,6 +383,7 @@ import dayjs from 'dayjs'
 import isBetween from 'dayjs/plugin/isBetween'
 import { useTimestamp } from '@vueuse/core'
 import { clone, throttle } from 'lodash'
+import StringWithIcon from '@/components/StringWithIcon.vue'
 
 dayjs.extend(isBetween)
 
