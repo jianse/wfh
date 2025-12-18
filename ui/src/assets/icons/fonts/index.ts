@@ -45,10 +45,9 @@ const map = new Map<string, string>([
   ['SHIELD', shield],
   ['DT_SENTIENT', sentient],
   ['DT_MAGNETIC', magnetic],
-  ['SHARD_RED_SIMPLE',shardRedSimple ],
-  ['SHARD_BLUE_SIMPLE',shardBlueSimple],
-  ['SHARD_YELLOW_SIMPLE',shardYellowSimple],
-
+  ['SHARD_RED_SIMPLE', shardRedSimple],
+  ['SHARD_BLUE_SIMPLE', shardBlueSimple],
+  ['SHARD_YELLOW_SIMPLE', shardYellowSimple],
 ])
 
 export function findImageUrl(name: string): string {

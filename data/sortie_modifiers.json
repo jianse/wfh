@@ -1,0 +1,32 @@
+{
+    "SORTIE_MODIFIER_LOW_ENERGY": {
+        "name": "/Lotus/Language/Sorties/SOModifierEnergyReduction",
+        "description": "/Lotus/Language/Sorties/SOModifierEnergyReductionFlavor"
+    },
+    "SORTIE_MODIFIER_SHIELDS": {
+        "name": "/Lotus/Language/Sorties/SOModifierDoubleShields",
+        "description": "/Lotus/Language/Sorties/SOModifierDoubleShieldsFlavor"
+    },
+    "SORTIE_MODIFIER_EXIMUS": {
+        "name": "/Lotus/Language/Sorties/SOModifierEximus",
+        "description": "/Lotus/Language/Sorties/SOModifierEximusFlavor"
+    },
+    "SORTIE_MODIFIER_FIRE": {
+        "name": "/Lotus/Language/Sorties/SOModifierEnemyElementalResistance",
+        "description": "/Lotus/Language/Sorties/SOModifierEnemyElementalResistanceFlavor",
+        "vars": {
+            "DAMAGE_TYPE": "/Lotus/Language/Game/DT_FIRE"
+        }
+    },
+    "SORTIE_MODIFIER_SECONDARY_ONLY": {
+        "name": "/Lotus/Language/Sorties/SOModifierWeaponRestriction",
+        "description": "/Lotus/Language/Sorties/SOModifierWeaponRestrictionFlavor",
+        "vars": {
+            "WEAPON_TYPE": "/Lotus/Language/Categories/HAND_GUN"
+        }
+    },
+    "SORTIE_MODIFIER_HAZARD_RADIATION": {
+        "name": "/Lotus/Language/Sorties/SOModifierExtremeRadiation",
+        "description": "/Lotus/Language/Sorties/SOModifierRadiationFlavor"
+    }
+}

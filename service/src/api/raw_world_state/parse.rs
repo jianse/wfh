@@ -2,6 +2,7 @@ use std::{
     collections::HashMap,
     fmt::Display,
     fs::{self, File},
+    hash::Hash,
     io::BufReader,
     ops::Deref,
     path::Path,
@@ -181,7 +182,14 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
             };
             variant.mission_type = deps.get_mission_type_by_tag(&variant.mission_type);
 
-            // TODO: translate modifiers
+            // translate modifiers
+            if let Some(modifier) = deps.get_sortie_modifier(&variant.modifier_type) {
+                variant.modifier_name = Some(modifier.name(&deps));
+                variant.modifier_description = Some(modifier.description(&deps));
+            } else {
+                warn!("unknown modifier type: {}", variant.modifier_type);
+                variant.modifier_name = Some(variant.modifier_type.clone())
+            }
         }
     }
 
@@ -247,11 +255,81 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
         // TODO: translate modifiers
     }
 
+    // endless xp
+    for exc in raw.endless_xp_choices.iter_mut() {
+        match exc.category.as_str() {
+            "EXC_NORMAL" => {
+                for c in exc.choices.iter_mut() {
+                    *c = deps.the_circuit.get_warframe_name(c, &deps)
+                }
+            }
+            "EXC_HARD" => {
+                for c in exc.choices.iter_mut() {
+                    *c = deps.the_circuit.get_incarnon_name(c, &deps)
+                }
+            }
+
+            _ => {
+                warn!("unknown endless xp category: {}", exc.category);
+            }
+        }
+    }
+
     // conquests
     for conquest in raw.conquests.iter_mut() {
+        // 个人参数
+        for var in conquest.variables.iter_mut() {
+            if let Some(pair) = deps.conquests.variables.get(var) {
+                // *var = pair.clone();
+                *var = deps.get_language(&pair.name);
+            } else {
+                warn!("unknown conquest variable: {}", var);
+            }
+
+            // *var = deps.conquests.get_variable(&var);
+        }
         for m in conquest.missions.iter_mut() {
             m.mission_type = deps.get_mission_type_by_tag(&m.mission_type);
             m.faction = deps.get_faction(&m.faction);
+            for d in m.difficulties.iter_mut() {
+                // 偏差
+                // if let Some(mid) = &mid {
+                //     d.deviation = deps.get_language(&format!(
+                //         "/Lotus/Language/Conquest/MissionVariant_{mid}_{}",
+                //         d.deviation
+                //     ))
+                // }
+                match conquest.r#type.as_str() {
+                    "CT_LAB" => {
+                        if let Some(pair) = deps.conquests.deviations.lab.get(&d.deviation) {
+                            // *var = pair.clone();
+                            d.deviation = deps.get_language(&pair.name);
+                        } else {
+                            warn!("unknown conquest deviation: {}", d.deviation);
+                        }
+                    }
+                    "CT_HEX" => {
+                        if let Some(pair) = deps.conquests.deviations.hex.get(&d.deviation) {
+                            // *var = pair.clone();
+                            d.deviation = deps.get_language(&pair.name);
+                        } else {
+                            warn!("unknown conquest deviation: {}", d.deviation);
+                        }
+                    }
+                    _ => {
+                        warn!("unknown conquest type: {}", conquest.r#type);
+                    }
+                };
+                // 风险变量
+                for risk in d.risks.iter_mut() {
+                    if let Some(pair) = deps.conquests.risks.get(risk) {
+                        // *var = pair.clone();
+                        *risk = deps.get_language(&pair.name);
+                    } else {
+                        warn!("unknown conquest risk: {}", risk);
+                    }
+                }
+            }
         }
     }
 
@@ -353,22 +431,28 @@ pub async fn load_deps<P1: AsRef<Path> + Display, P2: AsRef<Path> + Display>(
     let dir = dir_path.as_ref();
 
     let languages = load_languages(&dir_path)?;
-    let factions = load_factions(format!("{dir_path}/factions.json"))?;
-    let mission_types = load_mission_types(format!("{dir_path}/mission_types.json"))?;
+    let factions = load_factions(&dir_path)?;
+    let mission_types = load_mission_types(&dir_path)?;
 
     let mut regions = load_regions(&dir_path)?;
     let regions_ex = load_regions_ex(&dir_path, &languages)?;
     regions.extend(regions_ex);
 
-    let steel_path = load_steel_path(format!("{dir_path}/steel_path.json"))?;
+    let steel_path = load_steel_path(&dir_path)?;
 
     let sortie_bosses = load_sortie_bosses(&dir_path)?;
+
+    let sortie_modifiers = load_sortie_modifiers(&dir_path)?;
 
     let bundles = load_bundles(&dir_path)?;
 
     let others = load_others(&dir_path)?;
 
     let flavour_ex = load_flavour_ex(&dir_path)?;
+
+    let the_circuit = load_the_circuit(&dir_path)?;
+
+    let conquests = load_conquests(&dir_path)?;
 
     let pe = PE::new(client, cache_dir, dir.join("wire.json"), &languages);
     let (pe_data, pe_index) = pe.fetch_transform_all().await?;
@@ -383,16 +467,103 @@ pub async fn load_deps<P1: AsRef<Path> + Display, P2: AsRef<Path> + Display>(
             languages,
             steel_path,
             sortie_bosses,
+            sortie_modifiers,
             pe_index,
             pe_data,
             nightwave_challenges,
             bundles,
             others,
             flavour_ex,
+            the_circuit,
+            conquests,
             is_initialized: true,
         };
     }
     Ok(())
+}
+
+#[derive(Debug, Deserialize, Default)]
+struct Conquests {
+    variables: HashMap<String, SimplePair>,
+    risks: HashMap<String, SimplePair>,
+    deviations: Deviations,
+}
+
+// impl Conquests{
+//     pub fn get_variable(&self, name: &str) -> Option<&SimplePair> {
+//         self.variables.get(name)
+//     }
+// }
+
+#[derive(Debug, Deserialize)]
+struct SimplePair {
+    name: String,
+    description: String,
+}
+
+#[derive(Debug, Deserialize, Default)]
+struct Deviations {
+    lab: HashMap<String, SimplePair>,
+    hex: HashMap<String, SimplePair>,
+}
+
+fn load_conquests<P: AsRef<Path>>(dir_path: P) -> BizResult<Conquests> {
+    let file = dir_path.as_ref().join("conquests.json");
+    if file.exists() {
+        let json = std::fs::read_to_string(file)?;
+        let the_circuit: Conquests = serde_json::from_str(&json)?;
+        Ok(the_circuit)
+    } else {
+        Ok(Conquests::default())
+    }
+}
+
+#[derive(Debug, Deserialize, Default)]
+pub struct TheCircuit {
+    #[serde(default = "Default::default")]
+    warframes: HashMap<String, String>,
+
+    #[serde(default = "Default::default")]
+    incarnons: HashMap<String, String>,
+}
+
+impl TheCircuit {
+    pub fn get_warframe_name(&self, name: &str, deps: &Deps) -> String {
+        let unique_name = self.warframes.get(name);
+        match unique_name {
+            Some(unique_name) => {
+                // deps.pe_data.get("Warframes");
+                deps.find_game_item(unique_name)
+            }
+            None => {
+                warn!("no such warframe: {name}");
+                name.to_owned()
+            }
+        }
+        // self.warframes.get(name).map(|s| s.as_str()).unwrap_or(name.to_owned())
+    }
+
+    pub fn get_incarnon_name(&self, name: &str, deps: &Deps) -> String {
+        let unique_name = self.incarnons.get(name);
+        match unique_name {
+            Some(unique_name) => deps.find_game_item(unique_name),
+            None => {
+                warn!("no such incarnon: {name}");
+                name.to_owned()
+            }
+        }
+    }
+}
+
+fn load_the_circuit<P: AsRef<Path>>(dir_path: P) -> BizResult<TheCircuit> {
+    let file = dir_path.as_ref().join("the_circuit.json");
+    if file.exists() {
+        let json = std::fs::read_to_string(file)?;
+        let the_circuit: TheCircuit = serde_json::from_str(&json)?;
+        Ok(the_circuit)
+    } else {
+        Ok(TheCircuit::default())
+    }
 }
 
 fn build_nw_challenges(pe_data: &PublicExports) -> BizResult<NWChallenges> {
@@ -450,8 +621,54 @@ fn load_sortie_bosses<P: AsRef<Path>>(dir_path: P) -> BizResult<SortieBosses> {
     }
 }
 
-fn load_mission_types<P: AsRef<Path>>(file: P) -> BizResult<MissionTypes> {
-    // dbg!(std::path::absolute(&file));
+#[derive(Debug, Deserialize)]
+pub struct SortieModifier {
+    pub name: String,
+    pub description: String,
+    #[serde(default = "Default::default")]
+    pub vars: HashMap<String, String>,
+}
+
+impl SortieModifier {
+    pub fn name(&self, deps: &Deps) -> String {
+        let name = deps.get_language(&self.name);
+        let res = self.embed_args(&name, deps);
+        // dbg!(&name,&res);
+        res
+    }
+
+    pub fn description(&self, deps: &Deps) -> String {
+        let template = deps.get_language(&self.description);
+        self.embed_args(&template, deps)
+    }
+
+    fn embed_args(&self, template: &str, deps: &Deps) -> String {
+        let mut res = template.to_string();
+        for (k, v) in self.vars.iter() {
+            let v = deps.get_language(v);
+            res = template.replace(&format!("|{k}|"), &v);
+        }
+        res
+    }
+}
+
+fn load_sortie_modifiers<P: AsRef<Path>>(
+    dir_path: P,
+) -> BizResult<HashMap<String, SortieModifier>> {
+    let file = dir_path.as_ref().join("sortie_modifiers.json");
+    if file.exists() {
+        let file = File::open(file)?;
+        let mut reader = BufReader::new(file);
+        let json: HashMap<String, SortieModifier> = serde_json::from_reader(&mut reader)?;
+        Ok(json)
+    } else {
+        Ok(HashMap::new())
+    }
+}
+
+/// mission types from
+fn load_mission_types<P: AsRef<Path>>(dir: P) -> BizResult<MissionTypes> {
+    let file = dir.as_ref().join("mission_types.json");
     if fs::exists(&file)? {
         let mut file = File::open(file)?;
         let mut reader = BufReader::new(&mut file);
@@ -464,8 +681,8 @@ fn load_mission_types<P: AsRef<Path>>(file: P) -> BizResult<MissionTypes> {
     }
 }
 
-fn load_factions<P: AsRef<Path>>(file: P) -> BizResult<HashMap<String, FactionInfo>> {
-    // dbg!(std::path::absolute(&file));
+fn load_factions<P: AsRef<Path>>(dir: P) -> BizResult<HashMap<String, FactionInfo>> {
+    let file = dir.as_ref().join("factions.json");
     if fs::exists(&file)? {
         let mut file = File::open(file)?;
         let mut reader = BufReader::new(&mut file);
@@ -540,7 +757,8 @@ fn load_languages<P: AsRef<Path>>(dir: P) -> BizResult<HashMap<String, String>> 
     }
 }
 
-fn load_steel_path<P: AsRef<Path>>(file: P) -> BizResult<SteelPath> {
+fn load_steel_path<P: AsRef<Path>>(dir: P) -> BizResult<SteelPath> {
+    let file = dir.as_ref().join("steel_path.json");
     if fs::exists(&file)? {
         let mut file = File::open(file)?;
         let mut reader = BufReader::new(&mut file);
@@ -619,6 +837,8 @@ pub struct Deps {
     /// sortie bosses manually collected
     sortie_bosses: SortieBosses,
 
+    sortie_modifiers: HashMap<String, SortieModifier>,
+
     /// nightwave challenges
     /// this field is extracted from `pe_data`
     nightwave_challenges: NWChallenges,
@@ -630,6 +850,11 @@ pub struct Deps {
 
     flavour_ex: HashMap<String, FlavourEx>,
 
+    /// the circuit rewards map
+    the_circuit: TheCircuit,
+
+    conquests: Conquests,
+
     /// flag for initialization
     /// used to prevent reloading
     is_initialized: bool,
@@ -639,7 +864,7 @@ impl Deps {
     /// Get a language translation, return the key if no translation is found
     pub fn get_language(&self, key: &str) -> String {
         self.languages.get(key).cloned().unwrap_or_else(|| {
-            info!("no translation for {}", key);
+            warn!("no translation for {}", key);
             key.to_owned()
         })
     }
@@ -652,10 +877,9 @@ impl Deps {
         if let Some(mt) = self.mission_types.by_tag(key)
             && let Some(name) = mt.name.as_ref()
         {
-            // name.clone()
             self.get_language(name)
         } else {
-            info!("no mission type for {}", key);
+            warn!("no mission type for {}", key);
             key.to_owned()
         }
     }
@@ -674,7 +898,7 @@ impl Deps {
         if let Some(f) = self.factions.get(key) {
             f.name.clone()
         } else {
-            info!("no faction for {}", key);
+            warn!("no faction for {}", key);
             key.to_owned()
         }
     }
@@ -684,7 +908,7 @@ impl Deps {
         let region = self.regions.get(key);
 
         if region.is_none() {
-            info!("no region for {}", key);
+            warn!("no region for {}", key);
         }
         region
     }
@@ -694,9 +918,13 @@ impl Deps {
         if let Some(boss) = self.sortie_bosses.get(key) {
             boss.name.clone()
         } else {
-            info!("no sortie boss for {}", key);
+            warn!("no sortie boss for {}", key);
             key.to_owned()
         }
+    }
+
+    pub fn get_sortie_modifier(&self, key: &str) -> Option<&SortieModifier> {
+        self.sortie_modifiers.get(key)
     }
 
     fn find_bundle(&self, unique_name: &str) -> Option<Bundle> {
@@ -947,7 +1175,6 @@ pub enum FactionIndex {
     Orokin,
     /// 血色面纱 4
     RedVeil,
-
     /// 灵煞 5
     Sentient,
     /// 合一众 6

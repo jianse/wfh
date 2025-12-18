@@ -6,7 +6,14 @@ license.workspace = true
 
 [dependencies]
 async-compression = { workspace = true, features = ["lzma", "tokio"] }
-reqwest = { workspace = true, features = ["charset", "http2", "rustls-tls-native-roots", "gzip", "json", "stream"] }
+reqwest = { workspace = true, features = [
+    "charset",
+    "http2",
+    "rustls-tls-native-roots",
+    "gzip",
+    "json",
+    "stream",
+] }
 serde_json = { workspace = true, features = ["alloc", "indexmap"] }
 thiserror.workspace = true
 tracing.workspace = true

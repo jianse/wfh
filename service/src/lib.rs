@@ -78,6 +78,8 @@ pub async fn serve() -> Result<()> {
 
     let http_client = reqwest::Client::builder()
         .timeout(Duration::from_secs(5))
+        // .read_timeout(Duration::from_secs(5))
+        // .connect_timeout(Duration::from_secs(1))
         .build()?;
 
     let state = Arc::new(AppStateRaw { conn, http_client });

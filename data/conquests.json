@@ -1,0 +1,412 @@
+{
+    "variables": {
+        "AntiGuard": {
+            "name": "/Lotus/Language/Conquest/PersonalMod_AntiGuard",
+            "description": "/Lotus/Language/Conquest/PersonalMod_AntiGuard_Desc"
+        },
+        "ComboCountChance": {
+            "name": "/Lotus/Language/Conquest/PersonalMod_ComboCountChance",
+            "description": "/Lotus/Language/Conquest/PersonalMod_ComboCountChance_Desc"
+        },
+        "DecayingFlesh": {
+            "name": "/Lotus/Language/Conquest/PersonalMod_DecayingFlesh",
+            "description": "/Lotus/Language/Conquest/PersonalMod_DecayingFlesh_Desc"
+        },
+        "EnergyStarved": {
+            "name": "/Lotus/Language/Conquest/PersonalMod_EnergyStarved",
+            "description": "/Lotus/Language/Conquest/PersonalMod_EnergyStarved_Desc"
+        },
+        "Undersupplied": {
+            "name": "/Lotus/Language/Conquest/PersonalMod_MaxAmmo",
+            "description": "/Lotus/Language/Conquest/PersonalMod_MaxAmmo_Desc"
+        },
+        "OverSensitive": {
+            "name": "/Lotus/Language/Conquest/PersonalMod_OverSensitive",
+            "description": "/Lotus/Language/Conquest/PersonalMod_OverSensitive_Desc"
+        },
+        "VoidEnergyOverload": {
+            "name": "/Lotus/Language/Conquest/PersonalMod_VoidEnergyOverload",
+            "description": "/Lotus/Language/Conquest/PersonalMod_VoidEnergyOverload_Desc"
+        },
+        "Gearless": {
+            "name": "/Lotus/Language/Conquest/PersonalMod_Gearless",
+            "description": "/Lotus/Language/Conquest/PersonalMod_Gearless_Desc"
+        },
+        "AbilityLockout": {
+            "name": "/Lotus/Language/Conquest/PersonalMod_AbilityLockout",
+            "description": "/Lotus/Language/Conquest/PersonalMod_AbilityLockout_Desc"
+        },
+        "ContactDamage": {
+            "name": "/Lotus/Language/Conquest/PersonalMod_ContactDamage",
+            "description": "/Lotus/Language/Conquest/PersonalMod_ContactDamage_Desc"
+        },
+        "ShieldDelay": {
+            "name": "/Lotus/Language/Conquest/PersonalMod_ShieldDelay",
+            "description": "/Lotus/Language/Conquest/PersonalMod_ShieldDelay_Desc"
+        },
+        "Starvation": {
+            "name": "/Lotus/Language/Conquest/PersonalMod_Starvation",
+            "description": "/Lotus/Language/Conquest/PersonalMod_Starvation_Desc"
+        },
+        "Armorless": {
+            "name": "/Lotus/Language/Conquest/PersonalMod_Armorless",
+            "description": "/Lotus/Language/Conquest/PersonalMod_Armorless_Desc"
+        },
+        "Armorless_Desc_Status": {
+            "name": "/Lotus/Language/Conquest/PersonalMod_Armorless_Desc_Status",
+            "description": "/Lotus/Language/Conquest/PersonalMod_Armorless_Desc_Status_Desc"
+        },
+        "Withering": {
+            "name": "/Lotus/Language/Conquest/PersonalMod_Withering",
+            "description": "/Lotus/Language/Conquest/PersonalMod_Withering_Desc"
+        },
+        "TimeDilation": {
+            "name": "/Lotus/Language/Conquest/PersonalMod_TimeDilation",
+            "description": "/Lotus/Language/Conquest/PersonalMod_TimeDilation_Desc"
+        },
+        "VitalEnergy": {
+            "name": "/Lotus/Language/Conquest/PersonalMod_VitalEnergy",
+            "description": "/Lotus/Language/Conquest/PersonalMod_VitalEnergy_Desc"
+        },
+        "OperatorLockout": {
+            "name": "/Lotus/Language/Conquest/PersonalMod_OperatorLockout",
+            "description": "/Lotus/Language/Conquest/PersonalMod_OperatorLockout_Desc"
+        },
+        "DamageMomentum": {
+            "name": "/Lotus/Language/Conquest/PersonalMod_DamageMomentum",
+            "description": "/Lotus/Language/Conquest/PersonalMod_DamageMomentum_Desc"
+        },
+        "Framecurse": {
+            "name": "/Lotus/Language/Conquest/PersonalMod_Framecurse",
+            "description": "/Lotus/Language/Conquest/PersonalMod_Framecurse_Desc"
+        },
+        "Knifestep": {
+            "name": "/Lotus/Language/Conquest/PersonalMod_Knifestep",
+            "description": "/Lotus/Language/Conquest/PersonalMod_Knifestep_Desc"
+        },
+        "Exhaustion": {
+            "name": "/Lotus/Language/Conquest/PersonalMod_Exhaustion",
+            "description": "/Lotus/Language/Conquest/PersonalMod_Exhaustion_Desc"
+        },
+        "ScarcityCurse": {
+            "name": "/Lotus/Language/Conquest/PersonalMod_ScarcityCurse",
+            "description": "/Lotus/Language/Conquest/PersonalMod_ScarcityCurse_Desc"
+        },
+        "ExposureCurse": {
+            "name": "/Lotus/Language/Conquest/PersonalMod_ExposureCurse",
+            "description": "/Lotus/Language/Conquest/PersonalMod_ExposureCurse_Desc"
+        },
+        "Sanguine": {
+            "name": "/Lotus/Language/Conquest/PersonalMod_Sanguine",
+            "description": "/Lotus/Language/Conquest/PersonalMod_Sanguine_Desc"
+        },
+        "Vampyri": {
+            "name": "/Lotus/Language/Conquest/PersonalMod_Vampyri",
+            "description": "/Lotus/Language/Conquest/PersonalMod_Vampyri_Desc"
+        },
+        "Conductive": {
+            "name": "/Lotus/Language/Conquest/PersonalMod_Conductive",
+            "description": "/Lotus/Language/Conquest/PersonalMod_Conductive_Desc"
+        }
+    },
+    "risks": {
+        "RegeneratingEnemies": {
+            "name": "/Lotus/Language/Conquest/Condition_RegeneratingEnemies",
+            "description": "/Lotus/Language/Conquest/Condition_RegeneratingEnemies_Desc"
+        },
+        "VoidAberration": {
+            "name": "/Lotus/Language/Conquest/Condition_VoidAberration",
+            "description": "/Lotus/Language/Conquest/Condition_VoidAberration_Desc"
+        },
+        "SentientAdaptation": {
+            "name": "/Lotus/Language/Conquest/Condition_SentientAdaptation",
+            "description": "/Lotus/Language/Conquest/Condition_SentientAdaptation_Desc"
+        },
+        "ShieldedFoes": {
+            "name": "/Lotus/Language/Conquest/Condition_ShieldedFoes",
+            "description": "/Lotus/Language/Conquest/Condition_ShieldedFoes_Desc"
+        },
+        "RangedOnlyEnemies": {
+            "name": "/Lotus/Language/Conquest/Condition_RangedOnlyEnemies",
+            "description": "/Lotus/Language/Conquest/Condition_RangedOnlyEnemies_Desc"
+        },
+        "MeleeOnlyEnemies": {
+            "name": "/Lotus/Language/Conquest/Condition_MeleeOnlyEnemies",
+            "description": "/Lotus/Language/Conquest/Condition_MeleeOnlyEnemies_Desc"
+        },
+        "Deflectors": {
+            "name": "/Lotus/Language/Conquest/Condition_Deflectors",
+            "description": "/Lotus/Language/Conquest/Condition_Deflectors_Desc"
+        },
+        "PointBlank": {
+            "name": "/Lotus/Language/Conquest/Condition_PointBlank",
+            "description": "/Lotus/Language/Conquest/Condition_PointBlank_Desc"
+        },
+        "Voidburst": {
+            "name": "/Lotus/Language/Conquest/Condition_Voidburst",
+            "description": "/Lotus/Language/Conquest/Condition_Voidburst_Desc"
+        },
+        "EnemyElementalEnhancement": {
+            "name": "/Lotus/Language/Conquest/Condition_EnemyElementalEnhancement",
+            "description": "/Lotus/Language/Conquest/Condition_EnemyElementalEnhancement_Desc"
+        },
+        "Vanquisher": {
+            "name": "/Lotus/Language/Conquest/Condition_Vanquisher",
+            "description": "/Lotus/Language/Conquest/Condition_Vanquisher_Desc"
+        },
+        "AcceleratedEnemies": {
+            "name": "/Lotus/Language/Conquest/Condition_AcceleratedEnemies",
+            "description": "/Lotus/Language/Conquest/Condition_AcceleratedEnemies_Desc"
+        },
+        "AntiMaterialWeapons": {
+            "name": "/Lotus/Language/Conquest/Condition_AntiMaterialWeapons",
+            "description": "/Lotus/Language/Conquest/Condition_AntiMaterialWeapons_Desc"
+        },
+        "ExplosiveCrawlers": {
+            "name": "/Lotus/Language/Conquest/Condition_ExplosiveCrawlers",
+            "description": "/Lotus/Language/Conquest/Condition_ExplosiveCrawlers_Desc"
+        },
+        "DrainingResiduals": {
+            "name": "/Lotus/Language/Conquest/Condition_DrainingResiduals",
+            "description": "/Lotus/Language/Conquest/Condition_DrainingResiduals_Desc"
+        },
+        "Quicksand": {
+            "name": "/Lotus/Language/Conquest/Condition_Quicksand",
+            "description": "/Lotus/Language/Conquest/Condition_Quicksand_Desc"
+        },
+        "EMPBlackHole": {
+            "name": "/Lotus/Language/Conquest/Condition_MagneticHounds",
+            "description": "/Lotus/Language/Conquest/Condition_MagneticHounds_Desc"
+        },
+        "EmpoweredEnemies": {
+            "name": "/Lotus/Language/Conquest/Condition_EmpoweredEnemies",
+            "description": "/Lotus/Language/Conquest/Condition_EmpoweredEnemies_Desc"
+        },
+        "RestrictedRespawns": {
+            "name": "/Lotus/Language/Conquest/Condition_RestrictedRespawns",
+            "description": "/Lotus/Language/Conquest/Condition_RestrictedRespawns_Desc"
+        },
+        "RestrictedConsumables": {
+            "name": "/Lotus/Language/Conquest/Condition_RestrictedConsumables",
+            "description": "/Lotus/Language/Conquest/Condition_RestrictedConsumables_Desc"
+        },
+        "ArcadeAutomata": {
+            "name": "/Lotus/Language/Conquest/Condition_ArcadeAutomata",
+            "description": "/Lotus/Language/Conquest/Condition_ArcadeAutomata_Desc"
+        },
+        "ArtilleryBeacons": {
+            "name": "/Lotus/Language/Conquest/Condition_ArtilleryBeacons",
+            "description": "/Lotus/Language/Conquest/Condition_ArtilleryBeacons_Desc"
+        },
+        "BalloonFest": {
+            "name": "/Lotus/Language/Conquest/Condition_BalloonFest",
+            "description": "/Lotus/Language/Conquest/Condition_BalloonFest_Desc"
+        },
+        "CompetitionSpillover": {
+            "name": "/Lotus/Language/Conquest/Condition_CompetitionSpillover",
+            "description": "/Lotus/Language/Conquest/Condition_CompetitionSpillover_Desc"
+        },
+        "EfervonFog": {
+            "name": "/Lotus/Language/Conquest/Condition_EfervonFog",
+            "description": "/Lotus/Language/Conquest/Condition_EfervonFog_Desc"
+        },
+        "FactionSwarm_Scaldra": {
+            "name": "/Lotus/Language/Conquest/Condition_FactionSwarm_Scaldra",
+            "description": "/Lotus/Language/Conquest/Condition_FactionSwarm_Scaldra_Desc"
+        },
+        "FactionSwarm_Techrot": {
+            "name": "/Lotus/Language/Conquest/Condition_FactionSwarm_Techrot",
+            "description": "/Lotus/Language/Conquest/Condition_FactionSwarm_Techrot_Desc"
+        },
+        "HeavyWarfare": {
+            "name": "/Lotus/Language/Conquest/Condition_HeavyWarfare",
+            "description": "/Lotus/Language/Conquest/Condition_HeavyWarfare_Desc"
+        },
+        "HostileOvergrowth": {
+            "name": "/Lotus/Language/Conquest/Condition_HostileOvergrowth",
+            "description": "/Lotus/Language/Conquest/Condition_HostileOvergrowth_Desc"
+        },
+        "InfectedTechrot": {
+            "name": "/Lotus/Language/Conquest/Condition_InfectedTechrot",
+            "description": "/Lotus/Language/Conquest/Condition_InfectedTechrot_Desc"
+        },
+        "MiasmiteHive": {
+            "name": "/Lotus/Language/Conquest/Condition_MiasmiteHive",
+            "description": "/Lotus/Language/Conquest/Condition_MiasmiteHive_Desc"
+        },
+        "MurmurIncursion": {
+            "name": "/Lotus/Language/Conquest/Condition_MurmurIncursion",
+            "description": "/Lotus/Language/Conquest/Condition_MurmurIncursion_Desc"
+        },
+        "JadeSpring": {
+            "name": "/Lotus/Language/Conquest/Condition_JadeSpring",
+            "description": "/Lotus/Language/Conquest/Condition_JadeSpring_Desc"
+        },
+        "ExplosiveSummer": {
+            "name": "/Lotus/Language/Conquest/Condition_ExplosiveSummer",
+            "description": "/Lotus/Language/Conquest/Condition_ExplosiveSummer_Desc"
+        },
+        "FallFog": {
+            "name": "/Lotus/Language/Conquest/Condition_FallFog",
+            "description": "/Lotus/Language/Conquest/Condition_FallFog_Desc"
+        },
+        "WinterFrost": {
+            "name": "/Lotus/Language/Conquest/Condition_WinterFrost",
+            "description": "/Lotus/Language/Conquest/Condition_WinterFrost_Desc"
+        }
+    },
+    "deviations": {
+        "lab": {
+            "AlchemicalShields": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_LabConquest_AlchemicalShields",
+                "description": "/Lotus/Language/Conquest/MissionVariant_LabConquest_AlchemicalShields_Desc"
+            },
+            "EximusGrenadiers": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_LabConquest_EximusGrenadiers",
+                "description": "/Lotus/Language/Conquest/MissionVariant_LabConquest_EximusGrenadiers_Desc"
+            },
+            "HostileSecurity": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_LabConquest_HostileSecurity",
+                "description": "/Lotus/Language/Conquest/MissionVariant_LabConquest_HostileSecurity_Desc"
+            },
+            "LostInTranslation": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_LabConquest_LostInTranslation",
+                "description": "/Lotus/Language/Conquest/MissionVariant_LabConquest_LostInTranslation_Desc"
+            },
+            "MisguidedInstructions": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_LabConquest_MisguidedInstructions",
+                "description": "/Lotus/Language/Conquest/MissionVariant_LabConquest_MisguidedInstructions_Desc"
+            },
+            "HungryPillars": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_LabConquest_HungryPillars",
+                "description": "/Lotus/Language/Conquest/MissionVariant_LabConquest_HungryPillars_Desc"
+            },
+            "HarshWords": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_LabConquest_HarshWords",
+                "description": "/Lotus/Language/Conquest/MissionVariant_LabConquest_HarshWords_Desc"
+            },
+            "StickyFingers": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_LabConquest_StickyFingers",
+                "description": "/Lotus/Language/Conquest/MissionVariant_LabConquest_StickyFingers_Desc"
+            },
+            "FragileNodes": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_LabConquest_FragileNodes",
+                "description": "/Lotus/Language/Conquest/MissionVariant_LabConquest_FragileNodes_Desc"
+            },
+            "DoubleTrouble": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_LabConquest_DoubleTrouble",
+                "description": "/Lotus/Language/Conquest/MissionVariant_LabConquest_DoubleTrouble_Desc"
+            },
+            "Reinforcements": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_LabConquest_Reinforcements",
+                "description": "/Lotus/Language/Conquest/MissionVariant_LabConquest_Reinforcements_Desc"
+            },
+            "InfiniteTide": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_LabConquest_InfiniteTide",
+                "description": "/Lotus/Language/Conquest/MissionVariant_LabConquest_InfiniteTide_Desc"
+            },
+            "SameTeam": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_LabConquest_SameTeam",
+                "description": "/Lotus/Language/Conquest/MissionVariant_LabConquest_SameTeam_Desc"
+            },
+            "DuoAssassination": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_LabConquest_DuoAssassination",
+                "description": "/Lotus/Language/Conquest/MissionVariant_LabConquest_DuoAssassination_Desc"
+            },
+            "NecramechActivation": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_LabConquest_NecramechActivation",
+                "description": "/Lotus/Language/Conquest/MissionVariant_LabConquest_NecramechActivation_Desc"
+            },
+            "GrowingIncursion": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_LabConquest_GrowingIncursion",
+                "description": "/Lotus/Language/Conquest/MissionVariant_LabConquest_GrowingIncursion_Desc"
+            },
+            "EnemyLink": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_LabConquest_EnemyLink",
+                "description": "/Lotus/Language/Conquest/MissionVariant_LabConquest_EnemyLink_Desc"
+            },
+            "FortifiedFoes": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_LabConquest_FortifiedFoes",
+                "description": "/Lotus/Language/Conquest/MissionVariant_LabConquest_FortifiedFoes_Desc"
+            },
+            "UnpoweredCapsules": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_LabConquest_UnpoweredCapsules",
+                "description": "/Lotus/Language/Conquest/MissionVariant_LabConquest_UnpoweredCapsules_Desc"
+            },
+            "NecramechLockout": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_LabConquest_NecramechLockout",
+                "description": "/Lotus/Language/Conquest/MissionVariant_LabConquest_NecramechLockout_Desc"
+            },
+            "EnvironmentalSystem": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_LabConquest_EnvironmentalSystem",
+                "description": "/Lotus/Language/Conquest/MissionVariant_LabConquest_EnvironmentalSystem_Desc"
+            },
+            "VolatileGrenades": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_LabConquest_VolatileGrenades",
+                "description": "/Lotus/Language/Conquest/MissionVariant_LabConquest_VolatileGrenades_Desc"
+            }
+        },
+        "hex": {
+            "ContaminationZone": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_HexConquest_ContaminationZone",
+                "description": "/Lotus/Language/Conquest/MissionVariant_HexConquest_ContaminationZone_Desc"
+            },
+            "EscalateImmediately": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_HexConquest_EscalateImmediately",
+                "description": "/Lotus/Language/Conquest/MissionVariant_HexConquest_EscalateImmediately_Desc"
+            },
+            "FortifiedFoes": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_HexConquest_FortifiedFoes",
+                "description": "/Lotus/Language/Conquest/MissionVariant_HexConquest_FortifiedFoes_Desc"
+            },
+            "GestatingTumors": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_HexConquest_GestatingTumors",
+                "description": "/Lotus/Language/Conquest/MissionVariant_HexConquest_GestatingTumors_Desc"
+            },
+            "HighScalingLegacyte": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_HexConquest_HighScalingLegacyte",
+                "description": "/Lotus/Language/Conquest/MissionVariant_HexConquest_HighScalingLegacyte_Desc"
+            },
+            "MutatedEnemies": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_HexConquest_MutatedEnemies",
+                "description": "/Lotus/Language/Conquest/MissionVariant_HexConquest_MutatedEnemies_Desc"
+            },
+            "TankReinforcements": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_HexConquest_TankReinforcements",
+                "description": "/Lotus/Language/Conquest/MissionVariant_HexConquest_TankReinforcements_Desc"
+            },
+            "TankSuperToxic": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_HexConquest_TankSuperToxic",
+                "description": "/Lotus/Language/Conquest/MissionVariant_HexConquest_TankSuperToxic_Desc"
+            },
+            "ChemicalNoise": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_HexConquest_ChemicalNoise",
+                "description": "/Lotus/Language/Conquest/MissionVariant_HexConquest_ChemicalNoise_Desc"
+            },
+            "DoubleTroubleLegacyte": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_HexConquest_DoubleTroubleLegacyte",
+                "description": "/Lotus/Language/Conquest/MissionVariant_HexConquest_DoubleTroubleLegacyte_Desc"
+            },
+            "HostileSecurity": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_HexConquest_HostileSecurity",
+                "description": "/Lotus/Language/Conquest/MissionVariant_HexConquest_HostileSecurity_Desc"
+            },
+            "TechrotConjunction": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_HexConquest_TechrotConjunction",
+                "description": "/Lotus/Language/Conquest/MissionVariant_HexConquest_TechrotConjunction_Desc"
+            },
+            "ExplosiveEnergy": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_HexConquest_ExplosiveEnergy",
+                "description": "/Lotus/Language/Conquest/MissionVariant_HexConquest_ExplosiveEnergy_Desc"
+            },
+            "TankStrongArmor": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_HexConquest_TankStrongArmor",
+                "description": "/Lotus/Language/Conquest/MissionVariant_HexConquest_TankStrongArmor_Desc"
+            },
+            "DisruptiveSounds": {
+                "name": "/Lotus/Language/Conquest/MissionVariant_HexConquest_DisruptiveSounds",
+                "description": "/Lotus/Language/Conquest/MissionVariant_HexConquest_DisruptiveSounds_Desc"
+            }
+        }
+    }
+}

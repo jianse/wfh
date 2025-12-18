@@ -183,7 +183,7 @@
               <p><CountDownTo :time="sortie.Expiry" />轮换</p>
               <ul>
                 <li v-for="(mission, index) in sortie.Variants" :key="index">
-                  {{ mission.node }} {{ mission.missionType }} {{ mission.modifierType }}
+                  {{ mission.node }} {{ mission.missionType }} {{ mission.modifierName }}
                 </li>
               </ul>
             </div>
@@ -389,7 +389,7 @@ import { useToast } from 'primevue/usetoast'
 import { computed, onActivated, onDeactivated, ref } from 'vue'
 import dayjs from 'dayjs'
 import isBetween from 'dayjs/plugin/isBetween'
-import { useTimestamp } from '@vueuse/core'
+import { useEventListener, useTimestamp } from '@vueuse/core'
 import { clone, throttle } from 'lodash'
 import StringWithIcon from '@/components/StringWithIcon.vue'
 
@@ -409,6 +409,16 @@ onDeactivated(() => {
 onActivated(() => {
   fetchEnable.value = true
   onTimeUp()
+})
+
+const pageVisible = ref(true)
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+useEventListener(document, 'visibilitychange', (_evt) => {
+  pageVisible.value = !document.hidden
+  if (pageVisible.value) {
+    onTimeUp()
+  }
 })
 
 const now = useTimestamp({ interval: 1000 })
@@ -518,7 +528,7 @@ function tsBetween(t: number, a: string, b: string) {
 }
 
 async function fetchWorldState() {
-  if (!fetchEnable.value) {
+  if (!fetchEnable.value || !pageVisible.value) {
     return
   }
   loading.value = true

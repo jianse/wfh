@@ -20,6 +20,7 @@ pub struct RawWorldState {
     #[serde(rename = "Version")]
     pub version: i8,
 
+    /// 移动端版本
     #[serde(rename = "MobileVersion")]
     pub mobile_version: String,
 
@@ -79,6 +80,7 @@ pub struct RawWorldState {
     #[serde(rename = "HubEvents")]
     pub hub_events: Vec<()>,
 
+    /// 节点状态覆盖
     #[serde(rename = "NodeOverrides")]
     pub node_overrides: Vec<NodeOverride>,
 
@@ -111,6 +113,7 @@ pub struct RawWorldState {
     #[serde(rename = "LibraryInfo")]
     pub library_info: LibraryInfo,
 
+    /// pvp 任务
     #[serde(rename = "PVPChallengeInstances")]
     pub pvp_challenge_instances: Vec<PvpChallengeInstance>,
 
@@ -123,6 +126,7 @@ pub struct RawWorldState {
     #[serde(rename = "PVPActiveTournaments")]
     pub pvp_active_tournaments: Vec<()>,
 
+    /// 战舰建造进度
     #[serde(rename = "ProjectPct")]
     pub project_pct: Vec<f64>,
 
@@ -1033,7 +1037,18 @@ pub struct Variant {
     pub mission_type: String,
     #[serde(rename = "modifierType")]
     pub modifier_type: String,
+
+    #[serde(rename = "modifierName", skip_serializing_if = "Option::is_none")]
+    pub modifier_name: Option<String>,
+
+    #[serde(
+        rename = "modifierDescription",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub modifier_description: Option<String>,
+
     pub node: String,
+
     pub tileset: String,
 }
 
@@ -1060,6 +1075,9 @@ pub struct Alert {
 
     #[serde(rename = "ForceUnlock", skip_serializing_if = "Option::is_none")]
     pub force_unlock: Option<bool>,
+
+    #[serde(rename = "Icon", skip_serializing_if = "Option::is_none")]
+    pub icon: Option<String>,
 }
 
 #[serde_as]
@@ -1137,6 +1155,13 @@ pub struct MissionInfo {
 
     #[serde(rename = "maxWaveNum", skip_serializing_if = "Option::is_none")]
     pub max_wave_num: Option<u32>,
+
+    /// 前置任务需求
+    #[serde(rename = "questReq", skip_serializing_if = "Option::is_none")]
+    pub quest_req: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub seed: Option<u32>,
 }
 
 #[serde_as]
@@ -1300,6 +1325,10 @@ pub struct Goal {
 
     #[serde(rename = "Transmission", skip_serializing_if = "Option::is_none")]
     pub transmission: Option<String>,
+
+    #[serde_as(deserialize_as = "Option<TryFromInto<Date>>")]
+    #[serde(rename = "GracePeriod", skip_serializing_if = "Option::is_none")]
+    pub grace_period: Option<DateTime<Utc>>,
 }
 
 #[serde_as]

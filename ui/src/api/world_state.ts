@@ -255,6 +255,7 @@ export interface RawWorldState {
     Variants: {
       missionType: string
       modifierType: string
+      modifierName: string
       node: string
       tileset: string
     }[]
