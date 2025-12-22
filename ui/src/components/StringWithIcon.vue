@@ -42,7 +42,7 @@ function strToVNodes(v: string) {
       nodes.push(h('hr'))
     } else {
       const image_url = findImageUrl(name)
-      let clazz = props.imageClass || 'inline-block h-lh'
+      let clazz = props.imageClass || 'inline-block h-[20px] align-text-bottom'
       if (['PRE_ATTACK', 'ARCHWING', 'SECONDARY_FIRE'].includes(name)) {
         clazz += ' invert-100 dark:invert-0'
       }

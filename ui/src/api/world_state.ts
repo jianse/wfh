@@ -256,6 +256,7 @@ export interface RawWorldState {
       missionType: string
       modifierType: string
       modifierName: string
+      modifierDescription?: string
       node: string
       tileset: string
     }[]
@@ -299,6 +300,10 @@ export interface Conquest {
   Type: string
   Missions: ConquestMission[]
   Variables: string[]
+  TVariables: {
+    name: string
+    desc: string
+  }[]
   RandomSeed: number
 }
 
@@ -308,7 +313,12 @@ export interface ConquestMission {
   difficulties: {
     type: 'CD_NORMAL' | 'CD_HARD'
     deviation: string
+    deviationDesc: string
     risks: string[]
+    tRisks: {
+      name: string
+      desc: string
+    }[]
   }[]
 }
 

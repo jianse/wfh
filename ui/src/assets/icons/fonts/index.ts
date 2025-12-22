@@ -6,11 +6,11 @@ import freeze from './ColdSymbol.png'
 import gas from './GasSymbol.png'
 import impact from './ImpactSymbol.png'
 import magnetic from './MagneticSymbol.png'
-import puncture from './PunctureSymbol.png'
+import punctureColor from './PunctureSymbol.png'
 import slash from './SlashSymbol.png'
 import viral from './ViralSymbol.png'
-import radiation from './RadiationSymbol.png'
-import electricity from './ElectricitySymbol.png'
+import radiationColor from './RadiationSymbol.png'
+import electricityColor from './ElectricitySymbol.png'
 import radiant from './VoidSymbol.png'
 import mb00_d from './MouseButton00_d.png'
 import explosion from './BlastSymbol.png'
@@ -21,6 +21,9 @@ import sentient from './Sentient_d.png'
 import shardRedSimple from './ArchonAmarIcon.png'
 import shardBlueSimple from './ArchonBorealIcon.png'
 import shardYellowSimple from './ArchonNiraIcon.png'
+import radiation from './Radiation_d.png'
+import puncture from './Puncture_d.png'
+import electricity from './Electricity_d.png'
 
 // TODO: AFFINITY_SHARE
 const map = new Map<string, string>([
@@ -32,11 +35,11 @@ const map = new Map<string, string>([
   ['DT_GAS_COLOR', gas],
   ['DT_IMPACT_COLOR', impact],
   ['DT_MAGNETIC_COLOR', magnetic],
-  ['DT_PUNCTURE_COLOR', puncture],
+  ['DT_PUNCTURE_COLOR', punctureColor],
   ['DT_VIRAL_COLOR', viral],
   ['DT_SLASH_COLOR', slash],
-  ['DT_RADIATION_COLOR', radiation],
-  ['DT_ELECTRICITY_COLOR', electricity],
+  ['DT_RADIATION_COLOR', radiationColor],
+  ['DT_ELECTRICITY_COLOR', electricityColor],
   ['DT_RADIANT_COLOR', radiant],
   ['PRE_ATTACK', mb00_d],
   ['DT_EXPLOSION_COLOR', explosion],
@@ -48,6 +51,9 @@ const map = new Map<string, string>([
   ['SHARD_RED_SIMPLE', shardRedSimple],
   ['SHARD_BLUE_SIMPLE', shardBlueSimple],
   ['SHARD_YELLOW_SIMPLE', shardYellowSimple],
+  ['DT_RADIATION', radiation],
+  ['DT_PUNCTURE', puncture],
+  ['DT_ELECTRICITY', electricity],
 ])
 
 export function findImageUrl(name: string): string {

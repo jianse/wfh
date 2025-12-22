@@ -1,59 +1,34 @@
 <template>
-  <p>{{ computedConquest.Name }}</p>
-  <CountDownTo :time="computedConquest.Expiry"></CountDownTo>轮换
+  <p>{{ conquestName(conquest.Type) }}</p>
+  <CountDownTo :time="conquest.Expiry"></CountDownTo>轮换
   <div class="flex items-center gap-2">
-    <pv-checkbox :input-id="computedConquest.Type" v-model="isHard" binary></pv-checkbox>
-    <label :for="computedConquest.Type">精英科研</label>
+    <pv-checkbox :input-id="conquest.Type" v-model="isHard" binary></pv-checkbox>
+    <label :for="conquest.Type">精英科研</label>
   </div>
 
   <h3 class="mt-2 text-lg font-bold">任务</h3>
-  <div class="flex flex-column gap-2">
-    <div v-for="mission in computedConquest.Missions" :key="mission.faction">
-      <!-- <div>{{ mission.faction }}</div> -->
-      <div>{{ mission.missionType }}</div>
-      <div>偏差：{{ mission.difficulty?.deviation }}</div>
-      <div>
-        <div v-for="risk in mission.difficulty?.risks" :key="risk">风险变量：{{ risk }}</div>
-      </div>
-    </div>
+  <div class="flex flex-col gap-2 mt-2">
+    <ConquestMissionItem
+      v-for="(mission, index) in conquest.Missions"
+      :mission="mission"
+      :hard="isHard"
+      :key="index"
+    />
   </div>
   <h3 class="mt-2 text-lg font-bold">可选改造</h3>
   <ul class="list-disc list-outside pl-4">
-    <li v-for="variable in computedConquest.Variables" :key="variable">
-      {{ variable }}
+    <li v-for="variable in conquest.TVariables" :key="variable.name">
+      <div>{{ variable.name }}</div>
+      <div><StringWithIcon :text="variable.desc"></StringWithIcon></div>
     </li>
   </ul>
 </template>
 
 <script setup lang="ts">
-import type { Conquest, ConquestMission } from '@/api/world_state'
-import { cloneDeep } from 'lodash'
-import { computed, ref } from 'vue'
+import type { Conquest } from '@/api/world_state'
+import { ref } from 'vue'
 
 const { conquest } = defineProps<{ conquest: Conquest }>()
-
-const computedConquest = computed(() => {
-  if (conquest) {
-    const c = cloneDeep(conquest)
-    return {
-      ...c,
-      Name: conquestName(conquest.Type),
-      Missions: c.Missions.map((m) => {
-        return {
-          ...m,
-          difficulty: calcMissionDifficulties(m),
-        }
-      }),
-    }
-  }
-  return {
-    Type: '',
-    Name: '--',
-    Expiry: 0,
-    Missions: [],
-    Variables: [],
-  }
-})
 
 function conquestName(type: string): string {
   switch (type) {
@@ -64,11 +39,6 @@ function conquestName(type: string): string {
     default:
       return type
   }
-}
-
-function calcMissionDifficulties(mission: ConquestMission) {
-  const type = isHard.value ? 'CD_HARD' : 'CD_NORMAL'
-  return mission.difficulties.find((d) => d.type === type)
 }
 
 const isHard = ref(false)

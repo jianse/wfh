@@ -73,7 +73,7 @@
         <template #content>
           <div class="flex flex-row gap-2 flex-wrap">
             <div
-              class="border rounded-md p-3 border-slate-400"
+              class="border rounded-md p-3 border-gray-600"
               v-for="alert in rawWorldState?.Alerts"
               :key="alert._id"
             >
@@ -181,11 +181,30 @@
           <template #content>
             <div v-for="sortie in rawWorldState?.Sorties" :key="sortie._id">
               <p><CountDownTo :time="sortie.Expiry" />轮换</p>
-              <ul>
-                <li v-for="(mission, index) in sortie.Variants" :key="index">
-                  {{ mission.node }} {{ mission.missionType }} {{ mission.modifierName }}
-                </li>
-              </ul>
+              <!-- <ul> -->
+              <div class="flex justify-between mt-4">
+                <pv-card
+                  class="border border-gray-600 w-80"
+                  v-for="(mission, index) in sortie.Variants"
+                  :key="index"
+                >
+                  <template #title>{{ mission.missionType }}</template>
+                  <template #content>
+                    <div class="flex flex-col gap-2">
+                      <div>
+                        {{ mission.node }}
+                      </div>
+                      <div class="font-bold">
+                        {{ mission.modifierName }}
+                      </div>
+                      <div>
+                        <StringWithIcon :text="mission.modifierDescription || ''" />
+                      </div></div
+                  ></template>
+                </pv-card>
+              </div>
+
+              <!-- </ul> -->
             </div>
           </template>
         </pv-card>
@@ -279,7 +298,7 @@
                 <span>{{ c.Name }} <span v-if="c.Daily">每日</span></span>
                 <span>{{ c.Xp }} </span>
               </p>
-              <p>{{ c.Desc }}</p>
+              <p><StringWithIcon :text="c.Desc"></StringWithIcon></p>
               <p><CountDownTo :time="c.Expiry" />结束</p>
             </li>
           </ul>
