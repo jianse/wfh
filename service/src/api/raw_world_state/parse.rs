@@ -2,7 +2,6 @@ use std::{
     collections::HashMap,
     fmt::Display,
     fs::{self, File},
-    hash::Hash,
     io::BufReader,
     ops::Deref,
     path::Path,
@@ -18,7 +17,10 @@ use serde_with::{TryFromInto, serde_as};
 use tokio::sync::{Mutex, RwLock};
 use tracing::{info, warn};
 
-use crate::api::{BizResult, raw_world_state::model::RawWorldState};
+use crate::api::{
+    BizResult,
+    raw_world_state::{TRisk, TVariable, model::RawWorldState},
+};
 
 /// global deps
 static G_DEPS: LazyLock<RwLock<Deps>> = LazyLock::new(|| RwLock::new(Deps::default()));
@@ -278,32 +280,36 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
     // conquests
     for conquest in raw.conquests.iter_mut() {
         // 个人参数
+        let mut t_variables = vec![];
         for var in conquest.variables.iter_mut() {
-            if let Some(pair) = deps.conquests.variables.get(var) {
-                // *var = pair.clone();
-                *var = deps.get_language(&pair.name);
+            let r = if let Some(pair) = deps.conquests.variables.get(var) {
+                TVariable {
+                    name: deps.get_language(&pair.name),
+                    desc: deps.get_language(&pair.description),
+                }
             } else {
-                warn!("unknown conquest variable: {}", var);
-            }
-
-            // *var = deps.conquests.get_variable(&var);
+                warn!("unknown conquest risk: {}", var);
+                TVariable {
+                    name: var.clone(),
+                    desc: var.clone(),
+                }
+            };
+            t_variables.push(r);
         }
+        conquest.t_variables = Some(t_variables);
+
+        // missions
         for m in conquest.missions.iter_mut() {
             m.mission_type = deps.get_mission_type_by_tag(&m.mission_type);
             m.faction = deps.get_faction(&m.faction);
             for d in m.difficulties.iter_mut() {
                 // 偏差
-                // if let Some(mid) = &mid {
-                //     d.deviation = deps.get_language(&format!(
-                //         "/Lotus/Language/Conquest/MissionVariant_{mid}_{}",
-                //         d.deviation
-                //     ))
-                // }
                 match conquest.r#type.as_str() {
                     "CT_LAB" => {
                         if let Some(pair) = deps.conquests.deviations.lab.get(&d.deviation) {
                             // *var = pair.clone();
                             d.deviation = deps.get_language(&pair.name);
+                            d.deviation_desc = Some(deps.get_language(&pair.description));
                         } else {
                             warn!("unknown conquest deviation: {}", d.deviation);
                         }
@@ -312,6 +318,7 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
                         if let Some(pair) = deps.conquests.deviations.hex.get(&d.deviation) {
                             // *var = pair.clone();
                             d.deviation = deps.get_language(&pair.name);
+                            d.deviation_desc = Some(deps.get_language(&pair.description));
                         } else {
                             warn!("unknown conquest deviation: {}", d.deviation);
                         }
@@ -320,15 +327,25 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
                         warn!("unknown conquest type: {}", conquest.r#type);
                     }
                 };
+
+                let mut t_risks = vec![];
                 // 风险变量
                 for risk in d.risks.iter_mut() {
-                    if let Some(pair) = deps.conquests.risks.get(risk) {
-                        // *var = pair.clone();
-                        *risk = deps.get_language(&pair.name);
+                    let r = if let Some(pair) = deps.conquests.risks.get(risk) {
+                        TRisk {
+                            name: deps.get_language(&pair.name),
+                            desc: deps.get_language(&pair.description),
+                        }
                     } else {
                         warn!("unknown conquest risk: {}", risk);
-                    }
+                        TRisk {
+                            name: risk.clone(),
+                            desc: risk.clone(),
+                        }
+                    };
+                    t_risks.push(r);
                 }
+                d.t_risks = Some(t_risks);
             }
         }
     }
@@ -489,12 +506,6 @@ struct Conquests {
     deviations: Deviations,
 }
 
-// impl Conquests{
-//     pub fn get_variable(&self, name: &str) -> Option<&SimplePair> {
-//         self.variables.get(name)
-//     }
-// }
-
 #[derive(Debug, Deserialize)]
 struct SimplePair {
     name: String,
@@ -632,9 +643,7 @@ pub struct SortieModifier {
 impl SortieModifier {
     pub fn name(&self, deps: &Deps) -> String {
         let name = deps.get_language(&self.name);
-        let res = self.embed_args(&name, deps);
-        // dbg!(&name,&res);
-        res
+        self.embed_args(&name, deps)
     }
 
     pub fn description(&self, deps: &Deps) -> String {

@@ -258,8 +258,17 @@ pub struct Conquest {
     #[serde(rename = "Variables")]
     pub variables: Vec<String>,
 
+    /// added by me
+    #[serde(rename = "TVariables", skip_serializing_if = "Option::is_none")]
+    pub t_variables: Option<Vec<TVariable>>,
+
     #[serde(rename = "RandomSeed")]
     pub random_seed: u64,
+}
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct TVariable {
+    pub name: String,
+    pub desc: String,
 }
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
@@ -275,7 +284,26 @@ pub struct Difficulty {
     #[serde(rename = "type")]
     pub r#type: String,
     pub deviation: String,
+
+    /// added by me
+    #[serde(rename = "deviationDesc", skip_serializing_if = "Option::is_none")]
+    pub deviation_desc: Option<String>,
+
     pub risks: Vec<String>,
+
+    /// added by me
+    #[serde(
+        rename = "tRisks",
+        skip_serializing_if = "Option::is_none",
+        default = "Option::default"
+    )]
+    pub t_risks: Option<Vec<TRisk>>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct TRisk {
+    pub name: String,
+    pub desc: String,
 }
 
 #[serde_as]
@@ -619,6 +647,10 @@ pub struct ManifestItem {
 
     #[serde(rename = "Limit", skip_serializing_if = "Option::is_none")]
     pub limit: Option<u32>,
+
+    #[serde_as(deserialize_as = "Option<TryFromInto<Date>>")]
+    #[serde(rename = "EndDate", skip_serializing_if = "Option::is_none")]
+    pub end_date: Option<DateTime<Utc>>,
 }
 
 #[serde_as]
@@ -801,6 +833,7 @@ pub struct FlashSale {
     #[serde(rename = "Discount", skip_serializing_if = "Option::is_none")]
     pub discount: Option<f64>,
 
+    /// Buy one get one
     #[serde(rename = "BogoBuy", skip_serializing_if = "Option::is_none")]
     pub bogo_buy: Option<f64>,
 

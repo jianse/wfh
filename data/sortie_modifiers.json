@@ -28,5 +28,37 @@
     "SORTIE_MODIFIER_HAZARD_RADIATION": {
         "name": "/Lotus/Language/Sorties/SOModifierExtremeRadiation",
         "description": "/Lotus/Language/Sorties/SOModifierRadiationFlavor"
+    },
+    "SORTIE_MODIFIER_PUNCTURE": {
+        "name": "/Lotus/Language/Sorties/SOModifierEnemyPhysicalResistance",
+        "description": "/Lotus/Language/Sorties/SOModifierEnemyPhysicalResistanceFlavor",
+        "vars": {
+            "DAMAGE_TYPE": "/Lotus/Language/Game/DT_PUNCTURE"
+        }
+    },
+    "SORTIE_MODIFIER_SLASH": {
+        "name": "/Lotus/Language/Sorties/SOModifierEnemyPhysicalResistance",
+        "description": "/Lotus/Language/Sorties/SOModifierEnemyPhysicalResistanceFlavor",
+        "vars": {
+            "DAMAGE_TYPE": "/Lotus/Language/Game/DT_SLASH"
+        }
+    },
+    "SORTIE_MODIFIER_HAZARD_FOG": {
+        "name": "/Lotus/Language/Sorties/SOModifierFog",
+        "description": "/Lotus/Language/Sorties/SOModifierFogFlavor"
+    },
+    "SORTIE_MODIFIER_SHOTGUN_ONLY": {
+        "name": "/Lotus/Language/Sorties/SOModifierWeaponRestriction",
+        "description": "/Lotus/Language/Sorties/SOModifierWeaponRestrictionFlavor",
+        "vars": {
+            "WEAPON_TYPE": "/Lotus/Language/Items/ShotgunCategoryName"
+        }
+    },
+    "SORTIE_MODIFIER_FREEZE": {
+        "name": "/Lotus/Language/Sorties/SOModifierEnemyElementalResistance",
+        "description": "/Lotus/Language/Sorties/SOModifierEnemyElementalResistanceFlavor",
+        "vars": {
+            "DAMAGE_TYPE": "/Lotus/Language/Game/DT_FREEZE"
+        }
     }
 }
