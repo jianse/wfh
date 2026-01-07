@@ -1,8 +1,8 @@
 use axum::serve::Listener;
-use sea_orm::sqlx::__rt::timeout;
 use std::path::Path;
 use std::sync::Arc;
 use std::time::Duration;
+use tokio::time::timeout;
 use tokio_rustls::TlsAcceptor;
 use tokio_rustls::rustls::ServerConfig;
 use tokio_rustls::rustls::pki_types::pem::PemObject;

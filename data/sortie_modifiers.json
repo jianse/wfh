@@ -60,5 +60,23 @@
         "vars": {
             "DAMAGE_TYPE": "/Lotus/Language/Game/DT_FREEZE"
         }
+    },
+    "SORTIE_MODIFIER_ARMOR": {
+        "name": "/Lotus/Language/Sorties/SOModifierDoubleArmor",
+        "description": "/Lotus/Language/Sorties/SOModifierDoubleArmorFlavor"
+    },
+    "SORTIE_MODIFIER_BOW_ONLY": {
+        "name": "/Lotus/Language/Sorties/SOModifierWeaponRestriction",
+        "description": "/Lotus/Language/Sorties/SOModifierWeaponRestrictionFlavor",
+        "vars": {
+            "WEAPON_TYPE": "/Lotus/Language/Loadout/LoadoutCat_Bow"
+        }
+    },
+    "SORTIE_MODIFIER_MELEE_ONLY": {
+        "name": "/Lotus/Language/Sorties/SOModifierWeaponRestriction",
+        "description": "/Lotus/Language/Sorties/SOModifierWeaponRestrictionFlavor",
+        "vars": {
+            "WEAPON_TYPE": "/Lotus/Language/Categories/MELEE"
+        }
     }
 }

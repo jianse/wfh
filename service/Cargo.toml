@@ -36,18 +36,14 @@ tracing-subscriber = { workspace = true, features = [
     "local-time",
     "chrono",
 ] }
-tokio-rustls = { workspace = true, default-features = false, features = [
-    "ring",
-    "logging",
-    "tls12",
-] }
+tokio-rustls = { workspace = true }
 tower-http = { workspace = true, features = ["trace", "cors"] }
 tracing-appender = { workspace = true }
 uuid = { workspace = true, features = ["v4"] }
-reqwest = { workspace = true, default-features = false, features = [
+reqwest = { workspace = true, features = [
     "charset",
     "http2",
-    "rustls-tls-native-roots",
+    "rustls-native-certs",
     "gzip",
     "json",
 ] }
