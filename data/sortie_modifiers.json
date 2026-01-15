@@ -78,5 +78,16 @@
         "vars": {
             "WEAPON_TYPE": "/Lotus/Language/Categories/MELEE"
         }
+    },
+    "SORTIE_MODIFIER_HAZARD_ICE": {
+        "name": "/Lotus/Language/Sorties/SOModifierIce",
+        "description": "/Lotus/Language/Sorties/SOModifierIceFlavor"
+    },
+    "SORTIE_MODIFIER_SNIPER_ONLY": {
+        "name": "/Lotus/Language/Sorties/SOModifierWeaponRestriction",
+        "description": "/Lotus/Language/Sorties/SOModifierWeaponRestrictionFlavor",
+        "vars": {
+            "WEAPON_TYPE": "/Lotus/Language/Loadout/LoadoutCat_Precision"
+        }
     }
 }
