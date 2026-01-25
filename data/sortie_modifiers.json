@@ -89,5 +89,23 @@
         "vars": {
             "WEAPON_TYPE": "/Lotus/Language/Loadout/LoadoutCat_Precision"
         }
+    },
+    "SORTIE_MODIFIER_IMPACT": {
+        "name": "/Lotus/Language/Sorties/SOModifierEnemyPhysicalResistance",
+        "description": "/Lotus/Language/Sorties/SOModifierEnemyPhysicalResistanceFlavor",
+        "vars": {
+            "DAMAGE_TYPE": "/Lotus/Language/Game/DT_IMPACT"
+        }
+    },
+    "SORTIE_MODIFIER_HAZARD_COLD": {
+        "name": "/Lotus/Language/Sorties/SOModifierExtremeCold",
+        "description": "/Lotus/Language/Sorties/SOModifierExtremeColdFlavor"
+    },
+    "SORTIE_MODIFIER_MAGNETIC": {
+        "name": "/Lotus/Language/Sorties/SOModifierEnemyElementalResistance",
+        "description": "/Lotus/Language/Sorties/SOModifierEnemyElementalResistanceFlavor",
+        "vars": {
+            "DAMAGE_TYPE": "/Lotus/Language/Game/DT_MAGNETIC"
+        }
     }
 }

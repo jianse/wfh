@@ -23,7 +23,7 @@ pub enum ExportError {
     HeaderToStr(#[from] ToStrError),
 
     #[error(transparent)]
-    ParseDateTimeError(#[from] chrono::ParseError),
+    ParseDateTimeError(#[from] time::error::Parse),
 
     #[error("no export catgory {0} found")]
     NoSuchExport(String),

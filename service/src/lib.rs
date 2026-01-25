@@ -8,26 +8,39 @@ mod logging;
 pub mod tls;
 
 use crate::job::JobRegistry;
+// use crate::tls::MyConnectInfo;
 use crate::tls::TlsListener;
+use axum::Router;
+use axum::http::StatusCode;
 use axum::response::Redirect;
+use axum::routing::post;
 use axum::serve::Listener;
-use axum::{Router, http::StatusCode, routing::post};
 use error::Result;
-use http::uri::{Authority, Scheme};
-use http::{HeaderValue, Uri};
+use http::HeaderValue;
+use http::Uri;
+use http::uri::Authority;
+use http::uri::Scheme;
 use logging::init_logger;
-use migration::{Migrator, MigratorTrait};
-use sea_orm::{ConnectOptions, Database, DatabaseConnection};
+use migration::Migrator;
+use migration::MigratorTrait;
+use sea_orm::ConnectOptions;
+use sea_orm::Database;
+use sea_orm::DatabaseConnection;
 use settings::TlsSettings;
+use std::net::SocketAddr;
 use std::sync::Arc;
 use std::time::Duration;
 use tokio::net::TcpListener;
 use tokio::signal;
-use tokio::sync::broadcast::{self, Receiver, Sender};
+use tokio::sync::broadcast::Receiver;
+use tokio::sync::broadcast::Sender;
+use tokio::sync::broadcast::{self};
 use tokio_rustls::TlsAcceptor;
-use tower_http::cors::{Any, CorsLayer};
+use tower_http::cors::Any;
+use tower_http::cors::CorsLayer;
 use tower_http::trace::TraceLayer;
-use tracing::{error, info};
+use tracing::error;
+use tracing::info;
 
 #[derive(Clone)]
 struct AppStateRaw {
@@ -146,7 +159,7 @@ async fn start_ctl_endpoint(tx: Sender<()>, rx: Receiver<()>) -> Result<()> {
     info!("control endpoint started at http://localhost:54321");
     axum::serve(listener, app)
         .with_graceful_shutdown(shutdown_signal(rx))
-        .await?;
+        .await;
     Ok(())
 }
 
@@ -170,7 +183,7 @@ where
 
     axum::serve(listener, app)
         .with_graceful_shutdown(shutdown_signal(rx))
-        .await?;
+        .await;
     Ok(())
 }
 
@@ -263,13 +276,51 @@ fn redirect_to_https_router(host: String, port: u16) -> Router {
 
 async fn serve_app<L>(listener: L, state: AppState, rx: Receiver<()>) -> Result<()>
 where
-    L: Listener,
-    L::Addr: std::fmt::Display + std::fmt::Debug,
+    L: Listener<Addr = SocketAddr>,
 {
     let app = app_router(state);
 
-    axum::serve(listener, app)
+    let service = app.into_make_service_with_connect_info::<SocketAddr>();
+
+    axum::serve(listener, service)
         .with_graceful_shutdown(shutdown_signal(rx))
-        .await?;
+        .await;
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+
+    use std::net::SocketAddr;
+
+    use axum::Router;
+    use axum::extract::ConnectInfo;
+    use axum::routing::any;
+    // use axum_client_ip::ClientIp;
+    use eyre::Result;
+    use tokio::net::TcpListener;
+    use tokio_rustls::TlsAcceptor;
+
+    use crate::tls::TlsListener;
+    use crate::tls::rustls_server_config;
+
+    #[tokio::test]
+    async fn test_app() -> Result<()> {
+        let tcp = TcpListener::bind(("localhost", 8080)).await?;
+        let conf = rustls_server_config("self_signed_certs/key.pem", "self_signed_certs/cert.pem");
+        let acceptor = TlsAcceptor::from(conf);
+        let tls = TlsListener::new(acceptor, tcp);
+        let app = Router::new().route("/", any(hello));
+
+        let service = app.into_make_service_with_connect_info::<SocketAddr>();
+
+        axum::serve(tls, service)
+            // .with_graceful_shutdown(shutdown_signal(rx))
+            .await;
+        Ok(())
+    }
+
+    async fn hello(ConnectInfo(info): ConnectInfo<SocketAddr>) -> String {
+        format!("Hello, {}!", info)
+    }
 }

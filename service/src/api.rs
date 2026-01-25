@@ -1,25 +1,34 @@
 use std::fmt::Display;
 
-use crate::{AppState, common, entities};
+use crate::AppState;
+use crate::common;
+use crate::entities;
+use axum::Extension;
+use axum::Json;
+use axum::Router;
+use axum::extract::Request;
 use axum::extract::State;
-use axum::middleware::{Next, from_fn};
+use axum::http::StatusCode;
+use axum::http::header;
+use axum::middleware::Next;
+use axum::middleware::from_fn;
 use axum::response::IntoResponse;
-use axum::{Extension, Json};
-use axum::{
-    Router,
-    extract::Request,
-    http::{StatusCode, header},
-    response::Response,
-    routing::post,
-};
-use jsonwebtoken::{Algorithm, DecodingKey, Validation, decode};
+use axum::response::Response;
+use axum::routing::post;
+use jsonwebtoken::Algorithm;
+use jsonwebtoken::DecodingKey;
+use jsonwebtoken::Validation;
+use jsonwebtoken::decode;
 use once_cell::sync::Lazy;
 use regex::RegexSet;
-use sea_orm::{DbErr, EntityTrait};
-use serde::{Deserialize, Serialize};
+use sea_orm::DbErr;
+use sea_orm::EntityTrait;
+use serde::Deserialize;
+use serde::Serialize;
 use serde_json::json;
 use thiserror::Error;
-use tracing::{debug, info};
+use tracing::debug;
+use tracing::info;
 
 mod raw_world_state;
 mod token;

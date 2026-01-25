@@ -1,6 +1,7 @@
 use serde_json::Map;
 
-use crate::error::{ExportError, Result};
+use crate::error::ExportError;
+use crate::error::Result;
 
 pub type JsonObject = Map<String, serde_json::Value>;
 

@@ -2,19 +2,27 @@ mod defaults;
 
 use std::collections::HashMap;
 use std::fmt::Display;
-use std::path::{Path, PathBuf};
+use std::path::Path;
+use std::path::PathBuf;
 use std::sync::OnceLock;
 
+use argon2::Argon2;
+use argon2::PasswordHash;
+use argon2::PasswordHasher;
+use argon2::PasswordVerifier;
 use argon2::password_hash::SaltString;
 use argon2::password_hash::rand_core::OsRng;
-use argon2::{Argon2, PasswordHash, PasswordHasher, PasswordVerifier};
-use config::{Config, ConfigError};
+use config::Config;
+use config::ConfigError;
+use rand::Rng;
 use rand::distr::Alphanumeric;
-use rand::{Rng, rng};
-use serde::{Deserialize, Serialize};
+use rand::rng;
+use serde::Deserialize;
+use serde::Serialize;
 use serde_with::serde_as;
 use thiserror::Error;
-use tracing::{error, info};
+use tracing::error;
+use tracing::info;
 
 #[derive(Deserialize, Serialize, Debug, Default, Clone)]
 #[serde(default)]

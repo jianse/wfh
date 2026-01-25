@@ -1,8 +1,9 @@
-use async_compression::{Level, brotli::EncoderParams, tokio::write::BrotliEncoder};
-use tokio::{
-    fs::File,
-    io::{AsyncReadExt, AsyncWriteExt},
-};
+use async_compression::Level;
+use async_compression::brotli::EncoderParams;
+use async_compression::tokio::write::BrotliEncoder;
+use tokio::fs::File;
+use tokio::io::AsyncReadExt;
+use tokio::io::AsyncWriteExt;
 
 #[tokio::test]
 async fn test_brotli_compress() -> eyre::Result<()> {

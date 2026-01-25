@@ -1,7 +1,9 @@
-use argon2::{
-    Argon2, PasswordHash, PasswordHasher, PasswordVerifier,
-    password_hash::{SaltString, rand_core::OsRng},
-};
+use argon2::Argon2;
+use argon2::PasswordHash;
+use argon2::PasswordHasher;
+use argon2::PasswordVerifier;
+use argon2::password_hash::SaltString;
+use argon2::password_hash::rand_core::OsRng;
 
 const PASSWORD: &str = "UJU2g1sqL7QcflwEGE"; // Bad passwo
 

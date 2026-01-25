@@ -6,17 +6,23 @@ use crate::error::ExportError;
 pub use crate::json_ops::*;
 use crate::lang::LangHolder;
 use async_compression::tokio::bufread::LzmaDecoder;
-use chrono::DateTime;
 use error::Result;
 use reqwest::Client;
 use reqwest::header::LAST_MODIFIED;
 use serde::Serialize;
-use serde_json::{Value, json};
+use serde_json::Value;
+use serde_json::json;
 use std::collections::HashMap;
-use std::path::{Path, PathBuf};
+use std::path::Path;
+use std::path::PathBuf;
 use std::time::Duration;
+use time::UtcDateTime;
+use time::format_description::well_known::Rfc2822;
 use tokio::io::AsyncReadExt;
-use tracing::{debug, info, trace, warn};
+use tracing::debug;
+use tracing::info;
+use tracing::trace;
+use tracing::warn;
 
 pub struct PubExportFetcher<'c> {
     cache_dir: PathBuf,
@@ -50,7 +56,7 @@ impl<'a> PubExportFetcher<'a> {
             .await?;
 
         let lm_str = resp.headers().get(LAST_MODIFIED).unwrap().to_str()?;
-        let t = DateTime::parse_from_rfc2822(lm_str)?;
+        let t = UtcDateTime::parse(lm_str, &Rfc2822)?;
 
         let bytes = resp.bytes().await?;
         let mut txt = LzmaDecoder::new(bytes.as_ref());
@@ -62,7 +68,7 @@ impl<'a> PubExportFetcher<'a> {
         std::fs::create_dir_all(&index_dir)?;
 
         std::fs::write(
-            index_dir.join(format!("index_{}.txt", t.timestamp())),
+            index_dir.join(format!("index_{}.txt", t.unix_timestamp())),
             &content,
         )?;
         info!("index_zh.txt.lzma downloaded");

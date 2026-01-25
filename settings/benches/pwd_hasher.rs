@@ -1,7 +1,12 @@
-use criterion::{Criterion, criterion_group, criterion_main};
+use criterion::Criterion;
+use criterion::criterion_group;
+use criterion::criterion_main;
+use rand::Rng;
 use rand::distr::Alphanumeric;
-use rand::{Rng, rng};
-use settings::{Argon2Options, BcryptOptions, PwdHasher};
+use rand::rng;
+use settings::Argon2Options;
+use settings::BcryptOptions;
+use settings::PwdHasher;
 
 fn bcrypt_10() -> eyre::Result<()> {
     let rand_string: String = rng()

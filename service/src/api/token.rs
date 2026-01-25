@@ -1,13 +1,23 @@
 use crate::entities::prelude::*;
 
-use crate::api::{BizError, BizResponse, BizResult};
-use crate::{AppState, entities};
+use crate::AppState;
+use crate::api::BizError;
+use crate::api::BizResponse;
+use crate::api::BizResult;
+use crate::entities;
+use axum::Json;
+use axum::extract::State;
+use axum::response::IntoResponse;
 use axum::response::Response;
-use axum::{Json, extract::State, response::IntoResponse};
-use jsonwebtoken::{EncodingKey, Header};
-use sea_orm::{ColumnTrait, EntityTrait, QueryFilter};
-use serde::{Deserialize, Serialize};
+use jsonwebtoken::EncodingKey;
+use jsonwebtoken::Header;
+use sea_orm::ColumnTrait;
+use sea_orm::EntityTrait;
+use sea_orm::QueryFilter;
+use serde::Deserialize;
+use serde::Serialize;
 use serde_json::json;
+use time::UtcDateTime;
 
 #[derive(Debug, Deserialize)]
 pub(super) struct LoginCredential {
@@ -47,7 +57,7 @@ pub(super) async fn create_token(
             &Claims {
                 iss: settings::get().auth.jwt.issuer.clone(),
                 sub: db_user.id,
-                exp: (chrono::Local::now().timestamp() as u64
+                exp: (UtcDateTime::now().unix_timestamp() as u64
                     + settings::get().auth.jwt.valid_time_secs) as usize,
             },
             &EncodingKey::from_secret(settings::get().auth.jwt.secret_key.as_ref()),
@@ -60,7 +70,8 @@ pub(super) async fn create_token(
 
 #[cfg(test)]
 mod tests {
-    use jsonwebtoken::{DecodingKey, Validation};
+    use jsonwebtoken::DecodingKey;
+    use jsonwebtoken::Validation;
 
     use super::*;
 
@@ -73,7 +84,7 @@ mod tests {
             &Claims {
                 iss: "issuer".to_owned(),
                 sub: 1,
-                exp: chrono::Utc::now().timestamp() as usize + 3600,
+                exp: UtcDateTime::now().unix_timestamp() as usize + 3600,
             },
             &EncodingKey::from_secret(SECRET_KEY.as_bytes()),
         );

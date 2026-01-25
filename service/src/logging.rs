@@ -1,15 +1,23 @@
+use sea_orm::sqlx::types::time::UtcOffset;
 use settings::LogFileSettings;
+use time::format_description::well_known::Iso8601;
 use tracing::Subscriber;
 use tracing::level_filters::LevelFilter;
 use tracing_appender::non_blocking::WorkerGuard;
-use tracing_appender::rolling::{daily, hourly, never};
+use tracing_appender::rolling::daily;
+use tracing_appender::rolling::hourly;
+use tracing_appender::rolling::never;
+use tracing_subscriber::EnvFilter;
+use tracing_subscriber::Layer;
 use tracing_subscriber::Registry;
-use tracing_subscriber::fmt::time::ChronoLocal;
+use tracing_subscriber::fmt;
+use tracing_subscriber::fmt::time::OffsetTime;
 use tracing_subscriber::fmt::writer::BoxMakeWriter;
 use tracing_subscriber::layer::Layered;
-use tracing_subscriber::reload::{self, Handle};
-use tracing_subscriber::{EnvFilter, Layer};
-use tracing_subscriber::{fmt, layer::SubscriberExt, util::SubscriberInitExt};
+use tracing_subscriber::layer::SubscriberExt;
+use tracing_subscriber::reload::Handle;
+use tracing_subscriber::reload::{self};
+use tracing_subscriber::util::SubscriberInitExt;
 
 type BoxLayer<R> = Box<dyn Layer<R> + Send + Sync + 'static>;
 
@@ -19,13 +27,13 @@ type H1 = Handle<EnvFilter, Registry>;
 
 type H2 = Handle<Vec<BoxLayer<Reg2>>, Reg2>;
 
-const DT_FMT: &str = "%Y-%m-%dT%H:%M:%S%.9f%:z";
-
 pub fn bootstrap_logger() -> (H1, H2) {
+    let offset = UtcOffset::current_local_offset().unwrap_or(UtcOffset::UTC);
+    let timmer = OffsetTime::new(offset, &Iso8601::DEFAULT);
     let inner = fmt::layer()
         .with_ansi(true)
         .with_line_number(true)
-        .with_timer(ChronoLocal::new(DT_FMT.to_owned()))
+        .with_timer(timmer)
         .boxed();
 
     let (reload_filter, frh) = reload::Layer::new(EnvFilter::new("info"));
@@ -51,11 +59,14 @@ pub fn init_logger() -> Option<WorkerGuard> {
     // console logger
     // NOTE: ansi issue in underlying library .
     // See: https://github.com/tokio-rs/tracing/issues/1817
+    let offset = UtcOffset::current_local_offset().unwrap_or(UtcOffset::UTC);
+    let timmer = OffsetTime::new(offset, &Iso8601::DEFAULT);
+
     let console = fmt::layer()
         .with_ansi(true)
         // .with_file(true)
         .with_line_number(true)
-        .with_timer(ChronoLocal::new(DT_FMT.to_owned()))
+        .with_timer(timmer)
         .boxed();
 
     h2.modify(|layers| {
@@ -102,11 +113,14 @@ where
 {
     if let Some(file) = settings::get().log.file.clone() {
         let (writer, guard) = create_writer(file);
+        let offset = UtcOffset::current_local_offset().unwrap_or(UtcOffset::UTC);
+        let timmer = OffsetTime::new(offset, &Iso8601::DEFAULT);
+
         let file_fmt = fmt::layer()
             .map_fmt_fields(|f| f)
             .with_ansi(false)
             .with_line_number(true)
-            .with_timer(ChronoLocal::new(DT_FMT.to_owned()))
+            .with_timer(timmer)
             .with_writer(writer)
             .boxed();
 

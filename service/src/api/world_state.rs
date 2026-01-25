@@ -2,36 +2,50 @@ mod helper;
 pub mod models;
 mod rep;
 
-use std::{
-    collections::HashMap,
-    time::{Duration, Instant, SystemTime, UNIX_EPOCH},
-};
+use std::collections::HashMap;
+use std::time::Duration;
+use std::time::Instant;
+use std::time::SystemTime;
+use std::time::UNIX_EPOCH;
 
-use crate::{
-    AppState,
-    api::{BizError, BizResponse, BizResult, world_state::rep::rep_routes},
-    common::{brotli_compress, brotli_decompress},
-    entities::{
-        prelude::{WgWorldStateReplacements, WorldState2},
-        wg_world_state_replacements, world_state2,
-    },
-};
-use axum::{Router, extract::State, routing::get};
-use chrono::{DateTime, Utc};
+use crate::AppState;
+use crate::api::BizError;
+use crate::api::BizResponse;
+use crate::api::BizResult;
+use crate::api::world_state::rep::rep_routes;
+use crate::common::brotli_compress;
+use crate::common::brotli_decompress;
+use crate::entities::prelude::WgWorldStateReplacements;
+use crate::entities::prelude::WorldState2;
+use crate::entities::wg_world_state_replacements;
+use crate::entities::world_state2;
+use axum::Router;
+use axum::extract::State;
+use axum::routing::get;
+use chrono::DateTime;
+use chrono::Utc;
 use hex::ToHex;
 use http::HeaderMap;
 use regex::Regex;
-use sea_orm::{
-    ActiveValue::{NotSet, Set},
-    ColumnTrait, DbErr, EntityTrait, QueryFilter, QueryOrder,
-    prelude::DateTimeUtc,
-    sea_query,
-};
-use serde::{Deserialize, Serialize};
+use sea_orm::ActiveValue::NotSet;
+use sea_orm::ActiveValue::Set;
+use sea_orm::ColumnTrait;
+use sea_orm::DbErr;
+use sea_orm::EntityTrait;
+use sea_orm::QueryFilter;
+use sea_orm::QueryOrder;
+use sea_orm::prelude::DateTimeUtc;
+use sea_orm::sea_query;
+use serde::Deserialize;
+use serde::Serialize;
 
-use models::{WorldStateData, WorldStateRes};
+use models::WorldStateData;
+use models::WorldStateRes;
 
-use tracing::{debug, error, info, warn};
+use tracing::debug;
+use tracing::error;
+use tracing::info;
+use tracing::warn;
 
 #[derive(Debug)]
 pub struct WorldStateOut {
@@ -605,7 +619,6 @@ fn build_url() -> Result<String, BizError> {
 async fn update_and_get(
     State(state): State<AppState>,
 ) -> BizResult<BizResponse<Box<WorldStateData>>> {
-    // todo!("not implemented")
     let d = wf_world_state(state).await?;
     Ok(BizResponse::ok_with(d))
 }

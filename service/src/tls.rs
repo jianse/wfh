@@ -1,14 +1,21 @@
+use axum::extract::connect_info::Connected;
+use axum::serve::IncomingStream;
 use axum::serve::Listener;
+// use tokio::net::TcpListener;
+use std::net::SocketAddr;
+// use std::net::TcpListener;
 use std::path::Path;
 use std::sync::Arc;
 use std::time::Duration;
 use tokio::time::timeout;
 use tokio_rustls::TlsAcceptor;
 use tokio_rustls::rustls::ServerConfig;
+use tokio_rustls::rustls::pki_types::CertificateDer;
+use tokio_rustls::rustls::pki_types::PrivateKeyDer;
 use tokio_rustls::rustls::pki_types::pem::PemObject;
-use tokio_rustls::rustls::pki_types::{CertificateDer, PrivateKeyDer};
 use tokio_rustls::server::TlsStream;
-use tracing::{debug, error};
+use tracing::debug;
+use tracing::error;
 
 pub struct TlsListener<U: Listener> {
     acceptor: TlsAcceptor,
@@ -24,12 +31,12 @@ impl<U: Listener> TlsListener<U> {
     }
 }
 
-impl<U: Listener> Listener for TlsListener<U>
+impl<U: Listener<Addr = SocketAddr>> Listener for TlsListener<U>
 where
     U::Addr: std::fmt::Display,
 {
     type Io = TlsStream<U::Io>;
-    type Addr = U::Addr;
+    type Addr = SocketAddr;
 
     async fn accept(&mut self) -> (Self::Io, Self::Addr) {
         loop {
@@ -78,4 +85,27 @@ pub fn rustls_server_config(key: impl AsRef<Path>, cert: impl AsRef<Path>) -> Ar
     config.alpn_protocols = vec![b"h2".to_vec(), b"http/1.1".to_vec()];
 
     Arc::new(config)
+}
+
+#[derive(Clone, Debug)]
+pub struct MyConnectInfo {
+    pub remote_addr: SocketAddr,
+}
+
+impl<U: Listener<Addr = SocketAddr>> Connected<IncomingStream<'_, TlsListener<U>>>
+    for MyConnectInfo
+{
+    fn connect_info(stream: IncomingStream<'_, TlsListener<U>>) -> Self {
+        MyConnectInfo {
+            remote_addr: stream.remote_addr().clone(),
+        }
+    }
+}
+
+impl Connected<IncomingStream<'_, tokio::net::TcpListener>> for MyConnectInfo {
+    fn connect_info(stream: IncomingStream<'_, tokio::net::TcpListener>) -> Self {
+        MyConnectInfo {
+            remote_addr: stream.remote_addr().clone(),
+        }
+    }
 }

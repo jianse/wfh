@@ -1,13 +1,14 @@
-use std::{
-    fs::File,
-    io::Write,
-    path::{Path, PathBuf},
-};
+use std::fs::File;
+use std::io::Write;
+use std::path::Path;
+use std::path::PathBuf;
 
-use clap::{Parser, Subcommand};
+use clap::Parser;
+use clap::Subcommand;
 // use service::error::Result;
 use eyre::Result;
-use migration::{Migrator, MigratorTrait};
+use migration::Migrator;
+use migration::MigratorTrait;
 use sea_orm::Database;
 
 #[derive(Debug, Parser)]

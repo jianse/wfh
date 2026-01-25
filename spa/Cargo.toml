@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [features]
-embed = ["dep:rust-embed", "dep:hex", "dep:chrono", "dep:mime_guess"]
+embed = ["dep:rust-embed", "dep:hex", "dep:time", "dep:mime_guess"]
 
 [dependencies]
 axum = { workspace = true }
@@ -16,5 +16,6 @@ tower-http = { workspace = true, features = ["fs"] }
 hex = { workspace = true, optional = true }
 tracing = { workspace = true }
 mime_guess = { workspace = true, optional = true }
-chrono = { workspace = true, optional = true }
+time = { workspace = true, optional = true, features = ["parsing", "formatting", "macros"] }
 settings = { path = "../settings" }
+tower.workspace = true

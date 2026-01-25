@@ -1,8 +1,7 @@
-use async_compression::{
-    Level,
-    brotli::EncoderParams,
-    tokio::bufread::{BrotliDecoder, BrotliEncoder},
-};
+use async_compression::Level;
+use async_compression::brotli::EncoderParams;
+use async_compression::tokio::bufread::BrotliDecoder;
+use async_compression::tokio::bufread::BrotliEncoder;
 use thiserror::Error;
 use tokio::io::AsyncReadExt;
 
