@@ -1,4 +1,5 @@
 use std::fmt::Display;
+use std::net::SocketAddr;
 
 use crate::AppState;
 use crate::common;
@@ -6,6 +7,7 @@ use crate::entities;
 use axum::Extension;
 use axum::Json;
 use axum::Router;
+use axum::extract::ConnectInfo;
 use axum::extract::Request;
 use axum::extract::State;
 use axum::http::StatusCode;
@@ -40,6 +42,7 @@ use settings::PwdHasherError;
 use token::create_token;
 
 pub(crate) use raw_world_state::parse::load_deps;
+use tracing::warn;
 
 // panic on startup should be fine
 static WHITE_LIST: Lazy<RegexSet> = Lazy::new(|| {
@@ -63,7 +66,12 @@ pub(crate) fn api_routes(state: AppState) -> Router<AppState> {
         )
         .layer(from_fn(auth_layer))
         .route("/token", post(create_token))
-        .fallback(async || StatusCode::NOT_FOUND)
+        .fallback(api_not_found)
+}
+
+async fn api_not_found(ConnectInfo(client_ip): ConnectInfo<SocketAddr>) -> impl IntoResponse {
+    warn!(?client_ip, "client trying to access a not existed api.");
+    StatusCode::NOT_FOUND
 }
 
 #[derive(Clone)]

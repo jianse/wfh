@@ -79,7 +79,13 @@ where
 
     fn call(&mut self, req: Request) -> Self::Future {
         let uri = req.uri();
-        println!("uri = {:?}", uri);
+        // println!("uri = {:?}", uri);
+        let client_ip = req
+            .extensions()
+            .get::<ConnectInfo<SocketAddr>>()
+            .map(|ci| ci.0.to_string())
+            .unwrap_or("unknown".to_owned());
+        warn!("client ip: {} are trying to access uri: {} fallback to index", client_ip, uri);
         self.inner.call(req)
     }
 }
@@ -93,4 +99,23 @@ pub(crate) async fn not_found(
         ip, uri
     );
     StatusCode::NOT_FOUND
+}
+
+#[cfg(test)]
+mod tests {
+    use std::net::{Ipv4Addr, SocketAddr, SocketAddrV4};
+
+    #[test]
+    fn test_parse_ip() {
+        let ip = "unknown";
+        let ip = ip.parse::<std::net::SocketAddr>();
+        // assert!(ip.is_err());
+        let _ = dbg!(ip);
+    }
+
+    #[test]
+    fn test_ip_to_string() {
+        let ip = SocketAddr::V4(SocketAddrV4::new(Ipv4Addr::new(127, 0, 0, 1), 3210));
+        dbg!(ip.to_string());
+    }
 }

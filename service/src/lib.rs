@@ -11,6 +11,7 @@ use crate::job::JobRegistry;
 // use crate::tls::MyConnectInfo;
 use crate::tls::TlsListener;
 use axum::Router;
+use axum::extract::ConnectInfo;
 use axum::http::StatusCode;
 use axum::response::Redirect;
 use axum::routing::post;
@@ -170,7 +171,7 @@ async fn serve_app_or_redirect<L>(
     rx: Receiver<()>,
 ) -> Result<()>
 where
-    L: Listener,
+    L: Listener<Addr = SocketAddr>,
     L::Addr: std::fmt::Display + std::fmt::Debug,
 {
     let app = if opt.redirect_to_https {
@@ -180,6 +181,7 @@ where
     } else {
         app_router(state)
     };
+    let app = app.into_make_service_with_connect_info::<SocketAddr>();
 
     axum::serve(listener, app)
         .with_graceful_shutdown(shutdown_signal(rx))
@@ -255,23 +257,25 @@ fn control_router(tx: Sender<()>) -> Router {
 
 fn redirect_to_https_router(host: String, port: u16) -> Router {
     let a = Authority::from_maybe_shared(format!("{host}:{port}")).unwrap();
-    Router::new().fallback(async move |uri: Uri| {
-        let mut builder = Uri::builder().scheme(Scheme::HTTPS).authority(a);
-        if let Some(pq) = uri.path_and_query() {
-            builder = builder.path_and_query(pq.to_owned());
-        };
+    Router::new().fallback(
+        async move |ConnectInfo(client_ip): ConnectInfo<SocketAddr>, uri: Uri| {
+            let mut builder = Uri::builder().scheme(Scheme::HTTPS).authority(a);
+            if let Some(pq) = uri.path_and_query() {
+                builder = builder.path_and_query(pq.to_owned());
+            };
 
-        let r_url = match builder.build() {
-            Ok(u) => u.to_string(),
-            Err(e) => {
-                error!("build redirect uri error : {e}");
-                format!("https://{host}:{port}/")
-            }
-        };
+            let r_url = match builder.build() {
+                Ok(u) => u.to_string(),
+                Err(e) => {
+                    error!("build redirect uri error : {e}");
+                    format!("https://{host}:{port}/")
+                }
+            };
 
-        info!("redirect from {uri} to {r_url}");
-        Redirect::temporary(r_url.as_str())
-    })
+            info!(?client_ip, "redirect from {uri} to {r_url}");
+            Redirect::temporary(r_url.as_str())
+        },
+    )
 }
 
 async fn serve_app<L>(listener: L, state: AppState, rx: Receiver<()>) -> Result<()>
