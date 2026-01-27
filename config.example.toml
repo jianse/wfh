@@ -1,0 +1,59 @@
+[server]
+port = 3000
+addr = "0.0.0.0"
+host = "localhost"
+
+[server.tls]
+port = 3100
+cert = "./service/self_signed_certs/cert.pem"
+key = "./service/self_signed_certs/key.pem"
+redirect_to_https = true
+
+[db]
+database_url = "sqlite:./wf_api.db?mode=rwc"
+
+[auth.jwt]
+secret_key = "3JYnvWwmO3Zqa2Aybs"
+# 8 hours
+valid_time_secs = 28800
+# default issuer is "wf_api"
+issuer = "wf_api"
+
+[auth.pwd_hasher]
+# "argon2" or "bcrypt"
+name = "argon2"
+# options = 
+
+[ui]
+# "local" "embed" or "none"
+source = "local"
+path = "ui/dist"
+
+[log.level]
+root = "debug"
+"service::api" = "debug"
+"tower_http::trace" = "debug"
+"tower_http::cors" = "debug"
+# "sqlx" = "debug"
+
+[log.file]
+root = "logs"
+prefix = "wf-api-log.log"
+rotate = "hourly"
+
+[cors]
+allow_origin = "https://wfh.ntboy.top"
+allow_methods = "*"
+allow_headers = "Content-Type"
+
+# global job settings this can be overridden by job settings in [job.overrides]
+[job]
+interval_secs = 60
+# "fixed" "linear" or "exponential"
+# default is "exponential"
+retry_policy = "exponential"
+max_retries = 5
+
+[job.overrides.wg_world_state]
+interval_secs = 120
+enabled = false
