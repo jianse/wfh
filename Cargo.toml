@@ -36,7 +36,7 @@ clap = "4.5.54"
 eyre = "0.6.12"
 toml = "0.9.11"
 md5 = "0.8.0"
-uuid = "1.19.0"
+uuid = "1.20.0"
 reqwest = { version = "0.13.1", default-features = false, features = [
     "default-tls",
     "http2",
