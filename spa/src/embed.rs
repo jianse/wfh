@@ -150,11 +150,11 @@ mod impl2 {
 mod test {
     // use crate::{Asset, INDEX_HTML};
 
+    use super::impl2::DATETIME_FORMAT;
     use crate::INDEX_HTML;
     use crate::embed::Asset;
     use time::UtcDateTime;
     use time::format_description::well_known::Rfc2822;
-    use super::impl2::DATETIME_FORMAT;
 
     #[test]
     fn test_last_mod_time() {

@@ -57,6 +57,7 @@ serde_ignored = { workspace = true }
 export = { path = "../export" }
 rustls.workspace = true
 time = { workspace = true, features = ["formatting"] }
+indexmap = { workspace = true, features = ["serde"] }
 
 
 [dev-dependencies]

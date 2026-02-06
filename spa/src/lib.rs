@@ -85,7 +85,10 @@ where
             .get::<ConnectInfo<SocketAddr>>()
             .map(|ci| ci.0.to_string())
             .unwrap_or("unknown".to_owned());
-        warn!("client ip: {} are trying to access uri: {} fallback to index", client_ip, uri);
+        warn!(
+            "client ip: {} are trying to access uri: {} fallback to index",
+            client_ip, uri
+        );
         self.inner.call(req)
     }
 }
@@ -103,7 +106,9 @@ pub(crate) async fn not_found(
 
 #[cfg(test)]
 mod tests {
-    use std::net::{Ipv4Addr, SocketAddr, SocketAddrV4};
+    use std::net::Ipv4Addr;
+    use std::net::SocketAddr;
+    use std::net::SocketAddrV4;
 
     #[test]
     fn test_parse_ip() {

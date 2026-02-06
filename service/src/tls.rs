@@ -1,9 +1,5 @@
-use axum::extract::connect_info::Connected;
-use axum::serve::IncomingStream;
 use axum::serve::Listener;
-// use tokio::net::TcpListener;
 use std::net::SocketAddr;
-// use std::net::TcpListener;
 use std::path::Path;
 use std::sync::Arc;
 use std::time::Duration;
@@ -85,27 +81,4 @@ pub fn rustls_server_config(key: impl AsRef<Path>, cert: impl AsRef<Path>) -> Ar
     config.alpn_protocols = vec![b"h2".to_vec(), b"http/1.1".to_vec()];
 
     Arc::new(config)
-}
-
-#[derive(Clone, Debug)]
-pub struct MyConnectInfo {
-    pub remote_addr: SocketAddr,
-}
-
-impl<U: Listener<Addr = SocketAddr>> Connected<IncomingStream<'_, TlsListener<U>>>
-    for MyConnectInfo
-{
-    fn connect_info(stream: IncomingStream<'_, TlsListener<U>>) -> Self {
-        MyConnectInfo {
-            remote_addr: stream.remote_addr().clone(),
-        }
-    }
-}
-
-impl Connected<IncomingStream<'_, tokio::net::TcpListener>> for MyConnectInfo {
-    fn connect_info(stream: IncomingStream<'_, tokio::net::TcpListener>) -> Self {
-        MyConnectInfo {
-            remote_addr: stream.remote_addr().clone(),
-        }
-    }
 }

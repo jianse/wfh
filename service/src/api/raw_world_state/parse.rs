@@ -20,6 +20,7 @@ use export::get_opt_array;
 use export::get_opt_u64;
 use export::get_str;
 use export::get_u64;
+use indexmap::IndexMap;
 use reqwest::Client;
 use serde::Deserialize;
 use serde::Serialize;
@@ -36,7 +37,7 @@ use crate::api::raw_world_state::TVariable;
 use crate::api::raw_world_state::model::RawWorldState;
 
 /// global deps
-static G_DEPS: LazyLock<RwLock<Deps>> = LazyLock::new(|| RwLock::new(Deps::default()));
+pub(super) static G_DEPS: LazyLock<RwLock<Deps>> = LazyLock::new(|| RwLock::new(Deps::default()));
 
 // 全局准入锁：只用于同步 load_deps 的执行
 static LOAD_DEPS_MUTEX: LazyLock<Mutex<()>> = LazyLock::new(|| Mutex::new(()));
@@ -437,7 +438,7 @@ pub fn load_others<P: AsRef<Path>>(dir_path: P) -> BizResult<HashMap<String, Oth
 }
 
 pub async fn load_deps<P1: AsRef<Path> + Display, P2: AsRef<Path> + Display>(
-    dir_path: P1,
+    data_dir: P1,
     cache_dir: P2,
     client: &Client,
     force_reload: bool,
@@ -458,31 +459,31 @@ pub async fn load_deps<P1: AsRef<Path> + Display, P2: AsRef<Path> + Display>(
         }
     };
 
-    let dir = dir_path.as_ref();
+    let dir = data_dir.as_ref();
 
-    let languages = load_languages(&dir_path)?;
-    let factions = load_factions(&dir_path)?;
-    let mission_types = load_mission_types(&dir_path)?;
+    let languages = load_languages(&data_dir)?;
+    let factions = load_factions(&data_dir)?;
+    let mission_types = load_mission_types(&data_dir)?;
 
-    let mut regions = load_regions(&dir_path)?;
-    let regions_ex = load_regions_ex(&dir_path, &languages)?;
+    let mut regions = load_regions(&data_dir)?;
+    let regions_ex = load_regions_ex(&data_dir, &languages)?;
     regions.extend(regions_ex);
 
-    let steel_path = load_steel_path(&dir_path)?;
+    let steel_path = load_steel_path(&data_dir)?;
 
-    let sortie_bosses = load_sortie_bosses(&dir_path)?;
+    let sortie_bosses = load_sortie_bosses(&data_dir)?;
 
-    let sortie_modifiers = load_sortie_modifiers(&dir_path)?;
+    let sortie_modifiers = load_sortie_modifiers(&data_dir)?;
 
-    let bundles = load_bundles(&dir_path)?;
+    let bundles = load_bundles(&data_dir)?;
 
-    let others = load_others(&dir_path)?;
+    let others = load_others(&data_dir)?;
 
-    let flavour_ex = load_flavour_ex(&dir_path)?;
+    let flavour_ex = load_flavour_ex(&data_dir)?;
 
-    let the_circuit = load_the_circuit(&dir_path)?;
+    let the_circuit = load_the_circuit(&data_dir)?;
 
-    let conquests = load_conquests(&dir_path)?;
+    let conquests = load_conquests(&data_dir)?;
 
     let pe = PE::new(client, cache_dir, dir.join("wire.json"), &languages);
     let (pe_data, pe_index) = pe.fetch_transform_all().await?;
@@ -645,11 +646,14 @@ fn load_sortie_bosses<P: AsRef<Path>>(dir_path: P) -> BizResult<SortieBosses> {
     }
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct SortieModifier {
     pub name: String,
     pub description: String,
-    #[serde(default = "Default::default")]
+    #[serde(
+        default = "Default::default",
+        skip_serializing_if = "HashMap::is_empty"
+    )]
     pub vars: HashMap<String, String>,
 }
 
@@ -676,16 +680,29 @@ impl SortieModifier {
 
 fn load_sortie_modifiers<P: AsRef<Path>>(
     dir_path: P,
-) -> BizResult<HashMap<String, SortieModifier>> {
+) -> BizResult<IndexMap<String, SortieModifier>> {
     let file = dir_path.as_ref().join("sortie_modifiers.json");
     if file.exists() {
         let file = File::open(file)?;
         let mut reader = BufReader::new(file);
-        let json: HashMap<String, SortieModifier> = serde_json::from_reader(&mut reader)?;
+        let json: IndexMap<String, SortieModifier> = serde_json::from_reader(&mut reader)?;
         Ok(json)
     } else {
-        Ok(HashMap::new())
+        Ok(IndexMap::new())
     }
+}
+
+pub(super) fn save_sortie_modifiers<P: AsRef<Path>>(
+    dir_path: P,
+    modifiers: &IndexMap<String, SortieModifier>,
+) -> BizResult<()> {
+    if modifiers.is_empty() {
+        return Ok(());
+    }
+    let file = dir_path.as_ref().join("sortie_modifiers.json");
+    let json = serde_json::to_string_pretty(modifiers)?;
+    fs::write(file, json)?;
+    Ok(())
 }
 
 /// mission types from
@@ -859,7 +876,7 @@ pub struct Deps {
     /// sortie bosses manually collected
     sortie_bosses: SortieBosses,
 
-    sortie_modifiers: HashMap<String, SortieModifier>,
+    pub(super) sortie_modifiers: IndexMap<String, SortieModifier>,
 
     /// nightwave challenges
     /// this field is extracted from `pe_data`

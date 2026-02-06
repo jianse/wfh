@@ -1,11 +1,11 @@
 use axum::Router;
 use axum::routing::get;
-use axum::routing::post;
 
 use crate::AppState;
 use crate::api::BizResponse;
 use crate::api::BizResult;
 use crate::api::load_deps;
+use crate::api::raw_world_state::deps::deps_routes;
 use crate::api::raw_world_state::parse::fill_raw_world_state;
 use axum::extract::State;
 use model::RawWorldState;
@@ -14,7 +14,8 @@ use std::collections::BTreeSet;
 use std::time::Instant;
 use tracing::debug;
 use tracing::info;
-// pub(super) use parse::load_deps;
+
+mod deps;
 mod helper;
 mod model;
 pub(super) mod parse;
@@ -98,7 +99,7 @@ pub fn raw_world_state_routes() -> Router<AppState> {
     Router::new()
         .route("/current", get(get_raw_world_state))
         .route("/st_pvt", get(get_st_prime_vault_trader))
-        .route("/reload_deps", post(force_reload_deps))
+        .nest("/deps", deps_routes())
 }
 
 /// get and parse raw world state from the CN real game server
@@ -114,11 +115,6 @@ async fn get_raw_world_state(
     // add more relevant data
     fill_raw_world_state(&mut raw).await?;
     Ok(BizResponse::ok_with(raw))
-}
-
-/// force reload the dependencies to parse the raw world state
-async fn force_reload_deps(State(state): State<AppState>) -> BizResult<()> {
-    load_deps("data", "cache", &state.http_client, true).await
 }
 
 #[cfg(test)]
