@@ -43,7 +43,11 @@
         <template #title>活动</template>
         <template #content>
           <div class="flex flex-col gap-2">
-            <div v-for="event in rawWorldState?.Goals" :key="event._id">
+            <div
+              v-for="event in rawWorldState?.Goals"
+              :key="event._id"
+              class="rounded-md border p-3 border-gray-600"
+            >
               <!-- {{ event }} -->
               {{ event.Desc }} {{ event.Node }} <CountDownTo :time="event.Expiry" />结束
 
@@ -89,6 +93,67 @@
       <pv-card class="min-w-sm h-fit col-span-2">
         <template #title>虚空裂缝</template>
         <template #content>
+          <div>
+            <!-- 筛选虚空裂缝 -->
+            <div class="card flex flex-wrap justify-center gap-4">
+              <div class="flex items-center gap-2">
+                <pv-checkbox
+                  v-model="filterTiers"
+                  inputId="ingredient1"
+                  name="pizza"
+                  value="VoidT1"
+                />
+                <label for="ingredient1"> 古纪 </label>
+              </div>
+              <div class="flex items-center gap-2">
+                <pv-checkbox
+                  v-model="filterTiers"
+                  inputId="ingredient2"
+                  name="pizza"
+                  value="VoidT2"
+                />
+                <label for="ingredient2"> 前纪 </label>
+              </div>
+              <div class="flex items-center gap-2">
+                <pv-checkbox
+                  v-model="filterTiers"
+                  inputId="ingredient3"
+                  name="pizza"
+                  value="VoidT3"
+                />
+                <label for="ingredient3"> 中纪 </label>
+              </div>
+              <div class="flex items-center gap-2">
+                <pv-checkbox
+                  v-model="filterTiers"
+                  inputId="ingredient4"
+                  name="pizza"
+                  value="VoidT4"
+                />
+                <label for="ingredient4"> 后纪 </label>
+              </div>
+              <div class="flex items-center gap-2">
+                <pv-checkbox
+                  v-model="filterTiers"
+                  inputId="ingredient5"
+                  name="pizza"
+                  value="VoidT5"
+                />
+                <label for="ingredient5"> 安魂 </label>
+              </div>
+              <div class="flex items-center gap-2">
+                <pv-checkbox
+                  v-model="filterTiers"
+                  inputId="ingredient6"
+                  name="pizza"
+                  value="VoidT6"
+                />
+                <label for="ingredient6"> 全能 </label>
+              </div>
+              <pv-button size="small" label="全选" @click="selectAll"></pv-button>
+              <pv-button size="small" label="取消" @click="deselectAll"></pv-button>
+            </div>
+          </div>
           <div class="flex flex-row gap-5 flex-wrap">
             <div>
               <h2 class="text-lg">普通</h2>
@@ -354,9 +419,13 @@
         <template #title>1999日历</template>
         <template #content>
           <div v-for="c in rawWorldState?.KnownCalendarSeasons" :key="c.Season">
+            <!-- {{ c }} -->
             {{ c.Season }}
             <CountDownTo :time="c.Expiry" />轮换
-            <HexCalendar :season="c.Season"> </HexCalendar>
+            <!-- <HexCalendar :season="c.Season"> </HexCalendar> -->
+            <div v-for="day in c.Days" :key="day.day">
+              {{ day }}
+            </div>
           </div>
         </template>
       </pv-card>
@@ -577,31 +646,47 @@ function strCmp(a: string, b: string) {
   }
 }
 
+const filterTiers = ref(['VoidT1', 'VoidT2', 'VoidT3', 'VoidT4', 'VoidT5', 'VoidT6'])
+
+function selectAll() {
+  filterTiers.value = ['VoidT1', 'VoidT2', 'VoidT3', 'VoidT4', 'VoidT5', 'VoidT6']
+}
+
+function deselectAll() {
+  filterTiers.value = []
+}
+
 const normalFissures = computed(() => {
   if (!rawWorldState.value) {
     return []
   }
-  return rawWorldState.value.ActiveMissions.filter((f) => !f.Hard).sort((a, b) =>
-    strCmp(a.Modifier, b.Modifier),
-  )
+  return rawWorldState.value.ActiveMissions.filter((f) => !f.Hard)
+    .filter((f) => {
+      return filterTiers.value.includes(f.Modifier)
+    })
+    .sort((a, b) => strCmp(a.Modifier, b.Modifier))
 })
 
 const hardFissures = computed(() => {
   if (!rawWorldState.value) {
     return []
   }
-  return rawWorldState.value.ActiveMissions.filter((f) => f.Hard).sort((a, b) =>
-    strCmp(a.Modifier, b.Modifier),
-  )
+  return rawWorldState.value.ActiveMissions.filter((f) => f.Hard)
+    .filter((f) => {
+      return filterTiers.value.includes(f.Modifier)
+    })
+    .sort((a, b) => strCmp(a.Modifier, b.Modifier))
 })
 
 const voidStorm = computed(() => {
   if (!rawWorldState.value) {
     return []
   }
-  return clone(rawWorldState.value.VoidStorms).sort((a, b) =>
-    strCmp(a.ActiveMissionTier, b.ActiveMissionTier),
-  )
+  return clone(rawWorldState.value.VoidStorms)
+    .filter((f) => {
+      return filterTiers.value.includes(f.ActiveMissionTier)
+    })
+    .sort((a, b) => strCmp(a.ActiveMissionTier, b.ActiveMissionTier))
 })
 
 async function forceFetch() {
