@@ -13,7 +13,7 @@ import radiationColor from './RadiationSymbol.png'
 import electricityColor from './ElectricitySymbol.png'
 import radiant from './VoidSymbol.png'
 import mb00_d from './MouseButton00_d.png'
-import explosion from './BlastSymbol.png'
+import explosion_color from './BlastSymbol.png'
 import energy from './Energy_d.png'
 import mw_d from './MouseWheelButton_d.png'
 import shield from './HildrynEnergyShield.png'
@@ -24,6 +24,7 @@ import shardYellowSimple from './ArchonNiraIcon.png'
 import radiation from './Radiation_d.png'
 import puncture from './Puncture_d.png'
 import electricity from './Electricity_d.png'
+import explosion from './Blast_d.png'
 
 // TODO: AFFINITY_SHARE
 const map = new Map<string, string>([
@@ -42,7 +43,7 @@ const map = new Map<string, string>([
   ['DT_ELECTRICITY_COLOR', electricityColor],
   ['DT_RADIANT_COLOR', radiant],
   ['PRE_ATTACK', mb00_d],
-  ['DT_EXPLOSION_COLOR', explosion],
+  ['DT_EXPLOSION_COLOR', explosion_color],
   ['ENERGY', energy],
   ['SECONDARY_FIRE', mw_d],
   ['SHIELD', shield],
@@ -54,6 +55,7 @@ const map = new Map<string, string>([
   ['DT_RADIATION', radiation],
   ['DT_PUNCTURE', puncture],
   ['DT_ELECTRICITY', electricity],
+  ['DT_EXPLOSION', explosion],
 ])
 
 export function findImageUrl(name: string): string {
