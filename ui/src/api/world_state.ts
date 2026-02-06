@@ -285,8 +285,16 @@ export interface RawWorldState {
   Invasions: Invasion[]
   Conquests: Conquest[]
   KnownCalendarSeasons: {
+    Activation: string
     Expiry: string
     Season: string
+    Days: {
+      day: number
+      events: {
+        type: 'CET_CHALLENGE'
+        challenge: string
+      }[]
+    }[]
   }[]
   EndlessXpChoices: {
     Category: 'EXC_NORMAL' | 'EXC_HARD'
