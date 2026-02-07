@@ -37,12 +37,12 @@ eyre = "0.6.12"
 toml = "0.9.11"
 md5 = "0.8.0"
 uuid = "1.20.0"
-reqwest = { version = "0.13.1", default-features = false, features = [
+reqwest = { version = "0.13.2", default-features = false, features = [
     "default-tls",
     "http2",
 ] }
 serde_path_to_error = "0.1.20"
-async-compression = "0.4.37"
+async-compression = "0.4.39"
 async-trait = "0.1.89"
 async-std = "1.13.2"
 serde_ignored = "0.1.14"

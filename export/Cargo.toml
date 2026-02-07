@@ -9,7 +9,6 @@ async-compression = { workspace = true, features = ["lzma", "tokio"] }
 reqwest = { workspace = true, features = [
     "charset",
     "http2",
-    "rustls-native-certs",
     "gzip",
     "json",
 ] }

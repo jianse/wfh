@@ -43,7 +43,6 @@ uuid = { workspace = true, features = ["v4"] }
 reqwest = { workspace = true, features = [
     "charset",
     "http2",
-    "rustls-native-certs",
     "gzip",
     "json",
 ] }
