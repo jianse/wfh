@@ -32,6 +32,7 @@ use tracing::info;
 use tracing::warn;
 
 use crate::api::BizResult;
+use crate::api::raw_world_state::CalendarEvent;
 use crate::api::raw_world_state::TRisk;
 use crate::api::raw_world_state::TVariable;
 use crate::api::raw_world_state::model::RawWorldState;
@@ -364,6 +365,68 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
         }
     }
 
+    // TODO: 1999 calendar missions
+    for season in raw.known_calendar_seasons.iter_mut() {
+        for day in season.days.iter_mut() {
+            // empty events possibly means birthday event
+            // add birthday event info via day.day property
+            if day.events.is_empty() {
+                // todo!("birthday event")
+                if let Some(name) = deps.hex_calender.birthday.get(&day.day) {
+                    day.events.push(CalendarEvent::Birthday {
+                        title: deps.get_language(HexCalendar::BIRTHDAY_TITLE),
+                        desc: deps.embed_args(
+                            &deps.get_language(HexCalendar::BIRTHDAY_DESC),
+                            &HashMap::from([(
+                                HexCalendar::BIRTHDAY_VAR_NAME.to_owned(),
+                                name.to_owned(),
+                            )]),
+                        ),
+                    });
+                } else {
+                    warn!("unknown birthday event: {}", day.day);
+                }
+                continue;
+            }
+            // day.mission_type = deps.get_mission_type_by_tag(&day.mission_type);
+            // day.faction = deps.get_faction(&day.faction);
+            for event in day.events.iter_mut() {
+                match event {
+                    CalendarEvent::Challenge {
+                        challenge,
+                        title,
+                        desc,
+                    } => {
+                        if let Some(c) = deps.hex_calender.challenges.get(challenge) {
+                            *title = Some(deps.get_language(&c.name));
+                            let temp = deps.get_language(&c.description);
+                            *desc = Some(deps.embed_args(&temp, &c.vars));
+                        } else {
+                            warn!("unknown challenge: {}", challenge);
+                        }
+                    }
+                    CalendarEvent::Reward { reward, name } => {
+                        *name = Some(deps.find_game_item(reward));
+                    }
+                    CalendarEvent::Upgrade {
+                        upgrade,
+                        name,
+                        desc,
+                    } => {
+                        if let Some(u) = deps.hex_calender.upgrades.get(upgrade) {
+                            *name = Some(deps.get_language(&u.name));
+                            let temp = deps.get_language(&u.description);
+                            *desc = Some(deps.embed_args(&temp, &u.vars));
+                        } else {
+                            warn!("unknown upgrade: {}", upgrade);
+                        }
+                    }
+                    CalendarEvent::Birthday { .. } => {}
+                }
+            }
+        }
+    }
+
     info!("fill_raw_world_state took {:?}", instant.elapsed());
     Ok(())
 }
@@ -485,6 +548,8 @@ pub async fn load_deps<P1: AsRef<Path> + Display, P2: AsRef<Path> + Display>(
 
     let conquests = load_conquests(&data_dir)?;
 
+    let hex_calender = load_hex_calendar(&data_dir)?;
+
     let pe = PE::new(client, cache_dir, dir.join("wire.json"), &languages);
     let (pe_data, pe_index) = pe.fetch_transform_all().await?;
 
@@ -507,10 +572,22 @@ pub async fn load_deps<P1: AsRef<Path> + Display, P2: AsRef<Path> + Display>(
             flavour_ex,
             the_circuit,
             conquests,
+            hex_calender,
             is_initialized: true,
         };
     }
     Ok(())
+}
+
+fn load_hex_calendar<P: AsRef<Path>>(dir_path: P) -> BizResult<HexCalendar> {
+    let file = dir_path.as_ref().join("hex_calendar.json");
+    if file.exists() {
+        let json = std::fs::read_to_string(file)?;
+        let the_circuit: HexCalendar = serde_json::from_str(&json)?;
+        Ok(the_circuit)
+    } else {
+        Ok(HexCalendar::default())
+    }
 }
 
 #[derive(Debug, Deserialize, Default)]
@@ -646,6 +723,43 @@ fn load_sortie_bosses<P: AsRef<Path>>(dir_path: P) -> BizResult<SortieBosses> {
     }
 }
 
+#[derive(Debug, Deserialize, Serialize, Clone, Default)]
+pub struct HexCalendar {
+    /// the birthday date -> name map
+    birthday: IndexMap<u16, String>,
+
+    challenges: IndexMap<String, CalendarChallenge>,
+    upgrades: IndexMap<String, CalendarUpgrade>,
+}
+
+impl HexCalendar {
+    pub const BIRTHDAY_TITLE: &'static str = "/Lotus/Language/1999/BirthdayUpcomingTitle";
+    pub const BIRTHDAY_DESC: &'static str = "/Lotus/Language/1999/BirthdayUpcomingDesc";
+    pub const BIRTHDAY_VAR_NAME: &'static str = "NAME";
+}
+
+#[derive(Debug, Deserialize, Serialize, Clone)]
+pub struct CalendarChallenge {
+    pub name: String,
+    pub description: String,
+    #[serde(
+        default = "Default::default",
+        skip_serializing_if = "HashMap::is_empty"
+    )]
+    pub vars: HashMap<String, String>,
+}
+
+#[derive(Debug, Deserialize, Serialize, Clone)]
+pub struct CalendarUpgrade {
+    pub name: String,
+    pub description: String,
+    #[serde(
+        default = "Default::default",
+        skip_serializing_if = "HashMap::is_empty"
+    )]
+    pub vars: HashMap<String, String>,
+}
+
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct SortieModifier {
     pub name: String,
@@ -660,21 +774,12 @@ pub struct SortieModifier {
 impl SortieModifier {
     pub fn name(&self, deps: &Deps) -> String {
         let name = deps.get_language(&self.name);
-        self.embed_args(&name, deps)
+        deps.embed_args(&name, &self.vars)
     }
 
     pub fn description(&self, deps: &Deps) -> String {
         let template = deps.get_language(&self.description);
-        self.embed_args(&template, deps)
-    }
-
-    fn embed_args(&self, template: &str, deps: &Deps) -> String {
-        let mut res = template.to_string();
-        for (k, v) in self.vars.iter() {
-            let v = deps.get_language(v);
-            res = template.replace(&format!("|{k}|"), &v);
-        }
-        res
+        deps.embed_args(&template, &self.vars)
     }
 }
 
@@ -892,7 +997,11 @@ pub struct Deps {
     /// the circuit rewards map
     the_circuit: TheCircuit,
 
+    /// the conquest data
     conquests: Conquests,
+
+    /// hex calender
+    hex_calender: HexCalendar,
 
     /// flag for initialization
     /// used to prevent reloading
@@ -971,6 +1080,23 @@ impl Deps {
             name: b.name.clone().map(|n| self.get_language(&n)),
             description: b.description.clone().map(|d| self.get_language(&d)),
         })
+    }
+
+    pub fn embed_args(&self, template: &str, vars: &HashMap<String, String>) -> String {
+        let mut res = template.to_string();
+        for (k, v) in vars.iter() {
+            // a value starts with /Lotus means it's a language key
+            // so we should get it from game's language resources first
+            // otherwise we just use the value as is
+            let v = if v.starts_with("/Lotus") {
+                self.get_language(v)
+            } else {
+                v.clone()
+            };
+
+            res = template.replace(&format!("|{k}|"), &v);
+        }
+        res
     }
 
     /// Find a game item name by unique name

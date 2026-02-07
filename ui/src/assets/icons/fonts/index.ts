@@ -25,10 +25,14 @@ import radiation from './Radiation_d.png'
 import puncture from './Puncture_d.png'
 import electricity from './Electricity_d.png'
 import explosion from './Blast_d.png'
+import shardOrangeSimple from './ArchonCrystalOrangeIcon.png'
 
 // TODO: AFFINITY_SHARE
 const map = new Map<string, string>([
+  // weapon types
   ['ARCHWING', archwing],
+
+  // damage types colored
   ['DT_POISON_COLOR', toxin],
   ['DT_CORROSIVE_COLOR', corrosive],
   ['DT_FIRE_COLOR', fire],
@@ -42,20 +46,29 @@ const map = new Map<string, string>([
   ['DT_RADIATION_COLOR', radiationColor],
   ['DT_ELECTRICITY_COLOR', electricityColor],
   ['DT_RADIANT_COLOR', radiant],
-  ['PRE_ATTACK', mb00_d],
   ['DT_EXPLOSION_COLOR', explosion_color],
-  ['ENERGY', energy],
-  ['SECONDARY_FIRE', mw_d],
-  ['SHIELD', shield],
+
+  // damage types without color
   ['DT_SENTIENT', sentient],
   ['DT_MAGNETIC', magnetic],
-  ['SHARD_RED_SIMPLE', shardRedSimple],
-  ['SHARD_BLUE_SIMPLE', shardBlueSimple],
-  ['SHARD_YELLOW_SIMPLE', shardYellowSimple],
   ['DT_RADIATION', radiation],
   ['DT_PUNCTURE', puncture],
   ['DT_ELECTRICITY', electricity],
   ['DT_EXPLOSION', explosion],
+
+  // base properties
+  ['SHIELD', shield],
+  ['ENERGY', energy],
+
+  // buttons
+  ['PRE_ATTACK', mb00_d],
+  ['SECONDARY_FIRE', mw_d],
+
+  // shards
+  ['SHARD_RED_SIMPLE', shardRedSimple],
+  ['SHARD_BLUE_SIMPLE', shardBlueSimple],
+  ['SHARD_YELLOW_SIMPLE', shardYellowSimple],
+  ['SHARD_ORANGE_SIMPLE', shardOrangeSimple],
 ])
 
 export function findImageUrl(name: string): string {

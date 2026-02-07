@@ -19,8 +19,30 @@
         "description": "一个卡利班战甲的投影，展现了卡利班对应的源身元素。"
     },
     {
-        "unique_name":"/Lotus/Types/StoreItems/AvatarImages/WeGameFanFest/AvatarImageElementProtea",
-        "name":"泊时灵械源身元素投影",
-        "description":"一个泊时灵械战甲的投影，展现了泊时灵械对应的源身元素。"
+        "unique_name": "/Lotus/Types/StoreItems/AvatarImages/WeGameFanFest/AvatarImageElementProtea",
+        "name": "泊时灵械源身元素投影",
+        "description": "一个泊时灵械战甲的投影，展现了泊时灵械对应的源身元素。"
+    },
+    {
+        "unique_name": "/Lotus/Types/BoosterPacks/CalendarArtifactPack",
+        "name": "赋能强化",
+        "name_id": "/Lotus/Language/1999/CalendarArtifactPackName",
+        "description": "获得一个赋能来安装在你的装备上。",
+        "description_id": "/Lotus/Language/1999/CalendarArtifactPackDesc"
+    },
+    {
+        "unique_name": "/Lotus/Types/BoosterPacks/CalendarRivenPack",
+        "name": "裂隙",
+        "name_id": "/Lotus/Language/Consumables/RivenModPackName",
+        "description": "中枢萨莫迪斯的得意之作。每个振幅晶体都具有延展性和独特性，灵感来自并适用于单件武器。完成裂隙振幅晶体的挑战来揭示其可能性，包括狂喜和不快。",
+        "description_id": "/Lotus/Language/Consumables/RivenModPackDesc"
+    },
+    {
+        "unique_name": "/Lotus/Types/BoosterPacks/CalendarMajorArtifactPack",
+        "name": "赋能强化：双重组合",
+        "name_id": "/Lotus/Language/1999/CalendarMajorArtifactPackName",
+        "description": "获得两个赋能来安装在你的装备上。",
+        "description_id": "/Lotus/Language/1999/CalendarMajorArtifactPackDesc"
+
     }
 ]

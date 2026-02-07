@@ -288,19 +288,42 @@ export interface RawWorldState {
     Activation: string
     Expiry: string
     Season: string
-    Days: {
-      day: number
-      events: {
-        type: 'CET_CHALLENGE'
-        challenge: string
-      }[]
-    }[]
+    Days: HexDay[]
   }[]
   EndlessXpChoices: {
     Category: 'EXC_NORMAL' | 'EXC_HARD'
     Choices: string[]
   }[]
 }
+
+export interface HexDay {
+  day: number
+  events: HexEvent[]
+}
+
+export type HexEvent =
+  | {
+      type: 'CET_BIRTHDAY'
+      title: string
+      desc: string
+    }
+  | {
+      type: 'CET_CHALLENGE'
+      challenge: string
+      title: string
+      desc: string
+    }
+  | {
+      type: 'CET_REWARD'
+      reward: string
+      name: string
+    }
+  | {
+      type: 'CET_UPGRADE'
+      upgrade: string
+      name: string
+      desc: string
+    }
 
 export interface Conquest {
   Activation: string

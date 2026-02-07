@@ -348,16 +348,33 @@ pub struct Day {
     pub events: Vec<CalendarEvent>,
 }
 
-#[serde_as]
 #[derive(Debug, Deserialize, Serialize, Clone)]
-pub struct CalendarEvent {
-    r#type: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub reward: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub upgrade: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub challenge: Option<String>,
+#[serde(tag = "type")]
+pub enum CalendarEvent {
+    #[serde(rename = "CET_CHALLENGE")]
+    Challenge {
+        challenge: String,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        title: Option<String>,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        desc: Option<String>,
+    },
+    #[serde(rename = "CET_REWARD")]
+    Reward {
+        reward: String,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        name: Option<String>,
+    },
+    #[serde(rename = "CET_UPGRADE")]
+    Upgrade {
+        upgrade: String,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        name: Option<String>,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        desc: Option<String>,
+    },
+    #[serde(rename = "CET_BIRTHDAY")]
+    Birthday { title: String, desc: String },
 }
 
 #[serde_as]
@@ -1544,6 +1561,7 @@ mod tests {
             };
 
             dbg!(ignored_set);
+            dbg!(&raw.known_calendar_seasons);
         }
         Ok(())
     }

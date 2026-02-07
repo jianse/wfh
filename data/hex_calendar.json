@@ -1,0 +1,89 @@
+{
+  "birthday": {
+    "306": "/Lotus/Language/Bosses/Eleanor",
+    "307": "/Lotus/Language/Bosses/Arthur",
+    "338": "/Lotus/Language/Bosses/Quincy",
+    "355": "/Lotus/Language/1999Echoes/VelimirNameShort"
+  },
+  "challenges": {
+    "/Lotus/Types/Challenges/Calendar1999/CalendarKillEnemiesMedium": {
+      "name": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemies_Name",
+      "description": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemies_Description",
+      "vars": {
+        "COUNT": "500"
+      }
+    },
+    "/Lotus/Types/Challenges/Calendar1999/CalendarKillEnemiesWithAbilitiesEasy": {
+      "name": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithAbilities_Name",
+      "description": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithAbilities_Description",
+      "vars": {
+        "COUNT": "150"
+      }
+    },
+    "/Lotus/Types/Challenges/Calendar1999/CalendarKillEnemiesWithMeleeMedium": {
+      "name": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithMelee_Name",
+      "description": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithMelee_Description",
+      "vars": {
+        "COUNT": "300"
+      }
+    },
+    "/Lotus/Types/Challenges/Calendar1999/CalendarKillScaldraEnemiesWithMeleeMedium": {
+      "name": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithMeleeScaldra_Name",
+      "description": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithMeleeScaldra_Description",
+      "vars": {
+        "COUNT": "150"
+      }
+    },
+    "/Lotus/Types/Challenges/Calendar1999/CalendarKillScaldraEnemiesHard": {
+      "name": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesScaldra_Name",
+      "description": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesScaldra_Description",
+      "vars": {
+        "COUNT": "500"
+      }
+    },
+    "/Lotus/Types/Challenges/Calendar1999/CalendarKillTechrotEnemiesWithAbilitiesHard": {
+      "name": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithAbilitiesTechrot_Name",
+      "description": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithAbilitiesTechrot_Description",
+      "vars": {
+        "COUNT": "300"
+      }
+    }
+  },
+  "upgrades": {
+    "/Lotus/Upgrades/Calendar/EnergyRestoration": {
+      "name": "/Lotus/Language/1999/EnergyRestorationName",
+      "description": "/Lotus/Language/1999/EnergyRestorationDesc"
+    },
+    "/Lotus/Upgrades/Calendar/Armor": {
+      "name": "/Lotus/Language/1999/ArmorName",
+      "description": "/Lotus/Language/1999/ArmorDesc"
+    },
+    "/Lotus/Upgrades/Calendar/EnergyOrbToAbilityRange": {
+      "name": "/Lotus/Language/1999/EnergyOrbToAbilityRangeName",
+      "description": "/Lotus/Language/1999/EnergyOrbToAbilityRangeDesc",
+      "vars": {
+        "CONDITION": "/Lotus/Language/Upgrades/OnEnergyPickupCondition_Description"
+      }
+    },
+    "/Lotus/Upgrades/Calendar/ReviveEnemyAsSpectreOnKill": {
+      "name": "/Lotus/Language/1999/ReviveEnemyAsSpectreOnKillName",
+      "description": "/Lotus/Language/1999/ReviveEnemyAsSpectreOnKillDesc"
+    },
+    "/Lotus/Upgrades/Calendar/EnergyWavesOnCombo": {
+      "name": "/Lotus/Language/1999/EnergyWavesOnComboName",
+      "description": "/Lotus/Language/1999/EnergyWavesOnComboDesc"
+    },
+    "/Lotus/Upgrades/Calendar/GenerateOmniOrbsOnWeakKill": {
+      "name": "/Lotus/Language/1999/GenerateOmniOrbsOnWeakKillName",
+      "description": "/Lotus/Language/1999/GenerateOmniOrbsOnWeakKillDesc"
+    },
+    "/Lotus/Upgrades/Calendar/CompanionDamage": {
+      "name": "/Lotus/Language/1999/CompanionDamageName",
+      "description": "/Lotus/Language/1999/CompanionDamageDesc"
+    },
+    "/Lotus/Upgrades/Calendar/MeleeCritChance": {
+      "name": "/Lotus/Language/1999/MeleeCritChanceName",
+      "description": "/Lotus/Language/1999/MeleeCritChanceDesc"
+    }
+  }
+}

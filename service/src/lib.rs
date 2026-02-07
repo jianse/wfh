@@ -309,6 +309,7 @@ mod tests {
     use crate::tls::rustls_server_config;
 
     #[tokio::test]
+    #[ignore = "this should be run manually"]
     async fn test_app() -> Result<()> {
         let tcp = TcpListener::bind(("localhost", 8080)).await?;
         let conf = rustls_server_config("self_signed_certs/key.pem", "self_signed_certs/cert.pem");

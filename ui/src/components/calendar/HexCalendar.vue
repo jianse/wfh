@@ -44,7 +44,7 @@ const computedWeekDays = computed(() => {
 function calcDayMat(startWeekDay: number, dayOfMonth: number) {
   const total = Math.ceil((startWeekDay + dayOfMonth) / 7) * 7
   console.log('--', total)
-  const mat = new Array<number | undefined>(total)
+  const mat =  Array.from<number | undefined>({length: total})
   mat.fill(undefined)
   for (let i = 0; i < dayOfMonth; i++) {
     mat[startWeekDay + i] = i + 1

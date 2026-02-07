@@ -423,9 +423,7 @@
             {{ c.Season }}
             <CountDownTo :time="c.Expiry" />轮换
             <!-- <HexCalendar :season="c.Season"> </HexCalendar> -->
-            <div v-for="day in c.Days" :key="day.day">
-              {{ day }}
-            </div>
+            <HexCalendarDays :days="c.Days" />
           </div>
         </template>
       </pv-card>
@@ -565,7 +563,7 @@ const cambionCycle = computed(() => {
   const { state, expiry } = earthCycle.value
 
   return {
-    state: state === '白昼' ? '混乱' : '秩序',
+    state: state === '白昼' ? '秩序' : '混乱',
     expiry,
   }
 })
@@ -720,7 +718,6 @@ function tierAsString(t: string): string {
     default:
       return t
   }
-  // return t
 }
 
 function rewardAsString(reward: Reward): string {
