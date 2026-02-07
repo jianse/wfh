@@ -63,7 +63,13 @@ async function onFile(path) {
     const r = await store.putStream(ossKey, tx, opts)
     console.log(r.name, r.res.statusMessage)
   } else {
-    const r = await store.put(ossKey, path)
+    let opts = {
+      headers: {},
+    }
+    if (ossKey === 'index.html') {
+      opts.headers['Cache-Control'] = 'no-cache'
+    }
+    const r = await store.put(ossKey, path, opts)
     console.log(r.name, r.res.statusMessage)
   }
 }

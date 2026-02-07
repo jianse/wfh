@@ -27,9 +27,7 @@ export async function reload() {
   console.log('reload sortie modifiers resp: ', data)
 }
 
-
-export async function delete_sm(id:string) {
+export async function delete_sm(id: string) {
   const { data } = await http.delete<BizResp<void>>(`/raw_world_state/deps/sortie_modifiers/${id}`)
   console.log('delete sortie modifier resp: ', data)
-
 }

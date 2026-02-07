@@ -76,7 +76,7 @@
         <label for="remark" class="block font-bold mb-3">参数</label>
         <div class="flex flex-col gap-2">
           <div><pv-button label="新参数" @click="addVar"></pv-button></div>
-          <div v-for="v,index in vars" :key="v.key" class="flex gap-2">
+          <div v-for="(v, index) in vars" :key="v.key" class="flex gap-2">
             <pv-input-text
               class="flex-1"
               id="remark"
