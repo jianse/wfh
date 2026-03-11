@@ -1,5 +1,11 @@
 {
   "birthday": {
+    "1": "/Lotus/Language/Bosses/Kaya",
+    "45": "/Lotus/Language/Bosses/Lettie",
+    "74": "/Lotus/Language/Bosses/Minerva",
+    "143": "/Lotus/Language/Bosses/Jabir",
+    "166": "/Lotus/Language/Bosses/Flare",
+    "191": "/Lotus/Language/Bosses/Aoi",
     "306": "/Lotus/Language/Bosses/Eleanor",
     "307": "/Lotus/Language/Bosses/Arthur",
     "338": "/Lotus/Language/Bosses/Quincy",
@@ -47,6 +53,118 @@
       "vars": {
         "COUNT": "300"
       }
+    },
+    "/Lotus/Types/Challenges/Calendar1999/CalendarKillEximusEasy": {
+      "name": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEximus_Name",
+      "description": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEximus_Description",
+      "vars": {
+        "COUNT": "10"
+      }
+    },
+    "/Lotus/Types/Challenges/Calendar1999/CalendarKillTechrotEnemiesWithAbilitiesEasy": {
+      "name": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithAbilitiesTechrot_Name",
+      "description": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithAbilitiesTechrot_Description",
+      "vars": {
+        "COUNT": "100"
+      }
+    },
+    "/Lotus/Types/Challenges/Calendar1999/CalendarDestroyPropsMedium": {
+      "name": "/Lotus/Language/1999Challenges/Challenge_CalendarDestroyProps_Name",
+      "description": "/Lotus/Language/1999Challenges/Challenge_CalendarDestroyProps_Description",
+      "vars": {
+        "COUNT": "150"
+      }
+    },
+    "/Lotus/Types/Challenges/Calendar1999/CalendarKillTechrotEnemiesHard": {
+      "name": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesTechrot_Name",
+      "description": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesTechrot_Description",
+      "vars": {
+        "COUNT": "750"
+      }
+    },
+    "/Lotus/Types/Challenges/Calendar1999/CalendarKillTankHard": {
+      "name": "/Lotus/Language/1999Challenges/Challenge_CalendarKillTank_Name",
+      "description": "/Lotus/Language/1999Challenges/Challenge_CalendarKillTank_Description",
+      "vars": {
+        "COUNT": "1"
+      }
+    },
+    "/Lotus/Types/Challenges/Calendar1999/CalendarKillScaldraEnemiesWithMeleeEasy": {
+      "name": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithMeleeScaldra_Name",
+      "description": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithMeleeScaldra_Description",
+      "vars": {
+        "COUNT": "75"
+      }
+    },
+    "/Lotus/Types/Challenges/Calendar1999/CalendarKillEnemiesWithMeleeEasy": {
+      "name": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithMelee_Name",
+      "description": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithMelee_Description",
+      "vars": {
+        "COUNT": "150"
+      }
+    },
+    "/Lotus/Types/Challenges/Calendar1999/CalendarKillEximusMedium": {
+      "name": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEximus_Name",
+      "description": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEximus_Description",
+      "vars": {
+        "COUNT": "20"
+      }
+    },
+    "/Lotus/Types/Challenges/Calendar1999/CalendarKillScaldraEnemiesWithAbilitiesMedium": {
+      "name": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithAbilitiesScaldra_Name",
+      "description": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithAbilitiesScaldra_Description",
+      "vars": {
+        "COUNT": "150"
+      }
+    },
+    "/Lotus/Types/Challenges/Calendar1999/CalendarKillScaldraEnemiesEasy": {
+      "name": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesScaldra_Name",
+      "description": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesScaldra_Description",
+      "vars": {
+        "COUNT": "150"
+      }
+    },
+    "/Lotus/Types/Challenges/Calendar1999/CalendarDestroyPropsHard": {
+      "name": "/Lotus/Language/1999Challenges/Challenge_CalendarDestroyProps_Name",
+      "description": "/Lotus/Language/1999Challenges/Challenge_CalendarDestroyProps_Description",
+      "vars": {
+        "COUNT": "300"
+      }
+    },
+    "/Lotus/Types/Challenges/Calendar1999/CalendarKillTechrotEnemiesWithMeleeHard": {
+      "name": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithMeleeTechrot_Name",
+      "description": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithMeleeTechrot_Description",
+      "vars": {
+        "COUNT": "300"
+      }
+    },
+    "/Lotus/Types/Challenges/Calendar1999/CalendarKillTechrotEnemiesWithMeleeEasy": {
+      "name": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithMeleeTechrot_Name",
+      "description": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithMeleeTechrot_Description",
+      "vars": {
+        "COUNT": "100"
+      }
+    },
+    "/Lotus/Types/Challenges/Calendar1999/CalendarDestroyPropsEasy": {
+      "name": "/Lotus/Language/1999Challenges/Challenge_CalendarDestroyProps_Name",
+      "description": "/Lotus/Language/1999Challenges/Challenge_CalendarDestroyProps_Description",
+      "vars": {
+        "COUNT": "75"
+      }
+    },
+    "/Lotus/Types/Challenges/Calendar1999/CalendarKillTechrotEnemiesMedium": {
+      "name": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesTechrot_Name",
+      "description": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesTechrot_Description",
+      "vars": {
+        "COUNT": "500"
+      }
+    },
+    "/Lotus/Types/Challenges/Calendar1999/CalendarKillEnemiesWithAbilitiesHard": {
+      "name": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithAbilities_Name",
+      "description": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithAbilities_Description",
+      "vars": {
+        "COUNT": "500"
+      }
     }
   },
   "upgrades": {
@@ -84,6 +202,84 @@
     "/Lotus/Upgrades/Calendar/MeleeCritChance": {
       "name": "/Lotus/Language/1999/MeleeCritChanceName",
       "description": "/Lotus/Language/1999/MeleeCritChanceDesc"
+    },
+    "/Lotus/Upgrades/Calendar/PunchToPrimary": {
+      "name": "/Lotus/Language/1999/PunchToPrimaryName",
+      "description": "/Lotus/Language/1999/PunchToPrimaryDesc"
+    },
+    "/Lotus/Upgrades/Calendar/MeleeAttackSpeed": {
+      "name": "/Lotus/Language/1999/MeleeAttackSpeedName",
+      "description": "/Lotus/Language/1999/MeleeAttackSpeedDesc",
+      "vars": {
+        "val": "25"
+      }
+    },
+    "/Lotus/Upgrades/Calendar/CompanionsBuffNearbyPlayer": {
+      "name": "/Lotus/Language/1999/CompanionsBuffNearbyPlayerName",
+      "description": "/Lotus/Language/1999/CompanionsBuffNearbyPlayerDesc"
+    },
+    "/Lotus/Upgrades/Calendar/FinisherChancePerComboMultiplier": {
+      "name": "/Lotus/Language/1999/FinisherChancePerComboMultiplierName",
+      "description": "/Lotus/Language/1999/FinisherChancePerComboMultiplierDesc"
+    },
+    "/Lotus/Upgrades/Calendar/MagnetStatusPull": {
+      "name": "/Lotus/Language/1999/MagnetStatusPullName",
+      "description": "/Lotus/Language/1999/MagnetStatusPullDesc"
+    },
+    "/Lotus/Upgrades/Calendar/ElectricStatusDamageAndChance": {
+      "name": "/Lotus/Language/1999/ElectricStatusDamageAndChanceName",
+      "description": "/Lotus/Language/1999/ElectricStatusDamageAndChanceDesc"
+    },
+    "/Lotus/Upgrades/Calendar/RadiationProcOnTakeDamage": {
+      "name": "/Lotus/Language/1999/RadiationProcOnTakeDamageName",
+      "description": "/Lotus/Language/1999/RadiationProcOnTakeDamageDesc",
+      "vars": {
+        "CONDITION": "/Lotus/Language/Upgrades/OnDamageCondition_Description"
+      }
+    },
+    "/Lotus/Upgrades/Calendar/ElectricDamagePerDistance": {
+      "name": "/Lotus/Language/1999/ElectricDamagePerDistanceName",
+      "description": "/Lotus/Language/1999/ElectricDamagePerDistanceDesc"
+    },
+    "/Lotus/Upgrades/Calendar/MagnitizeWithinRangeEveryXCasts": {
+      "name": "/Lotus/Language/1999/MagnitizeWithinRangeEveryXCastsName",
+      "description": "/Lotus/Language/1999/MagnitizeWithinRangeEveryXCastsDesc"
+    },
+    "/Lotus/Upgrades/Calendar/OvershieldCap": {
+      "name": "/Lotus/Language/1999/OvershieldCapName",
+      "description": "/Lotus/Language/1999/OvershieldCapDesc"
+    },
+    "/Lotus/Upgrades/Calendar/HealingEffects": {
+      "name": "/Lotus/Language/1999/HealingEffectsName",
+      "description": "/Lotus/Language/1999/HealingEffectsDesc"
+    },
+    "/Lotus/Upgrades/Calendar/GasChanceToPrimaryAndSecondary": {
+      "name": "/Lotus/Language/1999/GasChanceToPrimaryAndSecondaryName",
+      "description": "/Lotus/Language/1999/GasChanceToPrimaryAndSecondaryDesc"
+    },
+    "/Lotus/Upgrades/Calendar/SharedFreeAbilityEveryXCasts": {
+      "name": "/Lotus/Language/1999/SharedFreeAbilityEveryXCastsName",
+      "description": "/Lotus/Language/1999/SharedFreeAbilityEveryXCastsDesc"
+    },
+    "/Lotus/Upgrades/Calendar/RefundBulletOnStatusProc": {
+      "name": "/Lotus/Language/1999/RefundBulletOnStatusProcName",
+      "description": "/Lotus/Language/1999/RefundBulletOnStatusProcDesc"
+    },
+    "/Lotus/Upgrades/Calendar/CompanionsRadiationChance": {
+      "name": "/Lotus/Language/1999/CompanionsRadiationChanceName",
+      "description": "/Lotus/Language/1999/CompanionsRadiationChanceDesc"
+    },
+    "/Lotus/Upgrades/Calendar/MagazineCapacity": {
+      "name": "/Lotus/Language/1999/MagazineCapacityName",
+      "description": "/Lotus/Language/1999/MagazineCapacityDesc"
+    },
+    "/Lotus/Upgrades/Calendar/EnergyOrbsGrantShield": {
+      "name": "/Lotus/Language/1999/EnergyOrbsGrantShieldName",
+      "description": "/Lotus/Language/1999/EnergyOrbsGrantShieldDesc"
+    },
+    "/Lotus/Upgrades/Calendar/ElectricalDamageOnBulletJump": {
+      "name": "/Lotus/Language/1999/ElectricalDamageOnBulletJumpName",
+      "description": "/Lotus/Language/1999/ElectricalDamageOnBulletJumpDesc"
     }
   }
 }

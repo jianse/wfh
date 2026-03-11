@@ -43,6 +43,19 @@
         "name_id": "/Lotus/Language/1999/CalendarMajorArtifactPackName",
         "description": "获得两个赋能来安装在你的装备上。",
         "description_id": "/Lotus/Language/1999/CalendarMajorArtifactPackDesc"
-
+    },
+    {
+        "unique_name": "/Lotus/Types/StoreItems/AvatarImages/WeGameFanFest/AvatarImageHamsterVauban",
+        "name": "工程统帅仓鼠伪装投影",
+        "name_id": "/Lotus/Language/Glyphs/HamsterVaubanGlyphName",
+        "description": "装扮成可爱仓鼠的工程统帅投影。",
+        "description_id": "/Lotus/Language/Glyphs/HamsterVaubanGlyphDesc"
+    },
+    {
+        "unique_name": "/Lotus/Types/StoreItems/AvatarImages/WeGameFanFest/AvatarImageElementVauban",
+        "name": "工程统帅源身元素投影",
+        "name_id": "/Lotus/Language/Glyphs/ElementVaubanGlyphName",
+        "description": "一个工程统帅战甲的投影，展现了工程统帅对应的源身元素。",
+        "description_id": "/Lotus/Language/Glyphs/ElementVaubanGlyphDesc"
     }
 ]

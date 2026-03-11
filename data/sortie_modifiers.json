@@ -118,5 +118,26 @@
   "SORTIE_MODIFIER_HAZARD_FIRE": {
     "name": "/Lotus/Language/Sorties/SOModifierFire",
     "description": "/Lotus/Language/Sorties/SOModifierFireFlavor"
+  },
+  "SORTIE_MODIFIER_VIRAL": {
+    "name": "/Lotus/Language/Sorties/SOModifierEnemyElementalResistance",
+    "description": "/Lotus/Language/Sorties/SOModifierEnemyElementalResistanceFlavor",
+    "vars": {
+      "DAMAGE_TYPE": "/Lotus/Language/Game/DT_VIRAL"
+    }
+  },
+  "SORTIE_MODIFIER_RIFLE_ONLY": {
+    "name": "/Lotus/Language/Sorties/SOModifierWeaponRestriction",
+    "description": "/Lotus/Language/Sorties/SOModifierWeaponRestrictionFlavor",
+    "vars": {
+      "WEAPON_TYPE": "/Lotus/Language/Items/AssaultRifleCategoryName"
+    }
+  },
+  "SORTIE_MODIFIER_ELECTRICITY": {
+    "name": "/Lotus/Language/Sorties/SOModifierEnemyElementalResistance",
+    "description": "/Lotus/Language/Sorties/SOModifierEnemyElementalResistanceFlavor",
+    "vars": {
+      "DAMAGE_TYPE": "/Lotus/Language/Game/DT_ELECTRICITY"
+    }
   }
 }
