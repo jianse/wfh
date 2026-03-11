@@ -6,10 +6,11 @@ pub mod error;
 mod job;
 mod logging;
 pub mod tls;
+mod uap;
 
 use crate::job::JobRegistry;
-// use crate::tls::MyConnectInfo;
 use crate::tls::TlsListener;
+use crate::uap::UaExtractor;
 use axum::Router;
 use axum::extract::ConnectInfo;
 use axum::http::StatusCode;
@@ -47,6 +48,7 @@ use tracing::info;
 struct AppStateRaw {
     conn: DatabaseConnection,
     http_client: reqwest::Client,
+    ua_extractor: UaExtractor,
 }
 
 async fn shutdown_signal(mut rx: Receiver<()>) {
@@ -96,7 +98,13 @@ pub async fn serve() -> Result<()> {
         // .connect_timeout(Duration::from_secs(1))
         .build()?;
 
-    let state = Arc::new(AppStateRaw { conn, http_client });
+    let ua_extractor = UaExtractor::new_from_embed();
+
+    let state = Arc::new(AppStateRaw {
+        conn,
+        http_client,
+        ua_extractor,
+    });
     let (tx, rx) = broadcast::channel::<()>(10);
     let rx2 = tx.subscribe();
 

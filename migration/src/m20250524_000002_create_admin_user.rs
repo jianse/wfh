@@ -1,6 +1,6 @@
 use rand::distr::Alphanumeric;
 use rand::rng;
-use rand::Rng;
+use rand::RngExt;
 use sea_orm_migration::prelude::*;
 use tracing::info;
 

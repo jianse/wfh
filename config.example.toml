@@ -12,10 +12,12 @@ redirect_to_https = true
 [db]
 database_url = "sqlite:./wf_api.db?mode=rwc"
 
-[auth.jwt]
+[auth.token]
 secret_key = "3JYnvWwmO3Zqa2Aybs"
+# 30 days
+refresh_valid = "30d"
 # 8 hours
-valid_time_secs = 28800
+token_valid = "5m"
 # default issuer is "wf_api"
 issuer = "wf_api"
 

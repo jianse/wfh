@@ -2,6 +2,7 @@ use std::fmt::Display;
 use std::net::SocketAddr;
 
 use crate::AppState;
+use crate::api::token::nonce;
 use crate::common;
 use crate::entities;
 use axum::Extension;
@@ -16,6 +17,7 @@ use axum::middleware::Next;
 use axum::middleware::from_fn;
 use axum::response::IntoResponse;
 use axum::response::Response;
+use axum::routing::get;
 use axum::routing::post;
 use jsonwebtoken::Algorithm;
 use jsonwebtoken::DecodingKey;
@@ -40,6 +42,7 @@ pub mod world_state;
 
 use settings::PwdHasherError;
 use token::create_token;
+use token::refresh_token;
 
 pub(crate) use raw_world_state::parse::load_deps;
 use tracing::warn;
@@ -58,14 +61,19 @@ static WHITE_LIST: Lazy<RegexSet> = Lazy::new(|| {
 pub(crate) fn api_routes(state: AppState) -> Router<AppState> {
     Router::new()
         .nest("/user", user::user_routes())
-        .nest("/translations", translations::translations_routes(state))
+        .nest(
+            "/translations",
+            translations::translations_routes(state.clone()),
+        )
         .nest("/world_state", world_state::world_state_routes())
         .nest(
             "/raw_world_state",
-            raw_world_state::raw_world_state_routes(),
+            raw_world_state::raw_world_state_routes(state),
         )
         .layer(from_fn(auth_layer))
+        .route("/nonce", get(nonce))
         .route("/token", post(create_token))
+        .route("/refresh", post(refresh_token))
         .fallback(api_not_found)
 }
 
@@ -124,12 +132,12 @@ async fn auth_layer(mut req: Request, next: Next) -> AuthResult<Response> {
     let token = token_header.to_str()?;
 
     let mut validation = Validation::new(Algorithm::HS256);
-    validation.set_issuer(&[settings::get().auth.jwt.issuer.to_owned()]);
+    validation.set_issuer(&[settings::get().auth.token.issuer.to_owned()]);
     validation.set_required_spec_claims(&["exp", "iss"]);
     // validation
-    let jwt = decode::<token::Claims>(
+    let jwt = decode::<token::AccessTokenClaims>(
         token,
-        &DecodingKey::from_secret(settings::get().auth.jwt.secret_key.as_ref()),
+        &DecodingKey::from_secret(settings::get().auth.token.secret_key.as_ref()),
         &validation,
     )?;
     let id = jwt.claims.sub;

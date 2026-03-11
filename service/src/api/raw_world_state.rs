@@ -95,11 +95,11 @@ async fn fetch_raw_world_state(http_client: &reqwest::Client, url: &str) -> BizR
     })
 }
 
-pub fn raw_world_state_routes() -> Router<AppState> {
+pub fn raw_world_state_routes(state: AppState) -> Router<AppState> {
     Router::new()
         .route("/current", get(get_raw_world_state))
         .route("/st_pvt", get(get_st_prime_vault_trader))
-        .nest("/deps", deps_routes())
+        .nest("/deps", deps_routes(state))
 }
 
 /// get and parse raw world state from the CN real game server

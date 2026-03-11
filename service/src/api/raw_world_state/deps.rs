@@ -6,6 +6,7 @@ use axum::Json;
 use axum::Router;
 use axum::extract::Path;
 use axum::extract::State;
+use axum::middleware::from_fn_with_state;
 use axum::routing::delete;
 use axum::routing::get;
 use axum::routing::post;
@@ -19,9 +20,10 @@ use crate::api::BizResult;
 use crate::api::load_deps;
 use crate::api::raw_world_state::parse::G_DEPS;
 use crate::api::raw_world_state::parse::save_sortie_modifiers;
+use crate::api::require_admin_role;
 
 /// router for deps management
-pub(crate) fn deps_routes() -> Router<AppState> {
+pub(crate) fn deps_routes(state: AppState) -> Router<AppState> {
     Router::new()
         .route("/reload", post(force_reload_deps))
         .route(
@@ -29,6 +31,7 @@ pub(crate) fn deps_routes() -> Router<AppState> {
             get(list_sortie_modifiers).post(add_new_sortie_modifier),
         )
         .route("/sortie_modifiers/{id}", delete(remove_sortie_modifier))
+        .layer(from_fn_with_state(state, require_admin_role))
 }
 
 /// list sortie modifiers

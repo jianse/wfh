@@ -1,10 +1,12 @@
 mod defaults;
+mod helpers;
 
 use std::collections::HashMap;
 use std::fmt::Display;
 use std::path::Path;
 use std::path::PathBuf;
 use std::sync::OnceLock;
+use std::time::Duration;
 
 use argon2::Argon2;
 use argon2::PasswordHash;
@@ -14,11 +16,13 @@ use argon2::password_hash::SaltString;
 use argon2::password_hash::rand_core::OsRng;
 use config::Config;
 use config::ConfigError;
-use rand::Rng;
+use helpers::DurationString;
+use rand::RngExt;
 use rand::distr::Alphanumeric;
 use rand::rng;
 use serde::Deserialize;
 use serde::Serialize;
+use serde_with::TryFromInto;
 use serde_with::serde_as;
 use thiserror::Error;
 use tracing::error;
@@ -287,18 +291,23 @@ impl Default for DatabaseSettings {
 /// configuration for jwt
 #[derive(Deserialize, Serialize, Debug, Clone, Default)]
 pub struct AuthenticateSettings {
-    pub jwt: JwtSettings,
+    pub token: TokenSettings,
     pub pwd_hasher: PwdHasher,
 }
 
+#[serde_as]
 #[derive(Deserialize, Serialize, Debug, Clone)]
-pub struct JwtSettings {
+pub struct TokenSettings {
     pub secret_key: String,
-    pub valid_time_secs: u64,
+    #[serde_as(as = "TryFromInto<DurationString>")]
+    pub refresh_valid: Duration,
+
+    #[serde_as(as = "TryFromInto<DurationString>")]
+    pub token_valid: Duration,
     pub issuer: String,
 }
 
-impl Default for JwtSettings {
+impl Default for TokenSettings {
     fn default() -> Self {
         let rand_string: String = rng()
             .sample_iter(&Alphanumeric)
@@ -309,7 +318,11 @@ impl Default for JwtSettings {
         Self {
             issuer: "wf_api".to_owned(),
             secret_key: rand_string,
-            valid_time_secs: 8 * 60 * 60,
+            // 30 days
+            refresh_valid: Duration::from_hours(24 * 30),
+
+            // 5 minutes
+            token_valid: Duration::from_mins(5),
         }
     }
 }
@@ -325,10 +338,10 @@ fn init_settings() -> Result<Settings, ConfigError> {
         .build()?;
     let mut result = l_settings.try_deserialize::<Settings>()?;
 
-    if result.auth.jwt.secret_key == defaults.auth.jwt.secret_key {
+    if result.auth.token.secret_key == defaults.auth.token.secret_key {
         info!(
-            "generated JWT secret  key: \"{}\" . If you want use fixed JWT secret key please setup \"auth.jwt.secret_key\"",
-            defaults.auth.jwt.secret_key
+            "generated JWT secret  key: \"{}\" . If you want use fixed JWT secret key please setup \"auth.token.secret_key\"",
+            defaults.auth.token.secret_key
         );
     }
 
