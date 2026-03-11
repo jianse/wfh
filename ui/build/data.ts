@@ -392,6 +392,7 @@ arcane.ExportArcane.forEach((element, index) => {
 
 // recipes
 interface Ingredient {
+  category?: string
   ItemType: string
   ItemCount: number
   ProductCategory: 'Consumables' | 'MiscItems'
@@ -403,6 +404,8 @@ interface Recipes {
   ExportRecipes: {
     uniqueName: string
     resultType: string
+    // added when process
+    resultCategory?: string
     buildPrice: number
     buildTime: number
     skipBuildTimePrice: number
@@ -426,6 +429,7 @@ recipes.ExportRecipes.forEach((element, index) => {
   if (r_idx === undefined) {
     console.warn('can not find reverse index for: ', element.resultType)
   } else {
+    element.resultCategory = r_idx.category
     const r = (m.get(r_idx.category) as object)[r_idx.prop][r_idx.index]
     // console.log(r)
     element.name = r.name + ' 设计图'
@@ -438,6 +442,7 @@ recipes.ExportRecipes.forEach((element, index) => {
     if (idx === undefined) {
       console.warn('can not find reverse index for: ', i.ItemType)
     } else {
+      i.category = idx.category
       const item = (m.get(idx.category) as object)[idx.prop][idx.index]
       i.name = item.name
       i.textureLocation = item.textureLocation

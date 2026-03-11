@@ -55,6 +55,7 @@ const map = new Map<string, string>([
   ['DT_PUNCTURE', puncture],
   ['DT_ELECTRICITY', electricity],
   ['DT_EXPLOSION', explosion],
+  ['DT_POISON', new URL('./Poison_d.png', import.meta.url).href],
 
   // base properties
   ['SHIELD', shield],

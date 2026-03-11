@@ -1,7 +1,9 @@
 import { useTokenStore } from '@/stores/token'
 import { useCommonDialog, useCommonToast } from '@/util/common'
-import axios from 'axios'
+import axios, { type InternalAxiosRequestConfig } from 'axios'
+import dayjs from 'dayjs'
 import { defineAsyncComponent } from 'vue'
+import { do_refresh_token } from './token'
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_BASEURL,
@@ -13,6 +15,7 @@ const instance = axios.create({
       'Content-Type': 'application/json',
     },
   },
+  timeout: 5000,
 })
 
 interface Err {
@@ -45,8 +48,39 @@ function error_handler(err: Err) {
   return Promise.reject(err)
 }
 
-instance.interceptors.request.use((config) => {
-  const { token } = useTokenStore()
+export interface CustomRequestConfig extends InternalAxiosRequestConfig {
+  skipAuth?: boolean
+}
+
+instance.interceptors.request.use(async (config: CustomRequestConfig) => {
+  if (config.skipAuth) {
+    return config
+  }
+
+  const { token, token_valid_until } = useTokenStore()
+  const expire = dayjs(token_valid_until)
+  if (dayjs().isAfter(expire)) {
+    // token expired
+
+    // check if refresh token expired
+    const { refresh_token, refresh_valid_until, clientId, setToken } = useTokenStore()
+    const refresh_expire = dayjs(refresh_valid_until)
+    if (dayjs().isAfter(refresh_expire)) {
+      // refresh token expired
+      const { clearToken } = useTokenStore()
+      clearToken()
+      return Promise.reject('refresh token expired')
+    } else if (refresh_token && clientId) {
+      // const { refresh_token, clientId } = useTokenStore()
+      const res = await do_refresh_token({ refresh_token, client_id: clientId })
+      await setToken(res.data)
+    } else {
+      // refresh token not exist
+      return Promise.reject('refresh token not exist')
+    }
+  }
+  // }
+
   config.headers.Authorization = token
   return config
 })
@@ -58,7 +92,7 @@ export default instance
 export interface BizResp<T> {
   code: number
   msg: string
-  data?: T
+  data: T
 }
 
 export interface Page<T> {

@@ -44,7 +44,8 @@
           <div v-if="event.type == 'CET_UPGRADE'">
             <!-- <div>{{ event.upgrade }}</div> -->
             <div>{{ event.name }}</div>
-            <div>{{ event.desc }}</div>
+            <StringWithIcon :text="event.desc"></StringWithIcon>
+            <!-- <div>{{ event.desc }}</div> -->
           </div>
           <!-- <div>{{ event.type }}</div> -->
         </div>

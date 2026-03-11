@@ -457,7 +457,7 @@
       severity="success"
       rounded
       aria-label="Refresh"
-      @click="fetchWorldState"
+      @click="onTimeUp"
       :loading="loading"
     />
   </div>
@@ -592,13 +592,13 @@ const earthCycle = computed(() => {
     if (offset < 4 * 60 * 60) {
       const expiry = now.value - offset * 1000 + 4 * 60 * 60 * 1000
       return {
-        state: '白天',
+        state: '黑夜',
         expiry,
       }
     } else {
       const expiry = now.value - offset * 1000 + 8 * 60 * 60 * 1000
       return {
-        state: '黑夜',
+        state: '白天',
         expiry,
       }
     }
@@ -633,8 +633,6 @@ async function fetchWorldState() {
     loading.value = false
   }
 }
-
-fetchWorldState()
 
 function strCmp(a: string, b: string) {
   if (a == b) {
@@ -696,7 +694,9 @@ async function forceFetch() {
   })
 }
 
-const onTimeUp = throttle(fetchWorldState, 3000, { leading: false })
+const onTimeUp = throttle(fetchWorldState, 3000)
+
+onTimeUp()
 function timeUp() {
   onTimeUp()
 }

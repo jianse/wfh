@@ -49,11 +49,11 @@ import { ref } from 'vue'
 // import { zodResolver } from '@primevue/forms/resolvers/zod'
 import { useToast } from 'primevue/usetoast'
 // import { Form, type FormSubmitEvent } from '@primevue/forms'
-import { z } from 'zod/v4'
-import { get_token } from '@/api/token'
 import { is_success } from '@/api'
+import { get_token } from '@/api/token'
 import { useTokenStore } from '@/stores/token'
 import { useRouter } from 'vue-router'
+import { z } from 'zod/v4'
 
 const router = useRouter()
 
@@ -85,23 +85,33 @@ function validate(): boolean {
   return result.success
 }
 const loading = ref(false)
-const { setToken } = useTokenStore()
+const { setToken, getOrCreateClientId } = useTokenStore()
 
 const onFormSubmit = async () => {
   loading.value = true
   const valid = validate()
+  const client_id = await getOrCreateClientId()
   if (valid) {
-    const res = await get_token(userCred.value)
+    const res = await get_token({
+      client_id,
+      ...userCred.value,
+    })
     if (is_success(res)) {
-      const token = res.data?.token || ''
+      const token = res.data
       await setToken(token)
+      toast.add({
+        severity: 'success',
+        summary: '登录成功',
+        detail: '登录成功，1秒后返回上一页',
+        life: 3000,
+      })
       setTimeout(() => {
         router.back()
       }, 1000)
     } else {
       toast.add({
         severity: 'info',
-        summary: 'Info',
+        summary: '登录失败',
         detail: '用户名或密码错误',
         life: 3000,
       })
