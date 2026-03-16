@@ -1,4 +1,4 @@
-import http, { type BizResp } from './index.ts'
+import http, { type BizResp, type CustomRequestConfig } from './index.ts'
 
 export interface WorldState {
   cetusCycle: {
@@ -137,7 +137,9 @@ export interface WorldState {
 }
 
 export async function get_world_state() {
-  const { data } = await http.get<BizResp<WorldState>>('/world_state/current')
+  const { data } = await http.get<BizResp<WorldState>>('/world_state/current', {
+    skipAuth: true,
+  } as CustomRequestConfig)
   return data
 }
 
@@ -147,7 +149,9 @@ export async function update_and_get() {
 }
 
 export async function get_raw_world_state() {
-  const { data } = await http.get<BizResp<RawWorldState>>('/raw_world_state/current')
+  const { data } = await http.get<BizResp<RawWorldState>>('/raw_world_state/current', {
+    skipAuth: true,
+  } as CustomRequestConfig)
   return data
 }
 
@@ -169,7 +173,7 @@ export interface RawWorldState {
   Goals: {
     _id: string
     Desc: string
-    Node: string
+    Node?: string
     ToolTip: string
     Expiry: string
     Community?: boolean
@@ -177,6 +181,9 @@ export interface RawWorldState {
     Goal?: number
     Tag: string
     HealthPct: number
+    VictimNode?: string
+    InterimRewards?: Reward[]
+    Reward?: Reward
   }[]
   Alerts: {
     _id: string

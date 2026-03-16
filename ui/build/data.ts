@@ -67,7 +67,7 @@ async function fetch_index() {
 
   const decompressed = lzma.decompress(raw)
   cache.set(origin, decompressed)
-  return decompressed
+  return decompressed.toString()
 }
 
 function md5_hash(message: string) {
@@ -97,7 +97,7 @@ async function get_or(
 const g_index = await fetch_index()
 // console.log(index)
 
-const endpoints = g_index.split(/\r?\n/g)
+const endpoints = g_index.split(/\r?\n/g).filter((it) => !!it)
 console.log(endpoints)
 
 const m = new Map<string, object>()
@@ -422,6 +422,17 @@ interface Recipes {
 }
 const recipes = m.get('Recipes') as Recipes
 
+type Export = Record<
+  string,
+  Array<{
+    name: string
+    description: string
+    textureLocation?: string
+    uniqueName: string
+    primeSellingPrice: number
+  }>
+>
+
 recipes.ExportRecipes.forEach((element, index) => {
   reverse_map.set(element.uniqueName, new ReverseIndex('Recipes', 'ExportRecipes', index))
 
@@ -430,8 +441,7 @@ recipes.ExportRecipes.forEach((element, index) => {
     console.warn('can not find reverse index for: ', element.resultType)
   } else {
     element.resultCategory = r_idx.category
-    const r = (m.get(r_idx.category) as object)[r_idx.prop][r_idx.index]
-    // console.log(r)
+    const r = (m.get(r_idx.category) as Export)[r_idx.prop][r_idx.index]
     element.name = r.name + ' 设计图'
     element.description = r.description
   }
@@ -443,7 +453,7 @@ recipes.ExportRecipes.forEach((element, index) => {
       console.warn('can not find reverse index for: ', i.ItemType)
     } else {
       i.category = idx.category
-      const item = (m.get(idx.category) as object)[idx.prop][idx.index]
+      const item = (m.get(idx.category) as Export)[idx.prop][idx.index]
       i.name = item.name
       i.textureLocation = item.textureLocation
     }
@@ -543,7 +553,7 @@ relics.ExportRelics.forEach((element, index) => {
     if (idx === undefined) {
       console.warn('can not find reverse index for: ', i.rewardName)
     } else {
-      const item = (m.get(idx.category) as object)[idx.prop][idx.index]
+      const item = (m.get(idx.category) as Export)[idx.prop][idx.index]
       if (item === undefined) {
         console.warn('can not find item: ', idx)
       }

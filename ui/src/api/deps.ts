@@ -23,7 +23,9 @@ export async function new_sm(new_item: SortieModifier) {
 }
 
 export async function reload() {
-  const { data } = await http.post<BizResp<void>>('/raw_world_state/deps/reload')
+  const { data } = await http.post<BizResp<void>>('/raw_world_state/deps/reload', null, {
+    timeout: 20000,
+  })
   console.log('reload sortie modifiers resp: ', data)
 }
 

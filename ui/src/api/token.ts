@@ -16,12 +16,15 @@ interface TokenRes {
 export async function get_token(user: UserCred): Promise<BizResp<TokenRes>> {
   const { data } = await http.post<BizResp<TokenRes>>('/token', user, {
     headers: { 'Content-Type': 'application/json' },
-  })
+    skipAuth: true,
+  } as CustomRequestConfig)
   return data
 }
 
 export async function get_client_id() {
-  const { data } = await http.get<BizResp<{ nonce: string }>>('/nonce')
+  const { data } = await http.get<BizResp<{ nonce: string }>>('/nonce', {
+    skipAuth: true,
+  } as CustomRequestConfig)
   return data
 }
 

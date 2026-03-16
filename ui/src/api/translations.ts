@@ -1,4 +1,4 @@
-import http, { type BizResp } from './index.ts'
+import http, { type BizResp, type CustomRequestConfig } from './index.ts'
 
 export interface TranslationTerm {
   unique_name: string
@@ -12,7 +12,9 @@ export interface TranslationId {
 }
 
 export async function get_all_translations(): Promise<BizResp<TranslationTerm[]>> {
-  const { data } = await http.get<BizResp<TranslationTerm[]>>('/translations/all')
+  const { data } = await http.get<BizResp<TranslationTerm[]>>('/translations/all', {
+    skipAuth: true,
+  } as CustomRequestConfig)
   return data
 }
 

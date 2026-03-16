@@ -49,7 +49,8 @@
               class="rounded-md border p-3 border-gray-600"
             >
               <!-- {{ event }} -->
-              {{ event.Desc }} {{ event.Node }} <CountDownTo :time="event.Expiry" />结束
+              {{ event.Desc }} {{ event.Node || event.VictimNode }}
+              <CountDownTo :time="event.Expiry" />结束
 
               <div>{{ event.ToolTip }}</div>
               <!-- community goal has an global progress bar,
@@ -67,6 +68,10 @@
                 v-if="event.Tag === 'GhoulEmergence'"
                 :value="event.HealthPct * 100"
               />
+              <div v-for="(inter, i) in event.InterimRewards" :key="i">
+                {{ rewardAsString(inter) }}
+              </div>
+              <div v-if="event.Reward">{{ rewardAsString(event.Reward) }}</div>
             </div>
           </div>
         </template>

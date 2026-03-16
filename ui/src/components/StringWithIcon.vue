@@ -18,6 +18,7 @@ const pat = /<(.*?)>|\r\n/g
 let parsedText = h('span', strToVNodes(props.text))
 
 function strToVNodes(v: string) {
+  if (!v) return []
   let pos = 0
   const nodes = []
   let arr

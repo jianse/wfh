@@ -57,7 +57,7 @@ instance.interceptors.request.use(async (config: CustomRequestConfig) => {
     return config
   }
 
-  const { token, token_valid_until } = useTokenStore()
+  const { token_valid_until } = useTokenStore()
   const expire = dayjs(token_valid_until)
   if (dayjs().isAfter(expire)) {
     // token expired
@@ -79,8 +79,9 @@ instance.interceptors.request.use(async (config: CustomRequestConfig) => {
       return Promise.reject('refresh token not exist')
     }
   }
-  // }
 
+  // add token
+  const { token } = useTokenStore()
   config.headers.Authorization = token
   return config
 })
