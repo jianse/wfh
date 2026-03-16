@@ -10,6 +10,8 @@ logs
 /out
 /cache
 /lang
+# file in data must be include manually
+/data
 
 *.txt
 *.db

@@ -98,6 +98,7 @@ impl Default for JobSettings {
     }
 }
 
+#[serde_as]
 #[derive(Deserialize, Serialize, Debug, Default, Clone)]
 pub struct CorsSettings {
     pub allow_origin: Option<AllowOrigin>,
@@ -107,6 +108,9 @@ pub struct CorsSettings {
     pub allow_headers: Option<AllowHeaders>,
 
     pub allow_credentials: Option<bool>,
+
+    #[serde_as(as = "Option<TryFromInto<DurationString>>")]
+    pub max_age: Option<Duration>,
 }
 
 #[serde_as]

@@ -245,6 +245,9 @@ fn app_router(state: AppState) -> Router {
                 settings::AllowMethods::List(methods) => cors_layer.allow_methods(methods),
             }
         };
+        if let Some(max_age) = cors.max_age {
+            cors_layer = cors_layer.max_age(max_age)
+        };
 
         app = app.layer(cors_layer);
     };
