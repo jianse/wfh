@@ -20,8 +20,13 @@ use export::get_opt_array;
 use export::get_opt_u64;
 use export::get_str;
 use export::get_u64;
+use http::StatusCode;
+// use eyre::Ok;
+use http::header::ETAG;
+use http::header::IF_NONE_MATCH;
 use indexmap::IndexMap;
 use reqwest::Client;
+use reqwest::IntoUrl;
 use serde::Deserialize;
 use serde::Serialize;
 use serde_with::TryFromInto;
@@ -84,7 +89,7 @@ impl SentientOutpost {
                 activation,
                 expiry,
                 node,
-                node_name: Some(region.name.clone()),
+                node_name: Some(deps.get_language(&region.name)),
                 mission_type: Some(deps.get_mission_type_by_id(region.mission_index)),
             }
         } else {
@@ -116,12 +121,29 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
         if let Some(node) = goal.node.as_mut()
             && let Some(region) = deps.get_region(node)
         {
-            *node = region.with_plant();
+            *node = region.with_plant(&deps);
+        };
+
+        // only exist in "GhoulEmergence"
+        if let Some(victim_node) = goal.victim_node.as_mut()
+            && let Some(region) = deps.get_region(victim_node)
+        {
+            *victim_node = region.with_plant(&deps);
         };
 
         // goal's tooltip actually is goal's desc
         if let Some(tooltip) = goal.tooltip.as_mut() {
             *tooltip = deps.get_language(tooltip);
+        }
+
+        if let Some(reward) = goal.reward.as_mut() {
+            translate_reward(reward, &deps)?;
+        }
+
+        if let Some(irs) = goal.interim_rewards.as_mut() {
+            for reward in irs.iter_mut() {
+                translate_reward(reward, &deps)?;
+            }
         }
     }
 
@@ -129,7 +151,7 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
     for alert in raw.alerts.iter_mut() {
         // alert.mission_info.location
         if let Some(region) = deps.get_region(&alert.mission_info.location) {
-            alert.mission_info.location = region.with_plant();
+            alert.mission_info.location = region.with_plant(&deps);
         };
 
         // alert.mission_info.mission_type
@@ -147,7 +169,7 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
     for mission in raw.active_missions.iter_mut() {
         // mission.node
         if let Some(region) = deps.get_region(&mission.node) {
-            mission.node = region.with_plant();
+            mission.node = region.with_plant(&deps);
         };
 
         // mission.mission_type
@@ -158,7 +180,7 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
     for void_storm in raw.void_storms.iter_mut() {
         // void_storm.node
         if let Some(region) = deps.get_region(&void_storm.node) {
-            void_storm.node = region.with_plant();
+            void_storm.node = region.with_plant(&deps);
             void_storm.mission_type = Some(deps.get_mission_type_by_id(region.mission_index))
         };
     }
@@ -177,7 +199,7 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
         for mission in lite_sortie.missions.iter_mut() {
             // mission.node
             if let Some(region) = deps.get_region(&mission.node) {
-                mission.node = region.with_plant();
+                mission.node = region.with_plant(&deps);
             };
             mission.mission_type = deps.get_mission_type_by_tag(&mission.mission_type);
         }
@@ -195,7 +217,7 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
     for sortie in raw.sorties.iter_mut() {
         for variant in sortie.variants.iter_mut() {
             if let Some(region) = deps.get_region(&variant.node) {
-                variant.node = region.with_plant();
+                variant.node = region.with_plant(&deps);
             };
             variant.mission_type = deps.get_mission_type_by_tag(&variant.mission_type);
 
@@ -214,7 +236,7 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
     for trader in raw.void_traders.iter_mut() {
         // trader.node
         if let Some(region) = deps.get_region(&trader.node) {
-            trader.node = region.with_plant();
+            trader.node = region.with_plant(&deps);
         };
 
         // translate manifest
@@ -229,7 +251,7 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
     for trader in raw.prime_vault_traders.iter_mut() {
         // trader.node
         if let Some(region) = deps.get_region(&trader.node) {
-            trader.node = region.with_plant();
+            trader.node = region.with_plant(&deps);
         };
 
         for item in trader.manifest.iter_mut() {
@@ -255,7 +277,7 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
     for invasion in raw.invasions.iter_mut() {
         // invasion.node
         if let Some(region) = deps.get_region(&invasion.node) {
-            invasion.node = region.with_plant();
+            invasion.node = region.with_plant(&deps);
         };
 
         if let Some(reward) = invasion.attacker_reward.as_mut() {
@@ -406,7 +428,12 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
                         }
                     }
                     CalendarEvent::Reward { reward, name } => {
-                        *name = Some(deps.find_game_item(reward));
+                        let counted_gi = deps.find_game_item_counted(reward);
+                        if counted_gi.1 == 1 {
+                            *name = Some(counted_gi.0.clone());
+                        } else {
+                            *name = Some(format!("{} {}", counted_gi.1, counted_gi.0));
+                        }
                     }
                     CalendarEvent::Upgrade {
                         upgrade,
@@ -461,18 +488,52 @@ pub struct Bundle {
     // icon: Vec<String>,
 }
 
+async fn check_update<P1: AsRef<Path>, P2: AsRef<Path>, U: IntoUrl>(
+    url: U,
+    file: P1,
+    etag_file: P2,
+    client: &Client,
+) -> BizResult<()> {
+    if !file.as_ref().exists() || !etag_file.as_ref().exists() {
+        let resp = client.get(url).send().await?;
+        let headers = resp.headers();
+        if let Some(etag_header) = headers.get(ETAG) {
+            std::fs::write(etag_file, etag_header.as_bytes())?;
+        }
+        std::fs::write(&file, resp.bytes().await?)?;
+    } else {
+        let mut req = client.get(url);
+        if let Ok(etag) = std::fs::read_to_string(&etag_file) {
+            req = req.header(IF_NONE_MATCH, etag);
+        }
+
+        let resp = req.send().await?;
+        if resp.status() == StatusCode::OK {
+            let headers = resp.headers();
+            if let Some(etag_header) = headers.get(ETAG) {
+                std::fs::write(etag_file, etag_header.as_bytes())?;
+            }
+            std::fs::write(&file, resp.bytes().await?)?;
+        }
+    }
+    Ok(())
+}
+
 /// loads wf bundle data from local.
 /// the data is borrowed from https://raw.githubusercontent.com/calamity-inc/warframe-public-export-plus/refs/heads/senpai/ExportBundles.json
-pub fn load_bundles<P: AsRef<Path>>(dir_path: P) -> BizResult<HashMap<String, Bundle>> {
-    let file = dir_path.as_ref().join("ExportBundles.json");
-    if file.exists() {
-        let json = std::fs::read_to_string(file)?;
-        let bundles: HashMap<String, Bundle> = serde_json::from_str(&json)?;
-        Ok(bundles)
-    } else {
-        Ok(HashMap::new())
-    }
+pub async fn load_bundles<P: AsRef<Path>>(
+    dir_path: P,
+    client: &Client,
+) -> BizResult<HashMap<String, Bundle>> {
+    const URL: &str =
+        "https://cdn.jsdelivr.net/npm/warframe-public-export-plus@latest/ExportBundles.json";
 
+    let file = dir_path.as_ref().join("ExportBundles.json");
+    let etag_file = dir_path.as_ref().join("ExportBundles.etag");
+    check_update(URL, &file, &etag_file, client).await?;
+    let json = std::fs::read_to_string(file)?;
+    let bundles: HashMap<String, Bundle> = serde_json::from_str(&json)?;
+    Ok(bundles)
     // todo!("load_bundles")
 }
 
@@ -528,8 +589,8 @@ pub async fn load_deps<P1: AsRef<Path> + Display, P2: AsRef<Path> + Display>(
     let factions = load_factions(&data_dir)?;
     let mission_types = load_mission_types(&data_dir)?;
 
-    let mut regions = load_regions(&data_dir)?;
-    let regions_ex = load_regions_ex(&data_dir, &languages)?;
+    let mut regions = load_regions(&data_dir, client).await?;
+    let regions_ex = load_regions_ex(&data_dir)?;
     regions.extend(regions_ex);
 
     let steel_path = load_steel_path(&data_dir)?;
@@ -538,7 +599,7 @@ pub async fn load_deps<P1: AsRef<Path> + Display, P2: AsRef<Path> + Display>(
 
     let sortie_modifiers = load_sortie_modifiers(&data_dir)?;
 
-    let bundles = load_bundles(&data_dir)?;
+    let bundles = load_bundles(&data_dir, client).await?;
 
     let others = load_others(&data_dir)?;
 
@@ -658,14 +719,15 @@ impl TheCircuit {
 }
 
 fn load_the_circuit<P: AsRef<Path>>(dir_path: P) -> BizResult<TheCircuit> {
+    const THE_CIRCUIT: &str = include_str!("../../../../data/the_circuit.json");
+
     let file = dir_path.as_ref().join("the_circuit.json");
-    if file.exists() {
-        let json = std::fs::read_to_string(file)?;
-        let the_circuit: TheCircuit = serde_json::from_str(&json)?;
-        Ok(the_circuit)
-    } else {
-        Ok(TheCircuit::default())
+    if !file.exists() {
+        std::fs::write(&file, THE_CIRCUIT)?;
     }
+    let json = std::fs::read_to_string(file)?;
+    let the_circuit: TheCircuit = serde_json::from_str(&json)?;
+    Ok(the_circuit)
 }
 
 fn build_nw_challenges(pe_data: &PublicExports) -> BizResult<NWChallenges> {
@@ -839,52 +901,36 @@ fn load_factions<P: AsRef<Path>>(dir: P) -> BizResult<HashMap<String, FactionInf
     }
 }
 
-fn load_regions<P: AsRef<Path>>(dir: P) -> BizResult<HashMap<String, Region>> {
-    // let mut res = HashMap::new();
+// load regions from public export plus
+// see https://github.com/calamity-inc/warframe-public-export-plus/blob/senpai/ExportRegions.json
+async fn load_regions<P: AsRef<Path>>(
+    dir: P,
+    client: &Client,
+) -> BizResult<HashMap<String, Region>> {
+    const URL: &str =
+        "https://cdn.jsdelivr.net/npm/warframe-public-export-plus@latest/ExportRegions.json";
+    let regions_file = dir.as_ref().join("ExportRegions.json");
+    let etag_file = dir.as_ref().join("ExportRegions.etag");
+    check_update(URL, &regions_file, &etag_file, client).await?;
 
-    // regions from public export
-    let regions_file = dir.as_ref().join("regions.json");
-    if fs::exists(&regions_file)? {
-        let mut file = File::open(regions_file)?;
-        let mut reader = BufReader::new(&mut file);
-        let json: ExportRegions = serde_json::from_reader(&mut reader)?;
-        let res = json
-            .regions
-            .into_iter()
-            .map(|k| (k.unique_name.clone(), k))
-            .collect();
-        Ok(res)
-    } else {
-        info!("no regions.json found!");
-        Ok(HashMap::new())
-    }
+    let mut file = File::open(regions_file)?;
+    let mut reader = BufReader::new(&mut file);
+    let json: HashMap<String, Region> = serde_json::from_reader(&mut reader)?;
+
+    Ok(json)
 }
 
-//  regions that not included in public export
-// see https://raw.githubusercontent.com/calamity-inc/warframe-public-export-plus/refs/heads/senpai/ExportRegions.json
-// but we did some changes
-fn load_regions_ex<P: AsRef<Path>>(
-    dir: P,
-    lang_map: &HashMap<String, String>,
-) -> BizResult<HashMap<String, Region>> {
+//  some additional regions we add
+fn load_regions_ex<P: AsRef<Path>>(dir: P) -> BizResult<HashMap<String, Region>> {
     let ex_file = dir.as_ref().join("regions_ex.json");
-    if fs::exists(&ex_file)? {
-        let mut file = File::open(ex_file)?;
-        let mut reader = BufReader::new(&mut file);
-        let mut json: HashMap<String, Region> = serde_json::from_reader(&mut reader)?;
-        for e in json.values_mut() {
-            e.name = lang_map.get(&e.name).unwrap_or(&e.name).to_string();
-            e.system_name = lang_map
-                .get(&e.system_name)
-                .unwrap_or(&e.system_name)
-                .to_string();
-        }
-        Ok(json)
-    } else {
-        info!("no regions_ex.json found!");
-        Ok(HashMap::new())
+    if !fs::exists(&ex_file)? {
+        const REGIONS_EX: &str = include_str!("../../../../data/regions_ex.json");
+        std::fs::write(&ex_file, REGIONS_EX)?;
     }
-    // Ok(res)
+    let mut file = File::open(&ex_file)?;
+    let mut reader = BufReader::new(&mut file);
+    let json: HashMap<String, Region> = serde_json::from_reader(&mut reader)?;
+    Ok(json)
 }
 
 fn load_languages<P: AsRef<Path>>(dir: P) -> BizResult<HashMap<String, String>> {
@@ -1143,12 +1189,27 @@ impl Deps {
     /// Find a game item name by unique name
     /// Currently only fusion bundles has count property
     pub fn find_game_item_counted(&self, unique_name: &str) -> (String, u32) {
-        let rei = if let Some(idx) = self.pe_index.get(unique_name) {
-            Some(idx)
-        } else {
-            let unique_name = unique_name.replace("/Lotus/StoreItems", "/Lotus");
-            self.pe_index.get(&unique_name)
-        };
+        let unique_name = unique_name.replace("/Lotus/StoreItems", "/Lotus");
+
+        if let Some(f) = self.flavour_ex.get(&unique_name) {
+            return (self.get_language(&f.name), 1);
+        }
+
+        if let Some(o) = self.others.get(&unique_name) {
+            return (o.name.clone(), 1);
+        }
+
+        // find in bundle first
+        if let Some(b) = self.find_bundle(&unique_name) {
+            // return b.name;
+            if let Some(n) = b.name {
+                return (n, 1);
+            }
+            warn!("bundle name not found for {}", unique_name);
+            return (unique_name, 1);
+        }
+
+        let rei = self.pe_index.get(&unique_name);
 
         if let Some(rei) = rei
             && let Some(obj) = self.pe_data.get(&rei.category)
@@ -1194,19 +1255,13 @@ struct FactionInfo {
     name: String,
 }
 
-#[derive(Debug, Deserialize)]
-struct ExportRegions {
-    #[serde(rename = "ExportRegions")]
-    regions: Vec<Region>,
-}
-
 #[allow(unused)]
 #[serde_as]
 #[derive(Debug, Deserialize)]
 pub struct Region {
     /// region unique name
-    #[serde(rename = "uniqueName")]
-    unique_name: String,
+    // #[serde(rename = "uniqueName")]
+    // unique_name: String,
 
     /// region display name
     #[serde(rename = "name")]
@@ -1237,8 +1292,12 @@ pub struct Region {
 }
 
 impl Region {
-    pub fn with_plant(&self) -> String {
-        format!("{}({})", self.name, self.system_name)
+    pub fn with_plant(&self, deps: &Deps) -> String {
+        format!(
+            "{}({})",
+            deps.get_language(&self.name),
+            deps.get_language(&self.system_name)
+        )
     }
 }
 
@@ -1287,7 +1346,7 @@ impl MissionTypes {
 #[repr(u8)]
 pub enum NodeType {
     Normal = 0,
-    Arena,
+    Arena = 1,
     Pvp = 2,
     Hub = 3,
     DarkSector = 4,

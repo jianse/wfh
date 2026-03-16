@@ -139,8 +139,8 @@ impl<'de> DeserializeAs<'de, Duration> for DurationFromStr {
                     })
                     .collect::<Result<Vec<_>, _>>()?
                     .iter()
-                    .fold(0, std::ops::Add::add);
-                Duration::new(secs * sign, 0).ok_or(E::custom("msg"))
+                    .sum::<i64>();
+                Duration::new(secs * sign, 0).ok_or(E::custom("duration out of bounds"))
             }
         }
         deserializer.deserialize_str(StrVisitor)
