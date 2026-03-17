@@ -165,6 +165,34 @@
       "vars": {
         "COUNT": "500"
       }
+    },
+    "/Lotus/Types/Challenges/Calendar1999/CalendarKillEnemiesWithAbilitiesMedium": {
+      "name": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithAbilities_Name",
+      "description": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithAbilities_Description",
+      "vars": {
+        "COUNT": "300"
+      }
+    },
+    "/Lotus/Types/Challenges/Calendar1999/CalendarKillScaldraEnemiesMedium": {
+      "name": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesScaldra_Name",
+      "description": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesScaldra_Description",
+      "vars": {
+        "COUNT": "350"
+      }
+    },
+    "/Lotus/Types/Challenges/Calendar1999/CalendarKillScaldraEnemiesWithMeleeHard": {
+      "name": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithMeleeScaldra_Name",
+      "description": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithMeleeScaldra_Description",
+      "vars": {
+        "COUNT": "250"
+      }
+    },
+    "/Lotus/Types/Challenges/Calendar1999/CalendarKillScaldraEnemiesWithAbilitiesHard": {
+      "name": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithAbilitiesScaldra_Name",
+      "description": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithAbilitiesScaldra_Description",
+      "vars": {
+        "COUNT": "250"
+      }
     }
   },
   "upgrades": {
@@ -280,6 +308,10 @@
     "/Lotus/Upgrades/Calendar/ElectricalDamageOnBulletJump": {
       "name": "/Lotus/Language/1999/ElectricalDamageOnBulletJumpName",
       "description": "/Lotus/Language/1999/ElectricalDamageOnBulletJumpDesc"
+    },
+    "/Lotus/Upgrades/Calendar/StatusChancePerAmmoSpent": {
+      "name": "/Lotus/Language/1999/StatusChancePerAmmoSpentName",
+      "description": "/Lotus/Language/1999/StatusChancePerAmmoSpentDesc"
     }
   }
 }
