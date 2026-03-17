@@ -13,6 +13,7 @@ mod m20250804_101453_world_state_add_nearest_expiry;
 mod m20250804_110641_create_table_wg_world_state_replacements;
 mod m20250805_132203_create_world_state_2_table;
 mod m20260208_101302_create_user_device_table;
+mod m20260317_075747_create_raw_world_state_table;
 
 pub struct Migrator;
 
@@ -31,6 +32,7 @@ impl MigratorTrait for Migrator {
             Box::new(m20250804_110641_create_table_wg_world_state_replacements::Migration),
             Box::new(m20250805_132203_create_world_state_2_table::Migration),
             Box::new(m20260208_101302_create_user_device_table::Migration),
+            Box::new(m20260317_075747_create_raw_world_state_table::Migration),
         ]
     }
 }

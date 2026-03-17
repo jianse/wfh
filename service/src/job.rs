@@ -12,6 +12,7 @@ use async_trait::async_trait;
 use chrono::Local;
 use chrono::TimeDelta;
 use chrono::Utc;
+use raw_world_state_job::RawWorldStateJob;
 use settings::JobRetryPolicy;
 use settings::JobSettings;
 use std::cmp;
@@ -23,6 +24,8 @@ use tokio::time::timeout;
 use tracing::error;
 use tracing::info;
 use tracing::trace;
+
+mod raw_world_state_job;
 
 type BoxJob = Box<dyn Job + Send + Sync>;
 
@@ -40,10 +43,14 @@ where
         let mut jobs = HashMap::new();
 
         // let (broadcast, rx1) = tokio::sync::broadcast::channel::<()>(16);
-        let job = Box::new(WgWorldStateJob::new(state)).boxed();
+        let job = WgWorldStateJob::new(state.clone()).boxed();
         let conf = job_conf_for(job.name());
-
         jobs.insert(job.name(), (conf, job));
+
+        let job = RawWorldStateJob::new(state).boxed();
+        let conf = job_conf_for(job.name());
+        jobs.insert(job.name(), (conf, job));
+
         info!("registered jobs: {:?}", jobs.keys());
         JobRegistry {
             jobs,

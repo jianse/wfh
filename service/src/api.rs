@@ -34,7 +34,7 @@ use thiserror::Error;
 use tracing::debug;
 use tracing::info;
 
-mod raw_world_state;
+pub(crate) mod raw_world_state;
 mod token;
 mod translations;
 mod user;

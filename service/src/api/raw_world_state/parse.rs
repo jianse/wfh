@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::fmt::Debug;
 use std::fmt::Display;
 use std::fs::File;
 use std::fs::{self};
@@ -21,7 +22,6 @@ use export::get_opt_u64;
 use export::get_str;
 use export::get_u64;
 use http::StatusCode;
-// use eyre::Ok;
 use http::header::ETAG;
 use http::header::IF_NONE_MATCH;
 use indexmap::IndexMap;
@@ -488,7 +488,8 @@ pub struct Bundle {
     // icon: Vec<String>,
 }
 
-async fn check_update<P1: AsRef<Path>, P2: AsRef<Path>, U: IntoUrl>(
+/// check or download files from remote
+async fn check_update<P1: AsRef<Path> + Debug, P2: AsRef<Path>, U: IntoUrl>(
     url: U,
     file: P1,
     etag_file: P2,
@@ -508,12 +509,17 @@ async fn check_update<P1: AsRef<Path>, P2: AsRef<Path>, U: IntoUrl>(
         }
 
         let resp = req.send().await?;
-        if resp.status() == StatusCode::OK {
+        if resp.status() == StatusCode::NOT_MODIFIED {
+            info!(?file, "no update")
+        } else if resp.status() == StatusCode::OK {
             let headers = resp.headers();
             if let Some(etag_header) = headers.get(ETAG) {
                 std::fs::write(etag_file, etag_header.as_bytes())?;
             }
             std::fs::write(&file, resp.bytes().await?)?;
+            info!(?file, "update done");
+        } else {
+            warn!(?file, "update failed");
         }
     }
     Ok(())

@@ -2,6 +2,7 @@
 
 pub mod prelude;
 
+pub mod raw_world_state;
 pub mod refresh_token;
 pub mod translation;
 pub mod user;
