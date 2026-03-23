@@ -17,6 +17,7 @@ use argon2::password_hash::rand_core::OsRng;
 use config::Config;
 use config::ConfigError;
 use helpers::DurationString;
+use indexmap::IndexMap;
 use rand::RngExt;
 use rand::distr::Alphanumeric;
 use rand::rng;
@@ -146,7 +147,7 @@ pub enum AllowMethods {
 // #[serde(default)]
 pub struct LogSettings {
     #[serde(default = "default_log_level")]
-    pub level: HashMap<String, LogLevel>,
+    pub level: IndexMap<String, LogLevel>,
 
     pub file: Option<LogFileSettings>,
 }
@@ -160,8 +161,8 @@ impl Default for LogSettings {
     }
 }
 
-fn default_log_level() -> HashMap<String, LogLevel> {
-    let mut map = HashMap::new();
+fn default_log_level() -> IndexMap<String, LogLevel> {
+    let mut map = IndexMap::new();
     map.insert("root".to_string(), LogLevel::Info);
     map
 }

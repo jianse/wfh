@@ -93,14 +93,11 @@ fn init_log_level_filter() -> EnvFilter {
                 let mut s = String::from(k);
                 s.push('=');
                 s.push_str(&v.to_string());
-                k.to_owned()
+                s
             }
         })
-        .fold("".to_owned(), |mut acc, x| {
-            acc.push(',');
-            acc.push_str(&x);
-            acc
-        });
+        .collect::<Vec<String>>()
+        .join(",");
     EnvFilter::builder()
         .with_default_directive(LevelFilter::INFO.into())
         .parse(dirs)
