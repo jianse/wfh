@@ -432,3 +432,17 @@ export const useOResources = () =>
   useObservable(liveQuery(() => db.Resources.toArray()) as unknown as Observable<Resources[]>, {
     initialValue: [],
   })
+
+/**
+ * Find a Warframe by its uniqueName
+ */
+export async function findWarframe(uniqueName: string): Promise<Warframes | undefined> {
+  return await db.Warframes.get(uniqueName)
+}
+
+/**
+ * Find a Resource by its uniqueName
+ */
+export async function findResource(uniqueName: string): Promise<Resources | undefined> {
+  return await db.Resources.get(uniqueName)
+}

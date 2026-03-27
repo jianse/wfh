@@ -297,10 +297,13 @@ export interface RawWorldState {
     Season: string
     Days: HexDay[]
   }[]
-  EndlessXpChoices: {
-    Category: 'EXC_NORMAL' | 'EXC_HARD'
-    Choices: string[]
-  }[]
+  EndlessXpChoices: EndlessXpChoice[]
+}
+
+export interface EndlessXpChoice {
+  Category: 'EXC_NORMAL' | 'EXC_HARD'
+  Choices: string[]
+  ChoicesEx: string[]
 }
 
 export interface HexDay {
