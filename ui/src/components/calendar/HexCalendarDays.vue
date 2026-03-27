@@ -56,19 +56,25 @@
 </template>
 <script lang="ts" setup>
 import type { HexDay } from '@/api/world_state'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
+import { useWorldStatePrefsStore } from '@/stores/world_state_prefs'
 
 const props = defineProps<{
   days: HexDay[]
 }>()
 
-const filterEvents = ref(['CET_CHALLENGE', 'CET_REWARD', 'CET_BIRTHDAY', 'CET_UPGRADE'])
+const store = useWorldStatePrefsStore()
+
+const filterEvents = computed({
+  get: () => store.hexCalendarEvents,
+  set: (value) => store.setHexCalendarEvents(value),
+})
 
 function selectAll() {
-  filterEvents.value = ['CET_CHALLENGE', 'CET_REWARD', 'CET_BIRTHDAY', 'CET_UPGRADE']
+  store.setHexCalendarEvents(['CET_CHALLENGE', 'CET_REWARD', 'CET_BIRTHDAY', 'CET_UPGRADE'])
 }
 function deselectAll() {
-  filterEvents.value = []
+  store.setHexCalendarEvents([])
 }
 
 const computedDays = computed(() => {

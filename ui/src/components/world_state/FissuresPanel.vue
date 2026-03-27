@@ -71,9 +71,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { clone } from 'lodash'
 import type { RawWorldState } from '@/api/world_state'
+import { useWorldStatePrefsStore } from '@/stores/world_state_prefs'
 
 const props = defineProps<{
   rawWorldState: RawWorldState | undefined
@@ -82,6 +83,8 @@ const props = defineProps<{
 defineEmits<{
   timeUp: []
 }>()
+
+const store = useWorldStatePrefsStore()
 
 const tierOptions = [
   { value: 'VoidT1', label: '古纪' },
@@ -92,14 +95,17 @@ const tierOptions = [
   { value: 'VoidT6', label: '全能' },
 ]
 
-const filterTiers = ref(['VoidT1', 'VoidT2', 'VoidT3', 'VoidT4', 'VoidT5', 'VoidT6'])
+const filterTiers = computed({
+  get: () => store.fissureTiers,
+  set: (value) => store.setFissureTiers(value),
+})
 
 function selectAllTiers() {
-  filterTiers.value = ['VoidT1', 'VoidT2', 'VoidT3', 'VoidT4', 'VoidT5', 'VoidT6']
+  store.setFissureTiers(['VoidT1', 'VoidT2', 'VoidT3', 'VoidT4', 'VoidT5', 'VoidT6'])
 }
 
 function deselectAllTiers() {
-  filterTiers.value = []
+  store.setFissureTiers([])
 }
 
 function strCmp(a: string, b: string) {
