@@ -70,6 +70,7 @@ const map = new Map<string, string>([
   ['SHARD_BLUE_SIMPLE', shardBlueSimple],
   ['SHARD_YELLOW_SIMPLE', shardYellowSimple],
   ['SHARD_ORANGE_SIMPLE', shardOrangeSimple],
+  ['SHARD_VIOLET_SIMPLE', new URL('./ArchonCrystalPurpleIcon.png', import.meta.url).href],
 ])
 
 export function findImageUrl(name: string): string {

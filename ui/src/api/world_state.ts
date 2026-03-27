@@ -155,6 +155,13 @@ export async function get_raw_world_state() {
   return data
 }
 
+export async function update_and_get_raw() {
+  const { data } = await http.post<BizResp<RawWorldState>>('/raw_world_state/reload', undefined, {
+    timeout: 10000,
+  })
+  return data
+}
+
 export interface RawWorldState {
   SentientOutpost: {
     activation: string

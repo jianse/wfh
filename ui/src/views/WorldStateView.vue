@@ -194,12 +194,21 @@ async function fetchWorldState() {
 }
 
 async function forceFetch() {
-  toast.add({
-    severity: 'warn',
-    summary: 'TODO',
-    detail: '强制更新世界状态数据暂未实现',
-    life: 3000,
-  })
+  loading.value = true
+  try {
+    const { data } = await update_and_get_raw()
+    if (data) {
+      rawWorldState.value = data
+      toast.add({
+        severity: 'success',
+        summary: '强制更新成功',
+        detail: '已更新世界状态数据',
+        life: 3000,
+      })
+    }
+  } finally {
+    loading.value = false
+  }
 }
 
 const onTimeUp = throttle(fetchWorldState, 3000)
