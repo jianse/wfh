@@ -29,11 +29,11 @@ type H2 = Handle<Vec<BoxLayer<Reg2>>, Reg2>;
 
 pub fn bootstrap_logger() -> (H1, H2) {
     let offset = UtcOffset::current_local_offset().unwrap_or(UtcOffset::UTC);
-    let timmer = OffsetTime::new(offset, &Iso8601::DEFAULT);
+    let timer = OffsetTime::new(offset, &Iso8601::DEFAULT);
     let inner = fmt::layer()
         .with_ansi(true)
         .with_line_number(true)
-        .with_timer(timmer)
+        .with_timer(timer)
         .boxed();
 
     let (reload_filter, frh) = reload::Layer::new(EnvFilter::new("info"));
@@ -60,13 +60,13 @@ pub fn init_logger() -> Option<WorkerGuard> {
     // NOTE: ansi issue in underlying library .
     // See: https://github.com/tokio-rs/tracing/issues/1817
     let offset = UtcOffset::current_local_offset().unwrap_or(UtcOffset::UTC);
-    let timmer = OffsetTime::new(offset, &Iso8601::DEFAULT);
+    let timer = OffsetTime::new(offset, &Iso8601::DEFAULT);
 
     let console = fmt::layer()
         .with_ansi(true)
         // .with_file(true)
         .with_line_number(true)
-        .with_timer(timmer)
+        .with_timer(timer)
         .boxed();
 
     h2.modify(|layers| {
@@ -111,13 +111,13 @@ where
     if let Some(file) = settings::get().log.file.clone() {
         let (writer, guard) = create_writer(file);
         let offset = UtcOffset::current_local_offset().unwrap_or(UtcOffset::UTC);
-        let timmer = OffsetTime::new(offset, &Iso8601::DEFAULT);
+        let timer = OffsetTime::new(offset, &Iso8601::DEFAULT);
 
         let file_fmt = fmt::layer()
             .map_fmt_fields(|f| f)
             .with_ansi(false)
             .with_line_number(true)
-            .with_timer(timmer)
+            .with_timer(timer)
             .with_writer(writer)
             .boxed();
 

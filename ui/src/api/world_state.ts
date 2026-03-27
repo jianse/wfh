@@ -155,7 +155,7 @@ export async function get_raw_world_state() {
   return data
 }
 
-export async function update_and_get_raw() {
+export async function force_reload() {
   const { data } = await http.post<BizResp<RawWorldState>>('/raw_world_state/reload', undefined, {
     timeout: 10000,
   })

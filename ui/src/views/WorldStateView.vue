@@ -76,7 +76,7 @@
 </template>
 
 <script setup lang="ts">
-import { get_raw_world_state, type RawWorldState } from '@/api/world_state'
+import { get_raw_world_state, force_reload, type RawWorldState } from '@/api/world_state'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
 import { useToast } from 'primevue/usetoast'
@@ -196,7 +196,7 @@ async function fetchWorldState() {
 async function forceFetch() {
   loading.value = true
   try {
-    const { data } = await update_and_get_raw()
+    const { data } = await force_reload()
     if (data) {
       rawWorldState.value = data
       toast.add({

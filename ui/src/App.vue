@@ -60,6 +60,11 @@ const navItems: MenuItem[] = [
     label: '重写数据',
     route: { name: 'world-state-rewrite' },
   },
+  {
+    requireAdmin: true,
+    label: '同步记录',
+    route: { name: 'sync-records' },
+  },
 ]
 
 const computedNav = computed(() => {

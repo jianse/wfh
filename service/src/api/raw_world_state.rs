@@ -17,14 +17,18 @@ use crate::AppState;
 use crate::api::BizError;
 use crate::api::BizResponse;
 use crate::api::BizResult;
+use crate::api::Page;
+use crate::api::Pager;
 use crate::api::load_deps;
 use crate::api::raw_world_state::deps::deps_routes;
 use crate::api::raw_world_state::parse::fill_raw_world_state;
 use crate::entities;
 use crate::entities::prelude::RawWorldState as RawWorldStateEntity;
+use axum::extract::Query;
 use axum::extract::State;
 use model::RawWorldState;
 pub use model::*;
+use serde::Serialize;
 use std::collections::BTreeSet;
 use std::time::Instant;
 use tracing::info;
@@ -114,7 +118,59 @@ pub fn raw_world_state_routes(state: AppState) -> Router<AppState> {
         .route("/parsed", get(get_parsed_world_state))
         .route("/reload", post(force_reload_world_state))
         .route("/st_pvt", get(get_st_prime_vault_trader))
+        .route("/sync_records", get(list_sync_records))
         .nest("/deps", deps_routes(state))
+}
+
+/// Sync record response model
+#[derive(Debug, Serialize)]
+pub struct SyncRecordResponse {
+    pub id: i32,
+    pub sync_time: DateTimeUtc,
+    pub is_success: bool,
+    pub time_spent_ms: i32,
+    pub error_msg: Option<String>,
+    pub warnings: Option<String>,
+    pub nearest_expiry: Option<DateTimeUtc>,
+}
+
+impl From<entities::raw_world_state::Model> for SyncRecordResponse {
+    fn from(model: entities::raw_world_state::Model) -> Self {
+        Self {
+            id: model.id,
+            sync_time: model.sync_time,
+            is_success: model.is_success,
+            time_spent_ms: model.time_spent_ms,
+            error_msg: model.error_msg,
+            warnings: model.warnings,
+            nearest_expiry: model.nearest_expiry,
+        }
+    }
+}
+
+/// List sync records with pagination
+#[axum::debug_handler]
+async fn list_sync_records(
+    State(state): State<AppState>,
+    Query(pager): Query<Pager>,
+) -> BizResult<BizResponse<Page<SyncRecordResponse>>> {
+    use sea_orm::PaginatorTrait;
+
+    let paginator = RawWorldStateEntity::find()
+        .order_by_desc(entities::raw_world_state::Column::SyncTime)
+        .paginate(&state.conn, pager.page_size);
+
+    let total = paginator.num_items().await?;
+    let items = paginator.fetch_page(pager.page - 1).await?;
+
+    let records: Vec<SyncRecordResponse> = items.into_iter().map(|m| m.into()).collect();
+
+    Ok(BizResponse::ok_page(
+        pager.page,
+        pager.page_size,
+        total as u64,
+        records,
+    ))
 }
 
 /// force reload world state

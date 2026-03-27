@@ -82,6 +82,14 @@ const router = createRouter({
       },
     },
     {
+      path: '/manage/sync-records',
+      name: 'sync-records',
+      component: () => import('@/views/manage/SyncRecordsView.vue'),
+      meta: {
+        requiresAdmin: true,
+      },
+    },
+    {
       path: '/404',
       name: 'not-found',
       component: () => import('@/views/NotFoundView.vue'),
