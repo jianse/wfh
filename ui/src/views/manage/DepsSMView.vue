@@ -1,8 +1,8 @@
 <template>
   <div class="flex gap-2">
-    <pv-button @click="fetch" label="Fetch" />
-    <pv-button @click="openNewDialog" label="New" />
-    <pv-button @click="reloadDeps" label="ReloadDeps" />
+    <pv-button @click="fetch" label="获取" />
+    <pv-button @click="openNewDialog" label="新建" />
+    <pv-button @click="reloadDeps" label="重载依赖" :loading="reloading" />
   </div>
   <pv-data-table :value="data" scrollable scrollHeight="calc(100vh - 14rem)">
     <pv-column field="id" header="ID"></pv-column>
@@ -148,8 +148,11 @@
 <script setup lang="ts">
 import { delete_sm, list_sm, new_sm, reload, type SortieModifier } from '@/api/deps'
 import { ref } from 'vue'
+import { useToast } from 'primevue/usetoast'
 
 const data = ref<SortieModifier[]>([])
+const toast = useToast()
+const reloading = ref(false)
 
 const dialogVis = ref(false)
 const sortieMod = ref<SortieModifier>({
@@ -175,6 +178,12 @@ function addVar() {
 
 async function fetch() {
   data.value = await list_sm()
+  toast.add({
+    severity: 'success',
+    summary: '获取成功',
+    detail: '已成功获取数据',
+    life: 3000,
+  })
 }
 
 fetch()
@@ -204,10 +213,27 @@ async function saveSOM() {
   await new_sm(sortieMod.value)
   fetch()
   dialogVis.value = false
+  toast.add({
+    severity: 'success',
+    summary: '保存成功',
+    detail: '已成功保存数据',
+    life: 3000,
+  })
 }
 
 async function reloadDeps() {
-  await reload()
+  reloading.value = true
+  try {
+    await reload()
+    toast.add({
+      severity: 'success',
+      summary: '重载成功',
+      detail: '已成功重载依赖',
+      life: 3000,
+    })
+  } finally {
+    reloading.value = false
+  }
 }
 
 const deleteDlgVis = ref(false)
@@ -222,5 +248,11 @@ async function doDelete() {
   await delete_sm(si.value.id)
   deleteDlgVis.value = false
   fetch()
+  toast.add({
+    severity: 'success',
+    summary: '删除成功',
+    detail: '已成功删除数据',
+    life: 3000,
+  })
 }
 </script>
