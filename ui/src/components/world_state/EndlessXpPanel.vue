@@ -10,19 +10,19 @@
       <div class="flex flex-col gap-3">
         <div v-for="cat in exp" :key="cat.Category">
           <div class="font-bold mb-2">{{ cat.Category === 'EXC_NORMAL' ? '普通' : '困难' }}</div>
-          <ul class="list-disc list-outside pl-4 text-sm space-y-1">
+          <ul class="list-none list-outside pl-4 text-sm flex flex-wrap gap-4">
             <li
               v-for="item in cat.ChoicesComputed"
               :key="item.uniqueName"
-              class="flex items-center gap-2"
+              class="flex flex-col items-center gap-1"
             >
               <img
                 v-if="item.url"
                 :src="item.url"
-                class="h-5 w-5 inline-block align-text-bottom"
+                class="h-20 w-20 object-contain"
                 :alt="item.name"
               />
-              <span>{{ item.name }}</span>
+              <span class="text-center">{{ item.name }}</span>
             </li>
           </ul>
         </div>
