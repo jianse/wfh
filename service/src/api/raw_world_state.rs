@@ -81,10 +81,9 @@ async fn fetch_raw_world_state(http_client: &reqwest::Client, url: &str) -> BizR
 
     let resp = http_client.get(url).send().await?;
     info!("fetch_raw_world_state time: {:?}.", time.elapsed());
-    info!("resp headers {:?}", resp.headers());
 
     let body = resp.text().await?;
-    // dbg!(&body);
+    std::fs::write("cache/raw_world_state.json", &body)?;
 
     let time = Instant::now();
     let mut de = serde_json::Deserializer::from_str(body.as_str());
@@ -111,7 +110,8 @@ async fn fetch_raw_world_state(http_client: &reqwest::Client, url: &str) -> BizR
 
 pub fn raw_world_state_routes(state: AppState) -> Router<AppState> {
     Router::new()
-        .route("/current", get(get_raw_world_state))
+        .route("/raw", get(get_raw_world_state))
+        .route("/parsed", get(get_parsed_world_state))
         .route("/reload", post(force_reload_world_state))
         .route("/st_pvt", get(get_st_prime_vault_trader))
         .nest("/deps", deps_routes(state))
@@ -141,6 +141,7 @@ async fn force_reload_world_state(
                 warnings: if ignored.is_empty() {
                     NotSet
                 } else {
+                    dbg!(&ignored);
                     Set(Some(serde_json::to_string(&ignored)?))
                 },
                 nearest_expiry: Set(nearest_expiry),
@@ -251,8 +252,15 @@ pub async fn sync_raw_world_state(state: AppState) -> BizResult<Option<DateTime<
 /// get and parse raw world state from the CN real game server
 /// then return to the client
 #[axum::debug_handler]
-async fn get_raw_world_state() -> BizResult<BizResponse<serde_json::Value>> {
+async fn get_parsed_world_state() -> BizResult<BizResponse<serde_json::Value>> {
     let ws = std::fs::read_to_string("cache/current_world_state.json")?;
+    let raw: serde_json::Value = serde_json::from_str(&ws)?;
+    Ok(BizResponse::ok_with(raw))
+}
+
+#[axum::debug_handler]
+async fn get_raw_world_state() -> BizResult<BizResponse<serde_json::Value>> {
+    let ws = std::fs::read_to_string("cache/raw_world_state.json")?;
     let raw: serde_json::Value = serde_json::from_str(&ws)?;
     Ok(BizResponse::ok_with(raw))
 }

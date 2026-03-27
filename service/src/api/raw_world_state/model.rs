@@ -473,6 +473,9 @@ pub struct EndlessXpChoice {
     pub category: String,
     #[serde(rename = "Choices")]
     pub choices: Vec<String>,
+
+    #[serde(rename = "ChoicesEx", skip_serializing_if = "Option::is_none")]
+    pub choices_ex: Option<Vec<String>>,
 }
 
 #[serde_as]

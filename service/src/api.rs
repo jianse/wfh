@@ -52,7 +52,8 @@ static WHITE_LIST: Lazy<RegexSet> = Lazy::new(|| {
     RegexSet::new([
         "/translations/all",
         "/world_state/current",
-        "/raw_world_state/current",
+        "/raw_world_state/raw",
+        "/raw_world_state/parsed",
         "/raw_world_state/st_pvt",
     ])
     .unwrap()

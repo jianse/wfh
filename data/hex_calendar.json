@@ -193,6 +193,20 @@
       "vars": {
         "COUNT": "250"
       }
+    },
+    "/Lotus/Types/Challenges/Calendar1999/CalendarKillEnemiesEasy": {
+      "name": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemies_Name",
+      "description": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemies_Description",
+      "vars": {
+        "COUNT": "250"
+      }
+    },
+    "/Lotus/Types/Challenges/Calendar1999/CalendarKillTechrotEnemiesWithMeleeMedium": {
+      "name": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithMeleeTechrot_Name",
+      "description": "/Lotus/Language/1999Challenges/Challenge_CalendarKillEnemiesWithMeleeTechrot_Description",
+      "vars": {
+        "COUNT": "150"
+      }
     }
   },
   "upgrades": {
@@ -312,6 +326,14 @@
     "/Lotus/Upgrades/Calendar/StatusChancePerAmmoSpent": {
       "name": "/Lotus/Language/1999/StatusChancePerAmmoSpentName",
       "description": "/Lotus/Language/1999/StatusChancePerAmmoSpentDesc"
+    },
+    "/Lotus/Upgrades/Calendar/BlastEveryXShots": {
+      "name": "/Lotus/Language/1999/BlastEveryXShotsName",
+      "description": "/Lotus/Language/1999/BlastEveryXShotsDesc"
+    },
+    "/Lotus/Upgrades/Calendar/MeleeSlideFowardMomentumOnEnemyHit": {
+      "name": "/Lotus/Language/1999/MeleeSlideFowardMomentumOnEnemyHitName",
+      "description": "/Lotus/Language/1999/MeleeSlideFowardMomentumOnEnemyHitDesc"
     }
   }
 }

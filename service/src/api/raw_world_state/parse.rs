@@ -298,14 +298,32 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
     for exc in raw.endless_xp_choices.iter_mut() {
         match exc.category.as_str() {
             "EXC_NORMAL" => {
+                let mut t_choices = vec![];
                 for c in exc.choices.iter_mut() {
+                    t_choices.push(
+                        deps.the_circuit
+                            .warframes
+                            .get(c)
+                            .cloned()
+                            .unwrap_or(c.clone()),
+                    );
                     *c = deps.the_circuit.get_warframe_name(c, &deps)
                 }
+                exc.choices_ex = Some(t_choices);
             }
             "EXC_HARD" => {
+                let mut t_choices = vec![];
                 for c in exc.choices.iter_mut() {
+                    t_choices.push(
+                        deps.the_circuit
+                            .incarnons
+                            .get(c)
+                            .cloned()
+                            .unwrap_or(c.clone()),
+                    );
                     *c = deps.the_circuit.get_incarnon_name(c, &deps)
                 }
+                exc.choices_ex = Some(t_choices);
             }
 
             _ => {

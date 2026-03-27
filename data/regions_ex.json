@@ -49,5 +49,39 @@
         "faction": "FC_GRINEER",
         "factionIndex": 0,
         "factionName": "/Lotus/Language/Game/Faction_GrineerUC"
+    },
+    "EventNode24": {
+        "name": "/Lotus/Language/Messages/Anniversary2019MsgTitle",
+        "systemIndex": 2,
+        "systemName": "/Lotus/Language/Locations/Earth",
+        "nodeType": 0,
+        "masteryReq": 0,
+        "missionType": "MT_TERRITORY",
+        "missionIndex": 13,
+        "missionName": "/Lotus/Language/Missions/MissionName_Territory",
+        "minEnemyLevel": 10,
+        "maxEnemyLevel": 15,
+        "masteryExp": 0,
+        "hidden": true,
+        "faction": "FC_CORPUS",
+        "factionIndex": 1,
+        "factionName": "/Lotus/Language/Game/Faction_CorpusUC"
+    },
+    "EventNode18": {
+        "name": "/Lotus/Language/Messages/Anniversary2019MsgTitle",
+        "systemIndex": 2,
+        "systemName": "/Lotus/Language/Locations/Earth",
+        "nodeType": 0,
+        "masteryReq": 0,
+        "missionType": "MT_TERRITORY",
+        "missionIndex": 13,
+        "missionName": "/Lotus/Language/Missions/MissionName_Territory",
+        "minEnemyLevel": 10,
+        "maxEnemyLevel": 15,
+        "masteryExp": 0,
+        "hidden": true,
+        "faction": "FC_CORPUS",
+        "factionIndex": 1,
+        "factionName": "/Lotus/Language/Game/Faction_CorpusUC"
     }
 }
