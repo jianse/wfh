@@ -51,6 +51,7 @@ declare module 'vue' {
     PvMenubar: typeof import('primevue/menubar')['default']
     PvMessage: typeof import('primevue/message')['default']
     PvPaginator: typeof import('primevue/paginator')['default']
+    PvPanel: typeof import('primevue/panel')['default']
     PvPassword: typeof import('primevue/password')['default']
     PvPopover: typeof import('primevue/popover')['default']
     PvProgressBar: typeof import('primevue/progressbar')['default']
@@ -61,6 +62,7 @@ declare module 'vue' {
     PvTabPanel: typeof import('primevue/tabpanel')['default']
     PvTabPanels: typeof import('primevue/tabpanels')['default']
     PvTabs: typeof import('primevue/tabs')['default']
+    PvTag: typeof import('primevue/tag')['default']
     PvTextarea: typeof import('primevue/textarea')['default']
     PvToast: typeof import('primevue/toast')['default']
     PvVirtualScroller: typeof import('primevue/virtualscroller')['default']
@@ -74,5 +76,6 @@ declare module 'vue' {
   }
   export interface GlobalDirectives {
     Ripple: typeof import('primevue/ripple')['default']
+    Tooltip: typeof import('primevue/tooltip')['default']
   }
 }

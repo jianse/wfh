@@ -149,7 +149,7 @@ export async function update_and_get() {
 }
 
 export async function get_raw_world_state() {
-  const { data } = await http.get<BizResp<RawWorldState>>('/raw_world_state/current', {
+  const { data } = await http.get<BizResp<RawWorldState>>('/raw_world_state/parsed', {
     skipAuth: true,
   } as CustomRequestConfig)
   return data
