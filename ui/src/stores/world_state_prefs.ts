@@ -24,13 +24,7 @@ export interface WorldStatePrefs {
   layout: 'grid' | 'list'
 }
 
-const defaultSections: WorldStateSection[] = [
-  'cycles',
-  'fissures',
-  'alerts',
-  'invasions',
-  'sortie',
-]
+const defaultSections: WorldStateSection[] = ['cycles', 'fissures', 'alerts', 'invasions', 'sortie']
 
 export const useWorldStatePrefsStore = defineStore(
   'worldStatePrefs',
@@ -41,6 +35,7 @@ export const useWorldStatePrefsStore = defineStore(
     })
 
     const enabledSections = computed(() => prefs.value.enabledSections)
+    const layout = computed(() => prefs.value.layout)
 
     function toggleSection(section: WorldStateSection) {
       const index = prefs.value.enabledSections.indexOf(section)
@@ -88,6 +83,7 @@ export const useWorldStatePrefsStore = defineStore(
     return {
       prefs,
       enabledSections,
+      layout,
       toggleSection,
       setLayout,
       selectAll,
