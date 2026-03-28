@@ -1,7 +1,12 @@
 <template>
   <div class="flex flex-col m-4 gap-4 max-w-400 mx-auto w-full">
     <!-- 配置面板 -->
-    <pv-panel header="世界状态面板配置 (拖拽标签排序)" toggleable>
+    <pv-panel
+      header="世界状态面板配置 (拖拽标签排序)"
+      toggleable
+      :collapsed="!wsPrefs.panelExpanded"
+      @toggle="wsPrefs.togglePanel()"
+    >
       <div class="flex flex-col gap-4">
         <!-- 可选模块 -->
         <div class="border rounded-md p-4">

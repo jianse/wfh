@@ -25,12 +25,14 @@ export interface WorldStatePrefs {
   fissureTiers: string[]
   hexCalendarEvents: string[]
   conquests: Record<string, boolean>
+  panelExpanded: boolean
 }
 
 const defaultSections: WorldStateSection[] = ['cycles', 'fissures', 'alerts', 'invasions', 'sortie']
 const defaultFissureTiers = ['VoidT1', 'VoidT2', 'VoidT3', 'VoidT4', 'VoidT5', 'VoidT6']
 const defaultHexCalendarEvents = ['CET_CHALLENGE', 'CET_REWARD', 'CET_BIRTHDAY', 'CET_UPGRADE']
 const defaultConquests: Record<string, boolean> = {}
+const defaultPanelExpanded = true
 
 export const useWorldStatePrefsStore = defineStore(
   'worldStatePrefs',
@@ -41,6 +43,7 @@ export const useWorldStatePrefsStore = defineStore(
       fissureTiers: defaultFissureTiers,
       hexCalendarEvents: defaultHexCalendarEvents,
       conquests: defaultConquests,
+      panelExpanded: defaultPanelExpanded,
     })
 
     const enabledSections = computed(() => prefs.value.enabledSections)
@@ -48,6 +51,7 @@ export const useWorldStatePrefsStore = defineStore(
     const fissureTiers = computed(() => prefs.value.fissureTiers)
     const hexCalendarEvents = computed(() => prefs.value.hexCalendarEvents)
     const conquests = computed(() => prefs.value.conquests)
+    const panelExpanded = computed(() => prefs.value.panelExpanded)
 
     function toggleSection(section: WorldStateSection) {
       const index = prefs.value.enabledSections.indexOf(section)
@@ -126,6 +130,14 @@ export const useWorldStatePrefsStore = defineStore(
       return prefs.value.conquests[type] || false
     }
 
+    function togglePanel() {
+      prefs.value.panelExpanded = !prefs.value.panelExpanded
+    }
+
+    function setPanelExpanded(expanded: boolean) {
+      prefs.value.panelExpanded = expanded
+    }
+
     return {
       prefs,
       enabledSections,
@@ -133,6 +145,7 @@ export const useWorldStatePrefsStore = defineStore(
       fissureTiers,
       hexCalendarEvents,
       conquests,
+      panelExpanded,
       toggleSection,
       setLayout,
       selectAll,
@@ -144,6 +157,8 @@ export const useWorldStatePrefsStore = defineStore(
       toggleHexCalendarEvent,
       setConquestHard,
       getConquestHard,
+      togglePanel,
+      setPanelExpanded,
     }
   },
   { persist: true },
