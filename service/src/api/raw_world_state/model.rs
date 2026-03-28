@@ -151,6 +151,10 @@ pub struct RawWorldState {
     #[serde(rename = "EndlessXpChoices")]
     pub endless_xp_choices: Vec<EndlessXpChoice>,
 
+    /// 无尽回廊 added at version 42.0.0
+    #[serde(rename = "EndlessXpSchedule")]
+    pub endless_xp_schedule: Vec<EndlessXpSchedule>,
+
     #[serde(rename = "ForceLogoutVersion")]
     pub force_logout_version: u64,
 
@@ -189,6 +193,21 @@ pub struct RawWorldState {
     /// 沉沦之地
     #[serde(rename = "Descents")]
     pub descents: Vec<Descent>,
+}
+
+#[serde_as]
+#[derive(Debug, Deserialize, Serialize, Clone)]
+pub struct EndlessXpSchedule {
+    #[serde_as(deserialize_as = "TryFromInto<Date>")]
+    #[serde(rename = "Activation")]
+    pub activation: DateTime<Utc>,
+
+    #[serde_as(deserialize_as = "TryFromInto<Date>")]
+    #[serde(rename = "Expiry")]
+    pub expiry: DateTime<Utc>,
+
+    #[serde(rename = "CategoryChoices")]
+    pub category_choices: Vec<EndlessXpChoice>,
 }
 
 #[serde_as]

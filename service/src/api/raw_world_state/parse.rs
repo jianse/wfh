@@ -1488,7 +1488,7 @@ mod tests {
             .with_max_level(Level::DEBUG)
             .init();
 
-        let mut file = File::open("./tests/samples/full/ws_wg_org-20251212.json").unwrap();
+        let mut file = File::open("./tests/samples/full/ws_wg_org-20260328.json").unwrap();
         let mut raw = serde_json::from_reader::<_, RawWorldState>(&mut file).unwrap();
         let client = Client::new();
         load_deps("../data", "../cache", &client, false)
