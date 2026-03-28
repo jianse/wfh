@@ -11,6 +11,7 @@ import { delete_translation, save_translation } from '@/api/translations'
 import { useToast } from 'primevue'
 import { useTransStore } from '@/stores/translations'
 import { useElementSize } from '@vueuse/core'
+import CustomTabs from '@/components/CustomTabs.vue'
 
 interface RelicRewardEx extends RelicReward {
   name_t?: string
@@ -27,7 +28,7 @@ interface RelicEx extends Relic {
 const { wf_t, write_back_trans, remove_trans } = useTransStore()
 
 const tabedItems = computed(() => {
-  if (tier.value) {
+  if (tier.value && tier.value !== 'Any') {
     return translatedItems.value.filter((it) => it.tier === tier.value)
   } else {
     return translatedItems.value
@@ -104,7 +105,17 @@ function rarityIcon(rarity: string): string {
   return ''
 }
 
-const tier = ref('')
+const tier = ref('Any')
+
+const tabOptions = [
+  { label: '全部', value: 'Any' },
+  { label: '古纪', value: 'T1' },
+  { label: '前纪', value: 'T2' },
+  { label: '中纪', value: 'T3' },
+  { label: '后纪', value: 'T4' },
+  { label: '安魂', value: 'T5' },
+]
+
 // function vaultStatus2Num(vaultStatus: string): number {
 //   switch (vaultStatus) {
 //     case 'InVault':
@@ -208,47 +219,42 @@ function searchInput(e: Event) {
 </script>
 
 <template>
-  <div class="h-full flex flex-col">
-    <div
-      class="c-toolbar w-full sticky top-0 z-10 flex flex-row place-content-between mb-2"
-      style="background-color: var(--color-background)"
-    >
-      <pv-tabs v-model:value="tier">
-        <pv-tab-list>
-          <pv-tab value="">全部</pv-tab>
-          <pv-tab value="T1">古纪</pv-tab>
-          <pv-tab value="T2">前纪</pv-tab>
-          <pv-tab value="T3">中纪</pv-tab>
-          <pv-tab value="T4">后纪</pv-tab>
-          <pv-tab value="T5">安魂</pv-tab>
-        </pv-tab-list>
-      </pv-tabs>
-      <div class="flex flex-col place-content-around">
-        <div class="py-1 px-2 flex flex-row gap-3 place-content-around">
-          <label
-            >搜索：<pv-input-text
-              placeholder="输入关键字"
-              size="small"
-              :default-value="kwFilter"
-              @input="searchInput"
-            ></pv-input-text
-          ></label>
+  <div class="flex flex-col gap-4 p-4">
+    <!-- Toolbar Card -->
+    <pv-card class="sticky top-0 z-10 shadow-md">
+      <template #content>
+        <div class="flex flex-row justify-between items-center">
+          <!-- Custom Tabs -->
+          <CustomTabs v-model="tier" :options="tabOptions" />
 
-          <div class="flex items-center gap-2">
-            <pv-checkbox v-model="ignoreCase" inputId="ignoreCase" binary />
-            <label for="ignoreCase"> 忽略大小写 </label>
+          <!-- Search Controls -->
+          <div class="flex items-center gap-4">
+            <label class="flex items-center gap-2">
+              <span class="text-sm font-medium">搜索:</span>
+              <pv-input-text
+                placeholder="输入关键字"
+                size="small"
+                :default-value="kwFilter"
+                @input="searchInput"
+                class="w-48"
+              ></pv-input-text>
+            </label>
+
+            <div class="flex items-center gap-2">
+              <pv-checkbox v-model="ignoreCase" inputId="ignoreCase" binary />
+              <label for="ignoreCase" class="text-sm"> 忽略大小写 </label>
+            </div>
           </div>
-          <label>筛选：<pv-select size="small" /></label>
         </div>
-      </div>
-    </div>
+      </template>
+    </pv-card>
 
+    <!-- Relic Cards with Virtual Scroller -->
     <pv-virtual-scroller
-      class="mx-2"
       ref="scroller"
       :items="itemsComputed"
       :item-size="itemHeight"
-      auto-size
+      style="width: 100%; height: calc(100vh - 120px)"
     >
       <template v-slot:item="{ item: row }">
         <div class="flex flex-row gap-2 pb-2">
@@ -296,49 +302,6 @@ function searchInput(e: Event) {
         </div>
       </template>
     </pv-virtual-scroller>
-    <!-- <div class="flex gap-2 overflow-y-scroll flex-wrap p-2">
-      <pv-card class="w-72" v-for="item in items" :key="item.uniqueName">
-        <template #header>
-          <div class="relative">
-            <img
-              class="w-72 h-72"
-              loading="lazy"
-              :src="'https://content.warframe.com/PublicExport' + item.textureLocation"
-            />
-            <pv-button
-              v-if="isAdmin"
-              class="absolute top-2 right-2"
-              size="small"
-              rounded
-              variant="outlined"
-              icon="pi pi-pencil"
-              @click="openEditDialog(item)"
-            ></pv-button>
-          </div>
-        </template>
-        <template #title> {{ item.name }} {{ suffix(item.uniqueName) }} </template>
-        <template #content>
-          <div class="relic-rewards">
-            <div
-              v-for="reward in item.relicRewards"
-              :key="reward.rewardName"
-              class="flex flex-row place-content-between"
-            >
-              <div class="overflow-hidden text-nowrap">
-                <img
-                  class="inline"
-                  :src="rarityIcon(reward.rarity)"
-                  :alt="reward.rarity"
-                  style="height: 20px; vertical-align: text-bottom"
-                /><span v-if="reward.itemCount > 1">{{ reward.itemCount }} &times; </span
-                >{{ reward.name_t || reward.name }}
-              </div>
-              <span style="font-weight: bold"> {{ reward.primeSellingPrice }}</span>
-            </div>
-          </div>
-        </template>
-      </pv-card>
-    </div> -->
   </div>
   <pv-dialog
     :header="`修改[${dialogData.name}]`"
