@@ -5,6 +5,9 @@ import dayjs from 'dayjs'
 import { defineAsyncComponent } from 'vue'
 import { do_refresh_token } from './token'
 
+// 全局锁，用于防止多个请求同时触发 refresh token
+let refreshPromise: Promise<void> | null = null
+
 const instance = axios.create({
   baseURL: import.meta.env.VITE_BASEURL,
   headers: {
@@ -71,9 +74,18 @@ instance.interceptors.request.use(async (config: CustomRequestConfig) => {
       clearToken()
       return Promise.reject('refresh token expired')
     } else if (refresh_token && clientId) {
-      // const { refresh_token, clientId } = useTokenStore()
-      const res = await do_refresh_token({ refresh_token, client_id: clientId })
-      await setToken(res.data)
+      // 使用全局锁确保只有一个请求触发 refresh token
+      if (!refreshPromise) {
+        refreshPromise = (async () => {
+          try {
+            const res = await do_refresh_token({ refresh_token, client_id: clientId })
+            await setToken(res.data)
+          } finally {
+            refreshPromise = null
+          }
+        })()
+      }
+      await refreshPromise
     } else {
       // refresh token not exist
       return Promise.reject('refresh token not exist')
