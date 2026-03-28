@@ -79,6 +79,7 @@ const router = createRouter({
       component: () => import('@/views/manage/WorldStateRewriteView.vue'),
       meta: {
         requiresAdmin: true,
+        requiresRole: 'maintainer',
       },
     },
     {
@@ -87,6 +88,15 @@ const router = createRouter({
       component: () => import('@/views/manage/SyncRecordsView.vue'),
       meta: {
         requiresAdmin: true,
+        requiresRole: 'maintainer',
+      },
+    },
+    {
+      path: '/manage/users',
+      name: 'user-management',
+      component: () => import('@/views/manage/UserManagementView.vue'),
+      meta: {
+        requiresRole: 'admin',
       },
     },
     {
@@ -102,8 +112,25 @@ const router = createRouter({
 })
 
 router.beforeEach((to, _from) => {
-  const { isAdmin } = useUserStore()
-  if (to.meta.requiresAdmin && !isAdmin) {
+  const { user } = useUserStore()
+  const role = user?.role
+
+  const requiredRole = to.meta.requiresRole
+
+  // admin 可以访问所有页面
+  if (role === 'admin') {
+    return
+  }
+
+  // maintainer 不能访问管理员专属页面
+  if (role === 'maintainer' && requiredRole === 'admin') {
+    // if (requiredRole === 'admin') {
+    return { name: 'not-found' }
+    // }
+  }
+
+  // normal 不能访问管理员和维护者页面
+  if (role === 'normal' && (requiredRole === 'admin' || requiredRole === 'maintainer')) {
     return { name: 'not-found' }
   }
 })

@@ -99,10 +99,10 @@ function onKwInput(e: Event) {
       <template #default="{ item }">
         <div class="w-75 h-128.5 p-2">
           <pv-card class="card">
-              <template #header>
+            <template #header>
               <pos-mod :mod="item" max-rank class="mx-auto"></pos-mod>
             </template>
-            </pv-card>
+          </pv-card>
         </div>
       </template>
     </recycle-scroller>

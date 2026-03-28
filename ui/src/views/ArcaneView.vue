@@ -156,7 +156,7 @@ function onKwInput(e: Event) {
         class="w-72"
         :class="{
           'bg-red-600/10': !item.inGame,
-          'border': !item.inGame,
+          border: !item.inGame,
           'border-red-300': !item.inGame,
         }"
         v-for="item in items"

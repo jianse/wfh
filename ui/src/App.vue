@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import type { MenuItem } from 'primevue/menuitem'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from './stores/user'
 import { computed, onMounted, ref } from 'vue'
 import { useTokenStore } from './stores/token'
 import { storeToRefs } from 'pinia'
 import { get_current_user } from './api/user'
-
-// const {isAdmin} = storeToRefs(useUserStore())
 
 const navItems: MenuItem[] = [
   {
@@ -56,22 +54,53 @@ const navItems: MenuItem[] = [
     route: { name: 'world-state' },
   },
   {
-    requireAdmin: true,
+    requireRole: 'maintainer',
     label: '重写数据',
     route: { name: 'world-state-rewrite' },
   },
   {
-    requireAdmin: true,
+    requireRole: 'maintainer',
     label: '同步记录',
     route: { name: 'sync-records' },
+  },
+  {
+    requireRole: 'admin',
+    label: '用户管理',
+    route: { name: 'user-management' },
   },
 ]
 
 const computedNav = computed(() => {
-  if (isAdmin.value) {
+  const role = user.value?.role
+
+  console.log('role', role)
+
+  if (role == 'admin') {
     return navItems
   }
-  return navItems.filter((nav) => !nav.requireAdmin)
+  return navItems.filter((nav) => {
+    const requiredRole = nav.requireRole
+    if (!requiredRole) {
+      return true
+    } else {
+      // maintainer 不能访问管理员专属页面
+      if (role === 'maintainer' && requiredRole === 'admin') {
+        // if (requiredRole === 'admin') {
+        return false
+        // }
+      }
+
+      // normal 不能访问管理员和维护者页面
+      if (
+        (!role || role === 'normal') &&
+        (requiredRole === 'admin' || requiredRole === 'maintainer')
+      ) {
+        return false
+      }
+
+      return false
+    }
+  })
 })
 
 const router = useRouter()
@@ -80,10 +109,11 @@ function toLogin() {
   router.push({ name: 'login' })
 }
 
-const { isLogin, user, isAdmin } = storeToRefs(useUserStore())
+const { isLogin, user } = storeToRefs(useUserStore())
 
 // user menu
 const menu = ref()
+const route = useRoute()
 
 const menuItems = [
   {
@@ -92,6 +122,10 @@ const menuItems = [
     command: () => {
       const { clearToken } = useTokenStore()
       clearToken()
+      console.log('route', route)
+      if (route.meta.requiresRole) {
+        router.push({ name: 'home' })
+      }
     },
   },
 ]

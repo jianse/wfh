@@ -61,7 +61,7 @@ static WHITE_LIST: Lazy<RegexSet> = Lazy::new(|| {
 
 pub(crate) fn api_routes(state: AppState) -> Router<AppState> {
     Router::new()
-        .nest("/user", user::user_routes())
+        .nest("/user", user::user_routes(state.clone()))
         .nest(
             "/translations",
             translations::translations_routes(state.clone()),
