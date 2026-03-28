@@ -7,6 +7,7 @@ import { cloneDeep } from 'lodash'
 import { delete_translation, save_translation } from '@/api/translations'
 import { useTransStore } from '@/stores/translations'
 import { useOWarframes, type Warframes } from '@/util/localDB'
+import CustomTabs from '@/components/CustomTabs.vue'
 
 interface WarframeItemWithTrans extends Warframes {
   name_t?: string
@@ -131,7 +132,7 @@ async function saveTrans(unique_name: string, prop: string, content: string) {
     }
     await save_translation(it)
     write_back_trans(it)
-    toast.add({ severity: 'success', summary: '操作成功', detail: '添加译文成功！', life: 3000 })
+    toast.add({ severity: 'success', summary: '操作成功', detail: '添加译文成功!', life: 3000 })
   } finally {
     // stop loading
     if (prop === 'name') {
@@ -159,7 +160,7 @@ async function clearTrans(unique_name: string, prop: string) {
     }
     await delete_translation(it)
     remove_trans(it)
-    toast.add({ severity: 'success', summary: '操作成功', detail: '清空译文成功！', life: 3000 })
+    toast.add({ severity: 'success', summary: '操作成功', detail: '清空译文成功!', life: 3000 })
     if (prop === 'name') {
       nameTrans.value = ''
     }
@@ -183,6 +184,13 @@ const ignoreCase = ref(true)
 
 const cat = ref('Any')
 
+const tabOptions = [
+  { label: '所有', value: 'Any' },
+  { label: '战甲', value: 'Suits' },
+  { label: '曲翼', value: 'SpaceSuits' },
+  { label: '殁世机甲', value: 'MechSuits' },
+]
+
 function onInput(e: Event) {
   if (e instanceof InputEvent && e.isComposing) {
     return
@@ -192,85 +200,101 @@ function onInput(e: Event) {
 </script>
 
 <template>
-  <div
-    class="sticky top-0 z-10 flex flex-row place-content-between"
-    style="background-color: var(--color-background)"
-  >
-    <pv-tabs v-model:value="cat">
-      <pv-tab-list>
-        <pv-tab value="Any">所有</pv-tab>
-        <pv-tab value="Suits">战甲</pv-tab>
-        <pv-tab value="SpaceSuits">曲翼</pv-tab>
-        <pv-tab value="MechSuits">殁世机甲</pv-tab>
-      </pv-tab-list>
-    </pv-tabs>
-    <div class="flex flex-col place-content-around me-3">
-      <div class="flex flex-row gap-3 place-content-around">
-        <label
-          >搜索：<pv-input-text
-            placeholder="输入关键字"
-            size="small"
-            :default-value="kwFilter"
-            @input="onInput"
-          ></pv-input-text
-        ></label>
-
-        <div class="flex items-center gap-2">
-          <pv-checkbox v-model="ignoreCase" inputId="ignoreCase" binary />
-          <label for="ignoreCase"> 忽略大小写 </label>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="flex gap-2 flex-wrap p-2">
-    <pv-card v-for="item in items" :key="item.uniqueName" class="w-72">
-      <template #header>
-        <div class="relative">
-          <pv-image
-            :alt="item.name_t || item.name"
-            :src="'https://content.warframe.com/PublicExport' + item.textureLocation"
-            imageClass="w-72 h-72"
-            loading="lazy"
-          />
-          <pv-button
-            v-if="isAdmin"
-            class="absolute top-2 right-2"
-            size="small"
-            rounded
-            variant="outlined"
-            icon="pi pi-pencil"
-            @click="openEditDialog(item)"
-          ></pv-button>
-        </div>
-      </template>
-      <template #title>
-        <StringWithIcon :text="item.name_t || item.name"></StringWithIcon
-      ></template>
+  <div class="flex flex-col gap-4 p-4">
+    <!-- Toolbar Card -->
+    <pv-card class="sticky top-0 z-10 shadow-md">
       <template #content>
-        {{ item.uniqueName }}
-        <div class="max-h-24 overflow-auto">
-          {{ item.description_t || item.description }}
+        <div class="flex flex-row justify-between items-center">
+          <!-- Custom Tabs -->
+          <CustomTabs v-model="cat" :options="tabOptions" />
+
+          <!-- Search Controls -->
+          <div class="flex items-center gap-4">
+            <label class="flex items-center gap-2"
+              ><span class="text-sm font-medium">搜索:</span>
+              <pv-input-text
+                placeholder="输入关键字"
+                size="small"
+                :default-value="kwFilter"
+                @input="onInput"
+                class="w-48"
+              ></pv-input-text
+            ></label>
+
+            <div class="flex items-center gap-2">
+              <pv-checkbox v-model="ignoreCase" inputId="ignoreCase" binary />
+              <label for="ignoreCase" class="text-sm"> 忽略大小写 </label>
+            </div>
+          </div>
         </div>
       </template>
     </pv-card>
 
-    <PvSpeedDial
-      pt:pcButton:root:class="size-15"
-      :model="actions"
-      :radius="120"
-      :actionButtonProps="{
-        rounded: true,
-      }"
-      type="quarter-circle"
-      direction="up-left"
-      :style="{ position: 'absolute', right: '30px', bottom: '30px' }"
-    />
+    <!-- Warframe Cards Grid -->
+    <div class="flex gap-4 flex-wrap">
+      <pv-card
+        v-for="item in items"
+        :key="item.uniqueName"
+        class="w-72 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200 dark:border-gray-700"
+      >
+        <template #header>
+          <div class="relative group">
+            <pv-image
+              :alt="item.name_t || item.name"
+              :src="'https://content.warframe.com/PublicExport' + item.textureLocation"
+              imageClass="w-72 h-72 object-cover"
+              loading="lazy"
+            />
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            ></div>
+            <pv-button
+              v-if="isAdmin"
+              class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              size="small"
+              rounded
+              variant="filled"
+              icon="pi pi-pencil"
+              @click="openEditDialog(item)"
+            ></pv-button>
+          </div>
+        </template>
+        <template #title>
+          <div class="text-lg font-bold text-gray-800 dark:text-white truncate">
+            <StringWithIcon :text="item.name_t || item.name"></StringWithIcon>
+          </div>
+        </template>
+        <template #content>
+          <div class="space-y-2">
+            <div class="text-xs text-gray-500 dark:text-gray-400 font-mono">
+              {{ item.uniqueName }}
+            </div>
+            <div
+              class="text-sm text-gray-600 dark:text-gray-300 max-h-24 overflow-auto leading-relaxed"
+            >
+              {{ item.description_t || item.description }}
+            </div>
+          </div>
+        </template>
+      </pv-card>
+
+      <PvSpeedDial
+        pt:pcButton:root:class="size-15"
+        :model="actions"
+        :radius="120"
+        :actionButtonProps="{
+          rounded: true,
+        }"
+        type="quarter-circle"
+        direction="up-left"
+        :style="{ position: 'absolute', right: '30px', bottom: '30px' }"
+      />
+    </div>
   </div>
   <pv-dialog
     v-model:visible="editDialogVisible"
     modal
-    :header="`修改[${dialogData.name}]`"
+    :header="`修改 [${dialogData.name}]`"
     class="min-w-lg w-lg"
     dismissableMask
   >
@@ -281,7 +305,7 @@ function onInput(e: Event) {
     </div>
 
     <pv-fieldset legend="名称">
-      <div class="mb-2">原文: {{ dialogData.name }}</div>
+      <div class="mb-2">原文：{{ dialogData.name }}</div>
       <div class="mb-2">
         <label>译文: </label
         ><pv-input-text
@@ -312,7 +336,7 @@ function onInput(e: Event) {
     </pv-fieldset>
 
     <pv-fieldset legend="描述">
-      <div class="mb-2">原文: {{ dialogData.description }}</div>
+      <div class="mb-2">原文：{{ dialogData.description }}</div>
       <div class="mb-2 align-top">
         <label>译文: </label
         ><pv-textarea class="w-96" rows="3" size="small" v-model="descriptionTrans"></pv-textarea>
@@ -341,3 +365,32 @@ function onInput(e: Event) {
     </div>
   </pv-dialog>
 </template>
+
+<style scoped>
+/* Smooth scrolling for description text */
+.max-h-24::-webkit-scrollbar {
+  width: 4px;
+}
+
+.max-h-24::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.max-h-24::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 2px;
+}
+
+.max-h-24::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Dark mode scrollbar */
+.dark .max-h-24::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+.dark .max-h-24::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+</style>

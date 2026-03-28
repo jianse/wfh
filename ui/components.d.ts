@@ -21,6 +21,7 @@ declare module 'vue' {
     ConquestPanel: typeof import('./src/components/ConquestPanel.vue')['default']
     ConquestsPanel: typeof import('./src/components/world_state/ConquestsPanel.vue')['default']
     CountDownTo: typeof import('./src/components/CountDownTo.vue')['default']
+    CustomTabs: typeof import('./src/components/CustomTabs.vue')['default']
     CyclesPanel: typeof import('./src/components/world_state/CyclesPanel.vue')['default']
     DailyDealsPanel: typeof import('./src/components/world_state/DailyDealsPanel.vue')['default']
     EmptyMod: typeof import('./src/components/mods/EmptyMod.vue')['default']
