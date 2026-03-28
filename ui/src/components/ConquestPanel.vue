@@ -26,9 +26,12 @@
 
 <script setup lang="ts">
 import type { Conquest } from '@/api/world_state'
-import { ref } from 'vue'
+import { computed } from 'vue'
+import { useWorldStatePrefsStore } from '@/stores/world_state_prefs'
 
 const { conquest } = defineProps<{ conquest: Conquest }>()
+
+const store = useWorldStatePrefsStore()
 
 function conquestName(type: string): string {
   switch (type) {
@@ -41,5 +44,8 @@ function conquestName(type: string): string {
   }
 }
 
-const isHard = ref(false)
+const isHard = computed({
+  get: () => store.getConquestHard(conquest.Type),
+  set: (value) => store.setConquestHard(conquest.Type, value),
+})
 </script>

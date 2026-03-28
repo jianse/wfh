@@ -24,11 +24,13 @@ export interface WorldStatePrefs {
   layout: 'grid' | 'list'
   fissureTiers: string[]
   hexCalendarEvents: string[]
+  conquests: Record<string, boolean>
 }
 
 const defaultSections: WorldStateSection[] = ['cycles', 'fissures', 'alerts', 'invasions', 'sortie']
 const defaultFissureTiers = ['VoidT1', 'VoidT2', 'VoidT3', 'VoidT4', 'VoidT5', 'VoidT6']
 const defaultHexCalendarEvents = ['CET_CHALLENGE', 'CET_REWARD', 'CET_BIRTHDAY', 'CET_UPGRADE']
+const defaultConquests: Record<string, boolean> = {}
 
 export const useWorldStatePrefsStore = defineStore(
   'worldStatePrefs',
@@ -38,12 +40,14 @@ export const useWorldStatePrefsStore = defineStore(
       layout: 'grid',
       fissureTiers: defaultFissureTiers,
       hexCalendarEvents: defaultHexCalendarEvents,
+      conquests: defaultConquests,
     })
 
     const enabledSections = computed(() => prefs.value.enabledSections)
     const layout = computed(() => prefs.value.layout)
     const fissureTiers = computed(() => prefs.value.fissureTiers)
     const hexCalendarEvents = computed(() => prefs.value.hexCalendarEvents)
+    const conquests = computed(() => prefs.value.conquests)
 
     function toggleSection(section: WorldStateSection) {
       const index = prefs.value.enabledSections.indexOf(section)
@@ -114,12 +118,21 @@ export const useWorldStatePrefsStore = defineStore(
       }
     }
 
+    function setConquestHard(type: string, hard: boolean) {
+      prefs.value.conquests[type] = hard
+    }
+
+    function getConquestHard(type: string): boolean {
+      return prefs.value.conquests[type] || false
+    }
+
     return {
       prefs,
       enabledSections,
       layout,
       fissureTiers,
       hexCalendarEvents,
+      conquests,
       toggleSection,
       setLayout,
       selectAll,
@@ -129,6 +142,8 @@ export const useWorldStatePrefsStore = defineStore(
       toggleFissureTier,
       setHexCalendarEvents,
       toggleHexCalendarEvent,
+      setConquestHard,
+      getConquestHard,
     }
   },
   { persist: true },

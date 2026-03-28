@@ -118,7 +118,7 @@ function copyUniqueName(uniqueName: string) {
           <pv-card
             v-for="item in row"
             :key="item.uniqueName"
-            class="w-[500px] h-[320px] hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200 dark:border-gray-700"
+            class="w-125 h-80 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200 dark:border-gray-700"
           >
             <template #content>
               <div class="flex flex-col gap-2 h-full">
