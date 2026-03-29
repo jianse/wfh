@@ -150,21 +150,23 @@ function onKwInput(e: Event) {
     </pv-card>
 
     <!-- Arcane Cards -->
-    <div style="display: flex; flex-wrap: wrap; gap: 8px">
+    <div class="flex gap-4 flex-wrap">
       <!-- <div class="w-full">共{{ items.length }}项 / {{ items.filter((it) => it.inGame).length }}</div> -->
       <pv-card
-        class="w-72"
-        :class="{
-          'bg-red-600/10': !item.inGame,
-          border: !item.inGame,
-          'border-red-300': !item.inGame,
-        }"
         v-for="item in items"
         :key="item.uniqueName"
+        class="w-72 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200 dark:border-gray-700"
+        :class="{
+          'bg-red-600/10 border-red-300': !item.inGame,
+        }"
       >
         <template #header>
-          <div class="relative w-72 h-48 overflow-hidden">
-            <pv-image loading="lazy" :src="rarityBg(item.rarity)" class="w-72 h-72" />
+          <div class="relative group h-48">
+            <pv-image
+              loading="lazy"
+              :src="rarityBg(item.rarity)"
+              class="w-72 h-72 overflow-hidden"
+            />
             <img
               loading="lazy"
               :src="'https://content.warframe.com/PublicExport' + item.textureLocation"
@@ -175,39 +177,45 @@ function onKwInput(e: Event) {
                 transform: scale(0.68) translate(0, -17.5%);
               "
             />
+            <div
+              class="absolute inset-0 bg-linear-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            ></div>
             <pv-button
               v-if="isAdmin"
-              class="absolute top-2 right-2"
+              class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               size="small"
               rounded
-              variant="outlined"
+              variant="filled"
               icon="pi pi-pencil"
               @click="openEditDialog(item)"
             ></pv-button>
           </div>
-          <!-- <pv-image :src="'https://content.warframe.com/PublicExport' + item.textureLocation" /> -->
         </template>
-        <template #title>{{ item.name }}</template>
-        <template #content>
-          <p><span class="font-bold">适用：</span>{{ item.slot || '不可用' }}</p>
-          <h5 class="font-bold">唯一名称：</h5>
-          <p class="wrap-anywhere">{{ item.uniqueName }}</p>
-          <div>
-            <p class="font-bold">满级效果：</p>
-            <ul class="list-disc list-inside">
-              <li
-                v-for="(term, index) in item.levelStats[item.levelStats.length - 1].stats"
-                :key="index"
-              >
-                <string-with-icon :text="term"></string-with-icon>
-                <!-- <span><{{ term }}</span> -->
-              </li>
-            </ul>
+        <template #title>
+          <div class="text-lg font-bold text-gray-800 dark:text-white truncate">
+            <StringWithIcon :text="item.name"></StringWithIcon>
           </div>
-          <!-- <p :class="{ 'text-red-500': item.codexSecret, 'text-green-500': !item.codexSecret }">
-            cc: {{ item.codexSecret }}
-          </p> -->
-          <!-- {{ item }} -->
+        </template>
+        <template #content>
+          <div class="space-y-2">
+            <div class="text-sm">
+              <span class="font-bold">适用：</span>{{ item.slot || '不可用' }}
+            </div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 font-mono">
+              {{ item.uniqueName }}
+            </div>
+            <div>
+              <p class="font-bold text-sm">满级效果：</p>
+              <ul class="list-disc list-inside text-sm text-gray-600 dark:text-gray-300">
+                <li
+                  v-for="(term, index) in item.levelStats[item.levelStats.length - 1].stats"
+                  :key="index"
+                >
+                  <StringWithIcon :text="term"></StringWithIcon>
+                </li>
+              </ul>
+            </div>
+          </div>
         </template>
       </pv-card>
       <pv-button
@@ -251,37 +259,30 @@ function onKwInput(e: Event) {
 </template>
 
 <style scoped>
-.card {
-  width: 500px;
-  height: 250px;
-  flex: initial;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 8px;
+/* Smooth scrolling for description text */
+.max-h-24::-webkit-scrollbar {
+  width: 4px;
 }
 
-.img-bg {
-  background-color: #aaa;
+.max-h-24::-webkit-scrollbar-track {
+  background: transparent;
 }
 
-.sticky-header {
-  position: sticky;
-  /* top: 0; */
-  height: 5rem;
-  background-color: #fff;
-  border-bottom: 1px solid #333;
+.max-h-24::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 2px;
 }
 
-.card img {
-  object-fit: contain;
-  height: 150px;
-  /* height: fit-content; */
-  /* height: min-content; */
+.max-h-24::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
 
-.card h3 {
-  font-weight: bold;
-  white-space: nowrap;
-  overflow: hidden;
+/* Dark mode scrollbar */
+.dark .max-h-24::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+.dark .max-h-24::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
 }
 </style>

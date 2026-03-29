@@ -53,7 +53,6 @@ declare module 'vue' {
     PvCard: typeof import('primevue/card')['default']
     PvCheckbox: typeof import('primevue/checkbox')['default']
     PvColumn: typeof import('primevue/column')['default']
-    PvConfirmDialog: typeof import('primevue/confirmdialog')['default']
     PvDataTable: typeof import('primevue/datatable')['default']
     PvDialog: typeof import('primevue/dialog')['default']
     PvDynamicDialog: typeof import('primevue/dynamicdialog')['default']
