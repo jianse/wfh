@@ -11,6 +11,8 @@ export type StoreName =
   | 'Relics'
   | 'Manifest'
   | 'Resources'
+  | 'Bounties'
+  | 'Rewards'
 export const RESOURCES_INCLUDED: StoreName[] = [
   'Warframes',
   'Weapons',
@@ -20,6 +22,8 @@ export const RESOURCES_INCLUDED: StoreName[] = [
   'Relics',
   'Manifest',
   'Resources',
+  'Bounties',
+  'Rewards',
 ]
 
 interface LastUpdate {
@@ -322,10 +326,69 @@ export interface Upgrade {
   textureLocation: string
 }
 
+export interface WfPepEtag {
+  url: string
+  etag: string
+}
+
+/**
+ * 奖励物品
+ */
+export interface RewardItem {
+  /** 物品类型/唯一标识 */
+  type: string
+  /** 物品数量 */
+  itemCount: number
+  /** 掉落概率 (0-1) */
+  probability: number
+}
+
+/**
+ * 奖励表数据结构
+ * 多个奖励以及每个奖励的掉落概率构成了一个奖励表
+ */
+export type RewardTable = RewardItem[]
+
+/**
+ * Rewards 数据结构
+ * 键为奖励表唯一标识，值为奖励物品数组的数组（支持多轮奖励）
+ */
+export interface Rewards {
+  uniqueName: string
+  /**
+   * 一个任务奖励可以由一个或多个奖励表构成，多个奖励表时，表示该任务包含多个奖励阶级，达成不同的条件会适用不同的奖励表中的奖励
+   */
+  value: RewardTable[]
+}
+
+/**
+ * 赏金任务阶段，由一个或多个可能的赏金组成
+ */
+export type BountyStage = string[]
+
+/**
+ * Bounties 数据结构
+ * 键为赏金任务唯一标识
+ */
+export interface Bounties {
+  uniqueName: string
+  value: {
+    /** 赏金任务名称（本地化键） */
+    name: string
+    /** 赏金任务描述（本地化键） */
+    description: string
+    /** 赏金任务图标路径 */
+    icon: string
+    /** 赏金任务阶段配置 */
+    stages: BountyStage[]
+  }
+}
+
 const DB_NAME = 'wf-data'
 
 export const db = new Dexie(DB_NAME) as Dexie & {
   index: EntityTable<Index, 'id'>
+  wfPepEtag: EntityTable<WfPepEtag, 'url'>
   last_update: EntityTable<LastUpdate, 'category'>
   Warframes: EntityTable<Warframes, 'uniqueName'>
   Weapons: EntityTable<Weapon, 'uniqueName'>
@@ -335,10 +398,13 @@ export const db = new Dexie(DB_NAME) as Dexie & {
   Relics: EntityTable<Relic, 'uniqueName'>
   Manifest: EntityTable<Manifest, 'uniqueName'>
   Resources: EntityTable<Resources, 'uniqueName'>
+  Rewards: EntityTable<Rewards, 'uniqueName'>
+  Bounties: EntityTable<Bounties, 'uniqueName'>
 }
 
 db.version(1).stores({
   index: 'id, content, valid',
+  wfPepEtag: 'url',
   last_update: 'category',
   Warframes: 'uniqueName, name',
   Weapons: 'uniqueName',
@@ -348,6 +414,8 @@ db.version(1).stores({
   Relics: 'uniqueName,order',
   Manifest: 'uniqueName',
   Resources: 'uniqueName',
+  Rewards: 'uniqueName',
+  Bounties: 'uniqueName',
 })
 
 export async function current_index() {
@@ -433,6 +501,16 @@ export const useOResources = () =>
     initialValue: [],
   })
 
+export const useORewards = () =>
+  useObservable(liveQuery(() => db.Rewards.toArray()) as unknown as Observable<Rewards[]>, {
+    initialValue: [],
+  })
+
+export const useOBounties = () =>
+  useObservable(liveQuery(() => db.Bounties.toArray()) as unknown as Observable<Bounties[]>, {
+    initialValue: [],
+  })
+
 /**
  * Find a Warframe by its uniqueName
  */
@@ -445,4 +523,18 @@ export async function findWarframe(uniqueName: string): Promise<Warframes | unde
  */
 export async function findResource(uniqueName: string): Promise<Resources | undefined> {
   return await db.Resources.get(uniqueName)
+}
+
+/**
+ * Find Rewards by its uniqueName
+ */
+export async function findRewards(uniqueName: string): Promise<Rewards | undefined> {
+  return await db.Rewards.get(uniqueName)
+}
+
+/**
+ * Find Bounties by its uniqueName
+ */
+export async function findBounties(uniqueName: string): Promise<Bounties | undefined> {
+  return await db.Bounties.get(uniqueName)
 }

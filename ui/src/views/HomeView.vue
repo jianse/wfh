@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import uiIcons from '@/assets/icons/ui/index.ts'
 import { useSyncStore, type SyncItem } from '@/stores/sync'
-import { check_update_available, update_one } from '@/util/resources'
+import { sync_all, force_sync_one } from '@/util/resources'
 import { computed, onActivated, ref } from 'vue'
 
 interface SyncState {
@@ -19,6 +19,8 @@ const items: SyncState[] = [
   { label: '配方', icon: uiIcons.recipe, category: 'Recipes' },
   { label: '遗物', icon: uiIcons.relic, category: 'Relics' },
   { label: '资源', icon: uiIcons.manifest, category: 'Resources' },
+  { label: '赏金', icon: uiIcons.manifest, category: 'Bounties' },
+  { label: '奖励列表', icon: uiIcons.manifest, category: 'Rewards' },
 ]
 
 const store = useSyncStore()
@@ -39,7 +41,7 @@ const loading = ref(false)
 async function syncAll(force: boolean = false) {
   try {
     loading.value = true
-    await check_update_available(force)
+    await sync_all(force)
   } finally {
     loading.value = false
   }
@@ -48,7 +50,7 @@ async function syncAll(force: boolean = false) {
 async function syncOne(cate: string) {
   try {
     loading.value = true
-    await update_one(cate)
+    await force_sync_one(cate)
   } finally {
     loading.value = false
   }
