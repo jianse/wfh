@@ -55,6 +55,7 @@ static WHITE_LIST: Lazy<RegexSet> = Lazy::new(|| {
         "/raw_world_state/raw",
         "/raw_world_state/parsed",
         "/raw_world_state/st_pvt",
+        "/raw_world_state/bounty_cycle",
     ])
     .unwrap()
 });

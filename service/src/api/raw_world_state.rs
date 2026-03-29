@@ -30,6 +30,8 @@ use model::RawWorldState;
 pub use model::*;
 use serde::Serialize;
 use std::collections::BTreeSet;
+use std::fs;
+use std::time::Duration;
 use std::time::Instant;
 use tracing::info;
 
@@ -119,6 +121,7 @@ pub fn raw_world_state_routes(state: AppState) -> Router<AppState> {
         .route("/reload", post(force_reload_world_state))
         .route("/st_pvt", get(get_st_prime_vault_trader))
         .route("/sync_records", get(list_sync_records))
+        .route("/bounty_cycle", get(get_bounty_cycle))
         .nest("/deps", deps_routes(state))
 }
 
@@ -319,6 +322,67 @@ async fn get_raw_world_state() -> BizResult<BizResponse<serde_json::Value>> {
     let ws = std::fs::read_to_string("cache/raw_world_state.json")?;
     let raw: serde_json::Value = serde_json::from_str(&ws)?;
     Ok(BizResponse::ok_with(raw))
+}
+
+#[axum::debug_handler]
+async fn get_bounty_cycle() -> BizResult<BizResponse<serde_json::Value>> {
+    let res = std::fs::read_to_string(BOUNTY_CYCLE_SAVE_PATH)?;
+    let res: serde_json::Value = serde_json::from_str(&res)?;
+    Ok(BizResponse::ok_with(res))
+}
+
+const BOUNTY_CYCLE_SAVE_PATH: &str = "cache/bounty_cycle.json";
+
+/// get bounty-cycle from https://oracle.browse.wf/bounty-cycle
+pub async fn download_bounty_cycle(state: AppState) -> BizResult<Option<Duration>> {
+    let res: serde_json::Value = state
+        .http_client
+        .get("https://oracle.browse.wf/bounty-cycle")
+        .timeout(Duration::from_secs(20))
+        .send()
+        .await?
+        .json()
+        .await?;
+    // Ok(res)
+    let expiry = res
+        .as_object()
+        .ok_or(BizError::custom("result is not an object"))?
+        .get("expiry")
+        .ok_or(BizError::custom("expiry not found"))?
+        .as_i64()
+        .ok_or(BizError::custom("expiry not int64"))?;
+
+    // let expiry = Duration::from_secs(expiry as u64);
+    // let time = Utc::from_timestamp_millis(expiry );
+    let e_time =
+        DateTime::from_timestamp_millis(expiry).ok_or(BizError::custom("expiry not datetime"))?;
+    let d = (e_time - Utc::now()).to_std().ok();
+    std::fs::write(BOUNTY_CYCLE_SAVE_PATH, res.to_string())?;
+    Ok(d)
+}
+
+pub fn get_bounty_cycle_expiry() -> BizResult<Option<Duration>> {
+    if fs::exists(BOUNTY_CYCLE_SAVE_PATH)? {
+        let res = std::fs::read_to_string(BOUNTY_CYCLE_SAVE_PATH)?;
+        let res: serde_json::Value = serde_json::from_str(&res)?;
+        let expiry = res
+            .as_object()
+            .ok_or(BizError::custom("result is not an object"))?
+            .get("expiry")
+            .ok_or(BizError::custom("expiry not found"))?
+            .as_i64()
+            .ok_or(BizError::custom("expiry not int64"))?;
+
+        // let expiry = Duration::from_secs(expiry as u64);
+        // let time = Utc::from_timestamp_millis(expiry );
+        let e_time = DateTime::from_timestamp_millis(expiry)
+            .ok_or(BizError::custom("expiry not datetime"))?;
+        let d = (e_time - Utc::now()).to_std().ok();
+        std::fs::write(BOUNTY_CYCLE_SAVE_PATH, res.to_string())?;
+        Ok(d)
+    } else {
+        Ok(None)
+    }
 }
 
 #[cfg(test)]

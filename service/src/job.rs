@@ -7,6 +7,7 @@ use crate::api::world_state::clean_world_state_before;
 use crate::api::world_state::get_nearest_expiry;
 use crate::api::world_state::get_nearest_expiry_from_db;
 use crate::api::world_state::wf_world_state;
+use crate::job::bounty_cycle_job::BountyCycleJob;
 
 use async_trait::async_trait;
 use chrono::Local;
@@ -25,6 +26,7 @@ use tracing::error;
 use tracing::info;
 use tracing::trace;
 
+mod bounty_cycle_job;
 mod raw_world_state_job;
 
 type BoxJob = Box<dyn Job + Send + Sync>;
@@ -47,7 +49,11 @@ where
         let conf = job_conf_for(job.name());
         jobs.insert(job.name(), (conf, job));
 
-        let job = RawWorldStateJob::new(state).boxed();
+        let job = RawWorldStateJob::new(state.clone()).boxed();
+        let conf = job_conf_for(job.name());
+        jobs.insert(job.name(), (conf, job));
+
+        let job = BountyCycleJob::new(state).boxed();
         let conf = job_conf_for(job.name());
         jobs.insert(job.name(), (conf, job));
 
