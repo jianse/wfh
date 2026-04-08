@@ -1435,6 +1435,8 @@ pub enum FactionIndex {
     Techrot,
     /// 禁卫 10 仅在双衍王境中出现
     Duviri,
+
+    Tenno,
     #[default]
     Unknown = 255,
 }
@@ -1469,6 +1471,7 @@ impl TryFrom<u8> for FactionIndex {
             8 => Ok(FactionIndex::Scaldra),
             9 => Ok(FactionIndex::Techrot),
             10 => Ok(FactionIndex::Duviri),
+            11 => Ok(FactionIndex::Tenno),
             _ => Err(ParseFactionError(value)),
         }
     }
