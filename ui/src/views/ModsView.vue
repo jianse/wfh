@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { useOUpgrades } from '@/util/localDB'
+import { useOUpgrades, type Upgrade } from '@/util/localDB'
 import { useElementSize } from '@vueuse/core'
 import { computed, ref } from 'vue'
-// @ts-expect-error: 忽略类型检查错误，因为 RecycleScroller 组件的类型定义是不完整的
 import { RecycleScroller } from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 
@@ -100,7 +99,7 @@ function onKwInput(e: Event) {
         <div class="w-75 h-128.5 p-2">
           <pv-card class="card">
             <template #header>
-              <pos-mod :mod="item" max-rank class="mx-auto"></pos-mod>
+              <pos-mod :mod="item as Upgrade" max-rank class="mx-auto"></pos-mod>
             </template>
           </pv-card>
         </div>

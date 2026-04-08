@@ -1,5 +1,5 @@
 <template>
-  <pv-card v-if="props.rawWorldState?.SentientOutpost">
+  <pv-card v-if="props.rawWorldState?.SentientOutpost" class="col-span-full">
     <template #title>
       <div class="flex items-center gap-2">
         <i class="pi pi-exclamation-triangle"></i>

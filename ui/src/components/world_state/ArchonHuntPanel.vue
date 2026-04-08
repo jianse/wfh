@@ -1,5 +1,5 @@
 <template>
-  <pv-card>
+  <pv-card class="col-span-full">
     <template #title>
       <div class="flex items-center gap-2">
         <i class="pi pi-bolt"></i>
