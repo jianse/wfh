@@ -7,28 +7,34 @@
       </div>
     </template>
     <template #content>
-      <div
-        v-for="invasion in props.rawWorldState?.Invasions"
-        :key="invasion._id"
-        class="border rounded-md p-4 mb-4 border-gray-600 last:mb-0"
-      >
-        <div class="font-bold text-lg mb-3">{{ invasion.Node }}</div>
+      <div class="gap-2 max-h-120 grid grid-cols-1 lg:grid-cols-2 overflow-y-auto px-2">
+        <div
+          v-for="invasion in invasions"
+          :key="invasion._id"
+          class="rounded-md border p-3 border-gray-600 bg-surface-50 dark:bg-surface-900"
+        >
+          <div class="font-bold text-lg">{{ invasion.Node }}</div>
 
-        <div class="flex flex-row place-content-between items-center gap-4">
-          <div class="flex flex-col flex-1 items-start">
-            <div class="font-medium">{{ invasion.DefenderMissionInfo.faction }}</div>
-            <div class="text-sm">{{ rewardAsString(invasion.AttackerReward) }}</div>
+          <div class="flex flex-row justify-between items-center gap-4 mt-2">
+            <div class="flex flex-col flex-1 items-start">
+              <div class="font-medium">{{ invasion.DefenderMissionInfo.faction }}</div>
+              <div class="text-sm">{{ rewardAsString(invasion.AttackerReward) || '-' }}</div>
+            </div>
+            <div class="text-center flex-1 font-bold text-lg">
+              {{ Math.abs(invasion.Count) }} / {{ invasion.Goal }}
+            </div>
+            <div class="flex flex-col flex-1 items-end">
+              <div class="font-medium">{{ invasion.AttackerMissionInfo.faction }}</div>
+              <div class="text-sm">{{ rewardAsString(invasion.DefenderReward) }}</div>
+            </div>
           </div>
-          <div class="text-center flex-1 font-bold text-lg">
-            {{ Math.abs(invasion.Count) }} / {{ invasion.Goal }}
-          </div>
-          <div class="flex flex-col flex-1 items-end">
-            <div class="font-medium">{{ invasion.AttackerMissionInfo.faction }}</div>
-            <div class="text-sm">{{ rewardAsString(invasion.DefenderReward) }}</div>
-          </div>
+
+          <pv-progress-bar
+            :value="calcInvasionProgress(invasion)"
+            class="mt-2"
+            :show-value="false"
+          />
         </div>
-
-        <pv-progress-bar :value="calcInvasionProgress(invasion)" class="mt-3" />
       </div>
     </template>
   </pv-card>
@@ -36,10 +42,15 @@
 
 <script setup lang="ts">
 import type { Invasion, RawWorldState, Reward } from '@/api/world_state'
+import { computed } from 'vue'
 
 const props = defineProps<{
   rawWorldState: RawWorldState | undefined
 }>()
+
+const invasions = computed(
+  () => props.rawWorldState?.Invasions.filter((i) => !(Math.abs(i.Count) >= i.Goal)) ?? [],
+)
 
 function rewardAsString(reward: Reward): string {
   if (!reward) return ''
