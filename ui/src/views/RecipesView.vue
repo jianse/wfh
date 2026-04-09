@@ -37,17 +37,32 @@ const transItems = computed(() => {
 
 const filteredItems = computed(() => {
   return transItems.value.filter((item) => {
-    return (
-      item.name?.includes(kwFilter.value) ||
-      item.name_t?.includes(kwFilter.value) ||
-      item.description?.includes(kwFilter.value) ||
-      item.description_t?.includes(kwFilter.value) ||
-      item.ingredients.some((ingredient) => {
-        return (
-          ingredient.name?.includes(kwFilter.value) || ingredient.name_t?.includes(kwFilter.value)
-        )
-      })
-    )
+    if (ignoreCase.value) {
+      const kwLower = kwFilter.value.toLowerCase()
+      return (
+        item.name?.toLowerCase().includes(kwLower) ||
+        item.name_t?.toLowerCase().includes(kwLower) ||
+        item.description?.toLowerCase().includes(kwLower) ||
+        item.description_t?.toLowerCase().includes(kwLower) ||
+        item.ingredients.some((ingredient) => {
+          return (
+            ingredient.name?.toLowerCase().includes(kwLower) || ingredient.name_t?.toLowerCase().includes(kwLower)
+          )
+        })
+      )
+    } else {
+      return (
+        item.name?.includes(kwFilter.value) ||
+        item.name_t?.includes(kwFilter.value) ||
+        item.description?.includes(kwFilter.value) ||
+        item.description_t?.includes(kwFilter.value) ||
+        item.ingredients.some((ingredient) => {
+          return (
+            ingredient.name?.includes(kwFilter.value) || ingredient.name_t?.includes(kwFilter.value)
+          )
+        })
+      )
+    }
   })
 })
 
@@ -61,6 +76,7 @@ const itemsComputed = computed(() => {
   return chunkedItems
 })
 const kwFilter = ref('')
+const ignoreCase = ref(true)
 
 function onKwInput(e: Event) {
   if (e instanceof InputEvent && e.isComposing) {
@@ -101,6 +117,11 @@ function copyUniqueName(uniqueName: string) {
                 class="w-48"
               ></pv-input-text>
             </label>
+
+            <div class="flex items-center gap-2">
+              <pv-checkbox v-model="ignoreCase" inputId="ignoreCase" binary />
+              <label for="ignoreCase" class="text-sm"> 忽略大小写 </label>
+            </div>
           </div>
         </div>
       </template>
