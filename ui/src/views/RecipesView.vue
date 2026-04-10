@@ -46,7 +46,8 @@ const filteredItems = computed(() => {
         item.description_t?.toLowerCase().includes(kwLower) ||
         item.ingredients.some((ingredient) => {
           return (
-            ingredient.name?.toLowerCase().includes(kwLower) || ingredient.name_t?.toLowerCase().includes(kwLower)
+            ingredient.name?.toLowerCase().includes(kwLower) ||
+            ingredient.name_t?.toLowerCase().includes(kwLower)
           )
         })
       )
@@ -95,6 +96,26 @@ function copyUniqueName(uniqueName: string) {
     })
   })
 }
+
+function secondsToString(seconds: number) {
+  let str = ''
+  const hours = Math.floor(seconds / 3600)
+  if (hours > 0) {
+    str += `${hours} 小时 `
+  }
+
+  const minutes = Math.floor((seconds % 3600) / 60)
+  if (minutes > 0) {
+    str += `${minutes} 分钟 `
+  }
+
+  const s = Math.floor(seconds % 60)
+  if (s > 0) {
+    str += `${s} 秒 `
+  }
+
+  return str
+}
 </script>
 
 <template>
@@ -139,17 +160,17 @@ function copyUniqueName(uniqueName: string) {
           <pv-card
             v-for="item in row"
             :key="item.uniqueName"
-            class="w-125 h-80 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200 dark:border-gray-700"
+            class="w-125 h-85 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200 dark:border-gray-700"
           >
             <template #content>
               <div class="flex flex-col gap-2 h-full">
-                <!-- Header -->
-                <div class="flex flex-row gap-3 shrink-0">
-                  <div class="img-bg shrink-0">
+                <!-- icon name and description -->
+                <div class="flex flex-row gap-3 shrink-0 h-28">
+                  <div class="rounded-sm bg-gray-400 p-1 shrink-0">
                     <pv-image
                       :alt="item.name_t || item.name"
                       :src="'https://content.warframe.com/PublicExport' + item.textureLocation"
-                      imageClass="h-[100px] w-auto object-contain"
+                      imageClass="h-26 w-26 object-contain"
                       loading="lazy"
                       preview
                     />
@@ -192,7 +213,7 @@ function copyUniqueName(uniqueName: string) {
                 </div>
 
                 <!-- Ingredients -->
-                <div class="border-t border-gray-200 dark:border-gray-700 pt-3">
+                <div class="border-t border-gray-200 dark:border-gray-700 pt-3 h-[145px]">
                   <div class="text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">材料:</div>
                   <div class="grid grid-cols-2 gap-2">
                     <div
@@ -218,6 +239,54 @@ function copyUniqueName(uniqueName: string) {
                     </div>
                   </div>
                 </div>
+                <!-- time price and so on -->
+                <div class="flex gap-3">
+                  <!-- 构建价格 星币 -->
+                  <div class="flex items-center">
+                    <img
+                      src="@/assets/icons/Credits.png"
+                      alt="Credits"
+                      class="size-4 object-contain"
+                    />
+                    <div>{{ item.buildPrice }}</div>
+                  </div>
+
+                  <!-- 构建时间 -->
+                  <div class="flex items-center">
+                    <img
+                      src="@/assets/icons/TimerStarted.png"
+                      alt="time"
+                      class="size-4 object-contain"
+                    />
+                    <div>{{ secondsToString(item.buildTime) }}</div>
+                  </div>
+
+                  <!-- 跳过构建时间价格 白金 -->
+                  <div class="flex items-center" v-if="item.skipBuildTimePrice !== undefined">
+                    <img
+                      src="@/assets/icons/PlatinumCredits.png"
+                      alt="Credits"
+                      class="size-4 object-contain"
+                    />
+                    <div>{{ item.skipBuildTimePrice }}</div>
+                  </div>
+
+                  <!-- 出售价格 杜卡德金币 -->
+                  <div class="flex items-center" v-if="item.primeSellingPrice !== undefined">
+                    <img
+                      src="@/assets/icons/PrimeBucks.png"
+                      alt="Prime"
+                      class="size-4 object-contain"
+                    />
+                    <div>{{ item.primeSellingPrice }}</div>
+                  </div>
+                  <div>
+                    {{ item.resultCategory }}
+                  </div>
+                  <!-- <div>
+                    {{ item }}
+                  </div> -->
+                </div>
               </div>
             </template>
           </pv-card>
@@ -228,12 +297,6 @@ function copyUniqueName(uniqueName: string) {
 </template>
 
 <style scoped>
-.img-bg {
-  background-color: #aaa;
-  border-radius: 4px;
-  padding: 4px;
-}
-
 /* Smooth scrolling */
 .pv-virtual-scroller::-webkit-scrollbar {
   width: 8px;
