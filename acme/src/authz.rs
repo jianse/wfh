@@ -11,13 +11,47 @@ pub struct Authz {
     wildcard: Option<bool>,
 }
 
+// #[derive(Debug, Deserialize, Clone)]
+// pub struct Challenge {
+//     #[serde(rename = "type")]
+//     pub(crate) typ: ChallengeType,
+//     pub url: String,
+//     pub status: ChallengeStatus,
+//     validated: Option<String>,
+//     pub token: String,
+// }
+
 #[derive(Debug, Deserialize, Clone)]
-pub struct Challenge {
-    #[serde(rename = "type")]
-    pub(crate) typ: ChallengeType,
+#[serde(tag = "type")]
+pub enum Challenge {
+    #[serde(rename = "http-01")]
+    Http01(Http01Challenge),
+    #[serde(rename = "dns-01")]
+    Dns01(Dns01Challenge),
+    #[serde(rename = "tls-alpn-01")]
+    TlsAlpn01(TlsAlpn01Challenge),
+    #[serde(untagged)]
+    Other(serde_json::Value),
+}
+
+#[derive(Debug, Deserialize, Clone)]
+pub struct Dns01Challenge {
     pub url: String,
     pub status: ChallengeStatus,
-    validated: Option<String>,
+    pub token: String,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+pub struct Http01Challenge {
+    pub url: String,
+    pub status: ChallengeStatus,
+    pub token: String,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+pub struct TlsAlpn01Challenge {
+    pub url: String,
+    pub status: ChallengeStatus,
     pub token: String,
 }
 
@@ -76,8 +110,11 @@ impl std::fmt::Display for ChallengeType {
 }
 
 impl Authz {
-    pub fn get_challenge(&self, typ: ChallengeType) -> Option<&Challenge> {
-        self.challenges.iter().find(|c| c.typ == typ)
+    pub fn get_http01_challenge(&self) -> Option<&Http01Challenge> {
+        self.challenges.iter().find_map(|c| match c {
+            Challenge::Http01(ch) => Some(ch),
+            _ => None,
+        })
     }
 
     pub fn is_pending(&self) -> bool {
@@ -98,23 +135,23 @@ impl Authz {
 }
 
 impl Challenge {
+    pub fn url(&self) -> &str {
+        match self {
+            Challenge::Http01(ch) => &ch.url,
+            Challenge::Dns01(ch) => &ch.url,
+            Challenge::TlsAlpn01(ch) => &ch.url,
+            Challenge::Other(ch) => ch.get("url").and_then(|v| v.as_str()).unwrap_or(""),
+        }
+    }
+
     pub fn is_pending(&self) -> bool {
-        self.status.is_pending()
-    }
-
-    pub fn is_valid(&self) -> bool {
-        self.status.is_valid()
-    }
-
-    pub fn is_processing(&self) -> bool {
-        self.status.is_processing()
-    }
-
-    pub fn validate(&self) -> Result<(), String> {
-        if self.status == ChallengeStatus::Valid {
-            Ok(())
-        } else {
-            Err(format!("Challenge status is: {:?}", self.status))
+        match self {
+            Challenge::Http01(http01_challenge) => http01_challenge.status.is_pending(),
+            Challenge::Dns01(dns01_challenge) => dns01_challenge.status.is_pending(),
+            Challenge::TlsAlpn01(tls_alpn01_challenge) => tls_alpn01_challenge.status.is_pending(),
+            Challenge::Other(value) => {
+                value.get("status").and_then(|v| v.as_str()) == Some("pending")
+            }
         }
     }
 }

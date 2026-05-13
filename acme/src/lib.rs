@@ -591,18 +591,19 @@ impl AcmeClient {
     pub async fn challenge(
         &mut self,
         acc: &LocalAccount,
-        challenge: &Challenge,
+        url: &str,
+        // challenge: &Challenge,
     ) -> AcmeResult<Challenge> {
         let mut backoff = self.create_backoff();
 
         loop {
             let payload = json!({});
-            let jws = crate::jws::create_kid_jws(acc, Some(&payload), &challenge.url, &self.nonce)?;
+            let jws = crate::jws::create_kid_jws(acc, Some(&payload), url, &self.nonce)?;
             let body = serde_json::to_vec(&jws)?;
 
             let resp = self
                 .client
-                .post(&challenge.url)
+                .post(url)
                 .body(body)
                 .header(CONTENT_TYPE, "application/jose+json")
                 .send()
@@ -1086,10 +1087,10 @@ mod tests {
         debug!("{:#?}", &authz);
 
         let http_challenge = authz
-            .get_challenge(ChallengeType::Http01)
+            .get_http01_challenge()
             .ok_or_else(|| "http-01 is not supported")?;
 
-        if http_challenge.is_pending() {
+        if http_challenge.status.is_pending() {
             let thumbprint = acc.jwk_thumbprint()?;
             let key_auth = format!("{}.{}", http_challenge.token, thumbprint);
 
@@ -1105,7 +1106,7 @@ mod tests {
             ready_rx.await?;
 
             sleep(Duration::from_secs(1)).await;
-            let challenge_res = c.challenge(&acc, http_challenge).await?;
+            let challenge_res = c.challenge(&acc, &http_challenge.url).await?;
 
             debug!("{:#?}", &challenge_res);
 
@@ -1114,10 +1115,10 @@ mod tests {
             let authz = c.get_authorization(&acc, &authz_url).await?;
 
             let http_challenge = authz
-                .get_challenge(ChallengeType::Http01)
+                .get_http01_challenge()
                 .ok_or_else(|| "http-01 is not supported")?;
 
-            if http_challenge.is_valid() {
+            if http_challenge.status.is_valid() {
                 info!("challenge now valid");
             } else {
                 return Err(
@@ -1126,7 +1127,7 @@ mod tests {
             }
 
             tx.send(()).ok();
-        } else if http_challenge.is_valid() {
+        } else if http_challenge.status.is_valid() {
             info!("challenge already valid");
         } else {
             return Err(format!("Unexpected challenge status: {:?}", http_challenge.status).into());

@@ -37,7 +37,7 @@ pub struct Account {
         skip_serializing_if = "Option::is_none"
     )]
     pub terms_of_service_agreed: Option<bool>,
-    pub orders: String,
+    pub orders: Option<String>,
 }
 
 #[derive(Debug)]

@@ -278,7 +278,6 @@ pub struct AcmeSettings {
     pub config_dir: PathBuf,
 }
 
-
 fn default_tls_port() -> u16 {
     443
 }

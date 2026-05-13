@@ -1,7 +1,4 @@
-use std::collections::HashMap;
 use std::fs;
-use std::path::Path;
-use std::sync::Arc;
 use std::time::Duration;
 
 use acme::AcmeClient;
@@ -9,12 +6,9 @@ use acme::gen_p256_key;
 use acme::key_to_pkcs8_pem;
 use acme::make_csr;
 use async_trait::async_trait;
-use log::info;
-use settings::TlsSettings;
-use tokio::sync::RwLock;
+
 use tokio::time::sleep;
 use tracing::debug;
-use tracing::error;
 
 use super::Job;
 use super::JobType;
@@ -53,17 +47,17 @@ impl Job for ServerCertJob {
             let mut order = acme_client.new_order(&account, &[&domain]).await?;
             for auth_url in order.order.authorizations.iter() {
                 let auth = acme_client.get_authorization(&account, auth_url).await?;
-                if let Some(c) = auth.get_challenge(acme::ChallengeType::Http01) {
+                if let Some(c) = auth.get_http01_challenge() {
                     let value = format!("{}.{}", c.token, account.jwk_thumbprint()?);
                     self.state.set_acme_token(c.token.clone(), value).await;
-                    let _c_res = acme_client.challenge(&account, c).await?;
+                    let _c_res = acme_client.challenge(&account, &c.url).await?;
 
                     debug!("challenge res: {:?}", _c_res);
 
                     sleep(Duration::from_secs(5)).await;
 
-                    let c = auth.get_challenge(acme::ChallengeType::Http01).unwrap();
-                    if !c.is_valid() {
+                    let c = auth.get_http01_challenge().unwrap();
+                    if !c.status.is_valid() {
                         self.state.clear_acme_token().await;
                         return Err(BizError::custom("acme valid challenge error!"));
                     }

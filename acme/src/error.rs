@@ -13,10 +13,7 @@ pub enum AcmeError {
     Jwt(#[from] jsonwebtoken::errors::Error),
 
     #[error("ACME protocol error [{status}]: {detail}")]
-    Acme {
-        status: u16,
-        detail: String,
-    },
+    Acme { status: u16, detail: String },
 
     #[error("Account does not exist")]
     AccountNotExist,
