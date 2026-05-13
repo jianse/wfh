@@ -8,13 +8,16 @@ mod logging;
 pub mod tls;
 mod uap;
 
+use crate::job::Job;
 use crate::job::JobRegistry;
+use crate::job::server_cert_job::ServerCertJob;
 use crate::tls::TlsListener;
 use crate::uap::UaExtractor;
 use axum::Router;
 use axum::extract::ConnectInfo;
 use axum::http::StatusCode;
 use axum::response::Redirect;
+use axum::routing::any;
 use axum::routing::post;
 use axum::serve::Listener;
 use error::Result;
@@ -29,14 +32,17 @@ use sea_orm::ConnectOptions;
 use sea_orm::Database;
 use sea_orm::DatabaseConnection;
 use settings::TlsSettings;
+use std::collections::HashMap;
 use std::net::SocketAddr;
 use std::sync::Arc;
 use std::time::Duration;
 use tokio::net::TcpListener;
 use tokio::signal;
+use tokio::sync::RwLock;
 use tokio::sync::broadcast::Receiver;
 use tokio::sync::broadcast::Sender;
 use tokio::sync::broadcast::{self};
+use tokio::task::JoinHandle;
 use tokio_rustls::TlsAcceptor;
 use tower_http::cors::Any;
 use tower_http::cors::CorsLayer;
@@ -49,6 +55,21 @@ struct AppStateRaw {
     conn: DatabaseConnection,
     http_client: reqwest::Client,
     ua_extractor: UaExtractor,
+    acme_token: Arc<RwLock<HashMap<String, String>>>,
+}
+
+impl AppStateRaw {
+    pub async fn set_acme_token(&self, key: String, value: String) {
+        self.acme_token.write().await.insert(key, value);
+    }
+
+    pub async fn get_acme_token(&self, key: String) -> Option<String> {
+        self.acme_token.read().await.get(&key).cloned()
+    }
+
+    pub async fn clear_acme_token(&self) {
+        self.acme_token.write().await.clear();
+    }
 }
 
 async fn shutdown_signal(mut rx: Receiver<()>) {
@@ -104,6 +125,7 @@ pub async fn serve() -> Result<()> {
         conn,
         http_client,
         ua_extractor,
+        acme_token: Arc::new(RwLock::new(HashMap::new())),
     });
     let (tx, rx) = broadcast::channel::<()>(10);
     let rx2 = tx.subscribe();
@@ -125,7 +147,6 @@ pub async fn serve() -> Result<()> {
             }
         }
     });
-    // api::load_deps("data", &state.http_client, false);
 
     // start other endpoints
     match &settings.server.tls {
@@ -142,23 +163,48 @@ pub async fn serve() -> Result<()> {
             let listener =
                 TcpListener::bind((settings.server.addr.to_owned(), settings.server.port)).await?;
             info!("HTTP server listening on {}", listener.local_addr()?);
+            let rx3 = tx.subscribe();
+
+            let (http_ready_tx, mut http_ready_rx) = broadcast::channel::<()>(1);
+
+            let http_handle = tokio::spawn(serve_app_or_redirect(
+                tls_opt,
+                listener,
+                state.clone(),
+                rx3,
+                http_ready_tx,
+            ));
 
             // setup https server
+            if !tls_opt.cert.exists() || !tls_opt.key.exists() {
+                http_ready_rx.recv().await.unwrap();
+
+                let job = ServerCertJob::new(state.clone());
+                job.job_body().await?;
+            }
             let rustls_config = tls::rustls_server_config(&tls_opt.key, &tls_opt.cert);
             let tls_acceptor = TlsAcceptor::from(rustls_config);
             let bind = (settings.server.addr.to_owned(), tls_opt.port);
             let tcp_listener = TcpListener::bind(bind).await?;
             info!("HTTPS server listening on {}.", tcp_listener.local_addr()?);
             let tls_listener = TlsListener::new(tls_acceptor, tcp_listener);
+            let https_handle = tokio::spawn(serve_app(tls_listener, state.clone(), rx));
 
-            let rx3 = tx.subscribe();
+            // let rx3 = tx.subscribe();
             // await on both
-            tokio::try_join!(
-                serve_app_or_redirect(tls_opt, listener, state.clone(), rx3),
-                serve_app(tls_listener, state.clone(), rx),
-            )?;
+            tokio::try_join!(flatten(http_handle), flatten(https_handle))?;
             Ok(())
         }
+    }
+}
+
+async fn flatten<T>(
+    handle: JoinHandle<std::result::Result<T, crate::error::Error>>,
+) -> std::result::Result<T, crate::error::Error> {
+    match handle.await {
+        Ok(Ok(result)) => Ok(result),
+        Ok(Err(err)) => Err(err),
+        Err(err) => Err(crate::error::Error::from(err)),
     }
 }
 
@@ -177,6 +223,7 @@ async fn serve_app_or_redirect<L>(
     listener: L,
     state: Arc<AppStateRaw>,
     rx: Receiver<()>,
+    http_ready_tx: Sender<()>,
 ) -> Result<()>
 where
     L: Listener<Addr = SocketAddr>,
@@ -185,12 +232,12 @@ where
     let app = if opt.redirect_to_https {
         info!("redirect http to https is enabled");
         let host = settings::get().server.host.to_owned();
-        redirect_to_https_router(host, opt.port)
+        redirect_to_https_router(state.clone(), host, opt.port)
     } else {
         app_router(state)
     };
     let app = app.into_make_service_with_connect_info::<SocketAddr>();
-
+    http_ready_tx.send(()).unwrap();
     axum::serve(listener, app)
         .with_graceful_shutdown(shutdown_signal(rx))
         .await;
@@ -200,6 +247,10 @@ where
 fn app_router(state: AppState) -> Router {
     let mut app = spa::spa(
         Router::new()
+            .route(
+                "/.well-known/acme-challenge/{token}",
+                any(api::acme_handler),
+            )
             .nest("/api", api::api_routes(state.clone()))
             .with_state(state),
     );
@@ -266,27 +317,33 @@ fn control_router(tx: Sender<()>) -> Router {
     )
 }
 
-fn redirect_to_https_router(host: String, port: u16) -> Router {
+fn redirect_to_https_router(state: AppState, host: String, port: u16) -> Router {
     let a = Authority::from_maybe_shared(format!("{host}:{port}")).unwrap();
-    Router::new().fallback(
-        async move |ConnectInfo(client_ip): ConnectInfo<SocketAddr>, uri: Uri| {
-            let mut builder = Uri::builder().scheme(Scheme::HTTPS).authority(a);
-            if let Some(pq) = uri.path_and_query() {
-                builder = builder.path_and_query(pq.to_owned());
-            };
+    Router::new()
+        .route(
+            "/.well-known/acme-challenge/{token}",
+            any(api::acme_handler),
+        )
+        .fallback(
+            async move |ConnectInfo(client_ip): ConnectInfo<SocketAddr>, uri: Uri| {
+                let mut builder = Uri::builder().scheme(Scheme::HTTPS).authority(a);
+                if let Some(pq) = uri.path_and_query() {
+                    builder = builder.path_and_query(pq.to_owned());
+                };
 
-            let r_url = match builder.build() {
-                Ok(u) => u.to_string(),
-                Err(e) => {
-                    error!("build redirect uri error : {e}");
-                    format!("https://{host}:{port}/")
-                }
-            };
+                let r_url = match builder.build() {
+                    Ok(u) => u.to_string(),
+                    Err(e) => {
+                        error!("build redirect uri error : {e}");
+                        format!("https://{host}:{port}/")
+                    }
+                };
 
-            info!(?client_ip, "redirect from {uri} to {r_url}");
-            Redirect::temporary(r_url.as_str())
-        },
-    )
+                info!(?client_ip, "redirect from {uri} to {r_url}");
+                Redirect::temporary(r_url.as_str())
+            },
+        )
+        .with_state(state)
 }
 
 async fn serve_app<L>(listener: L, state: AppState, rx: Receiver<()>) -> Result<()>

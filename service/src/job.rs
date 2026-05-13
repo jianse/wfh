@@ -28,6 +28,7 @@ use tracing::trace;
 
 mod bounty_cycle_job;
 mod raw_world_state_job;
+pub mod server_cert_job;
 
 type BoxJob = Box<dyn Job + Send + Sync>;
 
@@ -53,7 +54,11 @@ where
         let conf = job_conf_for(job.name());
         jobs.insert(job.name(), (conf, job));
 
-        let job = BountyCycleJob::new(state).boxed();
+        let job = BountyCycleJob::new(state.clone()).boxed();
+        let conf = job_conf_for(job.name());
+        jobs.insert(job.name(), (conf, job));
+
+        let job = server_cert_job::ServerCertJob::new(state).boxed();
         let conf = job_conf_for(job.name());
         jobs.insert(job.name(), (conf, job));
 

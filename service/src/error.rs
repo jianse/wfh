@@ -20,6 +20,9 @@ pub enum Error {
 
     #[error(transparent)]
     HttpClient(#[from] reqwest::Error),
+
+    #[error(transparent)]
+    Join(#[from] tokio::task::JoinError),
 }
 
 pub type Result<T> = std::result::Result<T, Error>;

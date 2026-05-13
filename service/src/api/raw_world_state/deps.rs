@@ -32,6 +32,29 @@ pub(crate) fn deps_routes(state: AppState) -> Router<AppState> {
         )
         .route("/sortie_modifiers/{id}", delete(remove_sortie_modifier))
         .layer(from_fn_with_state(state, require_admin_role))
+        .route("/lang", post(get_lang_items))
+}
+
+#[derive(Debug, Deserialize)]
+pub struct LangItemsRequest {
+    names: Vec<String>,
+}
+
+/// get lang items
+/// this endpoint is used to get the lang items from the deps
+/// uses `POST` method instead of `GET`, because the lang items may be too large to return in a GET request
+async fn get_lang_items(
+    Json(req): Json<LangItemsRequest>,
+) -> BizResult<BizResponse<HashMap<String, Option<String>>>> {
+    let deps = G_DEPS.read().await;
+
+    let mut res = HashMap::new();
+    for name in req.names {
+        let item = deps.languages.get(&name);
+        res.insert(name, item.cloned());
+    }
+
+    Ok(BizResponse::ok_with(res))
 }
 
 /// list sortie modifiers

@@ -261,9 +261,23 @@ pub struct TlsSettings {
     pub port: u16,
     pub cert: PathBuf,
     pub key: PathBuf,
+    pub acme: Option<AcmeSettings>,
     #[serde(default = "defaults::bool::_false")]
     pub redirect_to_https: bool,
 }
+
+#[derive(Deserialize, Serialize, Debug, Clone)]
+pub struct AcmeSettings {
+    /// acme email
+    pub email: String,
+    /// acme server Let's Encrypt or something else
+    pub server: String,
+    /// agree to acme terms of service
+    pub agree_tos: bool,
+    /// acme config directory
+    pub config_dir: PathBuf,
+}
+
 
 fn default_tls_port() -> u16 {
     443

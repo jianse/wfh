@@ -1034,7 +1034,7 @@ pub struct Deps {
     factions: HashMap<String, FactionInfo>,
 
     /// Languages exported from game assets
-    languages: HashMap<String, String>,
+    pub(super) languages: HashMap<String, String>,
 
     /// regions from public export
     regions: HashMap<String, Region>,

@@ -9,6 +9,7 @@ use axum::Extension;
 use axum::Json;
 use axum::Router;
 use axum::extract::ConnectInfo;
+use axum::extract::Path;
 use axum::extract::Request;
 use axum::extract::State;
 use axum::http::StatusCode;
@@ -56,6 +57,7 @@ static WHITE_LIST: Lazy<RegexSet> = Lazy::new(|| {
         "/raw_world_state/parsed",
         "/raw_world_state/st_pvt",
         "/raw_world_state/bounty_cycle",
+        "/raw_world_state/deps/lang",
     ])
     .unwrap()
 });
@@ -283,6 +285,9 @@ pub enum BizError {
 
     #[error(transparent)]
     Export(#[from] export::error::ExportError),
+
+    #[error(transparent)]
+    Acme(#[from] acme::AcmeError),
 }
 
 impl BizError {
@@ -336,6 +341,16 @@ pub struct Page<T: Serialize> {
     pub page_size: u64,
     pub total: u64,
     pub items: Vec<T>,
+}
+
+pub(super) async fn acme_handler(
+    State(state): State<AppState>,
+    Path(token): Path<String>,
+) -> Response {
+    if let Some(v) = state.get_acme_token(token).await {
+        return (StatusCode::OK, v).into_response();
+    }
+    StatusCode::NOT_FOUND.into_response()
 }
 
 #[cfg(test)]
