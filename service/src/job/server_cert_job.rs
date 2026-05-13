@@ -39,7 +39,7 @@ impl Job for ServerCertJob {
         if let Some(tls) = &g_settings.server.tls
             && let Some(acme) = &tls.acme
         {
-            let mut acme_client = AcmeClient::new(&acme.server, &acme.email).await?;
+            let mut acme_client = AcmeClient::new(&acme.server, &acme.config_dir).await?;
             let domain = g_settings.server.host.clone();
 
             let account = acme_client.load_or_create_account(&acme.email).await?;
