@@ -2,6 +2,7 @@ use std::fs;
 use std::time::Duration;
 
 use acme::AcmeClient;
+use acme::CertificateChain;
 use acme::gen_p256_key;
 use acme::key_to_pkcs8_pem;
 use acme::make_csr;
@@ -31,6 +32,22 @@ impl Job for ServerCertJob {
     }
 
     async fn bootstrap_run_duration(&self) -> Duration {
+        let g_settings = settings::get();
+        if let Some(tls) = &g_settings.server.tls {
+            if let Ok(file) = fs::read_to_string(&tls.cert) {
+                if let Ok(cert) = CertificateChain::from_pem(&file) {
+                    if let Ok(exp_days) = cert.days_until_expiry() {
+                        if exp_days > 0 {
+                            // refresh certs expires in 5 days
+                            let hours = (exp_days as u64 - 5) * 24;
+                            let dur = Duration::from_hours(hours);
+                            return dur;
+                        }
+                    }
+                }
+            }
+        }
+
         Duration::ZERO
     }
 
@@ -79,7 +96,18 @@ impl Job for ServerCertJob {
                 let key_pem = key_to_pkcs8_pem(&key)?;
                 fs::write(&tls.key, key_pem)?;
                 fs::write(&tls.cert, cert.to_pem())?;
-                return Ok(None);
+                let exp_days = cert.days_until_expiry()?;
+
+                let dur = if exp_days > 0 {
+                    // refresh certs expires in 5 days
+                    let hours = (exp_days as u64 - 5) * 24;
+                    let dur = Duration::from_hours(hours);
+                    dur
+                } else {
+                    Duration::ZERO
+                };
+
+                return Ok(Some(dur));
             } else {
                 return Err(BizError::custom("acme sign cert error!"));
             }

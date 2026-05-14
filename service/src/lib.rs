@@ -63,8 +63,8 @@ impl AppStateRaw {
         self.acme_token.write().await.insert(key, value);
     }
 
-    pub async fn get_acme_token(&self, key: String) -> Option<String> {
-        self.acme_token.read().await.get(&key).cloned()
+    pub async fn get_acme_token(&self, key: &str) -> Option<String> {
+        self.acme_token.read().await.get(key).cloned()
     }
 
     pub async fn clear_acme_token(&self) {

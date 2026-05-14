@@ -7,6 +7,7 @@ use std::io::BufReader;
 use std::ops::Deref;
 use std::path::Path;
 use std::sync::LazyLock;
+// use std::time::Duration;
 use std::time::Instant;
 
 use chrono::DateTime;
@@ -90,7 +91,7 @@ impl SentientOutpost {
                 expiry,
                 node,
                 node_name: Some(deps.get_language(&region.name)),
-                mission_type: Some(deps.get_mission_type_by_id(region.mission_index)),
+                mission_type: Some(deps.get_mission_type_by_tag(&region.mission_type)),
             }
         } else {
             Self {
@@ -181,7 +182,7 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
         // void_storm.node
         if let Some(region) = deps.get_region(&void_storm.node) {
             void_storm.node = region.with_plant(&deps);
-            void_storm.mission_type = Some(deps.get_mission_type_by_id(region.mission_index))
+            void_storm.mission_type = Some(deps.get_mission_type_by_tag(&region.mission_type));
         };
     }
 
@@ -514,7 +515,7 @@ async fn check_update<P1: AsRef<Path> + Debug, P2: AsRef<Path>, U: IntoUrl>(
     client: &Client,
 ) -> BizResult<()> {
     if !file.as_ref().exists() || !etag_file.as_ref().exists() {
-        let resp = client.get(url).send().await?;
+        let resp = client.get(url).timeout(std::time::Duration::from_secs(30)).send().await?;
         let headers = resp.headers();
         if let Some(etag_header) = headers.get(ETAG) {
             std::fs::write(etag_file, etag_header.as_bytes())?;
@@ -1301,18 +1302,28 @@ pub struct Region {
     #[serde(rename = "masteryReq")]
     mastery_req: u8,
 
-    #[serde(rename = "missionIndex")]
-    mission_index: u8,
-    #[serde_as(as = "TryFromInto<u8>")]
-    #[serde(rename = "factionIndex", default = "Default::default")]
-    faction_index: FactionIndex,
+    // #[serde(rename = "missionIndex")]
+    // mission_index: u8,
+
+    #[serde(rename = "missionType")]
+    mission_type: String,
+
+    #[serde(rename = "missionName")]
+    mission_name: String,
+
+    #[serde(rename = "faction")]
+    faction: Option<String>,
+
+    // #[serde_as(as = "TryFromInto<u8>")]
+    // #[serde(rename = "factionIndex", default = "Default::default")]
+    // faction_index: FactionIndex,
     #[serde(rename = "minEnemyLevel")]
     min_enemy_level: u32,
     #[serde(rename = "maxEnemyLevel")]
     max_enemy_level: u32,
 
-    #[serde(rename = "isArchwing", default = "Default::default")]
-    is_archwing: bool,
+    // #[serde(rename = "isArchwing", default = "Default::default")]
+    // is_archwing: bool,
 }
 
 impl Region {

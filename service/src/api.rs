@@ -347,9 +347,12 @@ pub(super) async fn acme_handler(
     State(state): State<AppState>,
     Path(token): Path<String>,
 ) -> Response {
-    if let Some(v) = state.get_acme_token(token).await {
+    info!("acme call for {}", token);
+    if let Some(v) = state.get_acme_token(&token).await {
+        info!("acme token found for {}", token);
         return (StatusCode::OK, v).into_response();
     }
+    warn!("acme token not found for {}", token);
     StatusCode::NOT_FOUND.into_response()
 }
 

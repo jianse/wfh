@@ -38,7 +38,6 @@ use serde_json::json;
 use tokio::time::sleep;
 use tracing::debug;
 use tracing::info;
-use tracing::instrument::WithSubscriber;
 use tracing::warn;
 use x509_cert::Certificate;
 use x509_cert::builder::Builder;
@@ -114,13 +113,27 @@ impl Directory {
 
 const REPLAY_NONCE: &str = "Replay-Nonce";
 
-#[derive(Debug, Default, Deserialize, Serialize)]
+#[derive(Debug, Default)]
 pub struct LocalConfig {
-    #[serde(default)]
-    accounts: HashMap<String, LocalAccount>,
+    // #[serde(default)]
+    accounts: HashMap<AccountKey, LocalAccount>,
 }
 
-#[derive(Debug, Deserialize, Serialize, Clone)]
+#[derive(Debug, Default, PartialEq, Eq, Hash, Clone)]
+struct AccountKey {
+    dir_url: String,
+    email: String,
+}
+#[derive(Debug, Default, Deserialize, Serialize)]
+
+struct ConfigModel {
+    dir_url: String,
+    email: String,
+    key: String,
+    kid: String,
+}
+
+#[derive(Debug, Clone, Default)]
 pub struct LocalAccount {
     pub email: String,
     key: String,
@@ -172,8 +185,6 @@ pub struct AcmeClient {
 pub struct AcmeClientBuilder {
     directory_url: Option<String>,
     cache_dir: Option<PathBuf>,
-    #[deprecated(note = "Exponential backoff is now used instead of fixed retry count")]
-    max_retry_count: Option<usize>,
     accept_invalid_certs: bool,
     user_agent: Option<String>,
     language: Option<String>,
@@ -191,11 +202,6 @@ impl AcmeClientBuilder {
 
     pub fn cache_dir<P: AsRef<Path>>(mut self, path: P) -> Self {
         self.cache_dir = Some(path.as_ref().to_path_buf());
-        self
-    }
-
-    pub fn max_retry_count(mut self, count: usize) -> Self {
-        self.max_retry_count = Some(count);
         self
     }
 
@@ -275,12 +281,33 @@ impl AcmeClientBuilder {
         }
 
         let config_file = cache_dir.join("config.json");
-        if !config_file.exists() {
-            std::fs::write(&config_file, "{}")?;
-        }
-        let file = std::fs::File::open(config_file)?;
-        let rdr = std::io::BufReader::new(file);
-        let config = serde_json::from_reader(rdr)?;
+        let config = if !config_file.exists() {
+            // std::fs::write(&config_file, "[]")?;
+            LocalConfig::default()
+        } else {
+            let file = std::fs::File::open(config_file)?;
+            let rdr = std::io::BufReader::new(file);
+            let config: Vec<ConfigModel> = serde_json::from_reader(rdr)?;
+            let config = LocalConfig {
+                accounts: config
+                    .into_iter()
+                    .map(|m| {
+                        (
+                            AccountKey {
+                                dir_url: m.dir_url,
+                                email: m.email.clone(),
+                            },
+                            LocalAccount {
+                                email: m.email,
+                                key: m.key,
+                                kid: m.kid,
+                            },
+                        )
+                    })
+                    .collect(),
+            };
+            config
+        };
 
         let directory = Directory::fetch(&client, &dir_url).await?;
         let nonce = Self::fetch_nonce(&client, &directory.new_nonce).await?;
@@ -454,7 +481,10 @@ impl AcmeClient {
     }
 
     pub async fn load_or_create_account(&mut self, email: &str) -> AcmeResult<LocalAccount> {
-        let acc = if let Some(mut acc) = self.config.accounts.remove(email) {
+        let acc = if let Some(mut acc) = self.config.accounts.remove(&AccountKey {
+            dir_url: self.dir_url.clone(),
+            email: email.to_string(),
+        }) {
             if !self.check_account_exist(&acc).await? {
                 let sk = EncodingKey::from_ec_pem(acc.key.as_bytes())?;
                 let res = self.create_account(email, &sk).await?;
@@ -472,7 +502,13 @@ impl AcmeClient {
             }
         };
 
-        self.config.accounts.insert(email.to_string(), acc.clone());
+        self.config.accounts.insert(
+            AccountKey {
+                dir_url: self.dir_url.clone(),
+                email: email.to_string(),
+            },
+            acc.clone(),
+        );
         self.save_config()?;
         Ok(acc)
     }
@@ -481,7 +517,18 @@ impl AcmeClient {
         let config_file = self.cache_dir.join("config.json");
         let file = std::fs::File::create(config_file)?;
         let wtr = std::io::BufWriter::new(file);
-        serde_json::to_writer_pretty(wtr, &self.config)?;
+        let conf = self
+            .config
+            .accounts
+            .iter()
+            .map(|(k, v)| ConfigModel {
+                key: v.key.clone(),
+                dir_url: k.dir_url.clone(),
+                email: k.email.clone(),
+                kid: v.kid.clone(),
+            })
+            .collect::<Vec<ConfigModel>>();
+        serde_json::to_writer_pretty(wtr, &conf)?;
         Ok(())
     }
 
@@ -494,7 +541,7 @@ impl AcmeClient {
     pub async fn get_authorization(&mut self, acc: &LocalAccount, url: &str) -> AcmeResult<Authz> {
         let jws = crate::jws::create_kid_jws::<String>(acc, None, url, &self.nonce)?;
         let body = serde_json::to_string(&jws)?;
-        debug!("{:#?}", &body);
+        debug!("get authorization body: {}", &body);
 
         let resp = self
             .client
@@ -610,11 +657,12 @@ impl AcmeClient {
                 .await?;
 
             self.nonce = get_header_str(&resp, REPLAY_NONCE)?;
+            dbg!("call challenge", &resp);
 
             let status = resp.status();
             if status.is_success() {
                 let text = resp.text().await?;
-                debug!("challenge resp body: {:#?}", &text);
+                debug!("challenge resp body: {}", &text);
                 return Ok(serde_json::from_str(&text)?);
             }
 
@@ -1016,7 +1064,6 @@ mod tests {
     use axum::routing::get;
     use base64::Engine;
     use base64::prelude::BASE64_URL_SAFE_NO_PAD;
-    use eyre::OptionExt;
     use tokio::net::TcpListener;
     use tokio::sync::RwLock;
     use tokio::sync::oneshot::Receiver;
