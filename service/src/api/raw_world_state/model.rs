@@ -150,7 +150,6 @@ pub struct RawWorldState {
     // /// 无尽回廊
     // #[serde(rename = "EndlessXpChoices")]
     // // pub endless_xp_choices: Vec<EndlessXpChoice>,
-
     /// 无尽回廊 added at version 42.0.0
     #[serde(rename = "EndlessXpSchedule")]
     pub endless_xp_schedule: Vec<EndlessXpSchedule>,
@@ -1494,7 +1493,7 @@ pub struct Event {
     #[serde(rename = "EventEndDate", skip_serializing_if = "Option::is_none")]
     pub event_end_date: Option<DateTime<Utc>>,
 
-    #[serde(rename = "Priority")]
+    #[serde(rename = "Priority", default = "bool::default")]
     pub priority: bool,
 
     #[serde(rename = "MobileOnly")]
