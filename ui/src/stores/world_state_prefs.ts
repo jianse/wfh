@@ -18,6 +18,7 @@ export type WorldStateSection =
   | 'conquests'
   | 'hexCalendar'
   | 'endlessXp'
+  | 'syndicateMissions'
 
 export interface WorldStatePrefs {
   enabledSections: WorldStateSection[]

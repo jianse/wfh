@@ -108,6 +108,7 @@ import {
   ConquestsPanel,
   HexCalendarPanel,
   EndlessXpPanel,
+  SyndicateMissionsPanel,
 } from '@/components/world_state'
 
 const rawWorldState = ref<RawWorldState>()
@@ -133,6 +134,7 @@ const allSections: { value: WorldStateSection; label: string }[] = [
   { value: 'conquests', label: '每周科研' },
   { value: 'hexCalendar', label: '1999 日历' },
   { value: 'endlessXp', label: '无尽回廊' },
+  { value: 'syndicateMissions', label: '集团任务' },
 ]
 
 // Component mapping
@@ -153,6 +155,7 @@ const componentMap: Record<string, Component> = {
   conquests: ConquestsPanel,
   hexCalendar: HexCalendarPanel,
   endlessXp: EndlessXpPanel,
+  syndicateMissions: SyndicateMissionsPanel,
 }
 
 const fetchEnable = ref(true)

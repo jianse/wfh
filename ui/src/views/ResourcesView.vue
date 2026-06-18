@@ -116,13 +116,14 @@ const itemsComputed = computed(() => {
             class="w-125 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200 dark:border-gray-700"
           >
             <template #content>
-              <div class="flex flex-row gap-4">
-                <div class="img-bg shrink-0">
+              <div class="flex flex-row gap-4 h-[158px]">
+                <div class="rounded-sm bg-gray-400 p-1 shrink-0">
                   <pv-image
                     :alt="item.name_t || item.name"
                     :src="'https://content.warframe.com/PublicExport' + item.textureLocation"
-                    imageClass="h-[150px] w-auto object-contain"
+                    imageClass="h-[150px] w-[150px] object-contain"
                     loading="lazy"
+                    preview
                   />
                 </div>
                 <div class="flex-1 min-w-0">

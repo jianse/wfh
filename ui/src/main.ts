@@ -14,8 +14,19 @@ import ConfirmationService from 'primevue/confirmationservice'
 import DialogService from 'primevue/dialogservice'
 import ToastService from 'primevue/toastservice'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+import { loadLocaleMessages } from './i18n'
+import { createI18n } from 'vue-i18n'
 
 const app = createApp(App)
+
+const i18n = createI18n({
+  legacy: false,
+  locale: 'zh',
+})
+app.use(i18n)
+
+await loadLocaleMessages(i18n, 'zh')
+
 app.use(ToastService)
 app.use(ConfirmationService)
 app.use(DialogService)

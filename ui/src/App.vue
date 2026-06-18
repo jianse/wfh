@@ -117,6 +117,13 @@ const route = useRoute()
 
 const menuItems = [
   {
+    label: '设置',
+    icon: 'pi pi-cog',
+    command: () => {
+      router.push({ name: 'settings' })
+    },
+  },
+  {
     label: '退出',
     icon: 'pi pi-sign-out',
     command: () => {

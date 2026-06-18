@@ -213,13 +213,7 @@ export interface RawWorldState {
       RegularPrice: number
     }[]
   }[]
-  SyndicateMissions: {
-    _id: string
-    Activation: string
-    Expiry: string
-    Nodes: string[]
-    Tag: string
-  }[]
+  SyndicateMissions: SyndicateMission[]
   ActiveMissions: {
     _id: string
     Hard: boolean
@@ -304,7 +298,30 @@ export interface RawWorldState {
     Season: string
     Days: HexDay[]
   }[]
-  EndlessXpChoices: EndlessXpChoice[]
+  // EndlessXpChoices: EndlessXpChoice[]
+  EndlessXpSchedule: { CategoryChoices: EndlessXpChoice[] }[]
+}
+
+export type SyndicateMission = SyndicateMissionNormal | SyndicateMissionWithJobs
+
+export interface SyndicateMissionNormal {
+  _id: string
+  Activation: string
+  Expiry: string
+  Nodes: string[]
+  Tag: string
+}
+
+export interface SyndicateMissionWithJobs extends SyndicateMissionNormal {
+  Tag: 'CetusSyndicate'
+  Jobs: {
+    jobType: string
+    rewards: string
+    masteryReq: number
+    minEnemyLevel: number
+    maxEnemyLevel: number
+    xpAmounts: number[]
+  }[]
 }
 
 export interface EndlessXpChoice {
@@ -411,4 +428,8 @@ export interface Invasion {
     seed: number
     faction: string
   }
+}
+
+export async function getBountyCycle() {
+  return await http.get('/raw_world_state/bounty_cycle')
 }

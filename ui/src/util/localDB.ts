@@ -13,6 +13,8 @@ export type StoreName =
   | 'Resources'
   | 'Bounties'
   | 'Rewards'
+  | 'FusionBundles'
+  | 'Images'
 export const RESOURCES_INCLUDED: StoreName[] = [
   'Warframes',
   'Weapons',
@@ -24,6 +26,8 @@ export const RESOURCES_INCLUDED: StoreName[] = [
   'Resources',
   'Bounties',
   'Rewards',
+  'FusionBundles',
+  'Images',
 ]
 
 interface LastUpdate {
@@ -37,10 +41,16 @@ interface Index {
   content: string
   valid: boolean
 }
-export interface Warframes {
+export interface Warframe {
+  /** uniqueName is the internal unique identifier of the warframe
+   */
   uniqueName: string
+  /** name is an identifier of warframe name, can be used to retrieve the actual name text from locale file
+   */
   name: string
+  parentName: string
   description: string
+  icon: string
   productCategory: 'SpaceSuits' | 'Suits' | 'MechSuits'
   textureLocation: string
 }
@@ -370,18 +380,30 @@ export type BountyStage = string[]
  * Bounties 数据结构
  * 键为赏金任务唯一标识
  */
-export interface Bounties {
+export interface Bounty extends BountiesValue {
   uniqueName: string
-  value: {
-    /** 赏金任务名称（本地化键） */
-    name: string
-    /** 赏金任务描述（本地化键） */
-    description: string
-    /** 赏金任务图标路径 */
-    icon: string
-    /** 赏金任务阶段配置 */
-    stages: BountyStage[]
-  }
+}
+
+export interface BountiesValue {
+  name: string
+  description: string
+  icon: string
+  stages: BountyStage[]
+}
+
+export interface FusionBundle {
+  uniqueName: string
+  // value: {
+  name: string
+  description: string
+  icon: string
+  fusionPoints: number
+  // }[]
+}
+
+export interface Image {
+  uniqueName: string
+  contentHash: string
 }
 
 const DB_NAME = 'wf-data'
@@ -390,7 +412,7 @@ export const db = new Dexie(DB_NAME) as Dexie & {
   index: EntityTable<Index, 'id'>
   wfPepEtag: EntityTable<WfPepEtag, 'url'>
   last_update: EntityTable<LastUpdate, 'category'>
-  Warframes: EntityTable<Warframes, 'uniqueName'>
+  Warframes: EntityTable<Warframe, 'uniqueName'>
   Weapons: EntityTable<Weapon, 'uniqueName'>
   Upgrades: EntityTable<Upgrade, 'uniqueName'>
   Arcane: EntityTable<Arcane, 'uniqueName'>
@@ -399,7 +421,9 @@ export const db = new Dexie(DB_NAME) as Dexie & {
   Manifest: EntityTable<Manifest, 'uniqueName'>
   Resources: EntityTable<Resources, 'uniqueName'>
   Rewards: EntityTable<Rewards, 'uniqueName'>
-  Bounties: EntityTable<Bounties, 'uniqueName'>
+  Bounties: EntityTable<Bounty, 'uniqueName'>
+  FusionBundles: EntityTable<FusionBundle, 'uniqueName'>
+  Images: EntityTable<Image, 'uniqueName'>
 }
 
 db.version(1).stores({
@@ -416,6 +440,8 @@ db.version(1).stores({
   Resources: 'uniqueName',
   Rewards: 'uniqueName',
   Bounties: 'uniqueName',
+  FusionBundles: 'uniqueName',
+  Images: 'uniqueName',
 })
 
 export async function current_index() {
@@ -464,7 +490,7 @@ export const useOManifest = () =>
 
 export const useOWarframes = () =>
   useObservable(
-    liveQuery(() => db.Warframes.orderBy('name').toArray()) as unknown as Observable<Warframes[]>,
+    liveQuery(() => db.Warframes.orderBy('name').toArray()) as unknown as Observable<Warframe[]>,
     { initialValue: [] },
   )
 
@@ -507,14 +533,14 @@ export const useORewards = () =>
   })
 
 export const useOBounties = () =>
-  useObservable(liveQuery(() => db.Bounties.toArray()) as unknown as Observable<Bounties[]>, {
+  useObservable(liveQuery(() => db.Bounties.toArray()) as unknown as Observable<Bounty[]>, {
     initialValue: [],
   })
 
 /**
  * Find a Warframe by its uniqueName
  */
-export async function findWarframe(uniqueName: string): Promise<Warframes | undefined> {
+export async function findWarframe(uniqueName: string): Promise<Warframe | undefined> {
   return await db.Warframes.get(uniqueName)
 }
 
@@ -535,6 +561,72 @@ export async function findRewards(uniqueName: string): Promise<Rewards | undefin
 /**
  * Find Bounties by its uniqueName
  */
-export async function findBounties(uniqueName: string): Promise<Bounties | undefined> {
+export async function findBounties(uniqueName: string): Promise<Bounty | undefined> {
   return await db.Bounties.get(uniqueName)
+}
+
+export type AnyItem =
+  | { category: 'Weapons'; value: Weapon }
+  | { category: 'Upgrades'; value: Upgrade }
+  | { category: 'Arcane'; value: Arcane }
+  | { category: 'Recipes'; value: Recipe }
+  | { category: 'Relics'; value: Relic }
+  | { category: 'Warframes'; value: Warframe }
+  | { category: 'Resources'; value: Resources }
+  | { category: 'Rewards'; value: Rewards }
+  | { category: 'Bounties'; value: Bounty }
+  | { category: 'FusionBundles'; value: FusionBundle }
+
+/**
+ * Find an item by its uniqueName
+ */
+export async function findItem(uniqueName1: string): Promise<AnyItem | undefined> {
+  const uniqueName = uniqueName1.replace('/Lotus/StoreItems', '/Lotus')
+
+  const resource = await db['Resources'].get(uniqueName)
+  if (resource) {
+    return { category: 'Resources', value: resource }
+  }
+  const reward = await db['Rewards'].get(uniqueName)
+  if (reward) {
+    return { category: 'Rewards', value: reward }
+  }
+  const bounties = await db['Bounties'].get(uniqueName)
+  if (bounties) {
+    return { category: 'Bounties', value: bounties }
+  }
+  const weapon = await db['Weapons'].get(uniqueName)
+  if (weapon) {
+    return { category: 'Weapons', value: weapon }
+  }
+  const upgrade = await db['Upgrades'].get(uniqueName)
+  if (upgrade) {
+    return { category: 'Upgrades', value: upgrade }
+  }
+  const arcane = await db['Arcane'].get(uniqueName)
+  if (arcane) {
+    return { category: 'Arcane', value: arcane }
+  }
+  const recipe = await db['Recipes'].get(uniqueName)
+  if (recipe) {
+    return { category: 'Recipes', value: recipe }
+  }
+  const relic = await db['Relics'].get(uniqueName)
+  if (relic) {
+    return { category: 'Relics', value: relic }
+  }
+  const warframe = await db['Warframes'].get(uniqueName)
+  if (warframe) {
+    return { category: 'Warframes', value: warframe }
+  }
+  const fusionBundle = await db['FusionBundles'].get(uniqueName)
+  if (fusionBundle) {
+    return { category: 'FusionBundles', value: fusionBundle }
+  }
+  return undefined
+}
+
+export async function findImage(uniqueName: string): Promise<Image | undefined> {
+  const item = await db.Images.get(uniqueName)
+  return item
 }

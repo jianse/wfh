@@ -21,6 +21,7 @@ const items: SyncState[] = [
   { label: '资源', icon: uiIcons.manifest, category: 'Resources' },
   { label: '赏金', icon: uiIcons.manifest, category: 'Bounties' },
   { label: '奖励列表', icon: uiIcons.manifest, category: 'Rewards' },
+  { label: '融合包', icon: uiIcons.manifest, category: 'FusionBundles' },
 ]
 
 const store = useSyncStore()

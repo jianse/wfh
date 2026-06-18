@@ -1,4 +1,4 @@
-import http, { type BizResp } from './index.ts'
+import http, { type BizResp, type CustomRequestConfig } from './index.ts'
 
 export interface SortieModifier {
   id: string
@@ -32,4 +32,13 @@ export async function reload() {
 export async function delete_sm(id: string) {
   const { data } = await http.delete<BizResp<void>>(`/raw_world_state/deps/sortie_modifiers/${id}`)
   console.log('delete sortie modifier resp: ', data)
+}
+
+export async function get_lang_items(names: string[]) {
+  const { data } = await http.post<BizResp<Record<string, string | undefined>>>(
+    '/raw_world_state/deps/lang',
+    { names },
+    { skipAuth: true } as CustomRequestConfig,
+  )
+  return data.data || {}
 }

@@ -21,6 +21,9 @@ const CATEGORY_SOURCE_MAP: Record<string, 'local' | 'wfpep'> = {
   // 从 wfpep 同步的类别
   Rewards: 'wfpep',
   Bounties: 'wfpep',
+  FusionBundles: 'wfpep',
+  Warframes: 'wfpep',
+  Images: 'wfpep',
   // 其他类别默认从 local 同步
 }
 
@@ -115,30 +118,40 @@ async function sync_to_local_db(category: StoreName, data: Array<object>, source
   store.markCategoryDone(category)
   await debug_sleep(1000)
 }
+const BASE_URL = 'https://cdn.jsdelivr.net/gh/calamity-inc/warframe-public-export-plus@senpai/'
 
 /**
  * 从 warframe-public-export-plus (jsdelivr) 同步单个文件
  */
-async function sync_from_wfpep(filename: string) {
-  const baseUrl = 'https://cdn.jsdelivr.net/npm/warframe-public-export-plus@latest/'
-  const url = `${baseUrl}${filename}`
+async function sync_from_wfpep(filename: string, force = false) {
+  const url = `${BASE_URL}${filename}`
   const category = get_category(filename)
 
   const resp = await fetch(url)
 
   if (resp.status === 200) {
-    const localEtag = (await db.wfPepEtag.get(url))?.etag || ''
-    if (localEtag === resp.headers.get('ETag')) {
-      console.log('no update found for', category)
-      return
+    if (!force) {
+      const localEtag = (await db.wfPepEtag.get(url))?.etag || ''
+      if (localEtag === resp.headers.get('ETag')) {
+        console.log('no update found for', category)
+        return
+      }
     }
 
     console.log('update found for', category)
-    const data = await resp.json()
-    const arr = Object.entries(data).map(([key, value]) => ({
-      uniqueName: key,
-      value,
-    }))
+    const data: Record<string, Object | Array<unknown>> = await resp.json()
+    const arr = Object.entries(data).map(([key, value]) => {
+      if (Array.isArray(value)) {
+        return {
+          uniqueName: key,
+          value,
+        }
+      }
+      return {
+        uniqueName: key,
+        ...value,
+      }
+    })
 
     await sync_to_local_db(category as StoreName, arr, 'wfpep')
     await db.wfPepEtag.put({ url, etag: resp.headers.get('ETag') || '' })
@@ -165,7 +178,7 @@ export async function sync_category(category: StoreName) {
 
   if (source === 'wfpep') {
     const filename = `Export${category}.json`
-    await sync_from_wfpep(filename)
+    await sync_from_wfpep(filename, true)
   } else {
     const index = await load_index()
     if (index) {
@@ -264,8 +277,7 @@ export async function force_sync_one(category: string) {
 
     if (source === 'wfpep') {
       // 清除 etag 强制重新下载
-      const baseUrl = 'https://cdn.jsdelivr.net/npm/warframe-public-export-plus@latest/'
-      const url = `${baseUrl}Export${category}.json`
+      const url = `${BASE_URL}Export${category}.json`
       await db.wfPepEtag.delete(url)
       await sync_from_wfpep(`Export${category}.json`)
     } else {

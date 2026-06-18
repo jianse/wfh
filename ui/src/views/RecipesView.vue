@@ -166,7 +166,7 @@ function secondsToString(seconds: number) {
               <div class="flex flex-col gap-2 h-full">
                 <!-- icon name and description -->
                 <div class="flex flex-row gap-3 shrink-0 h-28">
-                  <div class="rounded-sm bg-gray-400 p-1 shrink-0">
+                  <div class="rounded-sm bg-gray-500 p-1 shrink-0">
                     <pv-image
                       :alt="item.name_t || item.name"
                       :src="'https://content.warframe.com/PublicExport' + item.textureLocation"

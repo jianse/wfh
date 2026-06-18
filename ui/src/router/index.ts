@@ -100,6 +100,11 @@ const router = createRouter({
       },
     },
     {
+      path: '/settings',
+      name: 'settings',
+      component: () => import('@/views/SettingsView.vue'),
+    },
+    {
       path: '/404',
       name: 'not-found',
       component: () => import('@/views/NotFoundView.vue'),

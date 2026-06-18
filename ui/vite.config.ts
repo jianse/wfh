@@ -23,9 +23,18 @@ export default defineConfig(({ mode }) => {
           PrimeVueResolver({
             components: {
               prefix: "Pv"
+            },
+            directives: {
+              prefix: "v"
             }
-
           })
+        ],
+        dts: true,
+        types: [
+          {
+            from: 'vue-router',
+            names: ['RouterLink', 'RouterView']
+          }
         ]
       }),
       tailwindcss(),
