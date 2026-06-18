@@ -1496,7 +1496,7 @@ pub struct Event {
     #[serde(rename = "Priority", default = "bool::default")]
     pub priority: bool,
 
-    #[serde(rename = "MobileOnly")]
+    #[serde(rename = "MobileOnly", default = "bool::default")]
     pub mobile_only: bool,
 
     #[serde(rename = "Community", skip_serializing_if = "Option::is_none")]
