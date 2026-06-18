@@ -147,9 +147,9 @@ pub struct RawWorldState {
     #[serde(rename = "ExperimentRecommended")]
     pub experiment_recommended: Vec<()>,
 
-    /// 无尽回廊
-    #[serde(rename = "EndlessXpChoices")]
-    pub endless_xp_choices: Vec<EndlessXpChoice>,
+    // /// 无尽回廊
+    // #[serde(rename = "EndlessXpChoices")]
+    // // pub endless_xp_choices: Vec<EndlessXpChoice>,
 
     /// 无尽回廊 added at version 42.0.0
     #[serde(rename = "EndlessXpSchedule")]

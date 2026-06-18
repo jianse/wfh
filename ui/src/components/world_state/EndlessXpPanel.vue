@@ -50,7 +50,7 @@ type ExcEx = EndlessXpChoice & {
 }
 
 const exp = computedAsync(async () => {
-  const res = cloneDeep(props.rawWorldState?.EndlessXpChoices) as ExcEx[]
+  const res = cloneDeep(props.rawWorldState?.EndlessXpSchedule[0].CategoryChoices) as ExcEx[]
   if (!res) return []
   for (const cat of res) {
     cat.ChoicesComputed = []

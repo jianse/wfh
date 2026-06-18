@@ -295,40 +295,42 @@ pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
         // TODO: translate modifiers
     }
 
-    // endless xp
-    for exc in raw.endless_xp_choices.iter_mut() {
-        match exc.category.as_str() {
-            "EXC_NORMAL" => {
-                let mut t_choices = vec![];
-                for c in exc.choices.iter_mut() {
-                    t_choices.push(
-                        deps.the_circuit
-                            .warframes
-                            .get(c)
-                            .cloned()
-                            .unwrap_or(c.clone()),
-                    );
-                    *c = deps.the_circuit.get_warframe_name(c, &deps)
+    // endless xp schedule
+    for sche in raw.endless_xp_schedule.iter_mut() {
+        for exc in sche.category_choices.iter_mut() {
+            match exc.category.as_str() {
+                "EXC_NORMAL" => {
+                    let mut t_choices = vec![];
+                    for c in exc.choices.iter_mut() {
+                        t_choices.push(
+                            deps.the_circuit
+                                .warframes
+                                .get(c)
+                                .cloned()
+                                .unwrap_or(c.clone()),
+                        );
+                        *c = deps.the_circuit.get_warframe_name(c, &deps)
+                    }
+                    exc.choices_ex = Some(t_choices);
                 }
-                exc.choices_ex = Some(t_choices);
-            }
-            "EXC_HARD" => {
-                let mut t_choices = vec![];
-                for c in exc.choices.iter_mut() {
-                    t_choices.push(
-                        deps.the_circuit
-                            .incarnons
-                            .get(c)
-                            .cloned()
-                            .unwrap_or(c.clone()),
-                    );
-                    *c = deps.the_circuit.get_incarnon_name(c, &deps)
+                "EXC_HARD" => {
+                    let mut t_choices = vec![];
+                    for c in exc.choices.iter_mut() {
+                        t_choices.push(
+                            deps.the_circuit
+                                .incarnons
+                                .get(c)
+                                .cloned()
+                                .unwrap_or(c.clone()),
+                        );
+                        *c = deps.the_circuit.get_incarnon_name(c, &deps)
+                    }
+                    exc.choices_ex = Some(t_choices);
                 }
-                exc.choices_ex = Some(t_choices);
-            }
 
-            _ => {
-                warn!("unknown endless xp category: {}", exc.category);
+                _ => {
+                    warn!("unknown endless xp category: {}", exc.category);
+                }
             }
         }
     }
@@ -515,7 +517,11 @@ async fn check_update<P1: AsRef<Path> + Debug, P2: AsRef<Path>, U: IntoUrl>(
     client: &Client,
 ) -> BizResult<()> {
     if !file.as_ref().exists() || !etag_file.as_ref().exists() {
-        let resp = client.get(url).timeout(std::time::Duration::from_secs(30)).send().await?;
+        let resp = client
+            .get(url)
+            .timeout(std::time::Duration::from_secs(30))
+            .send()
+            .await?;
         let headers = resp.headers();
         if let Some(etag_header) = headers.get(ETAG) {
             std::fs::write(etag_file, etag_header.as_bytes())?;
@@ -544,18 +550,20 @@ async fn check_update<P1: AsRef<Path> + Debug, P2: AsRef<Path>, U: IntoUrl>(
     Ok(())
 }
 
+const WF_PEP_BASE_URL: &str =
+    "https://cdn.jsdelivr.net/gh/calamity-inc/warframe-public-export-plus@senpai/";
+
 /// loads wf bundle data from local.
 /// the data is borrowed from https://raw.githubusercontent.com/calamity-inc/warframe-public-export-plus/refs/heads/senpai/ExportBundles.json
 pub async fn load_bundles<P: AsRef<Path>>(
     dir_path: P,
     client: &Client,
 ) -> BizResult<HashMap<String, Bundle>> {
-    const URL: &str =
-        "https://cdn.jsdelivr.net/npm/warframe-public-export-plus@latest/ExportBundles.json";
+    let url = format!("{}ExportBundles.json", WF_PEP_BASE_URL);
 
     let file = dir_path.as_ref().join("ExportBundles.json");
     let etag_file = dir_path.as_ref().join("ExportBundles.etag");
-    check_update(URL, &file, &etag_file, client).await?;
+    check_update(url, &file, &etag_file, client).await?;
     let json = std::fs::read_to_string(file)?;
     let bundles: HashMap<String, Bundle> = serde_json::from_str(&json)?;
     Ok(bundles)
@@ -932,11 +940,10 @@ async fn load_regions<P: AsRef<Path>>(
     dir: P,
     client: &Client,
 ) -> BizResult<HashMap<String, Region>> {
-    const URL: &str =
-        "https://cdn.jsdelivr.net/npm/warframe-public-export-plus@latest/ExportRegions.json";
+    let url = format!("{}/ExportRegions.json", WF_PEP_BASE_URL);
     let regions_file = dir.as_ref().join("ExportRegions.json");
     let etag_file = dir.as_ref().join("ExportRegions.etag");
-    check_update(URL, &regions_file, &etag_file, client).await?;
+    check_update(url, &regions_file, &etag_file, client).await?;
 
     let mut file = File::open(regions_file)?;
     let mut reader = BufReader::new(&mut file);
@@ -1103,6 +1110,7 @@ impl Deps {
         }
     }
 
+    #[allow(unused)]
     pub fn get_mission_type_by_id(&self, id: u8) -> String {
         if let Some(mt) = self.mission_types.by_id(id)
             && let Some(name) = mt.name.as_ref()
@@ -1304,7 +1312,6 @@ pub struct Region {
 
     // #[serde(rename = "missionIndex")]
     // mission_index: u8,
-
     #[serde(rename = "missionType")]
     mission_type: String,
 
@@ -1321,7 +1328,6 @@ pub struct Region {
     min_enemy_level: u32,
     #[serde(rename = "maxEnemyLevel")]
     max_enemy_level: u32,
-
     // #[serde(rename = "isArchwing", default = "Default::default")]
     // is_archwing: bool,
 }
