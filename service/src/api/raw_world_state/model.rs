@@ -192,6 +192,36 @@ pub struct RawWorldState {
     /// 沉沦之地
     #[serde(rename = "Descents")]
     pub descents: Vec<Descent>,
+
+    /// 氏族组队奖励
+    #[serde(rename = "WeeklyVaultBonusRewards")]
+    pub weekly_vault_bonus_rewards: Vec<WeeklyVaultBonusReward>,
+}
+
+#[derive(Debug, Deserialize, Serialize, Clone)]
+pub struct WeeklyVaultBonusReward {
+    #[serde(rename = "WeekCount")]
+    pub week_count: u64,
+
+    #[serde(rename = "BonusRegion")]
+    pub bonus_region: String,
+
+    #[serde(rename = "Rewards")]
+    pub rewards: Vec<VBReward>,
+}
+
+#[derive(Debug, Deserialize, Serialize, Clone)]
+pub struct VBReward {
+    #[serde(rename = "RewardClaimed")]
+    pub reward_claimed: bool,
+
+    #[serde(rename = "PointThreshold")]
+    pub point_threshold: u64,
+
+    #[serde(rename = "ItemCount")]
+    pub item_count: u64,
+    #[serde(rename = "Reward")]
+    pub reward: String,
 }
 
 #[serde_as]
@@ -454,6 +484,9 @@ pub struct Challenge {
     /// challenge xp, added by me
     #[serde(rename = "Xp", skip_serializing_if = "Option::is_none")]
     pub xp: Option<u32>,
+
+    #[serde(rename = "HasPrerequisites", default = "bool::default")]
+    pub has_prerequisites: bool,
 }
 
 #[serde_as]
@@ -1150,7 +1183,7 @@ pub struct Alert {
     pub mission_info: MissionInfo,
 
     #[serde(rename = "Tag")]
-    pub tag: String,
+    pub tag: Option<String>,
 
     #[serde(rename = "ForceUnlock", skip_serializing_if = "Option::is_none")]
     pub force_unlock: Option<bool>,
@@ -1241,6 +1274,9 @@ pub struct MissionInfo {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub seed: Option<u32>,
+
+    #[serde(rename = "exclusiveWeapon", skip_serializing_if = "Option::is_none")]
+    pub exclusive_weapon: Option<String>,
 }
 
 #[serde_as]
