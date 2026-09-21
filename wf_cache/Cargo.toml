@@ -1,0 +1,31 @@
+[package]
+name = "wf_cache"
+version = "0.1.0"
+edition = "2024"
+license.workspace = true
+
+[dependencies]
+binrw = "0.15.1"
+indexmap.workspace = true
+lzf = "1.0.0"
+oodle-sys = "0.2.0"
+reqwest.workspace = true
+thiserror.workspace = true
+zstd = { version = "0.13.3", features = ["experimental"] }
+
+[dev-dependencies]
+eyre.workspace = true
+get-size2 = { version = "0.10.1", features = ["derive"] }
+hex.workspace = true
+indexmap = { workspace = true, features = ["serde"] }
+liblzma = "0.4.7"
+md5.workspace = true
+rand.workspace = true
+# lzma-rs = "0.3.0"
+# lzma-rust2 = "0.16.4"
+reqwest.workspace = true
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true, features = ["indexmap"] }
+tokio = { workspace = true, features = ["full"] }
+tracing.workspace = true
+tracing-subscriber.workspace = true
