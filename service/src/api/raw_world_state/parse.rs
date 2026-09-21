@@ -6,10 +6,10 @@ use std::fs::{self};
 use std::io::BufReader;
 use std::ops::Deref;
 use std::path::Path;
-use std::sync::LazyLock;
-// use std::time::Duration;
+use std::path::PathBuf;
 use std::time::Instant;
 
+use bon::bon;
 use chrono::DateTime;
 use chrono::Days;
 use chrono::Duration;
@@ -34,6 +34,7 @@ use serde_with::TryFromInto;
 use serde_with::serde_as;
 use tokio::sync::Mutex;
 use tokio::sync::RwLock;
+use tokio::sync::RwLockReadGuard;
 use tracing::info;
 use tracing::warn;
 
@@ -43,11 +44,11 @@ use crate::api::raw_world_state::TRisk;
 use crate::api::raw_world_state::TVariable;
 use crate::api::raw_world_state::model::RawWorldState;
 
-/// global deps
-pub(super) static G_DEPS: LazyLock<RwLock<Deps>> = LazyLock::new(|| RwLock::new(Deps::default()));
+// global deps
+// pub(super) static G_DEPS: LazyLock<RwLock<Deps>> = LazyLock::new(|| RwLock::new(Deps::default()));
 
-// 全局准入锁：只用于同步 load_deps 的执行
-static LOAD_DEPS_MUTEX: LazyLock<Mutex<()>> = LazyLock::new(|| Mutex::new(()));
+// // 全局准入锁：只用于同步 load_deps 的执行
+// static LOAD_DEPS_MUTEX: LazyLock<Mutex<()>> = LazyLock::new(|| Mutex::new(()));
 
 fn translate_reward(reward: &mut super::model::Reward, deps: &Deps) -> BizResult<()> {
     if let Some(items) = reward.items.as_mut() {
@@ -108,10 +109,10 @@ impl SentientOutpost {
 
 /// add fields to raw world state.
 /// mostly for display
-pub async fn fill_raw_world_state(raw: &mut RawWorldState) -> BizResult<()> {
+pub async fn fill_raw_world_state(raw: &mut RawWorldState, deps: &Deps) -> BizResult<()> {
     let instant = Instant::now();
 
-    let deps = G_DEPS.read().await;
+    // let deps = G_DEPS.read().await;
 
     // goals
     for goal in raw.goals.iter_mut() {
@@ -594,84 +595,84 @@ pub fn load_others<P: AsRef<Path>>(dir_path: P) -> BizResult<HashMap<String, Oth
     }
 }
 
-pub async fn load_deps<P1: AsRef<Path> + Display, P2: AsRef<Path> + Display>(
-    data_dir: P1,
-    cache_dir: P2,
-    client: &Client,
-    force_reload: bool,
-) -> BizResult<()> {
-    {
-        let deps = G_DEPS.read().await;
-        if !force_reload && deps.is_initialized {
-            return Ok(());
-        }
-    }
+// pub async fn load_deps<P1: AsRef<Path> + Display, P2: AsRef<Path> + Display>(
+//     data_dir: P1,
+//     cache_dir: P2,
+//     client: &Client,
+//     force_reload: bool,
+// ) -> BizResult<()> {
+//     {
+//         let deps = G_DEPS.read().await;
+//         if !force_reload && deps.is_initialized {
+//             return Ok(());
+//         }
+//     }
 
-    let _guard = LOAD_DEPS_MUTEX.lock().await;
+//     let _guard = LOAD_DEPS_MUTEX.lock().await;
 
-    {
-        let deps = G_DEPS.read().await;
-        if !force_reload && deps.is_initialized {
-            return Ok(());
-        }
-    };
+//     {
+//         let deps = G_DEPS.read().await;
+//         if !force_reload && deps.is_initialized {
+//             return Ok(());
+//         }
+//     };
 
-    let dir = data_dir.as_ref();
+//     let dir = data_dir.as_ref();
 
-    let languages = load_languages(&data_dir)?;
-    let factions = load_factions(&data_dir)?;
-    let mission_types = load_mission_types(&data_dir)?;
+//     let languages = load_languages(&data_dir)?;
+//     let factions = load_factions(&data_dir)?;
+//     let mission_types = load_mission_types(&data_dir)?;
 
-    let mut regions = load_regions(&data_dir, client).await?;
-    let regions_ex = load_regions_ex(&data_dir)?;
-    regions.extend(regions_ex);
+//     let mut regions = load_regions(&data_dir, client).await?;
+//     let regions_ex = load_regions_ex(&data_dir)?;
+//     regions.extend(regions_ex);
 
-    let steel_path = load_steel_path(&data_dir)?;
+//     let steel_path = load_steel_path(&data_dir)?;
 
-    let sortie_bosses = load_sortie_bosses(&data_dir)?;
+//     let sortie_bosses = load_sortie_bosses(&data_dir)?;
 
-    let sortie_modifiers = load_sortie_modifiers(&data_dir)?;
+//     let sortie_modifiers = load_sortie_modifiers(&data_dir)?;
 
-    let bundles = load_bundles(&data_dir, client).await?;
+//     let bundles = load_bundles(&data_dir, client).await?;
 
-    let others = load_others(&data_dir)?;
+//     let others = load_others(&data_dir)?;
 
-    let flavour_ex = load_flavour_ex(&data_dir)?;
+//     let flavour_ex = load_flavour_ex(&data_dir)?;
 
-    let the_circuit = load_the_circuit(&data_dir)?;
+//     let the_circuit = load_the_circuit(&data_dir)?;
 
-    let conquests = load_conquests(&data_dir)?;
+//     let conquests = load_conquests(&data_dir)?;
 
-    let hex_calender = load_hex_calendar(&data_dir)?;
+//     let hex_calender = load_hex_calendar(&data_dir)?;
 
-    let pe = PE::new(client, cache_dir, dir.join("wire.json"), &languages);
-    let (pe_data, pe_index) = pe.fetch_transform_all().await?;
+//     let pe = PE::new(client, cache_dir, dir.join("wire.json"), &languages);
+//     let (pe_data, pe_index) = pe.fetch_transform_all().await?;
 
-    let nightwave_challenges = build_nw_challenges(&pe_data)?;
-    {
-        let mut deps = G_DEPS.write().await;
-        *deps = Deps {
-            regions,
-            mission_types,
-            factions,
-            languages,
-            steel_path,
-            sortie_bosses,
-            sortie_modifiers,
-            pe_index,
-            pe_data,
-            nightwave_challenges,
-            bundles,
-            others,
-            flavour_ex,
-            the_circuit,
-            conquests,
-            hex_calender,
-            is_initialized: true,
-        };
-    }
-    Ok(())
-}
+//     let nightwave_challenges = build_nw_challenges(&pe_data)?;
+//     {
+//         let mut deps = G_DEPS.write().await;
+//         *deps = Deps {
+//             regions,
+//             mission_types,
+//             factions,
+//             languages,
+//             steel_path,
+//             sortie_bosses,
+//             sortie_modifiers,
+//             pe_index,
+//             pe_data,
+//             nightwave_challenges,
+//             bundles,
+//             others,
+//             flavour_ex,
+//             the_circuit,
+//             conquests,
+//             hex_calender,
+//             is_initialized: true,
+//         };
+//     }
+//     Ok(())
+// }
 
 fn load_hex_calendar<P: AsRef<Path>>(dir_path: P) -> BizResult<HexCalendar> {
     let file = dir_path.as_ref().join("hex_calendar.json");
@@ -1030,6 +1031,131 @@ impl Deref for NWChallenges {
 
     fn deref(&self) -> &Self::Target {
         &self.0
+    }
+}
+
+// #[derive(Debug, Default, Clone)]
+// pub struct DepState {
+//     inner: Arc<RwLock<DepStateInner>>,
+// }
+
+#[bon]
+impl DepState {
+    #[builder]
+    pub fn new<P1: AsRef<Path> + Display, P2: AsRef<Path> + Display>(
+        data_dir: P1,
+        cache_dir: P2,
+        client: Client,
+    ) -> Self {
+        Self {
+            deps: RwLock::new(Deps::default()),
+            initializing: Mutex::new(()),
+            data_dir: data_dir.as_ref().to_path_buf(),
+            cache_dir: cache_dir.as_ref().to_path_buf(),
+            client,
+        }
+    }
+}
+
+#[derive(Debug, Default)]
+pub struct DepState {
+    pub(super) deps: RwLock<Deps>,
+    initializing: Mutex<()>,
+    data_dir: PathBuf,
+    cache_dir: PathBuf,
+    client: Client,
+}
+
+impl DepState {
+    pub async fn get_deps(&self) -> RwLockReadGuard<'_, Deps> {
+        // ensure deps are loaded
+        let _ = self.load_deps().await;
+        self.deps.read().await
+    }
+
+    async fn load_deps_inner(&self, force: bool) -> BizResult<()> {
+        let _guard = self.initializing.lock().await;
+
+        // check if deps are already loaded
+        {
+            let deps = &self.deps.read().await;
+            if !force && deps.is_initialized {
+                return Ok(());
+            }
+        }
+
+        let data_dir = &self.data_dir;
+        let client = &self.client;
+        let cache_dir = &self.cache_dir;
+
+        let dir = data_dir;
+
+        let languages = load_languages(&data_dir)?;
+        let factions = load_factions(&data_dir)?;
+        let mission_types = load_mission_types(&data_dir)?;
+
+        let mut regions = load_regions(&data_dir, client).await?;
+        let regions_ex = load_regions_ex(&data_dir)?;
+        regions.extend(regions_ex);
+
+        let steel_path = load_steel_path(&data_dir)?;
+
+        let sortie_bosses = load_sortie_bosses(&data_dir)?;
+
+        let sortie_modifiers = load_sortie_modifiers(&data_dir)?;
+
+        let bundles = load_bundles(&data_dir, client).await?;
+
+        let others = load_others(&data_dir)?;
+
+        let flavour_ex = load_flavour_ex(&data_dir)?;
+
+        let the_circuit = load_the_circuit(&data_dir)?;
+
+        let conquests = load_conquests(&data_dir)?;
+
+        let hex_calender = load_hex_calendar(&data_dir)?;
+
+        let pe = PE::new(client, cache_dir, dir.join("wire.json"), &languages);
+        let (pe_data, pe_index) = pe.fetch_transform_all().await?;
+
+        let nightwave_challenges = build_nw_challenges(&pe_data)?;
+        {
+            let mut deps = self.deps.write().await;
+            *deps = Deps {
+                regions,
+                mission_types,
+                factions,
+                languages,
+                steel_path,
+                sortie_bosses,
+                sortie_modifiers,
+                pe_index,
+                pe_data,
+                nightwave_challenges,
+                bundles,
+                others,
+                flavour_ex,
+                the_circuit,
+                conquests,
+                hex_calender,
+                is_initialized: true,
+            };
+        }
+
+        Ok(())
+    }
+
+    pub async fn load_deps(&self) -> BizResult<()> {
+        self.load_deps_inner(false).await?;
+
+        Ok(())
+    }
+
+    pub async fn force_load_deps(&self) -> BizResult<()> {
+        self.load_deps_inner(true).await?;
+
+        Ok(())
     }
 }
 
@@ -1511,11 +1637,17 @@ mod tests {
         let mut file = File::open("./tests/samples/full/ws_wg_org-20260328.json").unwrap();
         let mut raw = serde_json::from_reader::<_, RawWorldState>(&mut file).unwrap();
         let client = Client::new();
-        load_deps("../data", "../cache", &client, false)
-            .await
-            .unwrap();
-        // let deps = G_DEPS.read().unwrap();
-        let result = fill_raw_world_state(&mut raw).await?;
+
+        let dep_state = DepState::builder()
+            .cache_dir("../cache")
+            .data_dir("../data")
+            .client(client)
+            .build();
+
+        dep_state.load_deps().await.unwrap();
+
+        let deps = dep_state.deps.read().await;
+        let result = fill_raw_world_state(&mut raw, &deps).await?;
         dbg!(&result);
         // assert!(result.is_ok());
         Ok(())

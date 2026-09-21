@@ -45,7 +45,6 @@ use settings::PwdHasherError;
 use token::create_token;
 use token::refresh_token;
 
-pub(crate) use raw_world_state::parse::load_deps;
 use tracing::warn;
 
 // panic on startup should be fine

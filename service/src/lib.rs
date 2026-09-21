@@ -8,6 +8,7 @@ mod logging;
 pub mod tls;
 mod uap;
 
+use crate::api::raw_world_state::DepState;
 use crate::job::Job;
 use crate::job::JobRegistry;
 use crate::job::server_cert_job::ServerCertJob;
@@ -50,12 +51,13 @@ use tower_http::trace::TraceLayer;
 use tracing::error;
 use tracing::info;
 
-#[derive(Clone)]
+// #[derive(Clone)]
 struct AppStateRaw {
     conn: DatabaseConnection,
     http_client: reqwest::Client,
     ua_extractor: UaExtractor,
     acme_token: Arc<RwLock<HashMap<String, String>>>,
+    deps: DepState,
 }
 
 impl AppStateRaw {
@@ -121,11 +123,18 @@ pub async fn serve() -> Result<()> {
 
     let ua_extractor = UaExtractor::new_from_embed();
 
+    let deps = DepState::builder()
+        .data_dir("data")
+        .cache_dir("cache")
+        .client(http_client.clone())
+        .build();
+
     let state = Arc::new(AppStateRaw {
         conn,
         http_client,
         ua_extractor,
         acme_token: Arc::new(RwLock::new(HashMap::new())),
+        deps,
     });
     let (tx, rx) = broadcast::channel::<()>(10);
     let rx2 = tx.subscribe();
@@ -141,7 +150,7 @@ pub async fn serve() -> Result<()> {
     tokio::spawn({
         let state = state.clone();
         async move {
-            let res = api::load_deps("data", "cache", &state.http_client, false).await;
+            let res = state.deps.load_deps().await;
             if let Err(err) = res {
                 error!("failed to load dependencies: {}", err);
             }

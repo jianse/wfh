@@ -19,7 +19,6 @@ use crate::api::BizResponse;
 use crate::api::BizResult;
 use crate::api::Page;
 use crate::api::Pager;
-use crate::api::load_deps;
 use crate::api::raw_world_state::deps::deps_routes;
 use crate::api::raw_world_state::parse::fill_raw_world_state;
 use crate::entities;
@@ -39,6 +38,8 @@ mod deps;
 mod helper;
 mod model;
 pub(super) mod parse;
+
+pub use parse::DepState;
 
 #[derive(Debug)]
 pub struct Res {
@@ -185,8 +186,9 @@ async fn force_reload_world_state(
     let sync_time = Utc::now();
     match fetch_raw_world_state(&state.http_client, WG_URL).await {
         Ok(Res { mut raw, ignored }) => {
-            load_deps("data", "cache", &state.http_client, false).await?;
-            fill_raw_world_state(&mut raw).await?;
+            // state.deps.load_deps().await?;
+            let deps = state.deps.deps.read().await;
+            fill_raw_world_state(&mut raw, &deps).await?;
             let content = serde_json::to_string(&raw)?;
             std::fs::write("cache/current_world_state.json", content)?;
             let nearest_expiry = calc_nearest_expiry(&raw);
@@ -270,8 +272,9 @@ pub async fn sync_raw_world_state(state: AppState) -> BizResult<Option<DateTime<
     let sync_time = Utc::now();
     match fetch_raw_world_state(&state.http_client, WG_URL).await {
         Ok(Res { mut raw, ignored }) => {
-            load_deps("data", "cache", &state.http_client, false).await?;
-            fill_raw_world_state(&mut raw).await?;
+            // load_deps("data", "cache", &state.http_client, false).await?;
+            let deps = state.deps.get_deps().await;
+            fill_raw_world_state(&mut raw, &deps).await?;
             let content = serde_json::to_string(&raw)?;
             std::fs::write("cache/current_world_state.json", content)?;
             let nearest_expiry = calc_nearest_expiry(&raw);

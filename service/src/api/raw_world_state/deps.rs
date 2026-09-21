@@ -17,8 +17,6 @@ use crate::AppState;
 use crate::api::BizError;
 use crate::api::BizResponse;
 use crate::api::BizResult;
-use crate::api::load_deps;
-use crate::api::raw_world_state::parse::G_DEPS;
 use crate::api::raw_world_state::parse::save_sortie_modifiers;
 use crate::api::require_admin_role;
 
@@ -44,9 +42,10 @@ pub struct LangItemsRequest {
 /// this endpoint is used to get the lang items from the deps
 /// uses `POST` method instead of `GET`, because the lang items may be too large to return in a GET request
 async fn get_lang_items(
+    State(state): State<AppState>,
     Json(req): Json<LangItemsRequest>,
 ) -> BizResult<BizResponse<HashMap<String, Option<String>>>> {
-    let deps = G_DEPS.read().await;
+    let deps = state.deps.deps.read().await;
 
     let mut res = HashMap::new();
     for name in req.names {
@@ -58,8 +57,10 @@ async fn get_lang_items(
 }
 
 /// list sortie modifiers
-async fn list_sortie_modifiers() -> BizResult<BizResponse<Vec<SortieModifier>>> {
-    let deps = G_DEPS.read().await;
+async fn list_sortie_modifiers(
+    State(state): State<AppState>,
+) -> BizResult<BizResponse<Vec<SortieModifier>>> {
+    let deps = state.deps.deps.read().await;
     let modifiers = deps
         .sortie_modifiers
         .iter()
@@ -70,12 +71,12 @@ async fn list_sortie_modifiers() -> BizResult<BizResponse<Vec<SortieModifier>>> 
 
 /// add new sortie modifier
 async fn add_new_sortie_modifier(
-    // State(state): State<AppState>,
+    State(state): State<AppState>,
     Json(new_item): Json<SortieModifier>,
 ) -> BizResult<BizResponse> {
     // check if the modifier exists
     {
-        let deps = G_DEPS.read().await;
+        let deps = state.deps.deps.read().await;
 
         // override the existing modifier is not allowed!
         if deps.sortie_modifiers.contains_key(&new_item.id) {
@@ -88,13 +89,13 @@ async fn add_new_sortie_modifier(
 
     // update the deps
     {
-        let mut deps = G_DEPS.write().await;
+        let mut deps = state.deps.deps.write().await;
         deps.sortie_modifiers
             .insert(new_item.id.clone(), new_item.into());
     }
 
     // we should write sortie modifiers to file
-    let deps = G_DEPS.read().await;
+    let deps = state.deps.deps.read().await;
     save_sortie_modifiers("data", &deps.sortie_modifiers)?;
 
     Ok(BizResponse::ok())
@@ -102,15 +103,15 @@ async fn add_new_sortie_modifier(
 
 /// force reload the dependencies to parse the raw world state
 async fn force_reload_deps(State(state): State<AppState>) -> BizResult<()> {
-    load_deps("data", "cache", &state.http_client, true).await
+    state.deps.force_load_deps().await
 }
 
 /// remove sortie modifier
 async fn remove_sortie_modifier(
-    // State(state): State<AppState>,
+    State(state): State<AppState>,
     Path(id): Path<String>,
 ) -> BizResult<BizResponse> {
-    let mut deps = G_DEPS.write().await;
+    let mut deps = state.deps.deps.write().await;
     deps.sortie_modifiers.shift_remove(&id);
 
     // we should write sortie modifiers to file
