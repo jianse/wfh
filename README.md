@@ -2,6 +2,10 @@
 
 This is a simple helper site for warframe.
 
+## Dependencies
+
+This library binds to `liboo2corelinux64.so` on Linux and `oo2core_win64.lib` on Windows. MacOS isn't supported. You can retrieve it by following the instructions here : https://github.com/sehnryr/get-oodle-lib
+
 ## Build 
 
 ### build ui

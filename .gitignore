@@ -10,9 +10,15 @@ logs
 /out
 /cache
 /lang
+
 # file in data must be include manually
 /data
 
 *.txt
 *.db
 .*
+
+
+# Libary files
+liboo2corelinux64.a
+oo2core_win64.lib
