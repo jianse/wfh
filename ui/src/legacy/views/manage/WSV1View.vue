@@ -7,7 +7,7 @@
       :rowsPerPageOptions="[10, 20, 50, 100]"
       tableStyle="min-width: 50rem"
       :loading="tableLoading"
-      :data-key="(it) => it.path + it.origin"
+      :data-key="rowKey"
       striped-rows
       scrollable
       scrollHeight="calc(100vh - 14rem)"
@@ -161,6 +161,10 @@ const pager = ref({
 
 const tableLoading = ref(false)
 const toast = useToast()
+
+function rowKey(it: Rep): string {
+  return it.path + it.origin
+}
 
 const replacementDialog = ref(false)
 const isEdit = ref(false)
