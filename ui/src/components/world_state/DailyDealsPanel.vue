@@ -1,27 +1,28 @@
-<template>
-  <pv-card class="col-span-full">
-    <template #title>
-      <div class="flex items-center gap-2">
-        <i class="pi pi-shopping-cart"></i>
-        <span>达尔沃特惠</span>
-      </div>
-    </template>
-    <template #content>
-      <ul class="space-y-2">
-        <li v-for="deal in props.rawWorldState?.DailyDeals" :key="deal.StoreItem" class="text-sm">
-          <div class="font-medium">{{ deal.StoreItemName }}</div>
-          <div class="text-primary font-bold">{{ deal.SalePrice }}P</div>
-          <div class="text-xs text-muted-color"><CountDownTo :time="deal.Expiry" />轮换</div>
-        </li>
-      </ul>
-    </template>
-  </pv-card>
-</template>
-
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { RawWorldState } from '@/api/world_state'
+import WorldStatePanel from './WorldStatePanel.vue'
+import CountDown from '@/components/CountDown.vue'
 
-const props = defineProps<{
-  rawWorldState: RawWorldState | undefined
-}>()
+const props = defineProps<{ rawWorldState: RawWorldState | undefined; icon?: string }>()
+const emit = defineEmits<{ timeUp: [] }>()
+
+const deals = computed(() => props.rawWorldState?.DailyDeals ?? [])
 </script>
+
+<template>
+  <WorldStatePanel :title="'达尔沃特惠'" :icon="props.icon">
+    <div v-if="!deals.length" class="ws-empty">暂无特惠商品</div>
+    <div v-else class="ws-rows">
+      <div v-for="(d, i) in deals" :key="i" class="ws-row">
+        <div class="ws-row-title">{{ d.StoreItemName }}</div>
+        <div>
+          <span class="ws-price">{{ d.SalePrice }}P</span>
+          <span v-if="d.OriginalPrice" class="ws-strike">{{ d.OriginalPrice }}P</span>
+          <span v-if="d.Discount" class="ws-off">-{{ d.Discount }}%</span>
+        </div>
+        <div><CountDown :time="d.Expiry" @hit-zero="emit('timeUp')" />轮换</div>
+      </div>
+    </div>
+  </WorldStatePanel>
+</template>

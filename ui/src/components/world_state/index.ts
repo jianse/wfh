@@ -1,4 +1,3 @@
-// World State Components Barrel Export
 export { default as CyclesPanel } from './CyclesPanel.vue'
 export { default as EventsPanel } from './EventsPanel.vue'
 export { default as AlertsPanel } from './AlertsPanel.vue'

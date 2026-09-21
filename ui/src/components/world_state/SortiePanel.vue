@@ -1,42 +1,31 @@
+<script setup lang="ts">
+import { computed } from 'vue'
+import type { RawWorldState } from '@/api/world_state'
+import WorldStatePanel from './WorldStatePanel.vue'
+import CountDown from '@/components/CountDown.vue'
+import StringWithIcon from '@/components/StringWithIcon.vue'
+
+const props = defineProps<{ rawWorldState: RawWorldState | undefined; icon?: string }>()
+const emit = defineEmits<{ timeUp: [] }>()
+
+const sorties = computed(() => props.rawWorldState?.Sorties ?? [])
+</script>
+
 <template>
-  <pv-card class="col-span-full">
-    <template #title>
-      <div class="flex items-center gap-2">
-        <i class="pi pi-flash"></i>
-        <span>突击任务</span>
-      </div>
-    </template>
-    <template #content>
-      <div v-for="sortie in props.rawWorldState?.Sorties" :key="sortie._id">
-        <p class="text-sm text-muted-color mb-4"><CountDownTo :time="sortie.Expiry" />轮换</p>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <pv-card
-            class="border border-gray-600"
-            v-for="(mission, index) in sortie.Variants"
-            :key="index"
-          >
-            <template #title>{{ mission.missionType }}</template>
-            <template #content>
-              <div class="flex flex-col gap-2 text-sm">
-                <div class="font-medium">{{ mission.node }}</div>
-                <div class="font-bold text-primary">{{ mission.modifierName }}</div>
-                <div class="text-muted-color">
-                  <StringWithIcon :text="mission.modifierDescription || ''" />
-                </div>
-              </div>
-            </template>
-          </pv-card>
+  <WorldStatePanel :title="'突击任务'" :icon="props.icon">
+    <div v-if="!sorties.length" class="ws-empty">暂无突击任务</div>
+    <template v-else>
+      <div v-for="s in sorties" :key="s._id">
+        <div class="mb-sm"><CountDown :time="s.Expiry" @hit-zero="emit('timeUp')" />轮换</div>
+        <div class="ws-missions">
+          <div v-for="(v, i) in s.Variants || []" :key="i" class="ws-mission">
+            <div class="ws-mission-type">{{ v.missionType }}</div>
+            <div class="ws-mission-node">{{ v.node }}</div>
+            <div class="ws-mod">{{ v.modifierName }}</div>
+            <div class="ws-mission-desc"><StringWithIcon :text="v.modifierDescription" /></div>
+          </div>
         </div>
       </div>
     </template>
-  </pv-card>
+  </WorldStatePanel>
 </template>
-
-<script setup lang="ts">
-import type { RawWorldState } from '@/api/world_state'
-import StringWithIcon from '@/components/StringWithIcon.vue'
-
-const props = defineProps<{
-  rawWorldState: RawWorldState | undefined
-}>()
-</script>

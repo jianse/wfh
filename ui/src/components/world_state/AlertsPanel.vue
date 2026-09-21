@@ -1,45 +1,35 @@
-<template>
-  <pv-card class="col-span-full">
-    <template #title>
-      <div class="flex items-center gap-2">
-        <i class="pi pi-bell"></i>
-        <span>警报</span>
-      </div>
-    </template>
-    <template #content>
-      <div class="flex flex-row gap-2 flex-wrap">
-        <div
-          class="border rounded-md p-3 border-gray-600 min-w-64"
-          v-for="alert in props.rawWorldState?.Alerts"
-          :key="alert._id"
-        >
-          <div class="font-bold">{{ alert.MissionInfo.location }}</div>
-          <div class="text-sm text-muted-color">{{ alert.MissionInfo.missionType }}</div>
-          <p class="text-sm mt-1">{{ alert.MissionInfo.descText }}</p>
-          <p class="text-sm"><CountDownTo :time="alert.Expiry" />结束</p>
-          <StringWithIcon :text="rewardAsString(alert.MissionInfo.missionReward)" />
-        </div>
-      </div>
-    </template>
-  </pv-card>
-</template>
-
 <script setup lang="ts">
-import type { RawWorldState, Reward } from '@/api/world_state'
+import { computed } from 'vue'
+import type { RawWorldState } from '@/api/world_state'
+import { rewardText } from '@/lib/ws-format'
+import WorldStatePanel from './WorldStatePanel.vue'
+import CountDown from '@/components/CountDown.vue'
 import StringWithIcon from '@/components/StringWithIcon.vue'
 
-const props = defineProps<{
-  rawWorldState: RawWorldState | undefined
-}>()
+const props = defineProps<{ rawWorldState: RawWorldState | undefined; icon?: string }>()
+const emit = defineEmits<{ timeUp: [] }>()
 
-function rewardAsString(reward: Reward): string {
-  if (!reward) return ''
-  const l = []
-  if (reward.credits) l.push(`${reward.credits} 星币`)
-  if (reward.xp) l.push(`${reward.xp} 经验值`)
-  if (reward.itemNames) l.push(...reward.itemNames.map((i) => `${i}`))
-  if (reward.countedItems)
-    l.push(...reward.countedItems.map((i) => `${i.ItemCountSum} X ${i.ItemName}`))
-  return l.join(' + ')
-}
+const alerts = computed(() => props.rawWorldState?.Alerts ?? [])
 </script>
+
+<template>
+  <WorldStatePanel :title="'警报'" :icon="props.icon">
+    <div v-if="!alerts.length" class="ws-empty">当前没有警报</div>
+    <div v-else class="ws-cards">
+      <div v-for="a in alerts" :key="a._id" class="ws-card">
+        <div class="ws-card-title">{{ a.MissionInfo.location || '未知地点' }}</div>
+        <div class="ws-card-sub">
+          {{ a.MissionInfo.missionType }}
+          <template v-if="a.MissionInfo.minEnemyLevel != null">
+            · 等级 {{ a.MissionInfo.minEnemyLevel }} - {{ a.MissionInfo.maxEnemyLevel }}
+          </template>
+        </div>
+        <div class="ws-card-desc"><StringWithIcon :text="a.MissionInfo.descText" /></div>
+        <div class="ws-card-ct"><CountDown :time="a.Expiry" @hit-zero="emit('timeUp')" />结束</div>
+        <div class="ws-card-reward">
+          <StringWithIcon :text="rewardText(a.MissionInfo.missionReward)" />
+        </div>
+      </div>
+    </div>
+  </WorldStatePanel>
+</template>

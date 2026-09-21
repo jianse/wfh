@@ -22,7 +22,7 @@ const timeStr = `${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(
 }
 // warframe stream server
 {
-  const url = 'https://content.warframe.com/dynamic/worldState.php'
+  const url = 'https://api.warframe.com/cdn/worldState.php'
 
   const resp = await fetch(url)
 

@@ -1,54 +1,53 @@
-<template>
-  <pv-card class="col-span-full">
-    <template #title>
-      <div class="flex items-center gap-2">
-        <i class="pi pi-store"></i>
-        <span>虚空商人</span>
-      </div>
-    </template>
-    <template #content>
-      <div v-for="(voidTrader, index) in props.rawWorldState?.VoidTraders" :key="index">
-        <div v-if="tsBetween(props.now, voidTrader.Activation, voidTrader.Expiry)">
-          <div class="flex items-center gap-2 mb-2">
-            <pv-tag value="已到来" severity="success" />
-            <span class="font-medium">{{ voidTrader.Node }}</span>
-          </div>
-          <div class="text-sm text-muted-color mb-4">
-            <CountDownTo :time="voidTrader.Expiry"></CountDownTo> 离开
-          </div>
-          <pv-data-table :value="voidTrader.Manifest" scrollable scroll-height="400px" striped-rows>
-            <pv-column field="ItemName" header="物品" style="width: 50%"></pv-column>
-            <pv-column field="PrimePrice" header="杜卡德金币" style="width: 25%"></pv-column>
-            <pv-column field="RegularPrice" header="星币" style="width: 25%"></pv-column>
-          </pv-data-table>
-        </div>
-        <div v-else>
-          <div class="flex items-center gap-2 mb-2">
-            <pv-tag value="未到来" severity="warn" />
-            <span class="font-medium">{{ voidTrader.Node }}</span>
-          </div>
-          <div class="text-sm text-muted-color">
-            <CountDownTo :time="voidTrader.Activation"></CountDownTo> 到达
-          </div>
-        </div>
-      </div>
-    </template>
-  </pv-card>
-</template>
-
 <script setup lang="ts">
-import dayjs from 'dayjs'
-import isBetween from 'dayjs/plugin/isBetween'
+import { computed } from 'vue'
+import { useTimestamp } from '@vueuse/core'
 import type { RawWorldState } from '@/api/world_state'
+import WorldStatePanel from './WorldStatePanel.vue'
+import CountDown from '@/components/CountDown.vue'
 
-dayjs.extend(isBetween)
+const props = defineProps<{ rawWorldState: RawWorldState | undefined; icon?: string }>()
+const emit = defineEmits<{ timeUp: [] }>()
 
-const props = defineProps<{
-  rawWorldState: RawWorldState | undefined
-  now: number
-}>()
+const now = useTimestamp({ interval: 1000 })
+const traders = computed(() => props.rawWorldState?.VoidTraders ?? [])
 
-function tsBetween(t: number, a: string, b: string) {
-  return dayjs(t).isBetween(dayjs(a), dayjs(b))
+function isActive(activation?: string, expiry?: string): boolean {
+  if (!activation || !expiry) return false
+  return now.value >= new Date(activation).getTime() && now.value <= new Date(expiry).getTime()
 }
 </script>
+
+<template>
+  <WorldStatePanel :title="'虚空商人'" :icon="props.icon">
+    <div v-if="!traders.length" class="ws-empty">虚空商人暂无行程</div>
+    <template v-for="(v, idx) in traders" :key="idx">
+      <template v-if="isActive(v.Activation, v.Expiry)">
+        <div class="mb-xs">
+          <span class="ws-tag on">已到来</span> <span class="fw-500">{{ v.Node || '' }}</span>
+        </div>
+        <div class="mb-sm"><CountDown :time="v.Expiry" @hit-zero="emit('timeUp')" />离开</div>
+        <div v-if="v.Manifest?.length" class="ws-scroll">
+          <table class="ds-table">
+            <thead>
+              <tr><th>物品</th><th class="num-col">杜卡德金币</th><th class="num-col">星币</th></tr>
+            </thead>
+            <tbody>
+              <tr v-for="(m, i) in v.Manifest" :key="i">
+                <td>{{ m.ItemName }}</td>
+                <td class="num-col">{{ m.PrimePrice != null ? m.PrimePrice : '—' }}</td>
+                <td class="num-col">{{ m.RegularPrice != null ? m.RegularPrice : '—' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div v-else class="ws-empty">货品清单尚未公布</div>
+      </template>
+      <template v-else>
+        <div class="mb-xs">
+          <span class="tag">未到来</span> <span class="fw-500">{{ v.Node || '' }}</span>
+        </div>
+        <div><CountDown :time="v.Activation" @hit-zero="emit('timeUp')" />到达</div>
+      </template>
+    </template>
+  </WorldStatePanel>
+</template>

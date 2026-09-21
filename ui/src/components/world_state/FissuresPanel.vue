@@ -1,147 +1,86 @@
-<template>
-  <pv-card class="col-span-full">
-    <template #title>
-      <div class="flex items-center gap-2">
-        <i class="pi pi-shield"></i>
-        <span>虚空裂缝</span>
-      </div>
-    </template>
-    <template #content>
-      <div>
-        <div class="card flex flex-wrap justify-center gap-4 mb-4">
-          <div class="flex items-center gap-2" v-for="tier in tierOptions" :key="tier.value">
-            <pv-checkbox
-              v-model="filterTiers"
-              :input-id="tier.value"
-              name="fissure"
-              :value="tier.value"
-            />
-            <label :for="tier.value">{{ tier.label }}</label>
-          </div>
-          <pv-button label="全选" size="small" @click="selectAllTiers" />
-          <pv-button label="取消" size="small" @click="deselectAllTiers" />
-        </div>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div>
-          <h3 class="text-lg font-bold mb-2 flex items-center gap-2">
-            <i class="pi pi-circle-fill text-blue-500"></i>
-            普通
-          </h3>
-          <ul class="list-disc list-outside pl-4 space-y-1">
-            <li v-for="fissure in normalFissures" :key="fissure._id" class="text-sm">
-              <span class="font-medium">{{ tierAsString(fissure.Modifier) }}</span>
-              {{ fissure.Node }} {{ fissure.MissionType }}
-              <br />
-              <CountDownTo :time="fissure.Expiry" @hit-zero="$emit('timeUp')"></CountDownTo>结束
-            </li>
-          </ul>
-        </div>
-        <div>
-          <h3 class="text-lg font-bold mb-2 flex items-center gap-2">
-            <i class="pi pi-circle-fill text-red-500"></i>
-            钢铁之路
-          </h3>
-          <ul class="list-disc list-outside pl-4 space-y-1">
-            <li v-for="fissure in hardFissures" :key="fissure._id" class="text-sm">
-              <span class="font-medium">{{ tierAsString(fissure.Modifier) }}</span>
-              {{ fissure.Node }} {{ fissure.MissionType }}
-              <br />
-              <CountDownTo :time="fissure.Expiry" @hit-zero="$emit('timeUp')"></CountDownTo>结束
-            </li>
-          </ul>
-        </div>
-        <div>
-          <h3 class="text-lg font-bold mb-2 flex items-center gap-2">
-            <i class="pi pi-circle-fill text-purple-500"></i>
-            虚空风暴
-          </h3>
-          <ul class="list-disc list-outside pl-4 space-y-1">
-            <li v-for="fissure in voidStorm" :key="fissure._id" class="text-sm">
-              <span class="font-medium">{{ tierAsString(fissure.ActiveMissionTier) }}</span>
-              {{ fissure.Node }}
-              <br />
-              <CountDownTo :time="fissure.Expiry" @hit-zero="$emit('timeUp')"></CountDownTo>结束
-            </li>
-          </ul>
-        </div>
-      </div>
-    </template>
-  </pv-card>
-</template>
-
 <script setup lang="ts">
 import { computed } from 'vue'
-import { clone } from 'lodash'
 import type { RawWorldState } from '@/api/world_state'
+import { tierLabel } from '@/lib/ws-format'
 import { useWorldStatePrefsStore } from '@/stores/world_state_prefs'
+import WorldStatePanel from './WorldStatePanel.vue'
+import CountDown from '@/components/CountDown.vue'
 
-const props = defineProps<{
-  rawWorldState: RawWorldState | undefined
-}>()
-
-defineEmits<{
-  timeUp: []
-}>()
+const props = defineProps<{ rawWorldState: RawWorldState | undefined; icon?: string }>()
+const emit = defineEmits<{ timeUp: [] }>()
 
 const store = useWorldStatePrefsStore()
 
-const tierOptions = [
-  { value: 'VoidT1', label: '古纪' },
-  { value: 'VoidT2', label: '前纪' },
-  { value: 'VoidT3', label: '中纪' },
-  { value: 'VoidT4', label: '后纪' },
-  { value: 'VoidT5', label: '安魂' },
-  { value: 'VoidT6', label: '全能' },
-]
+const TIERS = ['VoidT1', 'VoidT2', 'VoidT3', 'VoidT4', 'VoidT5', 'VoidT6']
 
-const filterTiers = computed({
-  get: () => store.fissureTiers,
-  set: (value) => store.setFissureTiers(value),
-})
+const isTier = (t: string) => store.fissureTiers.includes(t)
 
-function selectAllTiers() {
-  store.setFissureTiers(['VoidT1', 'VoidT2', 'VoidT3', 'VoidT4', 'VoidT5', 'VoidT6'])
-}
+const cmp = (a: string, b: string) => (a === b ? 0 : a > b ? 1 : -1)
 
-function deselectAllTiers() {
-  store.setFissureTiers([])
-}
+const normal = computed(() =>
+  (props.rawWorldState?.ActiveMissions ?? [])
+    .filter((f) => !f.Hard && isTier(f.Modifier))
+    .sort((a, b) => cmp(a.Modifier, b.Modifier))
+)
+const hard = computed(() =>
+  (props.rawWorldState?.ActiveMissions ?? [])
+    .filter((f) => f.Hard && isTier(f.Modifier))
+    .sort((a, b) => cmp(a.Modifier, b.Modifier))
+)
+const storms = computed(() =>
+  (props.rawWorldState?.VoidStorms ?? [])
+    .filter((f) => isTier(f.ActiveMissionTier))
+    .sort((a, b) => cmp(a.ActiveMissionTier, b.ActiveMissionTier))
+)
 
-function strCmp(a: string, b: string) {
-  return a === b ? 0 : a > b ? 1 : -1
-}
-
-function tierAsString(t: string): string {
-  const map: Record<string, string> = {
-    VoidT1: '古纪',
-    VoidT2: '前纪',
-    VoidT3: '中纪',
-    VoidT4: '后纪',
-    VoidT5: '安魂',
-    VoidT6: '全能',
-  }
-  return map[t] || t
-}
-
-const normalFissures = computed(() => {
-  if (!props.rawWorldState) return []
-  return props.rawWorldState.ActiveMissions.filter((f) => !f.Hard)
-    .filter((f) => filterTiers.value.includes(f.Modifier))
-    .sort((a, b) => strCmp(a.Modifier, b.Modifier))
-})
-
-const hardFissures = computed(() => {
-  if (!props.rawWorldState) return []
-  return props.rawWorldState.ActiveMissions.filter((f) => f.Hard)
-    .filter((f) => filterTiers.value.includes(f.Modifier))
-    .sort((a, b) => strCmp(a.Modifier, b.Modifier))
-})
-
-const voidStorm = computed(() => {
-  if (!props.rawWorldState) return []
-  return clone(props.rawWorldState.VoidStorms)
-    .filter((f) => filterTiers.value.includes(f.ActiveMissionTier))
-    .sort((a, b) => strCmp(a.ActiveMissionTier, b.ActiveMissionTier))
-})
+const meta = computed(() => normal.value.length + hard.value.length + storms.value.length + ' 条')
 </script>
+
+<template>
+  <WorldStatePanel :title="'虚空裂缝'" :icon="props.icon" :meta="meta">
+    <div class="ws-filters">
+      <label v-for="t in TIERS" :key="t" class="ws-chk">
+        <input
+          type="checkbox"
+          :checked="isTier(t)"
+          @change="store.toggleFissureTier(t)"
+        />{{ tierLabel(t) }}
+      </label>
+      <button class="btn btn-secondary ws-mini" @click="store.setFissureTiers([...TIERS])">全选</button>
+      <button class="btn btn-secondary ws-mini" @click="store.setFissureTiers([])">取消</button>
+    </div>
+
+    <div class="ws-fis-cols">
+      <div>
+        <h4 class="ws-col-h"><span class="ws-dot accent"></span>普通</h4>
+        <ul class="ws-ul">
+          <li v-for="f in normal" :key="f._id">
+            <span class="ws-tier">{{ tierLabel(f.Modifier) }}</span>{{ f.Node }} {{ f.MissionType }}
+            <br /><CountDown :time="f.Expiry" @hit-zero="emit('timeUp')" />结束
+          </li>
+          <li v-if="!normal.length" class="ws-empty">无</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="ws-col-h"><span class="ws-dot danger"></span>钢铁之路</h4>
+        <ul class="ws-ul">
+          <li v-for="f in hard" :key="f._id">
+            <span class="ws-tier">{{ tierLabel(f.Modifier) }}</span>{{ f.Node }} {{ f.MissionType }}
+            <br /><CountDown :time="f.Expiry" @hit-zero="emit('timeUp')" />结束
+          </li>
+          <li v-if="!hard.length" class="ws-empty">无</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="ws-col-h"><span class="ws-dot warn"></span>虚空风暴</h4>
+        <ul class="ws-ul">
+          <li v-for="f in storms" :key="f._id">
+            <span class="ws-tier">{{ tierLabel(f.ActiveMissionTier) }}</span>{{ f.Node }}
+            <br /><CountDown :time="f.Expiry" @hit-zero="emit('timeUp')" />结束
+          </li>
+          <li v-if="!storms.length" class="ws-empty">无</li>
+        </ul>
+      </div>
+    </div>
+  </WorldStatePanel>
+</template>

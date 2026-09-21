@@ -8,7 +8,7 @@ import { h, watch } from 'vue'
 import EnergyAniIcon from './EnergyAniIcon.vue'
 
 const props = defineProps<{
-  text: string
+  text?: string
   imageClass?: string
 }>()
 
@@ -17,7 +17,7 @@ const pat = /<(.*?)>|\r\n/g
 
 let parsedText = h('span', strToVNodes(props.text))
 
-function strToVNodes(v: string) {
+function strToVNodes(v?: string) {
   if (!v) return []
   let pos = 0
   const nodes = []
@@ -43,6 +43,11 @@ function strToVNodes(v: string) {
       nodes.push(h('hr'))
     } else {
       const image_url = findImageUrl(name)
+      if (!image_url) {
+        // 未收录的图标：保留原始 <TOKEN> 文本，避免渲染成空 src 的破图
+        nodes.push(arr[0])
+        continue
+      }
       let clazz = props.imageClass || 'inline-block h-[20px] align-text-bottom'
       if (['PRE_ATTACK', 'ARCHWING', 'SECONDARY_FIRE'].includes(name)) {
         clazz += ' invert-100 dark:invert-0'

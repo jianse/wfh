@@ -1,122 +1,81 @@
-<template>
-  <div class="w-full h-full flex items-center flex-row justify-center">
-    <div class="flex justify-center flex-col gap-4 w-96">
-      <p class="text-2xl font-bold">登录</p>
-      <div class="flex flex-col gap-1">
-        <PvInputText
-          name="username"
-          v-model="userCred.username"
-          type="text"
-          placeholder="Username"
-          @change="validate"
-        />
-        <PvMessage
-          v-for="error in errors.username?.errors"
-          :key="error"
-          severity="error"
-          size="small"
-          variant="simple"
-        >
-          {{ error }}</PvMessage
-        >
-      </div>
-      <div class="flex flex-col gap-1">
-        <PvPassword
-          v-model="userCred.password"
-          pt:pcInputText:root:class="w-full"
-          name="password"
-          type="text"
-          @change="validate"
-          placeholder="Password"
-        />
-        <PvMessage
-          v-for="error in errors.password?.errors"
-          :key="error"
-          severity="error"
-          size="small"
-          variant="simple"
-        >
-          {{ error }}</PvMessage
-        >
-      </div>
-      <PvButton severity="secondary" label="登录" @click="onFormSubmit" :loading="loading" />
-    </div>
-    <PvToast />
-  </div>
-</template>
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref } from 'vue'
-// import { zodResolver } from '@primevue/forms/resolvers/zod'
-import { useToast } from 'primevue/usetoast'
-// import { Form, type FormSubmitEvent } from '@primevue/forms'
-import { is_success } from '@/api'
-import { get_token } from '@/api/token'
-import { useTokenStore } from '@/stores/token'
-import { useRouter } from 'vue-router'
-import { z } from 'zod/v4'
+import { useRoute, useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+import { useUiStore } from '@/stores/ui'
 
+const auth = useAuthStore()
+const ui = useUiStore()
 const router = useRouter()
+const route = useRoute()
 
-const toast = useToast()
-const userCred = ref({
-  username: '',
-  password: '',
-})
-interface ErrorItem {
-  errors: string[]
-}
-
-const errors = ref<Record<string, ErrorItem>>({})
-
-const schema = z.object({
-  username: z.string().min(1, { message: '请输入用户名' }),
-  password: z.string().min(1, { message: '请输入密码' }),
-})
-
-function validate(): boolean {
-  const result = schema.safeParse(userCred.value)
-  if (!result.success) {
-    const tree = z.treeifyError(result.error)
-    errors.value = tree.properties || {}
-  } else {
-    errors.value = {}
-  }
-
-  return result.success
-}
+const username = ref('')
+const password = ref('')
+const userErr = ref('')
+const passErr = ref('')
 const loading = ref(false)
-const { setToken, getOrCreateClientId } = useTokenStore()
 
-const onFormSubmit = async () => {
+async function submit() {
+  if (loading.value) return
+  userErr.value = ''
+  passErr.value = ''
   loading.value = true
-  const valid = validate()
-  const client_id = await getOrCreateClientId()
-  if (valid) {
-    const res = await get_token({
-      client_id,
-      ...userCred.value,
-    })
-    if (is_success(res)) {
-      const token = res.data
-      await setToken(token)
-      toast.add({
-        severity: 'success',
-        summary: '登录成功',
-        detail: '登录成功，1秒后返回上一页',
-        life: 3000,
-      })
-      setTimeout(() => {
-        router.back()
-      }, 1000)
-    } else {
-      toast.add({
-        severity: 'info',
-        summary: '登录失败',
-        detail: '用户名或密码错误',
-        life: 3000,
-      })
+  try {
+    const res = await auth.authenticate(username.value, password.value)
+    if (!res.ok) {
+      if (res.field === 'user') userErr.value = res.msg ?? ''
+      else passErr.value = res.msg ?? ''
+      return
+    }
+    const name = auth.displayName
+    username.value = ''
+    password.value = ''
+    ui.toast('ok', '登录成功', `欢迎回来，${name}。`)
+    goAfterLogin()
+  } finally {
+    loading.value = false
+  }
+}
+
+/** 登录后返回此前正在浏览的页面；若无记录或权限不足则回主页。 */
+function goAfterLogin() {
+  const redirect = route.query.redirect
+  if (typeof redirect === 'string' && redirect.startsWith('/')) {
+    const target = router.resolve(redirect)
+    const required = target.meta.role as string | undefined
+    if (!required || auth.hasRole(required)) {
+      router.replace(redirect)
+      return
     }
   }
-  loading.value = false
+  router.push({ name: 'wfh-home' })
 }
 </script>
+
+<template>
+  <section class="view active" id="view-login" data-od-id="login">
+    <div class="login-wrap">
+      <div class="login-card">
+        <span class="brand-mark">仓</span>
+        <h1 class="login-title">登录仓鼠助手</h1>
+        <p class="help-note mt-xs">使用维护者或管理员账号登录，解锁数据管理后台。</p>
+        <div class="mt-md">
+          <div class="field">
+            <label for="login-user">用户名</label>
+            <input v-model="username" class="input" id="login-user" type="text" placeholder="请输入用户名" autocomplete="username" @keydown.enter="submit" />
+            <div class="field-err" id="login-user-err">{{ userErr }}</div>
+          </div>
+          <div class="field">
+            <label for="login-pass">密码</label>
+            <input v-model="password" class="input" id="login-pass" type="password" placeholder="请输入密码" autocomplete="current-password" @keydown.enter="submit" />
+            <div class="field-err" id="login-pass-err">{{ passErr }}</div>
+          </div>
+          <button class="btn btn-primary w-full justify-center" id="login-submit" :disabled="loading" @click="submit">{{ loading ? '登录中…' : '登录' }}</button>
+        </div>
+        <div class="demo-list">
+          <span class="meta">请使用站点后端账号登录，登录状态会保存在本地。</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</template>

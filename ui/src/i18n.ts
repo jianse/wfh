@@ -1,5 +1,5 @@
 import { nextTick } from 'vue'
-import { createI18n, useI18n, type I18n } from 'vue-i18n'
+import type { I18n } from 'vue-i18n'
 
 export const SUPPORT_LOCALES = ['en', 'ja']
 

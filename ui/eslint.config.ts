@@ -1,11 +1,14 @@
 import pluginVue from 'eslint-plugin-vue'
-import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript'
+import {
+  defineConfigWithVueTs,
+  vueTsConfigs,
+  configureVueProject,
+} from '@vue/eslint-config-typescript'
 import oxlint from 'eslint-plugin-oxlint'
 import skipFormatting from '@vue/eslint-config-prettier/skip-formatting'
 
-// To allow more languages other than `ts` in `.vue` files, uncomment the following lines:
-// import { configureVueProject } from '@vue/eslint-config-typescript'
-// configureVueProject({ scriptLangs: ['ts', 'tsx'] })
+// 仓鼠助手现已全面 TS 化，.vue 仅允许 ts/tsx 脚本块。
+configureVueProject({ scriptLangs: ['ts', 'tsx'] })
 // More info at https://github.com/vuejs/eslint-config-typescript/#advanced-setup
 
 export default defineConfigWithVueTs(
@@ -16,11 +19,21 @@ export default defineConfigWithVueTs(
 
   {
     name: 'app/files-to-ignore',
-    ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**', 'cache/**'],
+    ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**', 'cache/**', '**/legacy/**'],
   },
 
   pluginVue.configs['flat/essential'],
   vueTsConfigs.recommended,
+
+  {
+    // 原型自动抽取的世界状态渲染引擎，暂以 @ts-nocheck 跳过逐行类型校验。
+    name: 'app/worldstate-port',
+    files: ['src/lib/worldstate.ts'],
+    rules: {
+      '@typescript-eslint/ban-ts-comment': 'off',
+    },
+  },
+
   oxlint.configs['flat/recommended'],
   skipFormatting,
 )

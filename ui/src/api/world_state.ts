@@ -163,6 +163,8 @@ export async function force_reload() {
 }
 
 export interface RawWorldState {
+  Time?: string
+  BuildLabel?: string
   SentientOutpost: {
     activation: string
     expiry: string
@@ -200,6 +202,9 @@ export interface RawWorldState {
       missionType: string
       missionReward: Reward
       descText: string
+      faction?: string
+      minEnemyLevel?: number
+      maxEnemyLevel?: number
     }
     Tag: string
   }[]
@@ -209,6 +214,7 @@ export interface RawWorldState {
     Expiry: string
     Manifest: {
       ItemType: string
+      ItemName: string
       PrimePrice: number
       RegularPrice: number
     }[]
@@ -299,7 +305,11 @@ export interface RawWorldState {
     Days: HexDay[]
   }[]
   // EndlessXpChoices: EndlessXpChoice[]
-  EndlessXpSchedule: { CategoryChoices: EndlessXpChoice[] }[]
+  EndlessXpSchedule: {
+    Activation?: string
+    Expiry?: string
+    CategoryChoices: EndlessXpChoice[]
+  }[]
 }
 
 export type SyndicateMission = SyndicateMissionNormal | SyndicateMissionWithJobs
@@ -403,6 +413,7 @@ export interface Reward {
 
 interface PVItem {
   ItemType: string
+  ItemName: string
   PrimePrice?: number
   RegularPrice?: number
 }

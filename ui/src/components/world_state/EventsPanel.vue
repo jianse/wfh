@@ -1,62 +1,50 @@
-<template>
-  <pv-card class="col-span-full">
-    <template #title>
-      <div class="flex items-center gap-2">
-        <i class="pi pi-flag"></i>
-        <span>活动</span>
-      </div>
-    </template>
-    <template #content>
-      <div class="flex flex-col gap-2">
-        <div
-          v-for="event in props.rawWorldState?.Goals"
-          :key="event._id"
-          class="rounded-md border p-3 border-gray-600 bg-surface-50 dark:bg-surface-900"
-        >
-          <div class="font-bold text-lg">{{ event.Desc }}</div>
-          <div class="text-sm text-muted-color">{{ event.Node || event.VictimNode }}</div>
-          <CountDownTo :time="event.Expiry" />结束
-
-          <div class="mt-2 text-sm">{{ event.ToolTip }}</div>
-          <pv-progress-bar
-            class="mt-2"
-            v-if="event.Community"
-            :value="event.Count"
-            :max="event.Goal"
-          />
-
-          <pv-progress-bar
-            class="mt-2"
-            v-if="event.Tag === 'GhoulEmergence'"
-            :value="event.HealthPct * 100"
-          />
-          <div v-for="(inter, i) in event.InterimRewards" :key="i" class="text-sm">
-            {{ rewardAsString(inter) }}
-          </div>
-          <div v-if="event.Reward" class="text-sm font-medium">
-            奖励：{{ rewardAsString(event.Reward) }}
-          </div>
-        </div>
-      </div>
-    </template>
-  </pv-card>
-</template>
-
 <script setup lang="ts">
-import type { RawWorldState, Reward } from '@/api/world_state'
+import { computed } from 'vue'
+import type { RawWorldState } from '@/api/world_state'
+import { rewardText } from '@/lib/ws-format'
+import WorldStatePanel from './WorldStatePanel.vue'
+import CountDown from '@/components/CountDown.vue'
+import StringWithIcon from '@/components/StringWithIcon.vue'
 
-const props = defineProps<{
-  rawWorldState: RawWorldState | undefined
-}>()
+const props = defineProps<{ rawWorldState: RawWorldState | undefined; icon?: string }>()
+const emit = defineEmits<{ timeUp: [] }>()
 
-function rewardAsString(reward: Reward): string {
-  if (!reward) return ''
-  const l = []
-  if (reward.credits) l.push(`${reward.credits} 星币`)
-  if (reward.xp) l.push(`${reward.xp} 经验值`)
-  if (reward.itemNames) l.push(...reward.itemNames.map((i) => `${i}`))
-  if (reward.countedItems)
-    l.push(...reward.countedItems.map((i) => `${i.ItemCountSum} X ${i.ItemName}`))
-  return l.join(' + ')
+const goals = computed(() => props.rawWorldState?.Goals ?? [])
+
+function barWidth(value: number, max: number): string {
+  const p = max ? (value / max) * 100 : value
+  return `${Math.max(0, Math.min(100, Math.round(p || 0)))}%`
 }
 </script>
+
+<template>
+  <WorldStatePanel :title="'活动'" :icon="props.icon">
+    <div v-if="!goals.length" class="ws-empty">当前没有进行中的活动</div>
+    <div v-for="e in goals" :key="e._id" class="ws-ev">
+      <div class="ws-ev-title">{{ e.Desc || '活动' }}</div>
+      <div v-if="e.Node || e.VictimNode" class="ws-ev-node meta">
+        {{ e.Node || e.VictimNode }}
+      </div>
+      <div class="mt-xs"><CountDown :time="e.Expiry" @hit-zero="emit('timeUp')" />结束</div>
+      <div class="ws-ev-tip"><StringWithIcon :text="e.ToolTip" /></div>
+
+      <template v-if="e.Goal">
+        <div class="ws-bar accent"><i :style="{ width: barWidth(e.Count || 0, e.Goal) }"></i></div>
+        <div class="ws-bar-label">
+          {{ (e.Count || 0).toLocaleString('zh-CN') }} / {{ e.Goal.toLocaleString('zh-CN') }}
+        </div>
+      </template>
+      <template v-if="e.Tag === 'GhoulEmergence' && e.HealthPct != null">
+        <div class="ws-bar accent"><i :style="{ width: barWidth(e.HealthPct * 100, 100) }"></i></div>
+        <div class="ws-bar-label">{{ Math.round(e.HealthPct * 100) }}%</div>
+      </template>
+
+      <div v-for="(r, i) in e.InterimRewards || []" :key="i" class="ws-ev-reward">
+        <StringWithIcon :text="rewardText(r)" />
+      </div>
+      <div v-if="e.Reward" class="ws-ev-reward strong">
+        奖励：<StringWithIcon :text="rewardText(e.Reward)" />
+      </div>
+    </div>
+  </WorldStatePanel>
+</template>

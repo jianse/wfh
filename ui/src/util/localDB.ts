@@ -53,6 +53,10 @@ export interface Warframe {
   icon: string
   productCategory: 'SpaceSuits' | 'Suits' | 'MechSuits'
   textureLocation: string
+  health?: number
+  shield?: number
+  armor?: number
+  power?: number
 }
 
 export interface RelicReward {

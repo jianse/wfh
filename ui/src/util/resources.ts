@@ -139,7 +139,7 @@ async function sync_from_wfpep(filename: string, force = false) {
     }
 
     console.log('update found for', category)
-    const data: Record<string, Object | Array<unknown>> = await resp.json()
+    const data: Record<string, object | Array<unknown>> = await resp.json()
     const arr = Object.entries(data).map(([key, value]) => {
       if (Array.isArray(value)) {
         return {

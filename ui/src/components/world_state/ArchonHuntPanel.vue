@@ -1,29 +1,26 @@
+<script setup lang="ts">
+import { computed } from 'vue'
+import type { RawWorldState } from '@/api/world_state'
+import WorldStatePanel from './WorldStatePanel.vue'
+import CountDown from '@/components/CountDown.vue'
+
+const props = defineProps<{ rawWorldState: RawWorldState | undefined; icon?: string }>()
+const emit = defineEmits<{ timeUp: [] }>()
+
+const hunts = computed(() => props.rawWorldState?.LiteSorties ?? [])
+</script>
+
 <template>
-  <pv-card class="col-span-full">
-    <template #title>
-      <div class="flex items-center gap-2">
-        <i class="pi pi-bolt"></i>
-        <span>执刑官猎杀</span>
-      </div>
-    </template>
-    <template #content>
-      <div v-for="hunt in props.rawWorldState?.LiteSorties" :key="hunt._id">
-        <div class="font-bold text-lg mb-2">BOSS: {{ hunt.BossName }}</div>
-        <p class="text-sm text-muted-color mb-2"><CountDownTo :time="hunt.Expiry" />轮换</p>
-        <ul class="list-disc list-outside pl-4 text-sm space-y-1">
-          <li v-for="(mission, index) in hunt.Missions" :key="index">
-            {{ mission.node }} {{ mission.missionType }}
-          </li>
+  <WorldStatePanel :title="'执刑官猎杀'" :icon="props.icon">
+    <div v-if="!hunts.length" class="ws-empty">暂无执刑官猎杀</div>
+    <template v-else>
+      <div v-for="h in hunts" :key="h._id">
+        <div class="ws-ev-title">BOSS：{{ h.BossName || '' }}</div>
+        <div class="mt-xs mb-xs"><CountDown :time="h.Expiry" @hit-zero="emit('timeUp')" />轮换</div>
+        <ul class="ws-ul">
+          <li v-for="(m, i) in h.Missions || []" :key="i">{{ m.node }} {{ m.missionType }}</li>
         </ul>
       </div>
     </template>
-  </pv-card>
+  </WorldStatePanel>
 </template>
-
-<script setup lang="ts">
-import type { RawWorldState } from '@/api/world_state'
-
-const props = defineProps<{
-  rawWorldState: RawWorldState | undefined
-}>()
-</script>

@@ -1,8 +1,7 @@
 import { useTokenStore } from '@/stores/token'
-import { useCommonDialog, useCommonToast } from '@/util/common'
+import { useUiStore } from '@/stores/ui'
 import axios, { type InternalAxiosRequestConfig } from 'axios'
 import dayjs from 'dayjs'
-import { defineAsyncComponent } from 'vue'
 import { do_refresh_token } from './token'
 
 // 全局锁，用于防止多个请求同时触发 refresh token
@@ -28,25 +27,12 @@ interface Err {
 // TODO: add more detailed type of err
 function error_handler(err: Err) {
   console.log('axios got error', err)
-  // unauthorized
+  const ui = useUiStore()
   if (err.status === 401) {
-    const dialog = useCommonDialog()
-    const comp = defineAsyncComponent(() => import('@/components/LoginOrOfflineDialog.vue'))
-    dialog.open(comp, {
-      props: {
-        header: '提示',
-        modal: true,
-        dismissableMask: true,
-      },
-    })
+    ui.toast('info', '需要登录', '登录状态已失效，请重新登录。')
   } else {
-    const toast = useCommonToast()
-    toast.add({
-      severity: 'error',
-      summary: '请求异常',
-      detail: err,
-      life: 3000,
-    })
+    const detail = (err as { response?: { data?: { msg?: string } } }).response?.data?.msg
+    ui.toast('err', '请求异常', detail ?? String(err))
   }
   return Promise.reject(err)
 }

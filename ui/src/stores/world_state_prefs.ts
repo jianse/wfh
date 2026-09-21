@@ -29,6 +29,26 @@ export interface WorldStatePrefs {
   panelExpanded: boolean
 }
 
+export const ALL_SECTIONS: WorldStateSection[] = [
+  'cycles',
+  'events',
+  'alerts',
+  'fissures',
+  'steelPath',
+  'dailyDeals',
+  'archonHunt',
+  'sentientOutposts',
+  'sortie',
+  'voidTrader',
+  'vaultTrader',
+  'nightwave',
+  'invasions',
+  'conquests',
+  'hexCalendar',
+  'endlessXp',
+  'syndicateMissions',
+]
+
 const defaultSections: WorldStateSection[] = ['cycles', 'fissures', 'alerts', 'invasions', 'sortie']
 const defaultFissureTiers = ['VoidT1', 'VoidT2', 'VoidT3', 'VoidT4', 'VoidT5', 'VoidT6']
 const defaultHexCalendarEvents = ['CET_CHALLENGE', 'CET_REWARD', 'CET_BIRTHDAY', 'CET_UPGRADE']
@@ -68,25 +88,18 @@ export const useWorldStatePrefsStore = defineStore(
     }
 
     function selectAll() {
-      const allSections: WorldStateSection[] = [
-        'cycles',
-        'events',
-        'alerts',
-        'fissures',
-        'steelPath',
-        'dailyDeals',
-        'archonHunt',
-        'sentientOutposts',
-        'sortie',
-        'voidTrader',
-        'vaultTrader',
-        'nightwave',
-        'invasions',
-        'conquests',
-        'hexCalendar',
-        'endlessXp',
-      ]
-      prefs.value.enabledSections = [...allSections]
+      prefs.value.enabledSections = [...ALL_SECTIONS]
+    }
+
+    function moveSection(from: number, to: number) {
+      const list = prefs.value.enabledSections
+      if (from < 0 || to < 0 || from >= list.length || to >= list.length || from === to) return
+      const [it] = list.splice(from, 1)
+      list.splice(to, 0, it)
+    }
+
+    function setSections(sections: WorldStateSection[]) {
+      prefs.value.enabledSections = [...sections]
     }
 
     function deselectAll() {
@@ -152,6 +165,8 @@ export const useWorldStatePrefsStore = defineStore(
       selectAll,
       deselectAll,
       resetToDefault,
+      moveSection,
+      setSections,
       setFissureTiers,
       toggleFissureTier,
       setHexCalendarEvents,

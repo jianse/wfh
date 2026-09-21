@@ -1,223 +1,57 @@
 <script setup lang="ts">
-import type { MenuItem } from 'primevue/menuitem'
-import { useRoute, useRouter } from 'vue-router'
-import { useUserStore } from './stores/user'
-import { computed, onMounted, ref } from 'vue'
-import { useTokenStore } from './stores/token'
-import { storeToRefs } from 'pinia'
-import { get_current_user } from './api/user'
+import { onBeforeUnmount, onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
+import AppSidebar from '@/components/AppSidebar.vue'
+import AppTopbar from '@/components/AppTopbar.vue'
+import ToastHost from '@/components/ToastHost.vue'
+import DialogHost from '@/components/DialogHost.vue'
+import { useUiStore } from '@/stores/ui'
+import { useThemeStore } from '@/stores/theme'
+import { useAuthStore } from '@/stores/auth'
 
-const navItems: MenuItem[] = [
-  {
-    label: '主页',
-    route: { name: 'home' },
-    icon: 'pi pi-home',
-  },
-  {
-    label: '战甲',
-    route: { name: 'warframes' },
-  },
-  {
-    label: '资源',
-    route: { name: 'resources' },
-  },
-  {
-    label: '配方',
-    route: { name: 'recipes' },
-  },
-  {
-    label: '振幅晶体',
-    route: { name: 'mods' },
-  },
-  {
-    label: '武器',
-    route: { name: 'weapons' },
-  },
-  {
-    label: '遗物',
-    route: { name: 'relics' },
-  },
-  // {
-  //   label: '清单',
-  //   route: { name: 'manifest' },
-  // },
-  {
-    label: '赋能',
-    route: { name: 'arcane' },
-  },
-  {
-    label: '关于',
-    route: { name: 'about' },
-  },
-  {
-    label: '事件追踪',
-    route: { name: 'world-state' },
-  },
-  {
-    requireRole: 'maintainer',
-    label: '重写数据',
-    route: { name: 'world-state-rewrite' },
-  },
-  {
-    requireRole: 'maintainer',
-    label: '同步记录',
-    route: { name: 'sync-records' },
-  },
-  {
-    requireRole: 'admin',
-    label: '用户管理',
-    route: { name: 'user-management' },
-  },
-]
-
-const computedNav = computed(() => {
-  const role = user.value?.role
-
-  console.log('role', role)
-
-  if (role == 'admin') {
-    return navItems
-  }
-  return navItems.filter((nav) => {
-    const requiredRole = nav.requireRole
-    if (!requiredRole) {
-      return true
-    } else {
-      // maintainer 不能访问管理员专属页面
-      if (role === 'maintainer' && requiredRole === 'admin') {
-        // if (requiredRole === 'admin') {
-        return false
-        // }
-      }
-
-      // normal 不能访问管理员和维护者页面
-      if (
-        (!role || role === 'normal') &&
-        (requiredRole === 'admin' || requiredRole === 'maintainer')
-      ) {
-        return false
-      }
-
-      return false
-    }
-  })
-})
-
-const router = useRouter()
-
-function toLogin() {
-  router.push({ name: 'login' })
-}
-
-const { isLogin, user } = storeToRefs(useUserStore())
-
-// user menu
-const menu = ref()
+const ui = useUiStore()
 const route = useRoute()
 
-const menuItems = [
-  {
-    label: '设置',
-    icon: 'pi pi-cog',
-    command: () => {
-      router.push({ name: 'settings' })
-    },
-  },
-  {
-    label: '退出',
-    icon: 'pi pi-sign-out',
-    command: () => {
-      const { clearToken } = useTokenStore()
-      clearToken()
-      console.log('route', route)
-      if (route.meta.requiresRole) {
-        router.push({ name: 'home' })
-      }
-    },
-  },
-]
-
-function toggleMenu(event: MouseEvent) {
-  menu.value.toggle(event)
+function onKeydown(e: KeyboardEvent) {
+  if (e.key === 'Escape') {
+    ui.closeTopDialog()
+    ui.cancelConfirm()
+    if (ui.navOpen) ui.setNavOpen(false)
+  }
 }
 
-onMounted(async () => {
-  const { token } = useTokenStore()
-  if (token) {
-    const { data: cur_user } = await get_current_user()
-    const { setUser } = useUserStore()
-    setUser(cur_user)
-  }
+onMounted(() => {
+  useThemeStore().init()
+  useAuthStore().restore()
+  document.addEventListener('keydown', onKeydown)
 })
+onBeforeUnmount(() => document.removeEventListener('keydown', onKeydown))
+
+watch(
+  () => route.fullPath,
+  () => {
+    if (ui.navOpen) ui.setNavOpen(false)
+  }
+)
 </script>
 
 <template>
-  <pv-toast />
-  <pv-dynamic-dialog />
-  <div class="bg-slate-50 dark:bg-slate-800">
-    <pv-menubar :model="computedNav">
-      <template #item="{ item, props, hasSubmenu }">
-        <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
-          <a v-ripple :href="href" v-bind="props.action" @click="navigate">
-            <span v-if="item.icon" :class="item.icon" />
-            <span>{{ item.label }}</span>
-          </a>
-        </router-link>
-        <a v-else v-ripple :href="item.url" :target="item.target" v-bind="props.action">
-          <!-- <span :class="item.icon" /> -->
-          <span>{{ item.label }}</span>
-          <span v-if="hasSubmenu" class="pi pi-fw pi-angle-down"></span>
-        </a>
-      </template>
-      <template #end>
-        <div class="flex items-center gap-2">
-          <global-search />
-          <div v-if="isLogin" class="flex items-center gap-2" @click="toggleMenu">
-            <pv-avatar icon="pi pi-user" shape="circle" />
-            <span>{{ user?.username }}</span>
-            <pv-menu ref="menu" :model="menuItems" :popup="true"></pv-menu>
-          </div>
-          <div v-else class="flex items-center gap-2" @click="toLogin">
-            <pv-button icon="pi pi-user" rounded></pv-button>
-            <span>登录</span>
-          </div>
-        </div>
-      </template>
-    </pv-menubar>
-    <div style="height: calc(100vh - 58px); overflow: auto">
-      <router-view v-slot="{ Component }">
-        <keep-alive :max="5">
-          <component :is="Component" />
-        </keep-alive>
-      </router-view>
+  <div class="wfh-root">
+    <div class="app">
+      <AppSidebar />
+      <div class="main">
+        <AppTopbar />
+        <main class="content">
+          <RouterView v-slot="{ Component }">
+            <component :is="Component" />
+          </RouterView>
+        </main>
+      </div>
     </div>
+
+    <div class="nav-backdrop" id="nav-backdrop" @click="ui.setNavOpen(false)"></div>
+
+    <ToastHost />
+    <DialogHost />
   </div>
 </template>
-
-<style scoped>
-.card {
-  width: 500px;
-  height: 200px;
-  flex: initial;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 8px;
-}
-
-.sticky-header {
-  position: sticky;
-  top: 0;
-  height: 5rem;
-  background-color: #fff;
-  border-bottom: 1px solid #333;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  padding: 10px;
-}
-
-.card img {
-  object-fit: contain;
-  height: 150px;
-}
-</style>

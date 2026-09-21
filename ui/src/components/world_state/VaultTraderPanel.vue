@@ -1,55 +1,49 @@
-<template>
-  <pv-card class="col-span-full">
-    <template #title>
-      <div class="flex items-center gap-2">
-        <i class="pi pi-box"></i>
-        <span>圣装重生</span>
-      </div>
-    </template>
-    <template #content>
-      <div v-for="pvTrader in props.rawWorldState?.PrimeVaultTraders" :key="pvTrader._id">
-        <p class="text-sm text-muted-color mb-4"><CountDownTo :time="pvTrader.Expiry" /> 轮换</p>
-        <pv-tabs value="rotation">
-          <pv-tab-list>
-            <pv-tab value="rotation">轮换</pv-tab>
-            <pv-tab value="evergreen">常驻</pv-tab>
-          </pv-tab-list>
-          <pv-tab-panels>
-            <pv-tab-panel value="rotation">
-              <pv-data-table
-                :value="pvTrader.Manifest"
-                scrollable
-                scroll-height="400px"
-                striped-rows
-              >
-                <pv-column field="ItemName" header="物品"></pv-column>
-                <pv-column field="PrimePrice" header="御品阿耶精华" style="width: 30%"></pv-column>
-                <pv-column field="RegularPrice" header="阿耶精华" style="width: 25%"></pv-column>
-              </pv-data-table>
-            </pv-tab-panel>
-            <pv-tab-panel value="evergreen">
-              <pv-data-table
-                :value="pvTrader.EvergreenManifest"
-                scrollable
-                scroll-height="400px"
-                striped-rows
-              >
-                <pv-column field="ItemName" header="物品"></pv-column>
-                <pv-column field="PrimePrice" header="御品阿耶精华" style="width: 30%"></pv-column>
-                <pv-column field="RegularPrice" header="阿耶精华" style="width: 25%"></pv-column>
-              </pv-data-table>
-            </pv-tab-panel>
-          </pv-tab-panels>
-        </pv-tabs>
-      </div>
-    </template>
-  </pv-card>
-</template>
-
 <script setup lang="ts">
+import { computed, ref } from 'vue'
 import type { RawWorldState } from '@/api/world_state'
+import WorldStatePanel from './WorldStatePanel.vue'
+import CountDown from '@/components/CountDown.vue'
 
-const props = defineProps<{
-  rawWorldState: RawWorldState | undefined
-}>()
+const props = defineProps<{ rawWorldState: RawWorldState | undefined; icon?: string }>()
+const emit = defineEmits<{ timeUp: [] }>()
+
+const tab = ref<'rotation' | 'evergreen'>('rotation')
+const traders = computed(() => props.rawWorldState?.PrimeVaultTraders ?? [])
 </script>
+
+<template>
+  <WorldStatePanel :title="'圣装重生'" :icon="props.icon">
+    <div v-if="!traders.length" class="ws-empty">圣装重生当前未开启</div>
+    <template v-for="(v, idx) in traders" :key="idx">
+      <div class="mb-xs"><CountDown :time="v.Expiry" @hit-zero="emit('timeUp')" />轮换</div>
+      <div class="ws-tabs">
+        <button :class="{ on: tab === 'rotation' }" @click="tab = 'rotation'">轮换</button>
+        <button :class="{ on: tab === 'evergreen' }" @click="tab = 'evergreen'">常驻</button>
+      </div>
+      <div class="ws-scroll">
+        <table class="ds-table">
+          <thead>
+            <tr>
+              <th>物品</th>
+              <th class="num-col">御品阿耶精华</th>
+              <th class="num-col">阿耶精华</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="(m, i) in (tab === 'rotation' ? v.Manifest : v.EvergreenManifest) || []"
+              :key="i"
+            >
+              <td>{{ m.ItemName }}</td>
+              <td class="num-col">{{ m.PrimePrice != null ? m.PrimePrice : '—' }}</td>
+              <td class="num-col">{{ m.RegularPrice != null ? m.RegularPrice : '—' }}</td>
+            </tr>
+            <tr v-if="!((tab === 'rotation' ? v.Manifest : v.EvergreenManifest) || []).length">
+              <td colspan="3" class="ws-empty">暂无</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </template>
+  </WorldStatePanel>
+</template>

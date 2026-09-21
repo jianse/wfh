@@ -157,12 +157,8 @@
     />
   </div>
   <div class="flex flex-row gap-3">
-    <pv-button :disabled="currentRank <= 0" label="降低" @click="reduceRank()"></pv-button>
-    <pv-button
-      :disabled="currentRank >= props.mod.fusionLimit"
-      label="升高"
-      @click="increaseRank()"
-    ></pv-button>
+    <button class="btn btn-secondary" :disabled="currentRank <= 0" @click="reduceRank()">降低</button>
+    <button class="btn btn-secondary" :disabled="currentRank >= props.mod.fusionLimit" @click="increaseRank()">升高</button>
   </div>
   {{ props.mod.rarity }}
   {{ props.mod.polarity }}

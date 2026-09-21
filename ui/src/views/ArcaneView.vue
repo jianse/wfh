@@ -1,15 +1,18 @@
 <script setup lang="ts">
+import { computed, ref } from 'vue'
 import ArcaneCommon from '@/assets/arcane/ArcaneCommon.png'
 import ArcaneRare from '@/assets/arcane/ArcaneRare.png'
 import ArcaneUncommon from '@/assets/arcane/ArcaneUncommon.png'
 import ArcaneLegendary from '@/assets/arcane/ArcaneLegendary.png'
-import { useOArcane, type Arcane } from '@/util/localDB'
-import { storeToRefs } from 'pinia'
-import { useUserStore } from '@/stores/user'
-import { computed, ref } from 'vue'
-import CustomTabs from '@/components/CustomTabs.vue'
+import { useOArcane } from '@/util/localDB'
+import { useTransStore } from '@/stores/translations'
+import { useCatalogStore } from '@/stores/catalog'
 
-function rarityBg(rarity: string | undefined): string {
+const catalog = useCatalogStore()
+const arcanes = useOArcane()
+const { wf_t } = useTransStore()
+
+function rarityBg(rarity?: string): string {
   switch (rarity) {
     case 'UNCOMMON':
       return ArcaneUncommon
@@ -22,267 +25,154 @@ function rarityBg(rarity: string | undefined): string {
   }
 }
 
-const { isAdmin } = storeToRefs(useUserStore())
-const editDialogVisible = ref(false)
-const dialogData = ref<Arcane>({
-  name: '',
-  uniqueName: '',
-  textureLocation: '',
-  codexSecret: false,
-  levelStats: [],
-  inGame: false,
-  slot: '',
-})
-
-function openEditDialog(arcane: Arcane) {
-  dialogData.value = arcane
-  editDialogVisible.value = true
-}
-
-const slotOptions = [
-  'Warframe',
-  'Operator',
-  'Amp',
-  'LongGun',
-  'Pistol',
-  'Melee',
-  'Kitgun',
-  'ZAW',
-  'Unknown',
-]
-
-function saveData() {
-  const blob = new Blob([JSON.stringify(items.value, ['uniqueName', 'inGame', 'slot'], 2)], {
-    type: 'application/json',
-  })
-  const saveLink = document.createElement('a')
-  saveLink.href = URL.createObjectURL(blob)
-  saveLink.download = 'arcane-ext.json'
-  saveLink.click()
+const IMG = 'https://content.warframe.com/PublicExport'
+const RARITY_ZH: Record<string, string> = {
+  COMMON: '普通',
+  UNCOMMON: '罕见',
+  RARE: '稀有',
+  LEGENDARY: '传说',
 }
 
 const slot = ref('Any')
-const data = useOArcane()
-
-const tabOptions = [
-  { label: '所有', value: 'Any' },
-  { label: '战甲', value: 'Warframe' },
-  { label: '指挥官', value: 'Operator' },
-  { label: '增幅器', value: 'Amp' },
-  { label: '主武器', value: 'LongGun' },
-  { label: '副武器', value: 'Pistol' },
-  { label: '近战武器', value: 'Melee' },
-  { label: '组合枪', value: 'Kitgun' },
-  { label: '天工造武', value: 'ZAW' },
-  { label: '未知', value: 'Unknown' },
+const TABS = [
+  { cat: 'Any', label: '全部' },
+  { cat: 'Warframe', label: '战甲' },
+  { cat: 'Operator', label: '指挥官' },
+  { cat: 'Amp', label: '增幅器' },
+  { cat: 'LongGun', label: '主武器' },
+  { cat: 'Pistol', label: '副武器' },
+  { cat: 'Melee', label: '近战' },
+  { cat: 'Kitgun', label: '组合枪' },
+  { cat: 'ZAW', label: '天工造武' },
+  { cat: 'Unknown', label: '未知' },
 ]
 
-const items = computed(() => {
-  return data.value
-    .filter((item) => {
-      if (slot.value === 'Any') {
-        return true
-      }
-      return item.slot === slot.value
-    })
-    .filter((item) => {
-      if (!kwFilter.value) {
-        return true
-      }
-      if (ignoreCase.value) {
-        const kwLower = kwFilter.value.toLowerCase()
-        return (
-          item.name.toLowerCase().includes(kwLower) ||
-          item.levelStats[item.levelStats.length - 1].stats.some((term) => {
-            return term.toLowerCase().includes(kwLower)
-          })
-        )
-      } else {
-        return (
-          item.name.includes(kwFilter.value) ||
-          item.levelStats[item.levelStats.length - 1].stats.some((term) => {
-            return term.includes(kwFilter.value)
-          })
-        )
-      }
-    })
-})
-const kwFilter = ref('')
-const ignoreCase = ref(true)
+const mapped = computed(() =>
+  arcanes.value.map((a) => {
+    const stats = a.levelStats?.[a.levelStats.length - 1]?.stats || []
+    return {
+      uniqueName: a.uniqueName,
+      name: wf_t(a.uniqueName, 'name') || a.name,
+      img: IMG + a.textureLocation,
+      tag: a.slot || '不可用',
+      effect: stats.join('  '),
+      rarity: (a.rarity || 'COMMON').toLowerCase(),
+      rarityZh: RARITY_ZH[a.rarity ?? ''] || '普通',
+      rarityBg: rarityBg(a.rarity),
+      maxRank: Math.max(0, (a.levelStats?.length || 1) - 1),
+      slot: a.slot,
+      inGame: a.inGame,
+    }
+  }),
+)
 
-function onKwInput(e: Event) {
-  if (e instanceof InputEvent && e.isComposing) {
-    return
-  }
-  kwFilter.value = (e.target as HTMLInputElement).value
-}
+const list = computed(() => {
+  const q = catalog.arcaneQuery.trim().toLowerCase()
+  return mapped.value.filter((a) => {
+    if (slot.value !== 'Any' && a.slot !== slot.value) return false
+    if (q && !(a.name + a.effect + a.uniqueName).toLowerCase().includes(q)) return false
+    return true
+  })
+})
+
+const totalCount = computed(() => mapped.value.length)
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 p-4">
-    <!-- Toolbar Card -->
-    <pv-card class="sticky top-0 z-10 shadow-md">
-      <template #content>
-        <div class="flex flex-row justify-between items-center">
-          <!-- Tabs -->
-          <CustomTabs v-model="slot" :options="tabOptions" />
+  <section class="view active" id="view-arcane" data-od-id="arcane">
+    <div class="page-head">
+      <p class="eyebrow">数据库 · 赋能</p>
+      <h1 class="h2">赋能</h1>
+      <p class="lead">战甲与增幅器赋能，来自本地缓存数据。</p>
+    </div>
 
-          <!-- Search Controls -->
-          <div class="flex items-center gap-4">
-            <label class="flex items-center gap-2">
-              <span class="text-sm font-medium">搜索:</span>
-              <pv-input-text
-                placeholder="输入关键字"
-                size="small"
-                :default-value="kwFilter"
-                @input="onKwInput"
-                class="w-48"
-              ></pv-input-text>
-            </label>
+    <div class="tabs" id="arcane-tabs" role="tablist" aria-label="赋能适用">
+      <button
+        v-for="t in TABS"
+        :key="t.cat"
+        class="tab"
+        :class="{ active: slot === t.cat }"
+        role="tab"
+        :aria-selected="slot === t.cat ? 'true' : 'false'"
+        @click="slot = t.cat"
+      >
+        {{ t.label }}
+      </button>
+    </div>
 
-            <div class="flex items-center gap-2">
-              <pv-checkbox v-model="ignoreCase" inputId="ignoreCase" binary />
-              <label for="ignoreCase" class="text-sm"> 忽略大小写 </label>
-            </div>
+    <div class="page-tools">
+      <input
+        v-model="catalog.arcaneQuery"
+        class="input"
+        id="arcane-search"
+        type="text"
+        placeholder="搜索赋能…"
+      />
+      <div class="spacer"></div>
+      <span class="meta" id="arcane-count">{{ list.length }} / {{ totalCount }}</span>
+    </div>
+
+    <div class="db-grid arcane" id="arcane-grid">
+      <article v-for="a in list" :key="a.uniqueName" class="db-card arcane" :data-rarity="a.rarity">
+        <div class="db-media icon arcane-media">
+          <div class="arcane-stage">
+            <img class="arcane-bg" :src="a.rarityBg" alt="" aria-hidden="true" loading="lazy" />
+            <img class="arcane-fg" :src="a.img" :alt="a.name" loading="lazy" />
           </div>
         </div>
-      </template>
-    </pv-card>
-
-    <!-- Arcane Cards -->
-    <div class="flex gap-4 flex-wrap">
-      <!-- <div class="w-full">共{{ items.length }}项 / {{ items.filter((it) => it.inGame).length }}</div> -->
-      <pv-card
-        v-for="item in items"
-        :key="item.uniqueName"
-        class="w-72 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200 dark:border-gray-700"
-        :class="{
-          'bg-red-600/10 border-red-300': !item.inGame,
-        }"
-      >
-        <template #header>
-          <div class="relative group h-48">
-            <pv-image
-              loading="lazy"
-              :src="rarityBg(item.rarity)"
-              class="w-72 h-72 overflow-hidden"
-            />
-            <img
-              loading="lazy"
-              :src="'https://content.warframe.com/PublicExport' + item.textureLocation"
-              style="
-                position: absolute;
-                left: 0;
-                top: 0;
-                transform: scale(0.68) translate(0, -17.5%);
-              "
-            />
-            <div
-              class="absolute inset-0 bg-linear-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            ></div>
-            <pv-button
-              v-if="isAdmin"
-              class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              size="small"
-              rounded
-              variant="filled"
-              icon="pi pi-pencil"
-              @click="openEditDialog(item)"
-            ></pv-button>
+        <div class="db-body">
+          <div class="db-name">
+            <span class="h3"><string-with-icon :text="a.name" /></span>
+            <span class="db-tag">{{ a.tag }}</span>
           </div>
-        </template>
-        <template #title>
-          <div class="text-lg font-bold text-gray-800 dark:text-white truncate">
-            <StringWithIcon :text="item.name"></StringWithIcon>
+          <p class="db-effect"><string-with-icon :text="a.effect" /></p>
+          <div class="db-meta">
+            <span class="db-rarity">{{ a.rarityZh }}</span>
+            <span
+              >满级 <b>R{{ a.maxRank }}</b></span
+            >
           </div>
-        </template>
-        <template #content>
-          <div class="space-y-2">
-            <div class="text-sm">
-              <span class="font-bold">适用：</span>{{ item.slot || '不可用' }}
-            </div>
-            <div class="text-xs text-gray-500 dark:text-gray-400 font-mono">
-              {{ item.uniqueName }}
-            </div>
-            <div>
-              <p class="font-bold text-sm">满级效果：</p>
-              <ul class="list-disc list-inside text-sm text-gray-600 dark:text-gray-300">
-                <li
-                  v-for="(term, index) in item.levelStats[item.levelStats.length - 1].stats"
-                  :key="index"
-                >
-                  <StringWithIcon :text="term"></StringWithIcon>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </template>
-      </pv-card>
-      <pv-button
-        v-if="isAdmin"
-        icon="pi pi-download"
-        class="absolute right-3 bottom-2"
-        @click="saveData"
-      ></pv-button>
+        </div>
+      </article>
+      <p v-if="!list.length" class="db-empty">没有匹配的赋能，或本地数据尚未同步。</p>
     </div>
-    <pv-dialog
-      v-model:visible="editDialogVisible"
-      modal
-      :header="`修改[${dialogData.name}]`"
-      class="min-w-lg w-lg"
-      dismissableMask
-    >
-      <div v-show="false" class="overflow-auto h-120 bg-stone-100 p-3 mb-3">
-        <code>
-          <pre class="font-[comic_mono]">{{ JSON.stringify(dialogData, null, 2) }}</pre>
-        </code>
-      </div>
-
-      <div class="flex items-center gap-2 mb-3">
-        <pv-checkbox inputId="cheese" v-model="dialogData.inGame" binary />
-        <label for="cheese"> 游戏中 </label>
-      </div>
-
-      <pv-select
-        v-model="dialogData.slot"
-        :options="slotOptions"
-        placeholder="选择装备位"
-        class="w-full md:w-56"
-        size="small"
-      />
-
-      <div class="flex justify-end gap-2 mt-2">
-        <pv-button type="button" label="关闭" @click="editDialogVisible = false"></pv-button>
-      </div>
-    </pv-dialog>
-  </div>
+  </section>
 </template>
 
 <style scoped>
-/* Smooth scrolling for description text */
-.max-h-24::-webkit-scrollbar {
-  width: 4px;
+/*
+ * 复刻旧版 ArcaneView 的底图 / 图标关系：
+ * 旧版底图（512·0.5625）显示 288px，图标（512）经 scale(0.68) translate(0,-17.5%)
+ * 后落在 348.16px，左上角相对底图偏移 (81.92, 20.992)。
+ * 这里固定 --arcane-size 为底图边长，其余按该比例的百分比表达，缩放时关系不变。
+ */
+.db-media.icon.arcane-media {
+  --arcane-size: 180px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  /* height: calc(var(--arcane-size) * 1.281778); */
+  padding: 0;
 }
-
-.max-h-24::-webkit-scrollbar-track {
-  background: transparent;
+.arcane-stage {
+  position: relative;
+  width: var(--arcane-size);
+  height: calc(var(--arcane-size) * 0.8);
 }
-
-.max-h-24::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 2px;
+.arcane-stage .arcane-bg {
+  /* position: absolute; */
+  /* inset: 0; */
+  width:var(--arcane-size);
+  height: var(--arcane-size);
+  /* object-fit: contain; */
+  overflow: hidden;
 }
-
-.max-h-24::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
-}
-
-/* Dark mode scrollbar */
-.dark .max-h-24::-webkit-scrollbar-thumb {
-  background: #475569;
-}
-
-.dark .max-h-24::-webkit-scrollbar-thumb:hover {
-  background: #64748b;
+.arcane-stage .arcane-fg {
+  position: absolute;
+  width: var(--arcane-size);
+  height: var(--arcane-size);
+  left: 0;
+  top: 0;
+  transform: scale(0.68) translate(0, -17.5%);
 }
 </style>

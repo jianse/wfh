@@ -1,40 +1,24 @@
 <script setup lang="ts">
-import { useOUpgrades, type Upgrade } from '@/util/localDB'
-import { useElementSize } from '@vueuse/core'
 import { computed, ref } from 'vue'
+import { useElementSize } from '@vueuse/core'
 import { RecycleScroller } from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
+import { useOUpgrades } from '@/util/localDB'
+import { useCatalogStore } from '@/stores/catalog'
+import PosMod from '@/components/mods/PosMod.vue'
 
+const catalog = useCatalogStore()
 const items = useOUpgrades()
-const kwFilter = ref('')
-const ignoreCase = ref(true)
-const cItems = computed(() => {
-  return items.value.filter((item) => {
-    if (ignoreCase.value) {
-      const kwLower = kwFilter.value.toLowerCase()
-      return (
-        item.name.toLowerCase().includes(kwLower) ||
-        item.compatName?.toLowerCase().includes(kwLower) ||
-        (item.levelStats &&
-          item.levelStats.some((level) => {
-            return level.stats.some((stat) => {
-              return stat.toLowerCase().includes(kwLower)
-            })
-          }))
-      )
-    } else {
-      return (
-        item.name.includes(kwFilter.value) ||
-        item.compatName?.includes(kwFilter.value) ||
-        (item.levelStats &&
-          item.levelStats.some((level) => {
-            return level.stats.some((stat) => {
-              return stat.includes(kwFilter.value)
-            })
-          }))
-      )
-    }
-  })
+
+const list = computed(() => {
+  const q = catalog.modQuery.trim().toLowerCase()
+  if (!q) return items.value
+  return items.value.filter(
+    (item) =>
+      (item.name || '').toLowerCase().includes(q) ||
+      (item.compatName || '').toLowerCase().includes(q) ||
+      (item.levelStats || []).some((lv) => (lv.stats || []).some((s) => s.toLowerCase().includes(q)))
+  )
 })
 
 const scroller = ref()
@@ -42,107 +26,68 @@ const { width } = useElementSize(scroller)
 const itemWidth = 300
 const itemHeight = 514
 
-const lineCount = computed(() => {
-  return Math.max(1, Math.floor(width.value / itemWidth))
-})
-
-function onKwInput(e: Event) {
-  if (e instanceof InputEvent && e.isComposing) {
-    return
-  }
-
-  kwFilter.value = (e.target as HTMLInputElement).value
-}
+const lineCount = computed(() => Math.max(1, Math.floor(width.value / itemWidth)))
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 p-4">
-    <!-- Toolbar Card -->
-    <pv-card class="sticky top-0 z-10 shadow-md">
-      <template #content>
-        <div class="flex flex-row justify-between items-center">
-          <div class="text-lg font-bold text-gray-800 dark:text-white">MOD</div>
+  <section class="view active" id="view-mods" data-od-id="mods">
+    <div class="page-head">
+      <p class="eyebrow">数据库 · 振幅晶体</p>
+      <h1 class="h2">振幅晶体</h1>
+      <p class="lead">战甲与武器强化卡片，来自本地缓存数据。</p>
+    </div>
 
-          <!-- Search Controls -->
-          <div class="flex items-center gap-4">
-            <label class="flex items-center gap-2">
-              <span class="text-sm font-medium">搜索:</span>
-              <pv-input-text
-                :default-value="kwFilter"
-                @input="onKwInput"
-                placeholder="请输入关键词"
-                class="w-48"
-                size="small"
-              ></pv-input-text>
-            </label>
+    <div class="page-tools">
+      <input v-model="catalog.modQuery" class="input" id="mods-search" type="text" placeholder="搜索振幅晶体…" />
+      <div class="spacer"></div>
+      <span class="meta" id="mods-count">{{ list.length }} / {{ items.length }}</span>
+    </div>
 
-            <div class="flex items-center gap-2">
-              <pv-checkbox v-model="ignoreCase" inputId="ignoreCase" binary />
-              <label for="ignoreCase" class="text-sm"> 忽略大小写 </label>
-            </div>
-          </div>
-        </div>
-      </template>
-    </pv-card>
+    <div v-if="!list.length" class="db-empty">没有匹配的振幅晶体，或本地数据尚未同步。</div>
+
     <recycle-scroller
+      v-else
       ref="scroller"
-      :items="cItems"
+      class="mods-scroller"
+      :items="list"
       :item-size="itemHeight"
       :grid-items="lineCount"
       :item-secondary-size="itemWidth"
       key-field="uniqueName"
-      class="w-full"
-      style="height: calc(100vh - 120px)"
       :buffer="itemHeight * 2"
     >
       <template #default="{ item }">
-        <div class="w-75 h-128.5 p-2">
-          <pv-card class="card">
-            <template #header>
-              <pos-mod :mod="item as Upgrade" max-rank class="mx-auto"></pos-mod>
-            </template>
-          </pv-card>
+        <div class="mod-cell">
+          <div class="mod-card bg-surface border border-border rounded-lg overflow-hidden">
+            <pos-mod :mod="item" max-rank />
+          </div>
         </div>
       </template>
     </recycle-scroller>
-  </div>
+  </section>
 </template>
 
 <style scoped>
-.card {
-  transition: all 0.3s ease;
+.mods-scroller {
+  width: 100%;
+  height: calc(100vh - 280px);
+  min-height: 420px;
 }
-
-.card:hover {
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  transform: translateY(-3px);
-  border-color: #cbd5e1;
+/*
+ * 让 mod 卡片之间保持与战甲页一致的间距（gap-md = 20px）：
+ * RecycleScroller 的单元格固定 300×514，这里用内边距把卡片从单元格里内缩，
+ * 相邻卡片之间即为 10+10=20px（横向）与 20px（纵向）。
+ */
+.mod-cell {
+  box-sizing: border-box;
+  width: 300px;
+  height: 514px;
+  padding: 0 20px 20px 0;
 }
-
-/* Smooth scrolling */
-.pv-virtual-scroller::-webkit-scrollbar {
-  width: 8px;
-}
-
-.pv-virtual-scroller::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.pv-virtual-scroller::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
-}
-
-.pv-virtual-scroller::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
-}
-
-/* Dark mode scrollbar */
-.dark .pv-virtual-scroller::-webkit-scrollbar-thumb {
-  background: #475569;
-}
-
-.dark .pv-virtual-scroller::-webkit-scrollbar-thumb:hover {
-  background: #64748b;
+.mod-card {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: flex-start;
 }
 </style>
