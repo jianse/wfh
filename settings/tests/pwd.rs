@@ -2,8 +2,6 @@ use argon2::Argon2;
 use argon2::PasswordHash;
 use argon2::PasswordHasher;
 use argon2::PasswordVerifier;
-use argon2::password_hash::SaltString;
-use argon2::password_hash::rand_core::OsRng;
 
 const PASSWORD: &str = "UJU2g1sqL7QcflwEGE"; // Bad passwo
 
@@ -20,16 +18,11 @@ fn test_verify_time() {
 
 #[test]
 fn test_argon2_hash() -> eyre::Result<()> {
-    // let PASSWORD = b"UJU2g1sqL7QcflwEGE"; // Bad password; don't actually use!
-    let salt = SaltString::generate(&mut OsRng);
-
     // Argon2 with default params (Argon2id v19)
     let argon2 = Argon2::default();
 
     // Hash password to PHC string ($argon2id$v=19$...)
-    let password_hash = argon2
-        .hash_password(PASSWORD.as_bytes(), &salt)?
-        .to_string();
+    let password_hash = argon2.hash_password(PASSWORD.as_bytes())?.to_string();
     println!("{}", password_hash);
 
     let now = std::time::Instant::now();

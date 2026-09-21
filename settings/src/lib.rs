@@ -12,8 +12,8 @@ use argon2::Argon2;
 use argon2::PasswordHash;
 use argon2::PasswordHasher;
 use argon2::PasswordVerifier;
-use argon2::password_hash::SaltString;
-use argon2::password_hash::rand_core::OsRng;
+// use argon2::password_hash::SaltString;
+// use argon2::password_hash::rand_core::OsRng;
 use config::Config;
 use config::ConfigError;
 use helpers::DurationString;
@@ -496,7 +496,7 @@ pub enum PwdHasherError {
     BcryptVerify(bcrypt::BcryptError),
 
     #[error(transparent)]
-    Argon2Verify(argon2::password_hash::Error),
+    Argon2Verify(argon2::password_hash::phc::Error),
 
     #[error("unknown hash format")]
     UnknownHashFormat,
@@ -531,9 +531,8 @@ impl PwdHasher {
                 } else {
                     Argon2::default()
                 };
-                let salt = SaltString::generate(&mut OsRng);
                 Ok(hasher
-                    .hash_password(password.as_ref(), &salt)
+                    .hash_password(password.as_ref())
                     .map_err(PwdHasherError::Argon2Hash)?
                     .to_string())
             }

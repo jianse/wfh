@@ -522,7 +522,6 @@ async fn write_unchecked_replacements(
         .collect::<Vec<wg_world_state_replacements::ActiveModel>>();
 
     WgWorldStateReplacements::insert_many(rs)
-        .on_empty_do_nothing()
         .on_conflict(
             sea_query::OnConflict::columns([
                 wg_world_state_replacements::Column::Path,

@@ -56,6 +56,7 @@ ua-parser.workspace = true
 axum-extra = { features = ["cookie", "typed-header"], workspace = true }
 serde_yaml.workspace = true
 pkcs8 = { version = "0.11.0", features = ["alloc", "pem"] }
+bon = "3.10.1"
 
 
 [dev-dependencies]
