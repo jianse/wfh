@@ -2,7 +2,6 @@ use axum::Json;
 use axum::Router;
 use axum::extract::Query;
 use axum::extract::State;
-use axum::middleware::from_fn_with_state;
 use axum::routing::get;
 use axum::routing::post;
 use log::info;
@@ -19,14 +18,19 @@ use crate::api::BizResult;
 use crate::entities::prelude::*;
 use crate::entities::translation::Model;
 
-pub(crate) fn translations_routes(state: AppState) -> Router<AppState> {
+/// public translation endpoints (no auth)
+pub(crate) fn public_routes() -> Router<AppState> {
+    Router::new().route("/all", get(all_translations))
+}
+
+/// authed translation endpoints (admin only)
+pub(crate) fn authed_routes(state: AppState) -> Router<AppState> {
     Router::new()
         .route(
             "/",
             post(add_or_update_translation).delete(delete_translation),
         )
-        .route_layer(from_fn_with_state(state, super::require_admin_role))
-        .route("/all", get(all_translations))
+        .route_layer(super::RequireRoleLayer::at_least(state, super::Role::Admin))
 }
 
 async fn add_or_update_translation(

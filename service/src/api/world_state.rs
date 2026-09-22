@@ -719,9 +719,14 @@ pub async fn get_nearest_expiry_from_db(state: AppState) -> Result<Option<DateTi
     Ok(r.and_then(|m| m.nearest_expiry))
 }
 
-pub(crate) fn world_state_routes() -> Router<AppState> {
+/// public world state endpoints (no auth)
+pub(crate) fn public_routes() -> Router<AppState> {
+    Router::new().route("/current", get(world_state))
+}
+
+/// authed world state endpoints
+pub(crate) fn authed_routes() -> Router<AppState> {
     Router::new()
-        .route("/current", get(world_state))
         .route("/update", get(update_and_get))
         .nest("/rep", rep_routes())
 }

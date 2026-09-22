@@ -9,9 +9,9 @@ use axum::extract::Multipart;
 use axum::extract::Path;
 use axum::extract::Query;
 use axum::extract::State;
-use axum::middleware::from_fn_with_state;
 use axum::routing::delete;
 use axum::routing::get;
+use axum::routing::patch;
 use axum::routing::post;
 use indexmap::IndexMap;
 use serde::Deserialize;
@@ -24,13 +24,17 @@ use crate::api::BizResponse;
 use crate::api::BizResult;
 use crate::api::Page;
 use crate::api::Pager;
+use crate::api::RequireRoleLayer;
+use crate::api::Role;
 use crate::api::raw_world_state::parse::save_langs;
 use crate::api::raw_world_state::parse::save_sortie_modifiers;
-use crate::api::require_admin_role;
 
 /// router for deps management
-pub(crate) fn deps_routes(state: AppState) -> Router<AppState> {
-    // let require_admin_layer = from_fn_with_state(state, require_admin_role);
+pub(crate) fn public_routes() -> Router<AppState> {
+    Router::new().route("/lang", post(get_lang_items))
+}
+
+pub(crate) fn authed_routes(state: AppState) -> Router<AppState> {
     Router::new()
         .route("/reload", post(force_reload_deps))
         .route(
@@ -40,23 +44,21 @@ pub(crate) fn deps_routes(state: AppState) -> Router<AppState> {
         .route(
             "/sortie_modifiers/{id}",
             delete(remove_sortie_modifier)
-                .layer(from_fn_with_state(state.clone(), require_admin_role)),
+                .layer(RequireRoleLayer::at_least(state.clone(), Role::Admin)),
         )
-        // .route_layer(require_admin_layer.clone())
-        .route("/lang", post(get_lang_items).patch(update_lang_item))
+        .route("/lang", patch(update_lang_item))
         .route(
             "/lang/{unique_name}",
-            delete(remove_lang_item).layer(from_fn_with_state(state.clone(), require_admin_role)),
+            delete(remove_lang_item).layer(RequireRoleLayer::at_least(state.clone(), Role::Admin)),
         )
-        // .route_layer(require_admin_layer.clone())
         .route("/langs", get(list_langs).post(new_lang_item))
+        .route("/langs/search", get(search_langs))
         .route(
             "/langs/upload",
             post(upload_langs)
-                .layer(DefaultBodyLimit::max(50 * 1024 * 1024))
-                // .layer(from_fn_with_state(state, require_admin_role)),
+                .route_layer(DefaultBodyLimit::max(50 * 1024 * 1024))
+                .route_layer(RequireRoleLayer::at_least(state, Role::Admin)),
         )
-    // .route_layer(require_admin_layer)
 }
 
 #[derive(Debug, Serialize, Deserialize)]

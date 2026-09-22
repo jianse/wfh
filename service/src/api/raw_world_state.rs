@@ -115,15 +115,23 @@ async fn fetch_raw_world_state(http_client: &reqwest::Client, url: &str) -> BizR
     })
 }
 
-pub fn raw_world_state_routes(state: AppState) -> Router<AppState> {
+/// public raw world state endpoints (no auth)
+pub fn public_routes() -> Router<AppState> {
     Router::new()
         .route("/raw", get(get_raw_world_state))
         .route("/parsed", get(get_parsed_world_state))
-        .route("/reload", post(force_reload_world_state))
         .route("/st_pvt", get(get_st_prime_vault_trader))
-        .route("/sync_records", get(list_sync_records))
         .route("/bounty_cycle", get(get_bounty_cycle))
-        .nest("/deps", deps_routes(state))
+        .nest("/deps", deps::public_routes())
+}
+
+/// authed raw world state endpoints
+pub fn authed_routes(state: AppState) -> Router<AppState> {
+    Router::new()
+        .route("/reload", post(force_reload_world_state))
+        .route("/sync_records", get(list_sync_records))
+        .route("/sync_records/stats", get(get_sync_stats))
+        .nest("/deps", deps::authed_routes(state))
 }
 
 /// Sync record response model

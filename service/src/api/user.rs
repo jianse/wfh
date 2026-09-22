@@ -5,7 +5,6 @@ use axum::extract::Path;
 use axum::extract::Query;
 use axum::extract::State;
 use axum::http::StatusCode;
-use axum::middleware::from_fn_with_state;
 use axum::routing::delete;
 use axum::routing::get;
 use axum::routing::post;
@@ -26,7 +25,8 @@ use crate::api::BizResponse;
 use crate::api::BizResult;
 use crate::api::CurrentUser;
 use crate::api::Pager;
-use crate::api::require_admin_role;
+use crate::api::Role;
+use crate::api::RequireRoleLayer;
 use entities::prelude::*;
 
 pub(crate) fn user_routes(state: AppState) -> Router<AppState> {
@@ -37,7 +37,7 @@ pub(crate) fn user_routes(state: AppState) -> Router<AppState> {
         .route("/delete/{id}", delete(delete_user))
         .route("/reset-password/{id}", post(reset_password))
         .route("/update-role/{id}", put(update_user_role))
-        .layer(from_fn_with_state(state, require_admin_role));
+        .layer(RequireRoleLayer::at_least(state, Role::Admin));
 
     Router::new()
         .route("/current", get(get_current_user))
@@ -130,7 +130,7 @@ async fn create_user(
     }
 
     // 验证角色
-    if !matches!(&req.role as &str, "admin" | "maintainer" | "normal") {
+    if req.role.parse::<Role>().is_err() {
         return Err(BizError::custom(
             "Invalid role. Must be one of: admin, maintainer, normal",
         ));
@@ -193,7 +193,7 @@ async fn update_user(
     }
 
     // 验证角色
-    if !matches!(&req.role as &str, "admin" | "maintainer" | "normal") {
+    if req.role.parse::<Role>().is_err() {
         return Err(BizError::custom(
             "Invalid role. Must be one of: admin, maintainer, normal",
         ));
@@ -275,7 +275,7 @@ async fn update_user_role(
         .ok_or(BizError::NoSuchUserId(id))?;
 
     // 验证角色
-    if !matches!(&req.role as &str, "admin" | "maintainer" | "normal") {
+    if req.role.parse::<Role>().is_err() {
         return Err(BizError::custom(
             "Invalid role. Must be one of: admin, maintainer, normal",
         ));
