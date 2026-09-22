@@ -98,6 +98,70 @@ async fn list_langs(
     ))
 }
 
+/// Query parameters for language search.
+#[derive(Debug, Deserialize)]
+struct LangSearchQuery {
+    q: String,
+    #[serde(default)]
+    page: u64,
+    #[serde(default = "default_lang_page_size")]
+    page_size: u64,
+}
+
+fn default_lang_page_size() -> u64 {
+    20
+}
+
+/// Full-text search over language entries (jieba tokenized).
+///
+/// Returns the matched entries ordered by relevance. The result can be paged
+/// with `page` (0 based) and `page_size`.
+async fn search_langs(
+    State(state): State<AppState>,
+    Query(query): Query<LangSearchQuery>,
+) -> BizResult<BizResponse<Page<LangItem>>> {
+    let keyword = query.q.trim();
+    if keyword.is_empty() || query.page_size == 0 {
+        return Ok(BizResponse::ok_page(
+            query.page,
+            query.page_size,
+            0,
+            Vec::new(),
+        ));
+    }
+
+    let deps = state.deps.deps.read().await;
+    let index = deps
+        .lang_index
+        .as_ref()
+        .ok_or_else(|| BizError::custom("language search index is not ready"))?;
+
+    let offset = query.page.saturating_mul(query.page_size) as usize;
+    let limit = query.page_size as usize;
+    let (names, total) = index
+        .search(keyword, offset, limit)
+        .map_err(|e| BizError::custom(e.to_string()))?;
+
+    let items = names
+        .into_iter()
+        .map(|unique_name| {
+            let value = deps
+                .languages
+                .get(&unique_name)
+                .cloned()
+                .unwrap_or_default();
+            LangItem { unique_name, value }
+        })
+        .collect();
+
+    Ok(BizResponse::ok_page(
+        query.page,
+        query.page_size,
+        total as u64,
+        items,
+    ))
+}
+
 async fn new_lang_item(
     State(state): State<AppState>,
     Json(req): Json<LangItem>,
@@ -109,6 +173,11 @@ async fn new_lang_item(
             req.unique_name
         )));
     }
+    if let Some(index) = deps.lang_index.as_ref() {
+        index
+            .upsert(&req.unique_name, &req.value)
+            .map_err(|e| BizError::custom(e.to_string()))?;
+    }
     deps.languages.insert(req.unique_name, req.value);
     save_langs("data", &deps.languages)?;
     Ok(BizResponse::ok())
@@ -119,6 +188,11 @@ async fn remove_lang_item(
     Path(unique_name): Path<String>,
 ) -> BizResult<BizResponse> {
     let mut deps = state.deps.deps.write().await;
+    if let Some(index) = deps.lang_index.as_ref() {
+        index
+            .remove(&unique_name)
+            .map_err(|e| BizError::custom(e.to_string()))?;
+    }
     deps.languages.shift_remove(&unique_name);
     save_langs("data", &deps.languages)?;
     Ok(BizResponse::ok())
@@ -136,6 +210,11 @@ async fn update_lang_item(
             "lang item {} not exists",
             unique_name
         )));
+    }
+    if let Some(index) = deps.lang_index.as_ref() {
+        index
+            .upsert(&unique_name, &req.value)
+            .map_err(|e| BizError::custom(e.to_string()))?;
     }
     deps.languages.insert(unique_name, req.value);
     save_langs("data", &deps.languages)?;
@@ -157,11 +236,14 @@ async fn upload_langs(
             let bytes = field.bytes().await?;
 
             let langs = serde_json::from_slice::<IndexMap<String, String>>(&bytes)?;
-            save_langs("data", &langs)?;
-            {
-                let mut deps = state.deps.deps.write().await;
-                deps.languages = langs;
+            let mut deps = state.deps.deps.write().await;
+            if let Some(index) = deps.lang_index.as_ref() {
+                index
+                    .rebuild(langs.iter().map(|(k, v)| (k.as_str(), v.as_str())))
+                    .map_err(|e| BizError::custom(e.to_string()))?;
             }
+            deps.languages = langs;
+            save_langs("data", &deps.languages)?;
             return Ok(BizResponse::ok());
         }
     }

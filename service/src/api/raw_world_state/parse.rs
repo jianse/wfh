@@ -28,6 +28,7 @@ use http::header::IF_NONE_MATCH;
 use indexmap::IndexMap;
 use reqwest::Client;
 use reqwest::IntoUrl;
+use search::LangIndex;
 use serde::Deserialize;
 use serde::Serialize;
 use serde_with::TryFromInto;
@@ -1130,6 +1131,18 @@ impl DepState {
         let (pe_data, pe_index) = pe.fetch_transform_all().await?;
 
         let nightwave_challenges = build_nw_challenges(&pe_data)?;
+
+        let lang_index = match LangIndex::ensure(
+            cache_dir.join("search"),
+            languages.iter().map(|(k, v)| (k.as_str(), v.as_str())),
+        ) {
+            Ok(index) => Some(index),
+            Err(err) => {
+                warn!("failed to build language search index: {err}");
+                None
+            }
+        };
+
         {
             let mut deps = self.deps.write().await;
             *deps = Deps {
@@ -1149,6 +1162,7 @@ impl DepState {
                 the_circuit,
                 conquests,
                 hex_calender,
+                lang_index,
                 is_initialized: true,
             };
         }
@@ -1216,6 +1230,9 @@ pub struct Deps {
 
     /// hex calender
     hex_calender: HexCalendar,
+
+    /// full-text search index over `languages`
+    pub(super) lang_index: Option<LangIndex>,
 
     /// flag for initialization
     /// used to prevent reloading

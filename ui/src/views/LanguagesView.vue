@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import DataPager from '@/components/DataPager.vue'
+import ClearableInput from '@/components/ClearableInput.vue'
 import DataTable from '@/components/DataTable.vue'
 import DataTableColumn from '@/components/DataTableColumn.vue'
 import LangEditDialog from '@/components/dialogs/LangEditDialog.vue'
@@ -8,6 +9,7 @@ import LangUploadDialog from '@/components/dialogs/LangUploadDialog.vue'
 import { useUiStore } from '@/stores/ui'
 import {
   list_langs,
+  search_langs,
   new_lang_item,
   update_lang_item,
   remove_lang_item,
@@ -22,11 +24,17 @@ const size = ref(50)
 const total = ref(0)
 const rows = ref<LangItem[]>([])
 const loading = ref(false)
+const query = ref('')
+
+const emptyText = computed(() => (query.value.trim() ? '没有匹配的词条。' : '暂无词条。'))
 
 async function load() {
   loading.value = true
+  const q = query.value.trim()
   try {
-    const res = await list_langs(page.value - 1, size.value)
+    const res = q
+      ? await search_langs(q, page.value - 1, size.value)
+      : await list_langs(page.value - 1, size.value)
     if (res && res.data) {
       rows.value = res.data.items
       total.value = res.data.total
@@ -38,7 +46,25 @@ async function load() {
   }
 }
 
+let searchTimer: ReturnType<typeof setTimeout> | null = null
+function onSearchInput(e?: Event) {
+  // 输入法组合输入（如中文拼音）期间不触发搜索
+  if (e instanceof InputEvent && e.isComposing) return
+  page.value = 1
+  if (searchTimer) clearTimeout(searchTimer)
+  searchTimer = setTimeout(load, 300)
+}
+
 onMounted(load)
+onBeforeUnmount(() => {
+  if (searchTimer) clearTimeout(searchTimer)
+})
+
+function onClearInput() {
+  if (searchTimer) clearTimeout(searchTimer)
+  page.value = 1
+  load()
+}
 
 function onSizeChange(s: number) {
   size.value = s
@@ -111,6 +137,13 @@ function openUpload() {
     </div>
 
     <div class="page-tools">
+      <ClearableInput
+        v-model="query"
+        id="lang-search"
+        placeholder="搜索键名或译文…"
+        @input="onSearchInput"
+        @clear="onClearInput"
+      />
       <button class="btn btn-secondary" id="lang-refresh" :disabled="loading" @click="refresh">刷新</button>
       <button class="btn btn-primary" id="lang-create" :disabled="loading" @click="openCreate">新增词条</button>
       <button class="btn btn-secondary" id="lang-upload" :disabled="loading" @click="openUpload">
@@ -124,7 +157,7 @@ function openUpload() {
       :rows="rows"
       row-key="unique_name"
       :loading="loading"
-      empty-text="暂无词条。"
+      :empty-text="emptyText"
       loading-text="正在从后台加载语言词条…"
     >
       <DataTableColumn prop="unique_name" label="键（key）" width="45%" cell-class="lang-key">

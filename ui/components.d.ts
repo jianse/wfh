@@ -18,6 +18,7 @@ declare module 'vue' {
     AppTopbar: typeof import('./src/components/AppTopbar.vue')['default']
     ArchonHuntPanel: typeof import('./src/components/world_state/ArchonHuntPanel.vue')['default']
     ArchonMod: typeof import('./src/components/mods/Archon/ArchonMod.vue')['default']
+    ClearableInput: typeof import('./src/components/ClearableInput.vue')['default']
     CommonBox: typeof import('./src/components/item/CommonBox.vue')['default']
     CommonMod: typeof import('./src/components/mods/CommonMod.vue')['default']
     ConfirmDialog: typeof import('./src/components/ConfirmDialog.vue')['default']

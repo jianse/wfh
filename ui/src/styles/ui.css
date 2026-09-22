@@ -214,6 +214,13 @@
   .input:disabled { @apply bg-fg-soft text-muted cursor-not-allowed; }
   select.input { @apply h-9 cursor-pointer; }
   textarea.input { @apply h-auto min-h-[72px] resize-y py-2; }
+  .clearable { @apply relative inline-flex; }
+  .clearable .input { @apply pr-8; }
+  .clearable-btn {
+    @apply absolute right-2 top-1/2 inline-grid size-5 -translate-y-1/2 place-items-center rounded-full text-muted transition-colors duration-150;
+  }
+  .clearable-btn:hover { @apply bg-fg-soft text-fg; }
+  .clearable-btn svg { @apply size-3.5; }
 
   /* home metrics */
   .metric-row { @apply grid grid-cols-4 gap-md mb-xl; }

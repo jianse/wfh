@@ -47,6 +47,7 @@ async-compression = { workspace = true, features = ["brotli", "tokio"] }
 async-trait = { workspace = true }
 serde_ignored = { workspace = true }
 export = { path = "../export" }
+search = { path = "../search" }
 rustls.workspace = true
 time = { workspace = true, features = ["formatting"] }
 indexmap = { workspace = true, features = ["serde"] }
