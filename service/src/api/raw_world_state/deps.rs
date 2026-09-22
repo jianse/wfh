@@ -4,33 +4,167 @@ use std::collections::HashMap;
 
 use axum::Json;
 use axum::Router;
+use axum::extract::DefaultBodyLimit;
+use axum::extract::Multipart;
 use axum::extract::Path;
+use axum::extract::Query;
 use axum::extract::State;
 use axum::middleware::from_fn_with_state;
 use axum::routing::delete;
 use axum::routing::get;
 use axum::routing::post;
+use indexmap::IndexMap;
 use serde::Deserialize;
 use serde::Serialize;
+use tracing::info;
 
 use crate::AppState;
 use crate::api::BizError;
 use crate::api::BizResponse;
 use crate::api::BizResult;
+use crate::api::Page;
+use crate::api::Pager;
+use crate::api::raw_world_state::parse::save_langs;
 use crate::api::raw_world_state::parse::save_sortie_modifiers;
 use crate::api::require_admin_role;
 
 /// router for deps management
 pub(crate) fn deps_routes(state: AppState) -> Router<AppState> {
+    // let require_admin_layer = from_fn_with_state(state, require_admin_role);
     Router::new()
         .route("/reload", post(force_reload_deps))
         .route(
             "/sortie_modifiers",
             get(list_sortie_modifiers).post(add_new_sortie_modifier),
         )
-        .route("/sortie_modifiers/{id}", delete(remove_sortie_modifier))
-        .layer(from_fn_with_state(state, require_admin_role))
-        .route("/lang", post(get_lang_items))
+        .route(
+            "/sortie_modifiers/{id}",
+            delete(remove_sortie_modifier)
+                .layer(from_fn_with_state(state.clone(), require_admin_role)),
+        )
+        // .route_layer(require_admin_layer.clone())
+        .route("/lang", post(get_lang_items).patch(update_lang_item))
+        .route(
+            "/lang/{unique_name}",
+            delete(remove_lang_item).layer(from_fn_with_state(state.clone(), require_admin_role)),
+        )
+        // .route_layer(require_admin_layer.clone())
+        .route("/langs", get(list_langs).post(new_lang_item))
+        .route(
+            "/langs/upload",
+            post(upload_langs)
+                .layer(DefaultBodyLimit::max(50 * 1024 * 1024))
+                // .layer(from_fn_with_state(state, require_admin_role)),
+        )
+    // .route_layer(require_admin_layer)
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct LangItem {
+    unique_name: String,
+    value: String,
+}
+
+impl From<(&String, &String)> for LangItem {
+    fn from(value: (&String, &String)) -> Self {
+        Self {
+            unique_name: value.0.clone(),
+            value: value.1.clone(),
+        }
+    }
+}
+
+async fn list_langs(
+    State(state): State<AppState>,
+    Query(pager): Query<Pager>,
+) -> BizResult<BizResponse<Page<LangItem>>> {
+    let deps = state.deps.deps.read().await;
+    let total = deps.languages.len() as u64;
+    let langs = deps
+        .languages
+        .iter()
+        .skip((pager.page * pager.page_size) as usize)
+        .take(pager.page_size as usize)
+        .map(Into::into)
+        .collect();
+    // Page::new(pager.page, pager.page_size, langs.len() as u64, langs)
+    Ok(BizResponse::ok_page(
+        pager.page,
+        pager.page_size,
+        total,
+        langs,
+    ))
+}
+
+async fn new_lang_item(
+    State(state): State<AppState>,
+    Json(req): Json<LangItem>,
+) -> BizResult<BizResponse> {
+    let mut deps = state.deps.deps.write().await;
+    if deps.languages.contains_key(&req.unique_name) {
+        return Err(BizError::custom(format!(
+            "lang item {} already exists",
+            req.unique_name
+        )));
+    }
+    deps.languages.insert(req.unique_name, req.value);
+    save_langs("data", &deps.languages)?;
+    Ok(BizResponse::ok())
+}
+
+async fn remove_lang_item(
+    State(state): State<AppState>,
+    Path(unique_name): Path<String>,
+) -> BizResult<BizResponse> {
+    let mut deps = state.deps.deps.write().await;
+    deps.languages.shift_remove(&unique_name);
+    save_langs("data", &deps.languages)?;
+    Ok(BizResponse::ok())
+}
+
+async fn update_lang_item(
+    State(state): State<AppState>,
+    // Path(unique_name): Path<String>,
+    Json(req): Json<LangItem>,
+) -> BizResult<BizResponse> {
+    let unique_name = req.unique_name;
+    let mut deps = state.deps.deps.write().await;
+    if !deps.languages.contains_key(&unique_name) {
+        return Err(BizError::custom(format!(
+            "lang item {} not exists",
+            unique_name
+        )));
+    }
+    deps.languages.insert(unique_name, req.value);
+    save_langs("data", &deps.languages)?;
+    Ok(BizResponse::ok())
+}
+
+async fn upload_langs(
+    State(state): State<AppState>,
+    mut multipart: Multipart,
+    // Multi(req): Json<HashMap<String, String>>,
+) -> BizResult<BizResponse> {
+    info!("upload langs");
+    while let Some(field) = multipart.next_field().await? {
+        let name = field
+            .name()
+            .ok_or(BizError::custom("formpart filed name is required!"))?;
+        if name == "file" {
+            // let mut buf = Vec::new();
+            let bytes = field.bytes().await?;
+
+            let langs = serde_json::from_slice::<IndexMap<String, String>>(&bytes)?;
+            save_langs("data", &langs)?;
+            {
+                let mut deps = state.deps.deps.write().await;
+                deps.languages = langs;
+            }
+            return Ok(BizResponse::ok());
+        }
+    }
+
+    Err(BizError::custom("required field \"file\" not exist!"))
 }
 
 #[derive(Debug, Deserialize)]

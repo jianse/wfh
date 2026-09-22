@@ -27,6 +27,7 @@ export interface WorldStatePrefs {
   hexCalendarEvents: string[]
   conquests: Record<string, boolean>
   panelExpanded: boolean
+  anchorExpanded: boolean
 }
 
 export const ALL_SECTIONS: WorldStateSection[] = [
@@ -65,6 +66,7 @@ export const useWorldStatePrefsStore = defineStore(
       hexCalendarEvents: defaultHexCalendarEvents,
       conquests: defaultConquests,
       panelExpanded: defaultPanelExpanded,
+      anchorExpanded: true,
     })
 
     const enabledSections = computed(() => prefs.value.enabledSections)
@@ -73,6 +75,7 @@ export const useWorldStatePrefsStore = defineStore(
     const hexCalendarEvents = computed(() => prefs.value.hexCalendarEvents)
     const conquests = computed(() => prefs.value.conquests)
     const panelExpanded = computed(() => prefs.value.panelExpanded)
+    const anchorExpanded = computed(() => prefs.value.anchorExpanded)
 
     function toggleSection(section: WorldStateSection) {
       const index = prefs.value.enabledSections.indexOf(section)
@@ -152,6 +155,10 @@ export const useWorldStatePrefsStore = defineStore(
       prefs.value.panelExpanded = expanded
     }
 
+    function toggleAnchor() {
+      prefs.value.anchorExpanded = !prefs.value.anchorExpanded
+    }
+
     return {
       prefs,
       enabledSections,
@@ -160,6 +167,7 @@ export const useWorldStatePrefsStore = defineStore(
       hexCalendarEvents,
       conquests,
       panelExpanded,
+      anchorExpanded,
       toggleSection,
       setLayout,
       selectAll,
@@ -175,6 +183,7 @@ export const useWorldStatePrefsStore = defineStore(
       getConquestHard,
       togglePanel,
       setPanelExpanded,
+      toggleAnchor,
     }
   },
   { persist: true },

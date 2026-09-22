@@ -12,6 +12,7 @@ use axum::extract::ConnectInfo;
 use axum::extract::Path;
 use axum::extract::Request;
 use axum::extract::State;
+use axum::extract::multipart::MultipartError;
 use axum::http::StatusCode;
 use axum::http::header;
 use axum::middleware::Next;
@@ -287,6 +288,9 @@ pub enum BizError {
 
     #[error(transparent)]
     Acme(#[from] acme::AcmeError),
+
+    #[error(transparent)]
+    Multipart(#[from] MultipartError),
 }
 
 impl BizError {

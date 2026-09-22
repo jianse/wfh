@@ -966,18 +966,28 @@ fn load_regions_ex<P: AsRef<Path>>(dir: P) -> BizResult<HashMap<String, Region>>
     Ok(json)
 }
 
-fn load_languages<P: AsRef<Path>>(dir: P) -> BizResult<HashMap<String, String>> {
+fn load_languages<P: AsRef<Path>>(dir: P) -> BizResult<IndexMap<String, String>> {
     let file = dir.as_ref().join("lang.json");
 
     if fs::exists(&file)? {
         let mut file = File::open(file)?;
         let mut reader = BufReader::new(&mut file);
-        let res: HashMap<String, String> = serde_json::from_reader(&mut reader)?;
+        let res: IndexMap<String, String> = serde_json::from_reader(&mut reader)?;
         Ok(res)
     } else {
         info!("no lang.json found, using default");
-        Ok(HashMap::new())
+        Ok(IndexMap::new())
     }
+}
+
+pub fn save_langs<P: AsRef<Path>>(dir: P, langs: &IndexMap<String, String>) -> BizResult<()> {
+    if langs.is_empty() {
+        return Ok(());
+    }
+    let file = dir.as_ref().join("lang.json");
+    let json = serde_json::to_string_pretty(langs)?;
+    fs::write(file, json)?;
+    Ok(())
 }
 
 fn load_steel_path<P: AsRef<Path>>(dir: P) -> BizResult<SteelPath> {
@@ -1168,7 +1178,7 @@ pub struct Deps {
     factions: HashMap<String, FactionInfo>,
 
     /// Languages exported from game assets
-    pub(super) languages: HashMap<String, String>,
+    pub(super) languages: IndexMap<String, String>,
 
     /// regions from public export
     regions: HashMap<String, Region>,

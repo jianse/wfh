@@ -144,7 +144,7 @@ function onDrop(to: number) {
 }
 
 /* ── 锚点导航 ── */
-const anchorOpen = ref(true)
+// const anchorOpen = ref(true)
 const activeKey = ref<string>('')
 function scrollToPanel(key: string) {
   const el = document.getElementById('ws-panel-' + key)
@@ -273,12 +273,12 @@ function updateAnchors() {
       </button>
     </div>
 
-    <nav class="ws-anchor" :class="{ collapsed: !anchorOpen }" aria-label="面板快速跳转">
-      <button class="ws-anchor-toggle" type="button" :aria-expanded="anchorOpen" @click="anchorOpen = !anchorOpen">
+    <nav class="ws-anchor" :class="{ collapsed: !prefs.anchorExpanded }" aria-label="面板快速跳转">
+      <button class="ws-anchor-toggle" type="button" :aria-expanded="prefs.anchorExpanded" @click="prefs.toggleAnchor()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="m15.5 8.5-2.1 4.9-4.9 2.1 2.1-4.9z" /></svg>
         <span>快速跳转</span>
       </button>
-      <div v-show="anchorOpen" class="ws-anchor-list" role="list">
+      <div v-show="prefs.anchorExpanded" class="ws-anchor-list" role="list">
         <button
           v-for="(s, i) in enabled"
           :key="s.key"

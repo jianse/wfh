@@ -7,11 +7,13 @@ pub use crate::json_ops::*;
 use crate::lang::LangHolder;
 use async_compression::tokio::bufread::LzmaDecoder;
 use error::Result;
+use indexmap::IndexMap;
 use reqwest::Client;
 use reqwest::header::LAST_MODIFIED;
 use serde::Serialize;
 use serde_json::Value;
 use serde_json::json;
+use traits::MapGet;
 use std::collections::HashMap;
 use std::path::Path;
 use std::path::PathBuf;
@@ -940,14 +942,14 @@ pub struct PE<'c, 'l> {
     cache_dir: PathBuf,
     client: &'c Client,
     wire_file: PathBuf,
-    lang_map: &'l HashMap<String, String>,
+    lang_map: &'l IndexMap<String, String>,
 }
 impl<'c, 'l> PE<'c, 'l> {
     pub fn new<P1: AsRef<Path>, P2: AsRef<Path>>(
         client: &'c Client,
         cache_dir: P1,
         wire_file: P2,
-        lang_map: &'l HashMap<String, String>,
+        lang_map: &'l IndexMap<String, String>,
     ) -> Self {
         PE {
             client,
@@ -1029,9 +1031,9 @@ mod tests {
             .try_init();
     }
 
-    fn load_lang_map() -> eyre::Result<HashMap<String, String>> {
+    fn load_lang_map() -> eyre::Result<IndexMap<String, String>> {
         let lang_map = std::fs::read("../data/lang.json")?;
-        let lang_map: HashMap<String, String> = serde_json::from_slice(&lang_map)?;
+        let lang_map: IndexMap<String, String> = serde_json::from_slice(&lang_map)?;
         Ok(lang_map)
     }
 

@@ -2,117 +2,95 @@
 import { ref } from 'vue'
 
 const props = defineProps<{
-  locale: string
-  current: Record<string, string>
-  onApply?: (pairs: [string, string][]) => void
+  onApply?: (
+    data: Record<string, string>,
+    onProgress: (pct: number) => void
+  ) => Promise<void> | void
 }>()
 const emit = defineEmits<{ close: [] }>()
 
 const jsonText = ref('')
 const fileName = ref('')
-interface LangPreview {
-  add: [string, string][]
-  upd: [string, string][]
-  same: number
-  bad: number
-}
-const preview = ref<LangPreview | null>(null)
-const previewErr = ref('')
-const pending = ref<[string, string][]>([])
+const err = ref('')
+const count = ref(0)
+const applying = ref(false)
+const progress = ref(0)
 
-function parseLangJson(raw: string): [string, string][] {
+const percent = () => Math.round(progress.value * 100)
+
+function parse(raw: string): Record<string, string> {
   const data: unknown = JSON.parse(raw)
-  const entries: [string, string][] = []
-  if (Array.isArray(data)) {
-    data.forEach((o) => {
-      if (!o || typeof o !== 'object') return
-      const obj = o as Record<string, unknown>
-      const base = String(obj.unique_name ?? obj.key ?? '')
-      if (!base) return
-      const content = obj.content ?? obj.value
-      entries.push([obj.prop ? base + '@' + String(obj.prop) : base, content != null ? String(content) : ''])
-    })
-  } else if (data && typeof data === 'object') {
-    const obj = data as Record<string, unknown>
-    Object.keys(obj).forEach((k) => {
-      const v = obj[k]
-      if (v && typeof v === 'object') {
-        const inner = v as Record<string, unknown>
-        const content = inner.content ?? inner.value
-        entries.push([k, content != null ? String(content) : ''])
-      } else {
-        entries.push([k, v != null ? String(v) : ''])
-      }
-    })
-  } else {
-    throw new Error('JSON 结构不受支持')
+  if (!data || typeof data !== 'object' || Array.isArray(data)) {
+    throw new Error('需要扁平对象 { "key": "value" }')
   }
-  return entries
+  const out: Record<string, string> = {}
+  for (const [k, v] of Object.entries(data as Record<string, unknown>)) {
+    if (typeof v === 'string') out[k] = v
+  }
+  return out
 }
 
-function runLangPreview() {
+function preview() {
+  err.value = ''
+  count.value = 0
   const raw = jsonText.value.trim()
   if (!raw) {
-    previewErr.value = '请先选择文件或粘贴 JSON 内容。'
-    preview.value = null
-    pending.value = []
+    err.value = '请先选择文件或粘贴 JSON 内容。'
     return
   }
-  let entries: [string, string][]
   try {
-    entries = parseLangJson(raw)
+    count.value = Object.keys(parse(raw)).length
   } catch (e) {
-    previewErr.value = `JSON 解析失败：${(e as Error).message}`
-    preview.value = null
-    pending.value = []
-    return
+    err.value = 'JSON 解析失败：' + (e as Error).message
   }
-  previewErr.value = ''
-  const cur = props.current
-  const add: [string, string][] = []
-  const upd: [string, string][] = []
-  let same = 0
-  let bad = 0
-  const valid: [string, string][] = []
-  entries.forEach((pair) => {
-    const k = pair[0]
-    const v = pair[1]
-    if (typeof k !== 'string' || !k.trim() || typeof v !== 'string') {
-      bad++
-      return
-    }
-    valid.push([k, v])
-    if (!(k in cur)) add.push([k, v])
-    else if (cur[k] !== v) upd.push([k, v])
-    else same++
-  })
-  pending.value = valid
-  preview.value = { add, upd, same, bad }
 }
 
-function readLangFile(file: File | null | undefined) {
+function readFile(file?: File | null) {
   if (!file) return
   const reader = new FileReader()
   reader.onload = () => {
     jsonText.value = String(reader.result || '')
     fileName.value = file.name
-    runLangPreview()
+    preview()
   }
   reader.readAsText(file)
 }
 
 function onFilePick(e: Event) {
-  readLangFile((e.target as HTMLInputElement).files?.[0])
+  readFile((e.target as HTMLInputElement).files?.[0])
 }
-
 function onDrop(e: DragEvent) {
-  readLangFile(e.dataTransfer?.files?.[0])
+  readFile(e.dataTransfer?.files?.[0])
 }
 
-function apply() {
-  if (!pending.value.length) return
-  props.onApply?.(pending.value)
-  emit('close')
+async function apply() {
+  if (applying.value) return
+  err.value = ''
+  const raw = jsonText.value.trim()
+  if (!raw) {
+    err.value = '请先选择文件或粘贴 JSON 内容。'
+    return
+  }
+  let obj: Record<string, string>
+  try {
+    obj = parse(raw)
+  } catch (e) {
+    err.value = 'JSON 解析失败：' + (e as Error).message
+    return
+  }
+  applying.value = true
+  progress.value = 0
+  try {
+    await props.onApply?.(obj, (p) => {
+      progress.value = p
+    })
+    emit('close')
+  } catch (e) {
+    err.value = '上传失败：' + ((e as Error).message || String(e))
+  } finally {
+    applying.value = false
+    progress.value = 0
+  }
 }
 </script>
 
@@ -120,15 +98,22 @@ function apply() {
   <div class="modal-panel wide">
     <div class="dlg-head">
       <h3 class="h3">上传 JSON 覆写</h3>
-      <button class="btn btn-ghost dlg-close" @click="emit('close')">关闭</button>
+      <button class="btn btn-ghost dlg-close" :disabled="applying" @click="emit('close')">关闭</button>
     </div>
     <div class="dlg-body">
       <p class="help-note">
-        将覆写 <strong>{{ props.locale }}</strong> 的现有词条。支持扁平键值对
-        <span class="mono">{ "key": "value" }</span>，或 <span class="mono">unique_name / prop / content</span> 对象数组。
+        将<strong>整体替换</strong>简体中文语言表。文件需为扁平键值对
+        <span class="mono">{ "unique_name": "译文" }</span>。
       </p>
-      <div class="lang-drop" @dragenter.prevent @dragover.prevent @dragleave.prevent @drop.prevent="onDrop">
-        <input type="file" id="lang-file" accept="application/json,.json" hidden @change="onFilePick" />
+      <div
+        class="lang-drop"
+        :class="{ over: applying }"
+        @dragenter.prevent
+        @dragover.prevent
+        @dragleave.prevent
+        @drop.prevent="onDrop"
+      >
+        <input type="file" id="lang-file" accept="application/json,.json" hidden :disabled="applying" @change="onFilePick" />
         <div class="lang-drop-inner">
           <strong>拖拽 JSON 文件到此处</strong>
           <span class="meta">或</span>
@@ -138,36 +123,37 @@ function apply() {
       </div>
       <div class="field mt-sm">
         <label>或直接粘贴 JSON</label>
-        <textarea v-model="jsonText" class="input mono" rows="7" placeholder='{ "ui.nav.home": "主页" }'></textarea>
+        <textarea
+          v-model="jsonText"
+          class="input mono"
+          rows="7"
+          :disabled="applying"
+          placeholder='{ "/Lotus/Language/...": "译文" }'
+        ></textarea>
       </div>
-      <button class="btn btn-secondary" @click="runLangPreview">解析预览</button>
+      <button class="btn btn-secondary" :disabled="applying" @click="preview">解析预览</button>
+
       <div class="mt-sm">
-        <div v-if="previewErr" class="field-err">{{ previewErr }}</div>
-        <template v-else-if="preview">
-          <div class="form-grid">
-            <div class="field"><label>新增</label><div class="code-block">{{ preview.add.length }}</div></div>
-            <div class="field"><label>更新</label><div class="code-block">{{ preview.upd.length }}</div></div>
-            <div class="field"><label>无变化</label><div class="code-block">{{ preview.same }}</div></div>
-            <div class="field"><label>忽略</label><div class="code-block">{{ preview.bad }}</div></div>
-          </div>
-          <div v-if="preview.add.length" class="field">
-            <label>新增词条</label>
-            <div class="lang-diff">
-              <div v-for="(p, i) in preview.add.slice(0, 6)" :key="i" class="lang-diff-row lang-diff-add"><span class="k">{{ p[0] }}</span><span class="v">{{ p[1] }}</span></div>
-            </div>
-          </div>
-          <div v-if="preview.upd.length" class="field">
-            <label>更新词条</label>
-            <div class="lang-diff">
-              <div v-for="(p, i) in preview.upd.slice(0, 6)" :key="i" class="lang-diff-row lang-diff-add"><span class="k">{{ p[0] }}</span><span class="v">{{ p[1] }}</span></div>
-            </div>
-          </div>
-        </template>
+        <div v-if="err" class="field-err">{{ err }}</div>
+        <div v-else-if="count && !applying" class="help-note">共解析到 {{ count }} 条词条。</div>
+      </div>
+
+      <div v-if="applying" class="field mt-sm">
+        <label>上传进度</label>
+        <div class="progress"><i :style="{ width: percent() + '%' }"></i></div>
+        <div class="progress-label">{{ percent() }}%</div>
       </div>
     </div>
     <div class="dlg-foot">
-      <button class="btn btn-secondary" @click="emit('close')">取消</button>
-      <button class="btn btn-primary" :disabled="!preview || preview.add.length + preview.upd.length === 0" @click="apply">应用覆写</button>
+      <button class="btn btn-secondary" :disabled="applying" @click="emit('close')">取消</button>
+      <button class="btn btn-primary" :disabled="applying || !count" @click="apply">
+        <span
+          v-if="applying"
+          class="inline-block size-4 animate-spin rounded-full border-2 border-current border-t-transparent"
+          aria-hidden="true"
+        ></span>
+        {{ applying ? '上传中…' : '应用覆写' }}
+      </button>
     </div>
   </div>
 </template>

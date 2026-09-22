@@ -12,7 +12,7 @@ spa = { path = "../spa" }
 migration = { path = "../migration" }
 acme = { path = "../acme" }
 
-axum = { workspace = true, features = ["macros", "http2"] }
+axum = { workspace = true, features = ["macros", "http2", "multipart"] }
 chrono = { workspace = true }
 config = { workspace = true }
 http = { workspace = true }
