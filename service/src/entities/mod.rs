@@ -4,6 +4,7 @@ pub mod prelude;
 
 pub mod raw_world_state;
 pub mod refresh_token;
+pub mod sync_record_stats;
 pub mod translation;
 pub mod user;
 pub mod wg_world_state_replacements;

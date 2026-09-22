@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import DataPager from '@/components/DataPager.vue'
 import DataTable from '@/components/DataTable.vue'
 import DataTableColumn from '@/components/DataTableColumn.vue'
 import { useUiStore } from '@/stores/ui'
 import { fmt, fmtTime } from '@/lib/utils'
-import { list_sync_records, type SyncRecord } from '@/api/sync'
+import { get_sync_stats, list_sync_records, type SyncRecord } from '@/api/sync'
 import { force_reload } from '@/api/world_state'
 import SyncDetailDialog from '@/components/dialogs/SyncDetailDialog.vue'
 import type { SyncRecordRow } from '@/components/dialogs/types'
@@ -41,6 +41,7 @@ function mapRecord(r: SyncRecord): SyncRecordRow {
 
 async function fetchRecords() {
   loading.value = true
+  void loadStats()
   try {
     const res = await list_sync_records(page.value, size.value)
     if (res && res.data) {
@@ -56,12 +57,21 @@ async function fetchRecords() {
 
 onMounted(fetchRecords)
 
-const stats = computed(() => {
-  const t = records.value.length
-  const ok = records.value.filter((r) => r.is_success).length
-  const avg = t ? Math.round(records.value.reduce((s, r) => s + r.time_spent_ms, 0) / t) : 0
-  return { total: total.value, ok, fail: t - ok, avg }
-})
+const stats = ref({ total: 0, ok: 0, fail: 0, avg: 0 })
+
+async function loadStats() {
+  try {
+    const s = await get_sync_stats()
+    stats.value = {
+      total: s.total,
+      ok: s.success,
+      fail: s.fail,
+      avg: Math.round(s.avg_time_ms),
+    }
+  } catch {
+    // keep the previously loaded statistics on failure
+  }
+}
 
 // const rows = computed(() => {
 //   const totalPages = Math.max(1, Math.ceil(records.value.length / PAGE_SIZE))

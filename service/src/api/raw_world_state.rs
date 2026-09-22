@@ -11,6 +11,7 @@ use sea_orm::DbErr;
 use sea_orm::EntityTrait;
 use sea_orm::QueryFilter;
 use sea_orm::QueryOrder;
+use sea_orm::TransactionTrait;
 use sea_orm::prelude::DateTimeUtc;
 
 use crate::AppState;
@@ -19,10 +20,10 @@ use crate::api::BizResponse;
 use crate::api::BizResult;
 use crate::api::Page;
 use crate::api::Pager;
-use crate::api::raw_world_state::deps::deps_routes;
 use crate::api::raw_world_state::parse::fill_raw_world_state;
 use crate::entities;
 use crate::entities::prelude::RawWorldState as RawWorldStateEntity;
+use crate::entities::prelude::SyncRecordStats;
 use axum::extract::Query;
 use axum::extract::State;
 use model::RawWorldState;
@@ -172,7 +173,11 @@ async fn list_sync_records(
         .order_by_desc(entities::raw_world_state::Column::SyncTime)
         .paginate(&state.conn, pager.page_size);
 
-    let total = paginator.num_items().await?;
+    // prefer the O(1) aggregate; fall back to a count query if it is missing
+    let total = match SyncRecordStats::find_by_id(1).one(&state.conn).await? {
+        Some(s) => s.total_count.max(0) as u64,
+        None => paginator.num_items().await?,
+    };
     let items = paginator.fetch_page(pager.page - 1).await?;
 
     let records: Vec<SyncRecordResponse> = items.into_iter().map(|m| m.into()).collect();
@@ -180,9 +185,151 @@ async fn list_sync_records(
     Ok(BizResponse::ok_page(
         pager.page,
         pager.page_size,
-        total as u64,
+        total,
         records,
     ))
+}
+
+/// Aggregate statistics over all sync records.
+#[derive(Debug, Serialize)]
+pub struct SyncStatsResponse {
+    pub total: i64,
+    pub success: i64,
+    pub fail: i64,
+    pub success_rate: f64,
+    pub avg_time_ms: f64,
+    pub min_time_ms: Option<i32>,
+    pub max_time_ms: Option<i32>,
+    pub last_sync_time: Option<DateTimeUtc>,
+    pub last_success_time: Option<DateTimeUtc>,
+    pub last_fail_time: Option<DateTimeUtc>,
+    pub last_error_msg: Option<String>,
+    pub updated_at: Option<DateTimeUtc>,
+}
+
+/// Statistics of all sync records.
+///
+/// Served from the `sync_record_stats` aggregate table in O(1); the table is
+/// kept in sync transactionally on every insert, so the numbers cover every
+/// record and not just the current page.
+#[axum::debug_handler]
+async fn get_sync_stats(State(state): State<AppState>) -> BizResult<BizResponse<SyncStatsResponse>> {
+    let s = SyncRecordStats::find_by_id(1)
+        .one(&state.conn)
+        .await?
+        .ok_or_else(|| BizError::custom("sync statistics not initialized"))?;
+
+    let total = s.total_count;
+    let success_rate = if total > 0 {
+        s.success_count as f64 / total as f64
+    } else {
+        0.0
+    };
+    let avg_time_ms = if total > 0 {
+        s.total_time_ms as f64 / total as f64
+    } else {
+        0.0
+    };
+
+    Ok(BizResponse::ok_with(SyncStatsResponse {
+        total,
+        success: s.success_count,
+        fail: s.fail_count,
+        success_rate,
+        avg_time_ms,
+        min_time_ms: s.min_time_ms,
+        max_time_ms: s.max_time_ms,
+        last_sync_time: s.last_sync_time,
+        last_success_time: s.last_success_time,
+        last_fail_time: s.last_fail_time,
+        last_error_msg: s.last_error_msg,
+        updated_at: s.updated_at,
+    }))
+}
+
+/// Insert a sync record and update the aggregate statistics in one transaction.
+async fn insert_sync_record(
+    conn: &sea_orm::DatabaseConnection,
+    record: entities::raw_world_state::ActiveModel,
+) -> Result<entities::raw_world_state::Model, DbErr> {
+    let txn = conn.begin().await?;
+    let inserted = record.insert(&txn).await?;
+    bump_sync_stats(&txn, &inserted).await?;
+    txn.commit().await?;
+    Ok(inserted)
+}
+
+/// Fold a freshly inserted sync record into the single-row statistics table.
+async fn bump_sync_stats(
+    txn: &sea_orm::DatabaseTransaction,
+    rec: &entities::raw_world_state::Model,
+) -> Result<(), DbErr> {
+    const STATS_ID: i32 = 1;
+    let now = Utc::now();
+
+    match SyncRecordStats::find_by_id(STATS_ID).one(txn).await? {
+        Some(s) => {
+            let mut am = entities::sync_record_stats::ActiveModel {
+                id: Set(s.id),
+                total_count: Set(s.total_count + 1),
+                success_count: Set(s.success_count),
+                fail_count: Set(s.fail_count),
+                total_time_ms: Set(s.total_time_ms + rec.time_spent_ms as i64),
+                min_time_ms: Set(Some(
+                    s.min_time_ms
+                        .map_or(rec.time_spent_ms, |m| m.min(rec.time_spent_ms)),
+                )),
+                max_time_ms: Set(Some(
+                    s.max_time_ms
+                        .map_or(rec.time_spent_ms, |m| m.max(rec.time_spent_ms)),
+                )),
+                last_sync_time: Set(Some(rec.sync_time)),
+                last_success_time: Set(s.last_success_time),
+                last_fail_time: Set(s.last_fail_time),
+                last_error_msg: Set(s.last_error_msg.clone()),
+                updated_at: Set(Some(now)),
+            };
+            if rec.is_success {
+                am.success_count = Set(s.success_count + 1);
+                am.last_success_time = Set(Some(rec.sync_time));
+            } else {
+                am.fail_count = Set(s.fail_count + 1);
+                am.last_fail_time = Set(Some(rec.sync_time));
+                am.last_error_msg = Set(rec.error_msg.clone());
+            }
+            am.update(txn).await?;
+        }
+        None => {
+            let am = entities::sync_record_stats::ActiveModel {
+                id: Set(STATS_ID),
+                total_count: Set(1),
+                success_count: Set(if rec.is_success { 1 } else { 0 }),
+                fail_count: Set(if rec.is_success { 0 } else { 1 }),
+                total_time_ms: Set(rec.time_spent_ms as i64),
+                min_time_ms: Set(Some(rec.time_spent_ms)),
+                max_time_ms: Set(Some(rec.time_spent_ms)),
+                last_sync_time: Set(Some(rec.sync_time)),
+                last_success_time: Set(if rec.is_success {
+                    Some(rec.sync_time)
+                } else {
+                    None
+                }),
+                last_fail_time: Set(if rec.is_success {
+                    None
+                } else {
+                    Some(rec.sync_time)
+                }),
+                last_error_msg: Set(if rec.is_success {
+                    None
+                } else {
+                    rec.error_msg.clone()
+                }),
+                updated_at: Set(Some(now)),
+            };
+            am.insert(txn).await?;
+        }
+    }
+    Ok(())
 }
 
 /// force reload world state
@@ -217,7 +364,7 @@ async fn force_reload_world_state(
                 ..Default::default()
             };
 
-            record.insert(&state.conn).await?;
+            insert_sync_record(&state.conn, record).await?;
             Ok(BizResponse::ok_with(raw))
         }
         Err(e) => {
@@ -228,7 +375,7 @@ async fn force_reload_world_state(
                 error_msg: Set(Some(e.to_string())),
                 ..Default::default()
             };
-            record.insert(&state.conn).await?;
+            insert_sync_record(&state.conn, record).await?;
             let err_msg = e.to_string();
 
             Err(BizError::custom(format!(
@@ -302,7 +449,7 @@ pub async fn sync_raw_world_state(state: AppState) -> BizResult<Option<DateTime<
                 ..Default::default()
             };
 
-            record.insert(&state.conn).await?;
+            insert_sync_record(&state.conn, record).await?;
             Ok(nearest_expiry)
         }
         Err(e) => {
@@ -313,7 +460,7 @@ pub async fn sync_raw_world_state(state: AppState) -> BizResult<Option<DateTime<
                 error_msg: Set(Some(e.to_string())),
                 ..Default::default()
             };
-            record.insert(&state.conn).await?;
+            insert_sync_record(&state.conn, record).await?;
             Ok(None)
         }
     }

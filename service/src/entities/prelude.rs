@@ -2,6 +2,7 @@
 
 pub use super::raw_world_state::Entity as RawWorldState;
 pub use super::refresh_token::Entity as RefreshToken;
+pub use super::sync_record_stats::Entity as SyncRecordStats;
 pub use super::translation::Entity as Translation;
 pub use super::user::Entity as User;
 pub use super::wg_world_state_replacements::Entity as WgWorldStateReplacements;
