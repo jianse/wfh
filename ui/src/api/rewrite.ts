@@ -13,7 +13,7 @@ export interface RepPk {
 }
 
 export async function get_rewards_page(page: number, page_size: number) {
-  const { data } = await http.get<BizResp<Page<Rep>>>('/world_state/rep', {
+  const { data } = await http.get<BizResp<Page<Rep>>>('/v1/authed/world_state/rep', {
     params: {
       page,
       page_size,
@@ -23,11 +23,11 @@ export async function get_rewards_page(page: number, page_size: number) {
 }
 
 export async function delete_reward(pk: RepPk) {
-  await http.delete<BizResp<void>>('/world_state/rep', {
+  await http.delete<BizResp<void>>('/v1/authed/world_state/rep', {
     params: pk,
   })
 }
 
 export async function edit_reward(rep: Rep) {
-  await http.put<BizResp<void>>('/world_state/rep', rep)
+  await http.put<BizResp<void>>('/v1/authed/world_state/rep', rep)
 }

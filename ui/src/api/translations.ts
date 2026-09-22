@@ -12,18 +12,18 @@ export interface TranslationId {
 }
 
 export async function get_all_translations(): Promise<BizResp<TranslationTerm[]>> {
-  const { data } = await http.get<BizResp<TranslationTerm[]>>('/translations/all', {
+  const { data } = await http.get<BizResp<TranslationTerm[]>>('/v1/public/translations/all', {
     skipAuth: true,
   } as CustomRequestConfig)
   return data
 }
 
 export async function save_translation(translation: TranslationTerm) {
-  await http.post('/translations', translation)
+  await http.post('/v1/authed/translations', translation)
 }
 
 export async function delete_translation(translation_id: TranslationId) {
-  await http.delete('/translations', {
+  await http.delete('/v1/authed/translations', {
     params: translation_id,
   })
 }

@@ -137,28 +137,32 @@ export interface WorldState {
 }
 
 export async function get_world_state() {
-  const { data } = await http.get<BizResp<WorldState>>('/world_state/current', {
+  const { data } = await http.get<BizResp<WorldState>>('/v1/public/world_state/current', {
     skipAuth: true,
   } as CustomRequestConfig)
   return data
 }
 
 export async function update_and_get() {
-  const { data } = await http.get<BizResp<WorldState>>('/world_state/update')
+  const { data } = await http.get<BizResp<WorldState>>('/v1/authed/world_state/update')
   return data
 }
 
 export async function get_raw_world_state() {
-  const { data } = await http.get<BizResp<RawWorldState>>('/raw_world_state/parsed', {
+  const { data } = await http.get<BizResp<RawWorldState>>('/v1/public/raw_world_state/parsed', {
     skipAuth: true,
   } as CustomRequestConfig)
   return data
 }
 
 export async function force_reload() {
-  const { data } = await http.post<BizResp<RawWorldState>>('/raw_world_state/reload', undefined, {
-    timeout: 10000,
-  })
+  const { data } = await http.post<BizResp<RawWorldState>>(
+    '/v1/authed/raw_world_state/reload',
+    undefined,
+    {
+      timeout: 10000,
+    },
+  )
   return data
 }
 
@@ -442,5 +446,5 @@ export interface Invasion {
 }
 
 export async function getBountyCycle() {
-  return await http.get('/raw_world_state/bounty_cycle')
+  return await http.get('/v1/public/raw_world_state/bounty_cycle')
 }

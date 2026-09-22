@@ -9,34 +9,34 @@ export interface SortieModifier {
 
 export async function list_sm(): Promise<SortieModifier[]> {
   const { data } = await http.get<BizResp<SortieModifier[]>>(
-    '/raw_world_state/deps/sortie_modifiers',
+    '/v1/authed/raw_world_state/deps/sortie_modifiers',
   )
   return data.data || []
 }
 
 export async function new_sm(new_item: SortieModifier) {
   const { data } = await http.post<BizResp<SortieModifier>>(
-    '/raw_world_state/deps/sortie_modifiers',
+    '/v1/authed/raw_world_state/deps/sortie_modifiers',
     new_item,
   )
   console.log('new sortie modifier resp: ', data)
 }
 
 export async function reload() {
-  const { data } = await http.post<BizResp<void>>('/raw_world_state/deps/reload', null, {
+  const { data } = await http.post<BizResp<void>>('/v1/authed/raw_world_state/deps/reload', null, {
     timeout: 20000,
   })
   console.log('reload sortie modifiers resp: ', data)
 }
 
 export async function delete_sm(id: string) {
-  const { data } = await http.delete<BizResp<void>>(`/raw_world_state/deps/sortie_modifiers/${id}`)
+  const { data } = await http.delete<BizResp<void>>(`/v1/authed/raw_world_state/deps/sortie_modifiers/${id}`)
   console.log('delete sortie modifier resp: ', data)
 }
 
 export async function get_lang_items(names: string[]) {
   const { data } = await http.post<BizResp<Record<string, string | undefined>>>(
-    '/raw_world_state/deps/lang',
+    '/v1/public/raw_world_state/deps/lang',
     { names },
     { skipAuth: true } as CustomRequestConfig,
   )

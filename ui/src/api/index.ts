@@ -22,17 +22,40 @@ const instance = axios.create({
 
 interface Err {
   status: number
+  config?: CustomRequestConfig
+  response?: { data?: { msg?: string } }
 }
 
 // TODO: add more detailed type of err
 function error_handler(err: Err) {
   console.log('axios got error', err)
   const ui = useUiStore()
-  if (err.status === 401) {
-    ui.toast('info', '需要登录', '登录状态已失效，请重新登录。')
-  } else {
-    const detail = (err as { response?: { data?: { msg?: string } } }).response?.data?.msg
-    ui.toast('err', '请求异常', detail ?? String(err))
+  const msg = err.response?.data?.msg
+
+  // 登录等免鉴权请求（例如密码错误返回 401）交由调用方自行提示
+  if (err.config?.skipAuth && err.status === 401) {
+    return Promise.reject(err)
+  }
+
+  switch (err.status) {
+    case 401:
+      ui.toast('info', '需要登录', '登录状态已失效，请重新登录。')
+      break
+    case 403:
+      ui.toast('err', '没有权限', msg || '当前账号无权执行该操作。')
+      break
+    case 404:
+      ui.toast('err', '未找到', msg || '请求的资源不存在。')
+      break
+    case 502:
+      ui.toast('err', '上游异常', msg || '上游服务响应异常，请稍后重试。')
+      break
+    default:
+      if (err.status >= 500) {
+        ui.toast('err', '服务器错误', msg || '服务器处理请求时发生错误，请稍后重试。')
+      } else {
+        ui.toast('err', '请求异常', msg || String(err))
+      }
   }
   return Promise.reject(err)
 }

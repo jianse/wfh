@@ -14,7 +14,7 @@ interface TokenRes {
 }
 
 export async function get_token(user: UserCred): Promise<BizResp<TokenRes>> {
-  const { data } = await http.post<BizResp<TokenRes>>('/token', user, {
+  const { data } = await http.post<BizResp<TokenRes>>('/v1/public/token', user, {
     headers: { 'Content-Type': 'application/json' },
     skipAuth: true,
   } as CustomRequestConfig)
@@ -22,7 +22,7 @@ export async function get_token(user: UserCred): Promise<BizResp<TokenRes>> {
 }
 
 export async function get_client_id() {
-  const { data } = await http.get<BizResp<{ nonce: string }>>('/nonce', {
+  const { data } = await http.get<BizResp<{ nonce: string }>>('/v1/public/nonce', {
     skipAuth: true,
   } as CustomRequestConfig)
   return data
@@ -34,7 +34,7 @@ interface RefreshCred {
 }
 
 export async function do_refresh_token(cred: RefreshCred): Promise<BizResp<TokenRes>> {
-  const { data } = await http.post<BizResp<TokenRes>>('/refresh', cred, {
+  const { data } = await http.post<BizResp<TokenRes>>('/v1/public/refresh', cred, {
     skipAuth: true,
   } as CustomRequestConfig)
   return data

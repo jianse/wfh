@@ -31,39 +31,39 @@ export interface ResetPasswordRequest {
 }
 
 export async function get_current_user() {
-  const { data } = await http.get<BizResp<CurrentUser>>('/user/current')
+  const { data } = await http.get<BizResp<CurrentUser>>('/v1/authed/user/current')
   console.log('current user info is:', data)
   return data
 }
 
 export async function get_user_list(page: number, page_size: number) {
-  const { data } = await http.get<BizResp<Page<User>>>('/user/admin/list', {
+  const { data } = await http.get<BizResp<Page<User>>>('/v1/authed/user/admin/list', {
     params: { page, page_size },
   })
   return data
 }
 
 export async function create_user(req: CreateUserRequest) {
-  const { data } = await http.post<BizResp<User>>('/user/admin/create', req)
+  const { data } = await http.post<BizResp<User>>('/v1/authed/user/admin/create', req)
   return data
 }
 
 export async function update_user(id: number, req: UpdateUserRequest) {
-  const { data } = await http.put<BizResp<User>>(`/user/admin/update/${id}`, req)
+  const { data } = await http.put<BizResp<User>>(`/v1/authed/user/admin/update/${id}`, req)
   return data
 }
 
 export async function delete_user(id: number) {
-  const { data } = await http.delete<BizResp<void>>(`/user/admin/delete/${id}`)
+  const { data } = await http.delete<BizResp<void>>(`/v1/authed/user/admin/delete/${id}`)
   return data
 }
 
 export async function reset_password(id: number, req: ResetPasswordRequest) {
-  const { data } = await http.post<BizResp<void>>(`/user/admin/reset-password/${id}`, req)
+  const { data } = await http.post<BizResp<void>>(`/v1/authed/user/admin/reset-password/${id}`, req)
   return data
 }
 
 export async function update_user_role(id: number, req: UpdateUserRoleRequest) {
-  const { data } = await http.put<BizResp<User>>(`/user/admin/update-role/${id}`, req)
+  const { data } = await http.put<BizResp<User>>(`/v1/authed/user/admin/update-role/${id}`, req)
   return data
 }
