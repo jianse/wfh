@@ -11,8 +11,11 @@ use crate::dir::FileNode;
 mod compress;
 pub mod dir;
 mod error;
+mod fetch;
 mod languages;
 
+pub use error::CacheErr;
+pub use fetch::fetch_languages;
 pub use languages::decode as decode_languages;
 
 #[derive(Debug)]

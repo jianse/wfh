@@ -7,8 +7,10 @@ license.workspace = true
 [dependencies]
 binrw = "0.15.1"
 indexmap.workspace = true
+liblzma = "0.4.7"
 lzf = "1.0.0"
 oodle-sys = "0.2.0"
+rand.workspace = true
 reqwest.workspace = true
 thiserror.workspace = true
 zstd = { version = "0.13.3", features = ["experimental"] }
@@ -18,9 +20,7 @@ eyre.workspace = true
 get-size2 = { version = "0.10.1", features = ["derive"] }
 hex.workspace = true
 indexmap = { workspace = true, features = ["serde"] }
-liblzma = "0.4.7"
 md5.workspace = true
-rand.workspace = true
 # lzma-rs = "0.3.0"
 # lzma-rust2 = "0.16.4"
 reqwest.workspace = true

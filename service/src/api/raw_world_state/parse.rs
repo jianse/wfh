@@ -1181,6 +1181,43 @@ impl DepState {
 
         Ok(())
     }
+
+    /// Directory used by caches (search index, downloaded game resources, ...).
+    pub fn cache_dir(&self) -> &Path {
+        &self.cache_dir
+    }
+
+    /// Replace the whole language table: rebuild the search index, swap it into
+    /// memory and persist it to `data/lang.json`.
+    ///
+    /// Returns early when the new table is identical to the current one.
+    pub async fn replace_languages(&self, langs: IndexMap<String, String>) -> BizResult<()> {
+        {
+            let deps = self.deps.read().await;
+            if deps.languages == langs {
+                return Ok(());
+            }
+        }
+
+        // Rebuild the search index before taking the lock so readers keep using
+        // the previous index until the swap.
+        let lang_index = match LangIndex::build(
+            self.cache_dir.join("search"),
+            langs.iter().map(|(k, v)| (k.as_str(), v.as_str())),
+        ) {
+            Ok(index) => Some(index),
+            Err(err) => {
+                warn!("failed to rebuild language search index: {err}");
+                None
+            }
+        };
+
+        let mut deps = self.deps.write().await;
+        deps.languages = langs;
+        deps.lang_index = lang_index;
+        save_langs(&self.data_dir, &deps.languages)?;
+        Ok(())
+    }
 }
 
 #[derive(Debug, Default)]

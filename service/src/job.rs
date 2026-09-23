@@ -27,6 +27,7 @@ use tracing::info;
 use tracing::trace;
 
 mod bounty_cycle_job;
+mod lang_sync_job;
 mod raw_world_state_job;
 pub mod server_cert_job;
 
@@ -55,6 +56,10 @@ where
         jobs.insert(job.name(), (conf, job));
 
         let job = BountyCycleJob::new(state.clone()).boxed();
+        let conf = job_conf_for(job.name());
+        jobs.insert(job.name(), (conf, job));
+
+        let job = lang_sync_job::LangSyncJob::new(state.clone()).boxed();
         let conf = job_conf_for(job.name());
         jobs.insert(job.name(), (conf, job));
 

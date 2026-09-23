@@ -48,6 +48,7 @@ async-trait = { workspace = true }
 serde_ignored = { workspace = true }
 export = { path = "../export" }
 search = { path = "../search" }
+wf_cache = { path = "../wf_cache" }
 rustls.workspace = true
 time = { workspace = true, features = ["formatting"] }
 indexmap = { workspace = true, features = ["serde"] }

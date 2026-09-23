@@ -46,6 +46,7 @@ export async function upload_langs(file: File, onProgress?: (pct: number) => voi
   form.append('file', file)
   await http.post('/v1/authed/raw_world_state/deps/langs/upload', form, {
     headers: { 'Content-Type': 'multipart/form-data' },
+    timeout: 20000,
     onUploadProgress: (e) => {
       const total = e.total ?? 0
       if (total > 0) onProgress?.((e.loaded ?? 0) / total)
